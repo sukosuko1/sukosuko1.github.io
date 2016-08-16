@@ -65,9 +65,9 @@
     bunny2.rotation += -0.02;
 
     var timer = +new Date;
-    bunny2.tint = Math.cos(timer) * 0xFFFFFF;
+    bunny2.tint = Math.cos(timer * 0.01) * 0xFFFFFF;
 
-    bunny3.position.y = 400 + 40 * Math.cos(timer);
+    bunny3.position.y = 400 + 40 * Math.cos(timer * 0.02);
 
 
     renderer.render(stage);
