@@ -57,8 +57,14 @@
         bunny3.scale.y = 0.04;
         bunny3.interactive = true;
         bunny3
-             .on('mousemove', onDragMove)
-             .on('touchmove', onDragMove)
+         .on('mousedown', onDragStart)
+         .on('touchstart', onDragStart)
+         .on('mouseup', onDragEnd)
+         .on('mouseupoutside', onDragEnd)
+         .on('touchend', onDragEnd)
+         .on('touchendoutside', onDragEnd)
+         .on('mousemove', onDragMove)
+          .on('touchmove', onDragMove)
 
 	stage.addChild(bunny3);
 
@@ -72,9 +78,14 @@
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
         bunny4
-             .on('mousedown', onButtonDown)
-             .on('mousemove', onDragMove)
-             .on('touchmove', onDragMove)
+         .on('mousedown', onDragStart)
+         .on('touchstart', onDragStart)
+         .on('mouseup', onDragEnd)
+         .on('mouseupoutside', onDragEnd)
+         .on('touchend', onDragEnd)
+         .on('touchendoutside', onDragEnd)
+         .on('mousemove', onDragMove)
+          .on('touchmove', onDragMove)
 
 	stage.addChild(bunny4);
 
@@ -127,6 +138,7 @@ function onDragStart(event)
   this.data = event.data;
   this.alpha = 0.5;
   this.dragging = true;
+   console.log("dragstrt");
 }
 
 function onDragEnd()
@@ -140,6 +152,7 @@ function onDragMove() {
      var newPosition = this.data.getLocalPosition(this.parent);
       this.basex = newPosition.x;
       this.basey = newPosition.y;
+      console.log(x + "," + y);
   }
 }
 
