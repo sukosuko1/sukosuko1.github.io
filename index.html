@@ -18,22 +18,14 @@
   console.log(PIXI); 
   window.alert(PIXI);
 
-// create an new instance of a pixi stage
-	var stage = new PIXI.Stage(0x66FF99);
+  var renderer = PIXI.autoDetectRenderer(400, 300);
+  document.body.appendChild(renderer.view);
  
-	// create a renderer instance.
-	var renderer = PIXI.autoDetectRenderer(400, 300);
- 
-	// add the renderer view element to the DOM
-	document.body.appendChild(renderer.view);
- 
-	requestAnimFrame( animate );
+  var stage = new PIXI.Container();
 
+  PIXI.loader.add('bunny','Inever2.png').load(function(loader,resources) {
 
- // create a texture from an image path
-	var texture = PIXI.Texture.fromImage("Inever2.png");
-	// create a new Sprite using the texture
-	var bunny = new PIXI.Sprite(texture);
+	var bunny = new PIXI.Sprite(resources.bunny.texture);
  
 	// center the sprites anchor point
 	bunny.anchor.x = 0.5;
@@ -45,15 +37,17 @@
  
 	stage.addChild(bunny);
 
-	function animate() {
- 
-	    requestAnimFrame( animate );
- 
-	    bunny.rotation += 0.1;
+	animate();
+  });
 
-	    // render the stage   
-	    renderer.render(stage);
-	}
+  function animate() {
+ 
+    requestAnimationFrame( animate );
+ 
+    bunny.rotation += 0.1;
+
+    renderer.render(stage);
+  }
 
 
   </script>
