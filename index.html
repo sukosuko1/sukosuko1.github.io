@@ -88,10 +88,11 @@
     var timer = +new Date;
 //    bunny2.tint = Math.cos(timer * 0.01) * 0xFF0000 + Math.cos(timer * 0.01) * 0x00FF00 + Math.cos(timer * 0.01) * 0x0000FF;
 
-    bunny2.scale.x = 1 + 0.05 * Math.sin(timer * 0.01);
-    bunny2.scale.y = 1 + 0.02 * Math.sin(timer * 0.01);
+//    bunny2.scale.x = 1 + 0.05 * Math.sin(timer * 0.01);
+ //   bunny2.scale.y = 1 + 0.02 * Math.sin(timer * 0.01);
 
-    bunny3.position.y = 400 + 40 * Math.cos(timer * 0.02);
+    bunny2.alpha =  Math.sin(timer * 0.01);
+    bunny3.position.y = 400 + 40 * Math.cos(timer * 0.01);
     bunny4.position.y = 500 + 30 * Math.cos(timer * 0.01333);
 
 
