@@ -114,7 +114,6 @@
  function onButtonDown()
  {
     this.isdown = true;
-    this.texture = textureButtonDown;
     this.alpha = 0;
  }
  function onButtonUp()
@@ -122,6 +121,18 @@
     this.scale.x *= 1.1;
     this.alpha = 1;
  }
+
+function onDragStart(event)
+{
+  this.alpha = 0.5;
+  this.dragging = true;
+}
+
+function onDragEnd()
+{
+  this.alpha = 1;
+  this.dragging = false;
+}
 
 function onDragMove() {
    if (this.dragging) {
