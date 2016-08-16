@@ -45,6 +45,15 @@
         bunny2.scale.y = 0.2;
 	stage.addChild(bunny2);
 
+	bunny3 = new PIXI.Sprite(resources.Inever2.texture);
+	bunny3.anchor.x = 0.8;
+	bunny3.anchor.y = 0.8;
+	bunny3.position.x = 400;
+	bunny3.position.y = 400;
+        bunny3.scale.x = 0.04;
+        bunny3.scale.y = 0.04;
+	stage.addChild(bunny3);
+
 	animate();
   });
 
@@ -54,6 +63,12 @@
  
     bunny.rotation += 0.005;
     bunny2.rotation += -0.02;
+
+    var timer = +new Date;
+    bunny2.tint = Math.cos(timer) * 0xFFFFFF;
+
+    bunny3.position.y = 400 + 40 * Math.cos(timer);
+
 
     renderer.render(stage);
   }
