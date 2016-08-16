@@ -32,6 +32,8 @@
 	bunny.anchor.y = 0.5;
 	bunny.position.x = 200;
 	bunny.position.y = 150;
+        bunny.scale.x = 0.4;
+        bunny.scale.y = 0.4;
 	stage.addChild(bunny);
 
 	bunny2 = new PIXI.Sprite(resources.Inever2.texture);
@@ -39,8 +41,8 @@
 	bunny2.anchor.y = 0.5;
 	bunny2.position.x = 50;
 	bunny2.position.y = 50;
-        bunny2.scale.x = 0.2;
-        bunny2.scale.y = 0.5;
+        bunny2.scale.x = 0.1;
+        bunny2.scale.y = 0.2;
 	stage.addChild(bunny2);
 
 	animate();
@@ -50,7 +52,7 @@
  
     requestAnimationFrame( animate );
  
-    bunny.rotation += 0.01;
+    bunny.rotation += 0.005;
     bunny2.rotation += -0.02;
 
     renderer.render(stage);
