@@ -27,6 +27,10 @@
 
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
 
+    // create some white text using the Snippet webfont
+    var textSample = new PIXI.Text('Pixi.js can has\n multiline text!', { font: '35px Snippet', fill: 'white', align: 'left' });
+    textSample.position.set(20);
+
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
@@ -57,11 +61,13 @@
 	bunny4 = new PIXI.Sprite(resources.Inever2.texture);
 	bunny4.anchor.x = 0.8;
 	bunny4.anchor.y = 0.8;
-	bunny4.position.x = 5500;
+	bunny4.position.x = 550;
 	bunny4.position.y = 400;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
 	stage.addChild(bunny4);
+
+
 
 	animate();
   });
