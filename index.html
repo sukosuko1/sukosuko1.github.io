@@ -28,8 +28,6 @@
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
 
     // create some white text using the Snippet webfont
-    var textSample = new PIXI.Text('Pixi.js can has\n multiline text!', { font: '35px Snippet', fill: 'white', align: 'left' });
-    textSample.position.set(20);
 
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
 	bunny.anchor.x = 0.5;
@@ -65,8 +63,14 @@
 	bunny4.position.y = 400;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
+        bunny4.interactive = true;
+        bunny4.on('mousedown', onButtonDown);
+        bunny4.on('mouseup', onButtonUp);
 	stage.addChild(bunny4);
 
+        var textSample = new PIXI.Text('Pixi.js can has\n multiline text!', { font: '35px Snippet', fill: 'white', align: 'left' });
+        textSample.position.set(20);
+	stage.addChild(textSample);
 
 
 	animate();
@@ -80,7 +84,10 @@
     bunny2.rotation += -0.02;
 
     var timer = +new Date;
-    bunny2.tint = Math.cos(timer * 0.01) * 0xFF0000 + Math.cos(timer * 0.01) * 0x00FF00 + Math.cos(timer * 0.01) * 0x0000FF;
+//    bunny2.tint = Math.cos(timer * 0.01) * 0xFF0000 + Math.cos(timer * 0.01) * 0x00FF00 + Math.cos(timer * 0.01) * 0x0000FF;
+
+    bunn2.scale.x = 1 + 0.05 * Math.sin(timer * 0.01);
+    bunn2.scale.y = 1 + 0.02 * Math.sin(timer * 0.01);
 
     bunny3.position.y = 400 + 40 * Math.cos(timer * 0.02);
     bunny4.position.y = 500 + 30 * Math.cos(timer * 0.01333);
@@ -89,6 +96,17 @@
     renderer.render(stage);
   }
 
+ function onButtonDown()
+ {
+    this.isdown = true;
+    this.texture = textureButtonDown;
+    this.alpha = 1;
+ }
+ function onButtonUp()
+ {
+    this.scale.x *= 1.1;
+    this.alpha = ;
+ }
 
   </script>
 
