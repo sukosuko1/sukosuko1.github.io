@@ -32,8 +32,8 @@
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
-	bunny.position.x = 150;
-	bunny.position.y = 200;
+	bunny.position.x = 120;
+	bunny.position.y = 300;
         bunny.scale.x = 0.4;
         bunny.scale.y = 0.4;
 	stage.addChild(bunny);
@@ -52,6 +52,7 @@
 	bunny3.anchor.y = 0.8;
 	bunny3.position.x = 400;
 	bunny3.position.y = 400;
+        bunny3.basex = 400; bunny3.basey=400;
         bunny3.scale.x = 0.04;
         bunny3.scale.y = 0.04;
 	stage.addChild(bunny3);
@@ -61,6 +62,7 @@
 	bunny4.anchor.y = 0.8;
 	bunny4.position.x = 550;
 	bunny4.position.y = 400;
+        bunny4.basex = 550; bunny4.basey=400;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
@@ -92,8 +94,12 @@
  //   bunny2.scale.y = 1 + 0.02 * Math.sin(timer * 0.01);
 
     bunny2.alpha =  0.3 + 0.3 * Math.sin(timer * 0.001);
-    bunny3.position.y = 400 + 40 * Math.cos(timer * 0.01);
-    bunny4.position.y = 500 + 30 * Math.cos(timer * 0.0066);
+
+    bunny3.position.x = bunny3.basex;
+    bunny3.position.y = bunny3.basey + 40 * Math.cos(timer * 0.01);
+
+    bunny4.position.x = bunny4.basex;
+    bunny4.position.y = bunny4.basey + 30 * Math.cos(timer * 0.0066);
 
 
     renderer.render(stage);
@@ -110,6 +116,14 @@
     this.scale.x *= 1.1;
     this.alpha = 1;
  }
+
+function onDragMove() {
+   if (this.dragging) {
+     var newPosition = this.data.getLocalPosition(this.parent);
+      this.basex = newPosition.x;
+      this.basey = newPosition.y;
+  }
+}
 
   </script>
 
