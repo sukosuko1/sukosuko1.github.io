@@ -22,10 +22,11 @@
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
+  var bunny = 0;
 
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
 
-	var bunny = new PIXI.Sprite(resources.Inever2.texture);
+	bunny = new PIXI.Sprite(resources.Inever2.texture);
  
 	// center the sprites anchor point
 	bunny.anchor.x = 0.5;
