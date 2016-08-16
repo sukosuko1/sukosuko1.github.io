@@ -18,25 +18,30 @@
   console.log(PIXI); 
   window.alert(PIXI);
 
-  var renderer = PIXI.autoDetectRenderer(400, 300);
+  var renderer = PIXI.autoDetectRenderer(500, 500);
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
   var bunny = 0;
+  var bunny2 = 0;
 
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
 
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
- 
-	// center the sprites anchor point
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
- 
-	// move the sprite t the center of the screen
 	bunny.position.x = 200;
 	bunny.position.y = 150;
- 
 	stage.addChild(bunny);
+
+	bunny2 = new PIXI.Sprite(resources.Inever2.texture);
+	bunny2.anchor.x = 0.5;
+	bunny2.anchor.y = 0.5;
+	bunny2.position.x = 50;
+	bunny2.position.y = 50;
+        bunny2.scale.x = 0.2;
+        bunny2.scale.y = 0.5;
+	stage.addChild(bunny2);
 
 	animate();
   });
@@ -45,7 +50,8 @@
  
     requestAnimationFrame( animate );
  
-    bunny.rotation += 0.1;
+    bunny.rotation += 0.01;
+    bunny2.rotation += -0.02;
 
     renderer.render(stage);
   }
