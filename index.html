@@ -64,8 +64,10 @@
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
-        bunny4.on('mousedown', onButtonDown);
-        bunny4.on('mouseup', onButtonUp);
+        bunny4
+             .on('mousedown', onButtonDown)
+             .on('mouseup', onButtonUp)
+
 	stage.addChild(bunny4);
 
         var textSample = new PIXI.Text('Pixi.js can has\n multiline text!', { font: '35px Snippet', fill: 'white', align: 'left' });
