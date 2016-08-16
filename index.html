@@ -18,7 +18,7 @@
   console.log(PIXI); 
 //  window.alert(PIXI);
 
-  var renderer = PIXI.autoDetectRenderer(500, 500);
+  var renderer = PIXI.autoDetectRenderer(700, 700);
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
@@ -31,7 +31,7 @@
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
 	bunny.position.x = 150;
-	bunny.position.y = 150;
+	bunny.position.y = 200;
         bunny.scale.x = 0.4;
         bunny.scale.y = 0.4;
 	stage.addChild(bunny);
@@ -40,7 +40,7 @@
 	bunny2.anchor.x = 0.5;
 	bunny2.anchor.y = 0.5;
 	bunny2.position.x = 250;
-	bunny2.position.y = 300;
+	bunny2.position.y = 350;
         bunny2.scale.x = 0.1;
         bunny2.scale.y = 0.2;
 	stage.addChild(bunny2);
