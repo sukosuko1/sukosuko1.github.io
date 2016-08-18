@@ -123,7 +123,7 @@ var rendererOptions = {
  
     requestAnimationFrame( animate );
  
-    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.04;
+//    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
 //    bunny2.rotation += -0.02;
 
     var timer = +new Date;
@@ -235,15 +235,15 @@ function onDragMove() {
   document.getElementById("t1").innerHTML = "five";
 document.getElementById("t1").innerHTML = player.getCurrentTime();  
     var color;
-    var c1 = document.getElementById('player');
-    c1.z-index = 99;
+    var c1 = document.getElementById('myCanvas');
+    myCanvas.top = 500;
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
     } else if (playerStatus == 0) {
       color = "#FFFF00"; // ended = yellow
     } else if (playerStatus == 1) {
       color = "#33691E"; // playing = green
-      c1.z-index = -1;
+      myCanvas.top = 0;
     } else if (playerStatus == 2) {
       color = "#DD2C00"; // paused = red
     } else if (playerStatus == 3) {
