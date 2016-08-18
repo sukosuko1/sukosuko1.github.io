@@ -9,7 +9,7 @@
 			background-color: #000022;
 		}
 		.embed-video { position:absolute; z-index:-1;  }
-		.coverCanvas { position:absolute; z-index:3; opacity:0.5;  }
+		.coverCanvas { position:absolute; z-index:3; opacity:0.5; width:20%;  }
 		
 	</style>
 
@@ -18,7 +18,7 @@
 
 <body>
   <iframe class="embed-video" width="428" height="390" src="https://www.youtube.com/embed/M3IWsWzSo14?wmode=opaque?autoplay=1&loop=1?controls=0" frameborder="0"></iframe>
-  <canvas id="myCanvas" top="50%" height="50%" width="100%" left="20px" class="coverCanvas"></canvas>
+  <canvas id="myCanvas" class="coverCanvas" top="50%" height="50%" width="100%" left="20px" z-index="3" opacity="0.3"></canvas>
   
   <script>  
   console.log("text1");
