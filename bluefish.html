@@ -11,6 +11,7 @@
 		.embed-video { position:absolute; z-index:-1; width:100%; height:100%;  }
 		.coverCanvas { position:absolute; z-index:1; opacity:1.0; width:100%; height:100%; }
 		
+		h1    {color: white;}
 	</style>
 
 <script src="pixi.min.js"></script>
@@ -232,6 +233,7 @@ function onDragMove() {
       //    the player should play for six seconds and then stop.
       var done = false;
       function onPlayerStateChange(event) {
+      	var playerStatus = event.data;
   document.getElementById("t1").innerHTML = "five";
 document.getElementById("t1").innerHTML = player.getCurrentTime();  
     var color;
