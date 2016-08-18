@@ -55,7 +55,7 @@ var rendererOptions = {
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
-	bunny.position.x = 420;
+	bunny.position.x = 620;
 	bunny.position.y = 300;
         bunny.scale.x = 0.4;
         bunny.scale.y = 0.4;
@@ -127,7 +127,9 @@ var rendererOptions = {
 //    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
 //    bunny2.rotation += -0.02;
     var timer = +new Date;
-    bunny.rotation = 0.002 * Math.sin(0.25 * timer/150);
+    
+    bunny.rotation = 0.005 * Math.sin(0.25 * timer/150);
+    
     
 //    bunny2.tint = Math.cos(timer * 0.01) * 0xFF0000 + Math.cos(timer * 0.01) * 0x00FF00 + Math.cos(timer * 0.01) * 0x0000FF;
 
