@@ -29,7 +29,7 @@
    gameWidth = window.innerWidth;
    gameHeight = window.innerHeight;  
    
-  var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, gameCanvas);
+  var renderer = PIXI.autoDetectRenderer(200, gameHeight, gameCanvas);
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
@@ -137,6 +137,8 @@
  {
     this.isdown = true;
     this.alpha = 0;
+    var gameCanvas = document.getElementById("myCanvas");
+    gameCanvas.width = 20;
  }
  function onButtonUp()
  {
