@@ -8,8 +8,8 @@
 			padding: 0;
 			background-color: #440022;
 		}
-		.embed-video { position:absolute; z-index:-1;  }
-		.coverCanvas { position:absolute; z-index:3; opacity:1.0; width:100%; height:100%; }
+		.embed-video { position:absolute; z-index:3;  }
+		.coverCanvas { position:absolute; z-index:1; opacity:1.0; width:100%; height:100%; }
 		
 	</style>
 
@@ -17,10 +17,12 @@
 </head>
 
 <body>
-<div id="outerbox">
- <div id="player" class="embed-video"></div>  
-  <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
+  <div id="outerbox">
+    <div id="player" class="embed-video"></div>  
+    <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
   </div>
+  <h1 id="t1">Hello World</h1>
+  <p>Pixitest is hosted with GitHub Pages 2d.</p>
   
   <script>  
   console.log("text1");
@@ -253,8 +255,6 @@ document.getElementById("t1").innerHTML = player.getCurrentTime();
       }
     </script>
     
-  <h1 id="t1">Hello World</h1>
-  <p>Pixitest is hosted with GitHub Pages 2d.</p>
 
 </body>
 </html>
