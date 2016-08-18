@@ -74,7 +74,7 @@ var rendererOptions = {
 	bunny3.anchor.y = 0.8;
 	bunny3.position.x = 400;
 	bunny3.position.y = 400;
-        bunny3.basex = 400; bunny3.basey=400;
+        bunny3.basex = 400; bunny3.basey=500;
         bunny3.scale.x = 0.2;
         bunny3.scale.y = 0.04;
         bunny3.interactive = true;
@@ -95,7 +95,7 @@ var rendererOptions = {
 	bunny4.anchor.y = 0.8;
 	bunny4.position.x = 550;
 	bunny4.position.y = 400;
-        bunny4.basex = 550; bunny4.basey=400;
+        bunny4.basex = 550; bunny4.basey=500;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
@@ -123,7 +123,7 @@ var rendererOptions = {
  
     requestAnimationFrame( animate );
  
-    bunny.rotation += 0.005;
+    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.04;
 //    bunny2.rotation += -0.02;
 
     var timer = +new Date;
@@ -135,11 +135,13 @@ var rendererOptions = {
     bunny2.alpha =  0.3 + 0.3 * Math.sin(timer * 0.001);
 
     bunny3.position.x = bunny3.basex;
-    bunny3.position.y = bunny3.basey + 40 * Math.cos(timer * 0.01);
-
+    bunny3.position.y = bunny3.basey;
+//    bunny3.position.y = bunny3.basey + 40 * Math.cos(timer / 150);
+    bunny3.rotation = 0 + Math.cos(timer/150) * 0.1;
+    
     bunny4.position.x = bunny4.basex;
-    bunny4.position.y = bunny4.basey + 30 * Math.cos(timer * 0.0066);
-
+    bunny4.position.y = bunny4.basey + 30 * Math.cos(timer /150 * 0.5);
+    
 
     renderer.render(stage);
   }
@@ -233,12 +235,14 @@ function onDragMove() {
   document.getElementById("t1").innerHTML = "five";
 document.getElementById("t1").innerHTML = player.getCurrentTime();  
     var color;
+    document.getElementById('player').z-index = 99;
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
     } else if (playerStatus == 0) {
       color = "#FFFF00"; // ended = yellow
     } else if (playerStatus == 1) {
       color = "#33691E"; // playing = green
+      document.getElementById('player').z-index = -1;
     } else if (playerStatus == 2) {
       color = "#DD2C00"; // paused = red
     } else if (playerStatus == 3) {
