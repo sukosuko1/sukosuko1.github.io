@@ -240,16 +240,15 @@ function onDragMove() {
 document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime();  
     var color;
     var c1 = document.getElementById('myCanvas');
-    myCanvas.top = 500;
+    myCanvas.style.zIndex="-2";
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
     } else if (playerStatus == 0) {
       color = "#FFFF00"; // ended = yellow
-      myCanvas.z-index = -2;
+       
     } else if (playerStatus == 1) {
       color = "#33691E"; // playing = green
-      myCanvas.top = 0;
-      myCanvas.z-index = 3;
+      myCanvas.style.zIndex="3";
     } else if (playerStatus == 2) {
       color = "#DD2C00"; // paused = red
     } else if (playerStatus == 3) {
