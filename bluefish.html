@@ -54,7 +54,7 @@ var rendererOptions = {
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
-	bunny.position.x = 120;
+	bunny.position.x = 420;
 	bunny.position.y = 300;
         bunny.scale.x = 0.4;
         bunny.scale.y = 0.4;
@@ -63,7 +63,7 @@ var rendererOptions = {
 	bunny2 = new PIXI.Sprite(resources.Inever2.texture);
 	bunny2.anchor.x = 0.5;
 	bunny2.anchor.y = 0.5;
-	bunny2.position.x = 250;
+	bunny2.position.x = 220;
 	bunny2.position.y = 500;
         bunny2.scale.x = 0.1;
         bunny2.scale.y = 0.2;
@@ -72,9 +72,9 @@ var rendererOptions = {
 	bunny3 = new PIXI.Sprite(resources.Inever2.texture);
 	bunny3.anchor.x = 0.8;
 	bunny3.anchor.y = 0.8;
-	bunny3.position.x = 400;
+	bunny3.position.x = 50;
 	bunny3.position.y = 400;
-        bunny3.basex = 400; bunny3.basey=500;
+        bunny3.basex = 50; bunny3.basey=500;
         bunny3.scale.x = 0.06;
         bunny3.scale.y = 0.06;
         bunny3.interactive = true;
@@ -93,9 +93,9 @@ var rendererOptions = {
 	bunny4 = new PIXI.Sprite(resources.Inever2.texture);
 	bunny4.anchor.x = 0.8;
 	bunny4.anchor.y = 0.8;
-	bunny4.position.x = 550;
+	bunny4.position.x =180;
 	bunny4.position.y = 400;
-        bunny4.basex = 550; bunny4.basey=500;
+        bunny4.basex = 180; bunny4.basey=500;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
@@ -125,7 +125,7 @@ var rendererOptions = {
  
 //    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
 //    bunny2.rotation += -0.02;
-
+    bunny.rotation = 0.002 * Math.sin(0.25 * timer/150);
     var timer = +new Date;
 //    bunny2.tint = Math.cos(timer * 0.01) * 0xFF0000 + Math.cos(timer * 0.01) * 0x00FF00 + Math.cos(timer * 0.01) * 0x0000FF;
 
@@ -137,10 +137,10 @@ var rendererOptions = {
     bunny3.position.x = bunny3.basex;
     bunny3.position.y = bunny3.basey;
 //    bunny3.position.y = bunny3.basey + 40 * Math.cos(timer / 150);
-    bunny3.rotation = 0 + Math.cos(timer/150) * 0.1;
+    bunny3.rotation = 0 + Math.cos(0.5 * timer/150) * 0.1;
     
     bunny4.position.x = bunny4.basex;
-    bunny4.position.y = bunny4.basey + 30 * Math.cos(timer /150 * 0.5);
+    bunny4.position.y = bunny4.basey + 10 * Math.cos(timer /150 );
     
 
     renderer.render(stage);
