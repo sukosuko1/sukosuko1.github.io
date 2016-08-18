@@ -18,7 +18,7 @@
 
 <body>
 <div id="outerbox">
- <div id="player"></div>  
+ <div id="player" class="embed-video"></div>  
   <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
   </div>
   
@@ -202,7 +202,10 @@ function onDragMove() {
         player = new YT.Player('player', {
           height: '390',
           width: '640',
-          videoId: 'M7lc1UVf-VE',
+          videoId: 'M3IWsWzSo14',
+          style: 'border: solid 4px #37474F',
+          wmode: 'opaque',
+          loop: 'true',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -222,10 +225,7 @@ function onDragMove() {
       var done = false;
       function onPlayerStateChange(event) {
   document.getElementById("t1").innerHTML = "five";
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
-        }
+document.getElementById("t1").innerHTML = player.getCurrentTime();  
     var color;
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
