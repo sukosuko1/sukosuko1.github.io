@@ -196,8 +196,11 @@ function onDragMove() {
   var firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+  document.getElementById("t1").innerHTML = "One";
+  
   var player;
   function onYouTubeIframeAPIReady() {
+  document.getElementById("t1").innerHTML = "two";
     player = new YT.Player('youtubeplayer', {
         events: {
           'onReady': onPlayerReady,
@@ -206,10 +209,13 @@ function onDragMove() {
     });
   }
   function onPlayerReady(event) {
+  document.getElementById("t1").innerHTML = "three";
     document.getElementById('existing-iframe-example').style.borderColor = '#FF6D00';
      event.target.playVideo();
+  document.getElementById("t1").innerHTML = "four";
   }
   function changeBorderColor(playerStatus) {
+  document.getElementById("t1").innerHTML = "five";
     var color;
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
@@ -233,7 +239,7 @@ function onDragMove() {
   }
 </script>
 
-  <h1>Hello World</h1>
+  <h1 id="t1">Hello World</h1>
   <p>Pixitest is hosted with GitHub Pages 2d.</p>
 
 </body>
