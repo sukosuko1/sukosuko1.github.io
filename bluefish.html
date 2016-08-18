@@ -191,6 +191,7 @@ function onDragMove() {
       var tag = document.createElement('script');
 
       tag.src = "https://www.youtube.com/iframe_api";
+      tag.allowfullscreen = true;
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -217,6 +218,10 @@ function onDragMove() {
       function onPlayerReady(event) {
   document.getElementById("t1").innerHTML = "four";
         event.target.playVideo();
+        
+        event.target.requestFullScreen;
+        event.target.mozRequestFullScreen;
+        event.target.webkitRequestFullScreen;
       }
 
       // 5. The API calls this function when the player's state changes.
