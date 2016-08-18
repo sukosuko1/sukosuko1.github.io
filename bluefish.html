@@ -8,7 +8,9 @@
 			padding: 0;
 			background-color: #000000;
 		}
-		.embed-video { position: absolute; z-index: -1;  }
+		.embed-video { position: absolute; z-index:-1;  }
+		.coverCanvas { position: absolute; z-index:3; opacity:0.5;  }
+		
 	</style>
 
 <script src="pixi.min.js"></script>
@@ -24,6 +26,7 @@
 
   var renderer = PIXI.autoDetectRenderer(700, 700);
   renderer.view.opacity = 0.5;
+  renderer.view.class = "coverCanvas"
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
