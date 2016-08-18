@@ -75,7 +75,7 @@ var rendererOptions = {
 	bunny3.anchor.y = 0.8;
 	bunny3.position.x = 50;
 	bunny3.position.y = 400;
-        bunny3.basex = 50; bunny3.basey=500;
+        bunny3.basex = 250; bunny3.basey=500;
         bunny3.scale.x = 0.06;
         bunny3.scale.y = 0.06;
         bunny3.interactive = true;
@@ -96,7 +96,7 @@ var rendererOptions = {
 	bunny4.anchor.y = 0.8;
 	bunny4.position.x =180;
 	bunny4.position.y = 400;
-        bunny4.basex = 180; bunny4.basey=500;
+        bunny4.basex = 80; bunny4.basey=500;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
@@ -126,8 +126,9 @@ var rendererOptions = {
  
 //    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
 //    bunny2.rotation += -0.02;
-    bunny.rotation = 0.002 * Math.sin(0.25 * timer/150);
     var timer = +new Date;
+    bunny.rotation = 0.002 * Math.sin(0.25 * timer/150);
+    
 //    bunny2.tint = Math.cos(timer * 0.01) * 0xFF0000 + Math.cos(timer * 0.01) * 0x00FF00 + Math.cos(timer * 0.01) * 0x0000FF;
 
 //    bunny2.scale.x = 1 + 0.05 * Math.sin(timer * 0.01);
@@ -234,8 +235,7 @@ function onDragMove() {
       var done = false;
       function onPlayerStateChange(event) {
       	var playerStatus = event.data;
-  document.getElementById("t1").innerHTML = "five";
-document.getElementById("t1").innerHTML = player.getCurrentTime();  
+document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime();  
     var color;
     var c1 = document.getElementById('myCanvas');
     myCanvas.top = 500;
