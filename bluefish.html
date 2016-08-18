@@ -29,7 +29,14 @@
    gameWidth = window.innerWidth;
    gameHeight = window.innerHeight;  
    
-  var renderer = PIXI.autoDetectRenderer(200, gameHeight, gameCanvas);
+var rendererOptions = {
+    view:gameCanvas,
+    antialiasing:false,
+    transparent:true,
+    resolution:1
+}  
+//  var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, gameCanvas, true);
+  var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, rendererOptions);
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
