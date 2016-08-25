@@ -9,7 +9,7 @@
 			background-color: #440022;
 		}
 		.embed-video { position:absolute; z-index:-1; width:100%; height:100%;  }
-		.coverCanvas { position:absolute; z-index:1; opacity:1.0; width:100%; height:100%; }
+		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
 		
 		h1    {color: white;}
 	</style>
@@ -240,7 +240,7 @@ function onDragMove() {
 document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime();  
     var color;
     var c1 = document.getElementById('myCanvas');
-    myCanvas.style.zIndex="3":
+    
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
     } else if (playerStatus == 0) {
