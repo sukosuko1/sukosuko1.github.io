@@ -47,6 +47,11 @@ var rendererOptions = {
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
+  
+  var filter = new PIXI.filters.ColorMatrixFilter();
+  stage.filters = [filter];
+
+
   var bunny = 0;
   var bunny2 = 0;
 
