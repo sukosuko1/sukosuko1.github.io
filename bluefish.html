@@ -213,12 +213,20 @@ function onDragMove() {
   document.getElementById("t1").innerHTML = "one";
       // 3. This function creates an <iframe> (and YouTube player)
       //    after the API code downloads.
+      
+      
+      
+      
       var player;
       function onYouTubeIframeAPIReady() {
+
+        var vid "u0fk6syQ7iY";      	
+      	vid = "LHCob76kigA";
+      	
         player = new YT.Player('player', {
           height: '100%',
           width: '100%',
-          videoId: 'u0fk6syQ7iY',
+          videoId: vid,
           style: 'border: solid 4px #37474F',
           loop: 'true',
           events: {
