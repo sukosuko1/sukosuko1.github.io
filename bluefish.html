@@ -47,6 +47,7 @@ var rendererOptions = {
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
+  stage.interactive = true;
   
   var filter = new PIXI.filters.ColorMatrixFilter();
   stage.filters = [filter];
