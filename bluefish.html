@@ -245,7 +245,7 @@ function onDragMove() {
         event.target.playVideo();
         player.setSize(300, 300);
         
-          document.exitFullscreen(); 
+//          document.exitFullscreen(); 
           event.target.exitFullscreen(); 
           
 //         var myVideo = document.getElementsByTagName('video')[0];
@@ -274,6 +274,13 @@ document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurren
     } else if (playerStatus == 1) {
       color = "#33691E"; // playing = green
       c1.style.zIndex="3";
+  if(document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if(document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if(document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }      
     } else if (playerStatus == 2) {
       color = "#DD2C00"; // paused = red
     } else if (playerStatus == 3) {
