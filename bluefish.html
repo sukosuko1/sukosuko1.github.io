@@ -236,14 +236,17 @@ function onDragMove() {
             'onStateChange': onPlayerStateChange
           }
         });
-        player.setSize(300, 300);
       }
 
       // 4. The API will call this function when the video player is ready.
       function onPlayerReady(event) {
   document.getElementById("t1").innerHTML = "four";
         event.target.playVideo();
+        player.setSize(300, 300);
         
+         var myVideo = document.getElementsByTagName('video')[0];
+         myVideo.height = 200;
+         
 //        event.target.requestFullScreen;
 //       event.target.mozRequestFullScreen;
 //        event.target.webkitRequestFullScreen;
