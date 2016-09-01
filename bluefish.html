@@ -10,8 +10,8 @@
 			padding: 0;
 			background-color: #440022;
 		}
-		.embed-video { position:absolute; z-index:-1; top: 10%; width:100%; height:90%;  }
-		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
+		.embed-video { position:absolute; z-index:-1; top: 10%; width:60%; height:90%;  }
+		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:60%; height:100%; }
 		
 		h1    {color: white;}
 	</style>
@@ -245,8 +245,11 @@ function onDragMove() {
         event.target.playVideo();
         player.setSize(300, 300);
         
-         var myVideo = document.getElementsByTagName('video')[0];
-         myVideo.height = 200;
+          document.exitFullscreen(); 
+          event.target.exitFullscreen(); 
+          
+//         var myVideo = document.getElementsByTagName('video')[0];
+//         myVideo.height = 200;
          
 //        event.target.requestFullScreen;
 //       event.target.mozRequestFullScreen;
