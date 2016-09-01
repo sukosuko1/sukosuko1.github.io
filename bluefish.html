@@ -33,9 +33,22 @@
   <p>Pixitest is hosted with GitHub Pages 2d.</p>
   
   <script>  
+  
+  
   console.log("text1");
   console.log(PIXI); 
 //  window.alert(PIXI);
+/* works on all elements except iframes */
+document.addEventListener("webkitfullscreenchange", function() {
+   alert("hello world");
+}, false); 
+
+/* never triggers even when iFrame enters full screen */
+myIframe.addEventListener("webkitfullscreenchange", function() {
+   alert("hello iframe");
+}, false);
+
+
 
   var gameCanvas = document.getElementById("myCanvas");
    gameWidth = window.innerWidth;
