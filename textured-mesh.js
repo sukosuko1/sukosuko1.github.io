@@ -1,3 +1,4 @@
+
 var renderer = PIXI.autoDetectRenderer(1400, 600);
 document.body.appendChild(renderer.view);
 
@@ -132,3 +133,5 @@ function onButtonUp(e) {
     this.alpha = 0.5;
     this.position.x = this.position.x - 20;
 }
+
+
