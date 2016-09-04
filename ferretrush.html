@@ -50,7 +50,24 @@ for (var i = 0; i < 20; i++) {
    tsp.position.y = 50+Math.random()*500;
    tsp.scale.x = 0.2;
     tsp.scale.y = 0.2;
+    tsp.dir = 1;
+    tsp.interactive = true;
+    tsp
+    .on('mouseup', onButtonUp)
+    .on('touchend', onButtonUp)
+/*    
+    tsp
+    .on('mousedown', onButtonDown)
+    .on('mouseup', onButtonUp)
+    .on('mouseupoutside', onButtonUp)
+    .on('touchstart', onButtonDown)
+    .on('touchend', onButtonUp)
+    .on('touchendoutside', onButtonUp);    */
+    
+    
     sp.push(tsp);
+    
+
     
    stage.addChild(tsp);
 }
@@ -108,4 +125,10 @@ function renderPoints () {
     };
     */
     
+}
+
+function onButtonUp(e) {
+      this.dir = -1 * this.dir;
+    this.alpha = 0.5;
+    this.position.x = this.position.x - 20;
 }
