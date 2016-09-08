@@ -38,6 +38,9 @@
 
 
   var gameCanvas = document.getElementById("myCanvas");
+  
+  gameCanvas.addEventListener("touchmove", canvastouchmove, true);
+  
    gameWidth = window.innerWidth;
    gameHeight = window.innerHeight;  
       gameWidth = 375;
@@ -71,7 +74,7 @@ var rendererOptions = {
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
 	bunny.position.x = 200;
-	bunny.position.y = 520;
+	bunny.position.y = 450;
         bunny.scale.x = 0.4;
         bunny.scale.y = 0.4;
 	stage.addChild(bunny);
@@ -90,7 +93,7 @@ var rendererOptions = {
 	bunny3.anchor.y = 0.8;
 	bunny3.position.x = 50;
 	bunny3.position.y = 400;
-        bunny3.basex = 330; bunny3.basey=750;
+        bunny3.basex = 330; bunny3.basey=550;
         bunny3.scale.x = 0.06;
         bunny3.scale.y = 0.06;
         bunny3.interactive = true;
@@ -111,7 +114,7 @@ var rendererOptions = {
 	bunny4.anchor.y = 0.8;
 	bunny4.position.x =180;
 	bunny4.position.y = 400;
-        bunny4.basex = 80; bunny4.basey=780;
+        bunny4.basex = 80; bunny4.basey=680;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
@@ -200,6 +203,14 @@ function onDragMove() {
       console.log(x + "," + y);
   }
 }
+  function touchXY(e) {
+            if (!e) {
+                var e = event;
+            e.preventDefault();
+            bunny4.basex  = e.targetTouches[0].pageX - can.offsetLeft;
+            bunny4.basey = e.targetTouches[0].pageY - can.offsetTop;
+            }
+   }
 
  // 4. The API will call this function when the video player is ready.
      function onPlayerReady(event) {
@@ -252,11 +263,6 @@ function onDragMove() {
       function onPlayerReady(event) {
   document.getElementById("t1").innerHTML = "four";
         event.target.playVideo();
-        player.setSize(300, 300);
-        
-//          document.exitFullscreen(); 
-          event.target.exitFullscreen(); 
-          
 //         var myVideo = document.getElementsByTagName('video')[0];
 //         myVideo.height = 200;
          
