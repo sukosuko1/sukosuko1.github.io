@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta name="apple-mobile-app-capable" content="yes"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, , maximum-scale=1.0, user-scalable=no">
 
 <title>pixi.js example 1</title>
 	<style>
@@ -10,8 +11,8 @@
 			padding: 0;
 			background-color: #440022;
 		}
-		.embed-video { position:absolute; z-index:-1; top: 10%; width:60%; height:90%;  }
-		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:60%; height:100%; }
+		.embed-video { position:absolute; z-index:-1; top: 0%; width:100%; height:100%;  }
+		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
 		
 		h1    {color: white;}
 	</style>
@@ -39,6 +40,8 @@
   var gameCanvas = document.getElementById("myCanvas");
    gameWidth = window.innerWidth;
    gameHeight = window.innerHeight;  
+      gameWidth = 375;
+   gameHeight = 667;
    
 var rendererOptions = {
     view:gameCanvas,
@@ -67,8 +70,8 @@ var rendererOptions = {
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
-	bunny.position.x = 760;
-	bunny.position.y = 620;
+	bunny.position.x = 200;
+	bunny.position.y = 520;
         bunny.scale.x = 0.4;
         bunny.scale.y = 0.4;
 	stage.addChild(bunny);
@@ -76,8 +79,8 @@ var rendererOptions = {
 	bunny2 = new PIXI.Sprite(resources.Inever2.texture);
 	bunny2.anchor.x = 0.5;
 	bunny2.anchor.y = 0.5;
-	bunny2.position.x = 220;
-	bunny2.position.y = 500;
+	bunny2.position.x = 120;
+	bunny2.position.y = 400;
         bunny2.scale.x = 0.1;
         bunny2.scale.y = 0.2;
 	stage.addChild(bunny2);
