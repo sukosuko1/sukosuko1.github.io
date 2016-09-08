@@ -43,7 +43,7 @@
   
    gameWidth = window.innerWidth;
    gameHeight = window.innerHeight;  
-      gameWidth = 375;
+    gameWidth = 375;
    gameHeight = 667;
    
 var rendererOptions = {
@@ -65,6 +65,7 @@ var rendererOptions = {
 
   var bunny = 0;
   var bunny2 = 0;
+  var textSample = new PIXI.Text('Mumbles\n App', { font: '18px Snippet', fill: 'white', align: 'left' });
 
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
 
@@ -130,7 +131,6 @@ var rendererOptions = {
 
 	stage.addChild(bunny4);
 
-        var textSample = new PIXI.Text('Pixi.js can has\n multiline text!', { font: '35px Snippet', fill: 'white', align: 'left' });
         textSample.position.set(20);
 	stage.addChild(textSample);
 
@@ -201,6 +201,7 @@ function onDragMove() {
       this.basex = newPosition.x;
       this.basey = newPosition.y;
       console.log(x + "," + y);
+        textSample.setText("touch2");
   }
 }
   function touchXY(e) {
@@ -210,6 +211,8 @@ function onDragMove() {
             bunny4.basex  = e.targetTouches[0].pageX - can.offsetLeft;
             bunny4.basey = e.targetTouches[0].pageY - can.offsetTop;
             }
+        textSample.setText("touch");
+        
    }
 
  // 4. The API will call this function when the video player is ready.
