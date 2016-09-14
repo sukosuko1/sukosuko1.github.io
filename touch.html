@@ -66,8 +66,8 @@
             output3.innerHTML = "set";
             
             e.preventDefault();
-            mouseX  = e.touches[0].screenX;  //list of touch... for i = 0; i < touches.length..
-            mouseY = e.touches[0].screenY;
+            mouseX  = e.changedTouches[0].screenX;  //list of touch... for i = 0; i < touches.length..
+            mouseY = e.changedTouches[0].screenY;
             output2.innerHTML = "Kaboom! " + mouseX + " " + mouseY;
    }
    
