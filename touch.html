@@ -15,7 +15,7 @@
 			padding: 0;
 			background-color: #440022;
 		}
-		.coverCanvas { position:absolute; z-index:3; opacity:1.0; width:100%; height:100%; }
+		.coverCanvas {  z-index:3; opacity:1.0; width:100px; height:100px; background-color: #44AA22;}
 		
 		h1    {color: white;}
 	</style>
@@ -25,7 +25,7 @@
   
   var touchable;
   var startX, startY;
-  var output;
+  var output,output2, output3;
   var mouseX, mouseY;
   
 
@@ -38,7 +38,8 @@
 //     touchable = 'createTouch' in document;
      touchable = true;
      output = document.getElementById('t1');
-     output = document.getElementById('t2');
+     output2 = document.getElementById('t2');
+     output3 = document.getElementById('t3');
      
      if (touchable) {
      	 console.log("touchable");
@@ -52,15 +53,14 @@
   }
   var n = 0;
   function onTouchMove(e) {
-            if (!e) {
             e.preventDefault();
             mouseX  = e.touches[0].screenX;  //list of touch... for i = 0; i < touches.length..
             mouseY = e.touches[0].screenY;
             update();
-            }
             console.log(n);
             n=n+1;
-   }
+            output3.innerHTML = "set";
+    }
   function onTouchEnd(e) {
             e.preventDefault();
             mouseX  = e.touches[0].screenX;  //list of touch... for i = 0; i < touches.length..
@@ -89,8 +89,9 @@
 <body onload="init()">
   <h1 id="t1">Hello World</h1>
   <h1 id="t2">Hello World</h1>
+  <h1 id="t3">Hello World</h1>
   <div id="outerbox">
-    <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
+    <canvas id="myCanvas" class="coverCanvas"></canvas>
   </div>
 
 
