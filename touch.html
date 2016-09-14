@@ -36,20 +36,31 @@
      output = document.getElementById('t1');
      
      if (touchable) {
+     	 console.log("touchable");
 //       document.addEventListener('touchstart', onTouchStart, false);
        document.addEventListener('touchmove', onTouchMove, false);
 //       document.addEventListener('touchend', onTouchEnd, false);
     }
+    document.addEventListener('mousemove', onMouseMove);
     
   }
   var n = 0;
-  function touchmove(e) {
+  function onTouchMove(e) {
             if (!e) {
             e.preventDefault();
-            mouseX  = e.touches[0].sceenX;
+            mouseX  = e.touches[0].sceenX;  //list of touch... for i = 0; i < touches.length..
             mouseY = e.touches[0].screenY;
             update();
             }
+            console.log(n);
+            n=n+1;
+   }
+  function onMouseMove(e) {
+            e.preventDefault();
+            mouseX  = e.sceenX;  //list of touch... for i = 0; i < touches.length..
+            mouseY = e.screenY;
+            update();
+            
             console.log(n);
             n=n+1;
    }
