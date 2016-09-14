@@ -34,6 +34,7 @@
     console.log("initing...");
      touchable = 'createTouch' in document;
      output = document.getElementById('t1');
+     output = document.getElementById('t2');
      
      if (touchable) {
      	 console.log("touchable");
@@ -48,16 +49,23 @@
   function onTouchMove(e) {
             if (!e) {
             e.preventDefault();
-            mouseX  = e.touches[0].sceenX;  //list of touch... for i = 0; i < touches.length..
+            mouseX  = e.touches[0].screenX;  //list of touch... for i = 0; i < touches.length..
             mouseY = e.touches[0].screenY;
             update();
             }
             console.log(n);
             n=n+1;
    }
+  function onTouchEnd(e) {
+            e.preventDefault();
+            mouseX  = e.touches[0].screenX;  //list of touch... for i = 0; i < touches.length..
+            mouseY = e.touches[0].screenY;
+            output2.innerHTML = "Kaboom! " + mouseX + " " + mouseY;
+   }
+   
   function onMouseMove(e) {
             e.preventDefault();
-            mouseX  = e.sceenX;  //list of touch... for i = 0; i < touches.length..
+            mouseX  = e.screenX;  //list of touch... for i = 0; i < touches.length..
             mouseY = e.screenY;
             update();
             
@@ -75,6 +83,7 @@
 
 <body onload="init()">
   <h1 id="t1">Hello World</h1>
+  <h1 id="t2">Hello World</h1>
   <div id="outerbox">
     <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
   </div>
