@@ -31,6 +31,7 @@
   var gameCanvas = document.getElementById("myCanvas");
 
   function init() {
+    console.log("initing...");
      touchable = 'createTouch' in document;
      output = document.getElementById('t1');
      
@@ -41,6 +42,7 @@
     }
     
   }
+  var n = 0;
   function touchmove(e) {
             if (!e) {
             e.preventDefault();
@@ -48,6 +50,8 @@
             mouseY = e.touches[0].screenY;
             update();
             }
+            console.log(n);
+            n=n+1;
    }
    
    function update() {
