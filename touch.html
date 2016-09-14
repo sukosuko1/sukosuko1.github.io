@@ -48,6 +48,7 @@
         document.addEventListener('touchmove', onTouchMove, false);
         document.addEventListener('touchend', onTouchEnd, false);
         myCanvas.addEventListener('touchmove', onTouchMove, false);
+        myCanvas.addEventListener('touchend', onTouchEnd, false);
     }
     document.addEventListener('mousemove', onMouseMove);
     
@@ -60,9 +61,10 @@
             update();
             console.log(n);
             n=n+1;
-            output3.innerHTML = "set";
     }
   function onTouchEnd(e) {
+            output3.innerHTML = "set";
+            
             e.preventDefault();
             mouseX  = e.touches[0].screenX;  //list of touch... for i = 0; i < touches.length..
             mouseY = e.touches[0].screenY;
