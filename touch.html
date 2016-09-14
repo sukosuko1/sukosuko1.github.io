@@ -3,7 +3,11 @@
 <head>
 <meta name="apple-mobile-app-capable" content="yes"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, , maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="minimum-scale=1.0,
+                                   width=device-width,
+                                   height=device-height,
+                                   user-scalable=no">
+                                   
 <title>pixi.js example 1</title>
 	<style>
 		body {
@@ -11,8 +15,7 @@
 			padding: 0;
 			background-color: #440022;
 		}
-		.embed-video { position:absolute; z-index:-1; top: 0%; width:100%; height:100%;  }
-		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
+		.coverCanvas { position:absolute; z-index:3; opacity:1.0; width:100%; height:100%; }
 		
 		h1    {color: white;}
 	</style>
@@ -28,7 +31,7 @@
 
   console.log("text1");
 //  console.log(PIXI); 
-  var gameCanvas = document.getElementById("myCanvas");
+  var myCanvas = document.getElementById("myCanvas");
 
   function init() {
     console.log("initing...");
@@ -40,8 +43,9 @@
      if (touchable) {
      	 console.log("touchable");
 //       document.addEventListener('touchstart', onTouchStart, false);
-       document.addEventListener('touchmove', onTouchMove, false);
+        document.addEventListener('touchmove', onTouchMove, false);
         document.addEventListener('touchend', onTouchEnd, false);
+        myCanvas.addEventListener('touchmove', onTouchMove, false);
     }
     document.addEventListener('mousemove', onMouseMove);
     
