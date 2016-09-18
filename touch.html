@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, , maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+
+<meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="minimum-scale=1.0,
                                    width=device-width,
                                    height=device-height,
-                                   user-scalable=no">
+                                   user-scalable=no, minimal-ui">
                                    
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
                                    
 <title>pixi.js example 1</title>
 	<style>
@@ -20,6 +21,20 @@
 		.coverCanvas {  z-index:3; opacity:1.0; width:100px; height:100px; background-color: #44AA22;}
 		
 		h1    {color: white;}
+		
+	#orientation {
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0px;
+    left:0px;
+    background-color:white;
+    background-image:url('../images/playportrait.png');
+    background-repeat:no-repeat;
+    background-position: center center;
+    display:none;
+	}
+		
 	</style>
 
 <script src="pixi.min.js"></script>
