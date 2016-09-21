@@ -18,7 +18,7 @@
 	</style>
 
 <script src="pixi.min.js"></script>
-<script src="pixi-filters/bin/filters.js"></script>
+<script src="filters.js"></script>
     
 </head>
 
@@ -62,7 +62,7 @@ var rendererOptions = {
   stage.interactive = true;
   
 //  var filter = new PIXI.filters.NoiseFilter();
-  var filter = new PIXI.filters.ShockwaveFilter();
+  var filter = new PIXI.filters['ShockwaveFilter']();
   var shockwave = filter;
       
   stage.filters = [filter];
