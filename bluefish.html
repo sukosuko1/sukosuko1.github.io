@@ -65,7 +65,7 @@ var rendererOptions = {
    var filter = new PIXI.filters.NoiseFilter();
   var filter2 = new PIXI.filters['ShockwaveFilter']();
       filter2.center = [0.1,0.1];
-      filter2.params = [15,0.2,0.1];
+      filter2.params = [10,0.5,0.1];
  shockwave = filter2;
 
       
@@ -177,6 +177,9 @@ var rendererOptions = {
     
       if (shockwave) {
           shockwave.time += 0.02;
+          if (shockwave.time >= 0.9) {
+              shockwave.time += -0.018;
+          } 
           if (shockwave.time >= 1) {
               shockwave.time = 0;
           }
