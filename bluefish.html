@@ -63,12 +63,12 @@ var rendererOptions = {
   
       var shockwave = null;
    var filter = new PIXI.filters.NoiseFilter();
-//  var filter = new PIXI.filters['ShockwaveFilter']();
-// shockwave = filter;
+  var filter2 = new PIXI.filters['ShockwaveFilter']();
+ shockwave = filter2;
       
 //  var filter = new PIXI.filters['DotFilter']();
       
-  stage.filters = [filter];
+  stage.filters = [filter, filter2];
 
 
   var bunny = 0;
