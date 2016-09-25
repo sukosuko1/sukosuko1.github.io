@@ -80,7 +80,14 @@ var rendererOptions = {
   var bunny2 = 0;
   var textSample = new PIXI.Text('Mumbles\n App', { font: '18px Snippet', fill: 'white', align: 'left' });
 
-  PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
+  
+  var loader = PIXI.loader;
+  loader.add('Inever2','Inever2.png');
+  loader.add('forward-button','forward-button.png');
+  loader.once('complete',onAssetsLoaded);
+  load();
+      
+  function onAssetsLoaded(loader,resources) {
 
     // create some white text using the Snippet webfont
 
@@ -123,12 +130,12 @@ var rendererOptions = {
 
 	stage.addChild(bunny3);
 
-	bunny4 = new PIXI.Sprite(resources.Inever2.texture);
+	bunny4 = new PIXI.Sprite(resources.forward-button.texture);
 	bunny4.anchor.x = 0.8;
-	bunny4.anchor.y = 0.8;
+	bunny4.anchor.y = 0.5;
 	bunny4.position.x =180;
-	bunny4.position.y = 400;
-        bunny4.basex = 80; bunny4.basey=680;
+	bunny4.position.y = 20;
+        bunny4.basex = 80; bunny4.basey=20;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
@@ -234,7 +241,7 @@ function onDragMove() {
     function touchEnd() {
         console.log("touch");
         event.preventDefault();
-        if (e.target === bunny4) {
+        if (event.target === bunny4) {
             console.log("bunny4touch");
             nextVideo();
         }
@@ -345,7 +352,7 @@ document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurren
         if (vidPtr >= vids.length) vidPtr = 0;
                 console.log("load " + vidPtr + " " + vids[vidPtr]);
 
-       event.target.loadVideoById(vids[vidPtr]);
+       player.loadVideoById(vids[vidPtr]);
      }
      
     </script>
