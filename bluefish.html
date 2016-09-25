@@ -32,7 +32,6 @@
   
   <script>  
   
-  
   console.log("text1");
   console.log(PIXI); 
 //  window.alert(PIXI);
@@ -258,24 +257,25 @@ function onDragMove() {
       //    after the API code downloads.
       
       
-      
-      
       var player;
+        var vids = ["u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g", "a9zbC6q_EWE", "qn-X5A0gbMA", "lYqSHHlilt8"];
+     
+        var vidPtr = 3;
+     
       function onYouTubeIframeAPIReady() {
 
-        var vid = "u0fk6syQ7iY";      	
-      	vid = "LHCob76kigA";
-      	vid = "m5fw380Xk6g";
-      	
+          
         player = new YT.Player('player', {
           allowfullscreen: false,
           height: '100%',
           width: '100%',
-          videoId: vid,
+          videoId: vids[vidPtr],
           style: 'border: solid 4px #37474F',
           loop: 'true',
           playsinline: 1,
-         
+          autoplay:1,
+            enablejsapi:1,
+         controls:0,
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -308,6 +308,10 @@ document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurren
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
     } else if (playerStatus == 0) {
+       vidPtr++;
+        if (vidPtr > vids.length) vidPtr = 0;
+        
+       event.target.loadVideoById(vids[vidPtr]);
       color = "#FFFF00"; // ended = yellow
        c1.style.zIndex="-1";
     } else if (playerStatus == 1) {
@@ -318,6 +322,9 @@ document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurren
     } else if (playerStatus == 3) {
       color = "#AA00FF"; // buffering = purple
     } else if (playerStatus == 5) {
+       
+        event.target.playVideo();
+        
       color = "#FF6DOO"; // video cued = orange
     }
     if (color) {
@@ -328,6 +335,8 @@ document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurren
       function stopVideo() {
         player.stopVideo();
       }
+     
+     
     </script>
     
 
