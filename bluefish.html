@@ -132,10 +132,10 @@ var rendererOptions = {
 
 	bunny4 = new PIXI.Sprite(resources.forwardbutton.texture);
 	bunny4.anchor.x = 0.8;
-	bunny4.anchor.y = 0.5;
+	bunny4.anchor.y = 0.8;
 	bunny4.position.x =180;
-	bunny4.position.y = 20;
-        bunny4.basex = 80; bunny4.basey=20;
+	bunny4.position.y = 100;
+        bunny4.basex = 80; bunny4.basey=100;
         bunny4.scale.x = 0.04;
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
@@ -234,7 +234,7 @@ function onDragMove() {
             e.preventDefault();
             bunny4.basex  = e.targetTouches[0].pageX - can.offsetLeft;
             bunny4.basey = e.targetTouches[0].pageY - can.offsetTop;
-            }
+            } 
         textSample.setText("touch");
         
    }
@@ -244,6 +244,11 @@ function onDragMove() {
         if (event.target === bunny4) {
             console.log("bunny4touch");
             nextVideo();
+        } else {
+            
+            console.log("bunny4touch");
+            nextVideo();
+            
         }
     }
 
