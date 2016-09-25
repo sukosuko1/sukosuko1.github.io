@@ -83,7 +83,7 @@ var rendererOptions = {
   
   var loader = PIXI.loader;
   loader.add('Inever2','Inever2.png');
-  loader.add('forward-button','forward-button.png');
+  loader.add('forwardbutton','forward-button.png');
   loader.once('complete',onAssetsLoaded);
   loader.load();
       
@@ -130,7 +130,7 @@ var rendererOptions = {
 
 	stage.addChild(bunny3);
 
-	bunny4 = new PIXI.Sprite(resources.forward-button.texture);
+	bunny4 = new PIXI.Sprite(resources.forwardbutton.texture);
 	bunny4.anchor.x = 0.8;
 	bunny4.anchor.y = 0.5;
 	bunny4.position.x =180;
