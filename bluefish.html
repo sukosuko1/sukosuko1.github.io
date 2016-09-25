@@ -133,14 +133,8 @@ var rendererOptions = {
         bunny4.scale.y = 0.04;
         bunny4.interactive = true;
         bunny4
-         .on('mousedown', onDragStart)
-         .on('touchstart', onDragStart)
-         .on('mouseup', onDragEnd)
-         .on('mouseupoutside', onDragEnd)
-         .on('touchend', onDragEnd)
-         .on('touchendoutside', onDragEnd)
-         .on('mousemove', onDragMove)
-          .on('touchmove', onDragMove)
+         .on('mouseup', touchEnd)
+         .on('touchend', touchEnd)
 
 	stage.addChild(bunny4);
 
@@ -180,11 +174,11 @@ var rendererOptions = {
       if (shockwave) {
           shockwave.time += 0.04;
           if (shockwave.time >= 0.9) {
-              shockwave.time += -0.035;
+              shockwave.time += -0.0385;
           } 
           if (shockwave.time >= 1) {
               shockwave.time = 0;
-              shckwave.center = [Math.random(), Math.random() ];
+              shockwave.center = [Math.random(), Math.random() ];
           }
       }
 
@@ -237,6 +231,14 @@ function onDragMove() {
         textSample.setText("touch");
         
    }
+    function touchEnd() {
+        console.log("touch");
+        event.preventDefault();
+        if (e.target === bunny4) {
+            console.log("bunny4touch");
+            nextVideo();
+        }
+    }
 
  // 4. The API will call this function when the video player is ready.
      function onPlayerReady(event) {
@@ -314,11 +316,7 @@ document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurren
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
     } else if (playerStatus == 0) {
-       vidPtr++;
-        if (vidPtr >= vids.length) vidPtr = 0;
-                console.log("load " + vidPtr + " " + vids[vidPtr]);
-
-       event.target.loadVideoById(vids[vidPtr]);
+      nextVideo();
       color = "#FFFF00"; // ended = yellow
        c1.style.zIndex="-1";
     } else if (playerStatus == 1) {
@@ -342,7 +340,13 @@ document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurren
       function stopVideo() {
         player.stopVideo();
       }
-     
+     function nextVideo() {
+             vidPtr++;
+        if (vidPtr >= vids.length) vidPtr = 0;
+                console.log("load " + vidPtr + " " + vids[vidPtr]);
+
+       event.target.loadVideoById(vids[vidPtr]);
+     }
      
     </script>
     
