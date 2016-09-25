@@ -81,11 +81,10 @@ var rendererOptions = {
   var textSample = new PIXI.Text('Mumbles\n App', { font: '18px Snippet', fill: 'white', align: 'left' });
 
   
-  var loader = PIXI.loader;
-  loader.add('Inever2','Inever2.png');
-  loader.add('forwardbutton','forward_button.png');
-  loader.once('complete',onAssetsLoaded);
-  loader.load();
+  PIXI.loader
+      .add('Inever2','Inever2.png')
+      .add('forwardbutton','forward_button.png')
+       .load(onAssetsLoaded);
       
   function onAssetsLoaded(loader,resources) {
 
@@ -110,7 +109,7 @@ var rendererOptions = {
 	stage.addChild(bunny2);
 
 	bunny3 = new PIXI.Sprite(resources.Inever2.texture);
-	bunny3.anchor.x = 0.8;
+	bunny3.anchor.x = 0.5;
 	bunny3.anchor.y = 0.8;
 	bunny3.position.x = 50;
 	bunny3.position.y = 400;
@@ -121,10 +120,10 @@ var rendererOptions = {
         bunny3
          .on('mousedown', onDragStart)
          .on('touchstart', onDragStart)
-         .on('mouseup', onDragEnd)
-         .on('mouseupoutside', onDragEnd)
-         .on('touchend', onDragEnd)
-         .on('touchendoutside', onDragEnd)
+         .on('mouseup', touchEnd) //onDragEnd
+         .on('mouseupoutside', touchEnd) //onDragEnd
+         .on('touchend', touchEnd) //onDragEnd
+         .on('touchendoutside', touchEnd) //onDragEnd
          .on('mousemove', onDragMove)
           .on('touchmove', onDragMove)
 
