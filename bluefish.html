@@ -158,6 +158,8 @@ var rendererOptions = {
  
     requestAnimationFrame( animate );
  
+    var tt = timer * (107/60000) % 1.0;
+      
 //    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
 //    bunny2.rotation += -0.02;
     var timer = +new Date;  //in millisecondds
@@ -179,7 +181,6 @@ var rendererOptions = {
     
     
       if (shockwave) {
-          var tt = timer * (107/60000) % 1.0;
           shockwave.time = tt;
           if (prevtt > tt) {
 //              shockwave.time = 0;
