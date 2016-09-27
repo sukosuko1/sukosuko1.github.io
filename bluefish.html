@@ -72,8 +72,9 @@ var rendererOptions = {
 
       
   var filter3 = new PIXI.filters['DotFilter']();
+  var filter4 = new PIXI.GrayFilter();
       
-  stage.filters = [filter];
+  stage.filters = [filter,filter4];
 
 
   var bunny = 0;
@@ -185,9 +186,9 @@ var rendererOptions = {
     bunny3.rotation = 0 + Math.cos(0.5 * timer/150) * 0.1;
     
       if ( (vidtime > 15000) && (vidtime < 25000) ){
-            stage.filters = [filter3, filter];
+            stage.filters = [filter3, filter];  //3=dot filter
       }
-      if ( (vidtime > 15000) && (vidtime < 16000) ){
+      if ( (vidtime > 15000) && (vidtime < 25000) ){
             stage.filters = [filter];
       }
       
@@ -206,7 +207,15 @@ var rendererOptions = {
           prevtt = tt
       }
       }
-
+      
+      if (vidtime > 160000) {
+            filter4.gray = Math.min(1.0,(vidtime - 160000) / 10000) ;
+            stage.filters = [filter4, filter];  //4=gray filter
+      }
+      if (vidtime > 170000) {
+            filter3.scale = tt;
+            stage.filters = [filter3, filter];  //3=dot filter
+      }
     renderer.render(stage);
   }
 
