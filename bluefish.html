@@ -27,6 +27,7 @@
 
 <body>
   <h1 id="t1">Hello World</h1>
+  <img id="dog1" src="dogsprite1.gif">
   <div id="outerbox">
     <div id="player" class="embed-video"></div>  
     <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
@@ -192,7 +193,7 @@ var rendererOptions = {
             stage.filters = [filter];
       }
       
-      if (vidtime > 54000) {
+      if ( (vidtime > 54000) && (vidtime < 150000) ) {
             stage.filters = [filter,filter2];
       if (shockwave) {
           var tt2 = tt * 2; 
@@ -208,7 +209,7 @@ var rendererOptions = {
       }
       }
       
-      if (vidtime > 160000) {
+      if (( vidtime > 160000)&& (vidtime < 170000)) {
             filter4.gray = Math.min(1.0,(vidtime - 160000) / 10000) ;
             stage.filters = [filter4, filter];  //4=gray filter
       }
