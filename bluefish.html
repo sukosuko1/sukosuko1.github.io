@@ -152,12 +152,16 @@ var rendererOptions = {
   }
 
    var prevtt = 0;
-   var shockx = 0.1;
+   var shockx = 0.1;  
+    var vidanchortime = 0;
       
   function animate() {
  
     requestAnimationFrame( animate );
  
+    var vidtime = timer - vidanchortime;
+ document.getElementById("t1").innerHTML = vidtime; 
+
     var tt = timer * (107/60000) % 1.0;
       
 //    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
@@ -181,7 +185,8 @@ var rendererOptions = {
     
     
       if (shockwave) {
-          shockwave.time = tt;
+          var tt2 = tt * 2; if (tt2 > 1.0) tt2 = 1.0;
+          shockwave.time = tt2;
           if (prevtt > tt) {
 //              shockwave.time = 0;
 //              shockwave.center = [Math.random(), Math.random() ];
@@ -322,7 +327,9 @@ function onDragMove() {
       var done = false;
       function onPlayerStateChange(event) {
       	var playerStatus = event.data;
-document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime();  
+document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime(); 
+        vidanchortime = player.getCurrentTime();
+          
         console.log(playerStatus);
                                                                 
     var color;
