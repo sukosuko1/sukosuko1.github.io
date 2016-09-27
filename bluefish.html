@@ -159,6 +159,7 @@ var rendererOptions = {
  
     requestAnimationFrame( animate );
  
+    var timer = +new Date;  //in millisecondds
     var vidtime = timer - vidanchortime;
  document.getElementById("t1").innerHTML = vidtime; 
 
@@ -166,7 +167,6 @@ var rendererOptions = {
       
 //    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
 //    bunny2.rotation += -0.02;
-    var timer = +new Date;  //in millisecondds
     
     bunny.rotation = 0.02 * Math.sin(0.25 * timer/150);
     
