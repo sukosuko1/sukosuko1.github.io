@@ -180,12 +180,14 @@ var rendererOptions = {
     
       if (shockwave) {
           var tt = timer * (107/60) % 1.0;
+          shockwave.time = tt;
           if (prevtt > tt) {
 //              shockwave.time = 0;
 //              shockwave.center = [Math.random(), Math.random() ];
               if (shockx < 0.5) { shockx = 0.9; } else {shockx = 0.1; }
               shockwave.center = [shockx, 0.95];
           }
+          prevtt = tt
       }
 
     renderer.render(stage);
