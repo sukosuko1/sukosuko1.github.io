@@ -73,7 +73,7 @@ var rendererOptions = {
       
   var filter = new PIXI.filters['DotFilter']();
       
-  stage.filters = [filter, filter2];
+  stage.filters = [filter];
 
 
   var bunny = 0;
@@ -184,9 +184,17 @@ var rendererOptions = {
 //    bunny3.position.y = bunny3.basey + 40 * Math.cos(timer / 150);
     bunny3.rotation = 0 + Math.cos(0.5 * timer/150) * 0.1;
     
-      if (vidtime > 7.0) {
+      if ( (vidtime > 5000) && (vidtime < 15000) ){
+            stage.filters = [filter, filter2];
+      }
+      if ( (vidtime > 15000) && (vidtime < 16000) ){
+            stage.filters = [filter];
+      }
+      
+      if (vidtime > 54000) {
       if (shockwave) {
-          var tt2 = tt * 2; if (tt2 > 1.0) tt2 = 1.0;
+          var tt2 = tt * 2; 
+          if (tt2 > 1.0) tt2 = 1.0;
           shockwave.time = tt2;
           if (prevtt > tt) {
 //              shockwave.time = 0;
