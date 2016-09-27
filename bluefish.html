@@ -193,7 +193,7 @@ var rendererOptions = {
             stage.filters = [filter];
       }
       
-      if ( (vidtime > 54000) && (vidtime < 150000) ) {
+      if ( (vidtime > 54000) && (vidtime < 85000) ) {
             stage.filters = [filter,filter2];
       if (shockwave) {
           var tt2 = tt * 2; 
@@ -209,13 +209,15 @@ var rendererOptions = {
       }
       }
       
-      if (( vidtime > 160000)&& (vidtime < 170000)) {
+      if (( vidtime > 90000)&& (vidtime < 100000)) {
             filter4.gray = Math.min(1.0,(vidtime - 160000) / 10000) ;
             stage.filters = [filter4, filter];  //4=gray filter
       }
-      if (vidtime > 170000) {
+      if (vidtime > 100000) {
             filter3.scale = tt;
             stage.filters = [filter3, filter];  //3=dot filter
+            var dog1 = document.getElementById("dog1")
+            dog1.style.left = 100 + tt * 30 + "px";
       }
     renderer.render(stage);
   }
@@ -348,6 +350,8 @@ function onDragMove() {
       function onPlayerStateChange(event) {
       	var playerStatus = event.data;
 document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime(); 
+          
+          
         vidanchortime = +new Date - 1000 * player.getCurrentTime();
           
         console.log(playerStatus);
