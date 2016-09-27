@@ -179,7 +179,7 @@ var rendererOptions = {
     
     
       if (shockwave) {
-          var tt = timer * (107/60) % 1.0;
+          var tt = timer * (107/60000) % 1.0;
           shockwave.time = tt;
           if (prevtt > tt) {
 //              shockwave.time = 0;
@@ -189,6 +189,7 @@ var rendererOptions = {
           }
           prevtt = tt
       }
+      
 
     renderer.render(stage);
   }
