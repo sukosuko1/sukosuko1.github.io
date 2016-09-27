@@ -83,6 +83,7 @@ var rendererOptions = {
   
   PIXI.loader
       .add('Inever2','Inever2.png')
+      .add('dog1','dogsprite1.gif')
       .add('forwardbutton','forward_button.png')
        .load(onAssetsLoaded);
       
@@ -99,7 +100,7 @@ var rendererOptions = {
         bunny.scale.y = 0.4;
 	stage.addChild(bunny);
 
-	bunny2 = new PIXI.Sprite(resources.Inever2.texture);
+	bunny2 = new PIXI.Sprite(resources.dog1.texture);
 	bunny2.anchor.x = 0.5;
 	bunny2.anchor.y = 0.5;
 	bunny2.position.x = 120;
@@ -183,7 +184,7 @@ var rendererOptions = {
 //    bunny3.position.y = bunny3.basey + 40 * Math.cos(timer / 150);
     bunny3.rotation = 0 + Math.cos(0.5 * timer/150) * 0.1;
     
-    
+      if (vidtime > 7.0) {
       if (shockwave) {
           var tt2 = tt * 2; if (tt2 > 1.0) tt2 = 1.0;
           shockwave.time = tt2;
@@ -195,7 +196,7 @@ var rendererOptions = {
           }
           prevtt = tt
       }
-      
+      }
 
     renderer.render(stage);
   }
