@@ -328,7 +328,7 @@ function onDragMove() {
       function onPlayerStateChange(event) {
       	var playerStatus = event.data;
 document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime(); 
-        vidanchortime = player.getCurrentTime();
+        vidanchortime = +new Date - 1000 * player.getCurrentTime();
           
         console.log(playerStatus);
                                                                 
