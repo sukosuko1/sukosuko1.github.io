@@ -71,7 +71,7 @@ var rendererOptions = {
  shockwave = filter2;
 
       
-//  var filter = new PIXI.filters['DotFilter']();
+  var filter = new PIXI.filters['DotFilter']();
       
   stage.filters = [filter, filter2];
 
@@ -151,13 +151,16 @@ var rendererOptions = {
 	animate();
   }
 
+   var prevtt = 0;
+   var shockx = 0.1;
+      
   function animate() {
  
     requestAnimationFrame( animate );
  
 //    bunny.rotation += 0.005 + Math.cos(timer/150) * 0.003;
 //    bunny2.rotation += -0.02;
-    var timer = +new Date;
+    var timer = +new Date;  //in millisecondds
     
     bunny.rotation = 0.02 * Math.sin(0.25 * timer/150);
     
@@ -176,13 +179,12 @@ var rendererOptions = {
     
     
       if (shockwave) {
-          shockwave.time += 0.04;
-          if (shockwave.time >= 0.9) {
-              shockwave.time += -0.0385;
-          } 
-          if (shockwave.time >= 1) {
-              shockwave.time = 0;
-              shockwave.center = [Math.random(), Math.random() ];
+          var tt = timer * (107/60) % 1.0;
+          if (prevtt > tt) {
+//              shockwave.time = 0;
+//              shockwave.center = [Math.random(), Math.random() ];
+              if (shockx < 0.5) { shockx = 0.9; } else {shockx = 0.1; }
+              shockwave.center = [shockx, 0.95];
           }
       }
 
@@ -273,9 +275,9 @@ function onDragMove() {
       
       
       var player;
-        var vids = ["u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g", "a9zbC6q_EWE", "qn-X5A0gbMA", "lYqSHHlilt8"];
+        var vids = [ "nw5Mc5bpq-A", "a9zbC6q_EWE", "qn-X5A0gbMA", "lYqSHHlilt8","u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g" ];
      
-        var vidPtr = 5;
+        var vidPtr = 0;
      
       function onYouTubeIframeAPIReady() {
 
@@ -291,6 +293,7 @@ function onDragMove() {
           autoplay:1,
             enablejsapi:1,
          controls:0,
+         webkit-playsinline, 1,
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
