@@ -16,8 +16,8 @@
 		}
 		.embed-video { position:absolute; z-index:-1; top: 0%; width:100%; height:100%;  }
 		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
-        #dog1 { position:absolute; z-index:2; top:10%; left: 20%; }
-        #dog1:hover { transform: rotateX(150deg); }
+        .ggu { position:absolute; z-index:2; top:10%; left: 20%; }
+        .ggu:hover { transform: rotateX(150deg); }
         
         #t1 { position:absolute; z-index:99; top:0%; left: 0%; }
         #player { transform:scale(1.1,2.0); }
@@ -31,7 +31,10 @@
 
 <body>
   <h1 id="t1">Hello World</h1>
-  <img id="dog1" src="dogsprite1.gif">
+  <img class="ggu" id="dog1" src="dogsprite1.gif">
+  <img class="ggu" id="cpigeon1" src="cpigeon.gif">
+  <img class="ggu" id="cat1" src="http://i.giphy.com/fWrorpy7Jrlvi.gif">
+    
   <div id="outerbox">
     <div id="player" class="embed-video"></div>  
     <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
@@ -100,7 +103,7 @@ filter4.angle = 0.2;
   function onAssetsLoaded(loader,resources) {
 
     // create some white text using the Snippet webfont
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 0; i++) {
 	   var sp = new PIXI.Sprite(resources.cpigeon.texture);
    	   sp.position.x = Math.random() * 400;
 	   sp.position.y = Math.random() * 600;
