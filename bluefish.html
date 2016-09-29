@@ -14,10 +14,13 @@
 			padding: 0;
 			background-color: #440022;
 		}
-        #dog1 { position:absolute; z-index: 2: top:50%, left: 20%; }
 		.embed-video { position:absolute; z-index:-1; top: 0%; width:100%; height:100%;  }
 		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
-		
+        #dog1 { position:absolute; z-index:2; top:10%; left: 20%; }
+        #dog1:hover { transform: rotateX(150deg); }
+        
+        #t1 { position:absolute; z-index:99; top:0%; left: 0%; }
+        #player { transform:scale(1.1,2.0); }
 		h1    {color: white;}
 	</style>
 
@@ -85,18 +88,25 @@ filter4.angle = 0.2;
   var bunny = 0;
   var bunny2 = 0;
   var textSample = new PIXI.Text('Mumbles\n App', { font: '18px Snippet', fill: 'white', align: 'left' });
-
+  var s = [];
   
   PIXI.loader
       .add('Inever2','Inever2.png')
       .add('dog1','dogsprite1.gif')
+      .add('cpigeon','cpigeon.gif')
       .add('forwardbutton','forward_button.png')
        .load(onAssetsLoaded);
       
   function onAssetsLoaded(loader,resources) {
 
     // create some white text using the Snippet webfont
-
+    for (i = 0; i < 5; i++) {}
+	   var sp = new PIXI.Sprite(resources.cpigeon.texture);
+   	   sp.position.x = Math.random() * 400;
+	   sp.position.y = Math.random() * 600;
+      stage.addChild(sp);
+       s[i] = sp;      
+    }
 	bunny = new PIXI.Sprite(resources.Inever2.texture);
 	bunny.anchor.x = 0.5;
 	bunny.anchor.y = 0.5;
