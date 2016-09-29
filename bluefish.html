@@ -32,8 +32,8 @@
 <body>
   <h1 id="t1">Hello World</h1>
   <img class="ggu" id="dog1" src="dogsprite1.gif">
-  <img class="ggu" id="cpigeon1" src="cpigeon.gif">
-  <img class="ggu" id="cat1" src="http://i.giphy.com/fWrorpy7Jrlvi.gif">
+//  <img class="ggu" id="cpigeon1" src="cpigeon.gif">
+  <div class="ggu" id="tempGif"></div>  
     
   <div id="outerbox">
     <div id="player" class="embed-video"></div>  
@@ -43,6 +43,8 @@
   
   <script>  
   
+  var tempGif = document.getElementById("tempGif");
+      
   console.log("text1");
   console.log(PIXI); 
 //  window.alert(PIXI);
@@ -224,6 +226,16 @@ filter4.angle = 0.2;
           }
           prevtt = tt
       }
+      }
+      
+//      if (vidtime > timeline[v].time) {
+      if (vidtime > 10000 && v == 0) {
+        tempGif.innerHTML = "<img class="ggu" id="cat1" src="http://i.giphy.com/fWrorpy7Jrlvi.gif">"
+        v++;
+      }
+      if (vidtime > 20000 && v == 1) {
+        tempGif.innerHTML = ""
+        v++;
       }
       
       if (( vidtime > 90000)&& (vidtime < 100000)) {
