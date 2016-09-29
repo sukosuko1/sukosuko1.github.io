@@ -43,8 +43,6 @@
   
   <script>  
   
-  var tempGif = document.getElementById("tempGif");
-  var v = 0;  //replace with timeline json
       
       
   console.log("text1");
@@ -179,6 +177,9 @@ filter4.angle = 0.2;
    var shockx = 0.1;  
     var vidanchortime = 0;
       
+      var tempGif = document.getElementById("tempGif");
+  var v = 0;  //replace with timeline json
+
   function animate() {
  
     requestAnimationFrame( animate );
@@ -231,11 +232,11 @@ filter4.angle = 0.2;
       }
       
 //      if (vidtime > timeline[v].time) {
-      if (vidtime > 10000 && v == 0) {
+      if (vidtime > 10000 && (v == 0) {
         tempGif.innerHTML =  '<img class="ggu" id="cat1" src="http://i.giphy.com/fWrorpy7Jrlvi.gif">';
         v++;
       }
-      if (vidtime > 20000 && v == 1) {
+      if (vidtime > 20000 && (v == 1)) {
         tempGif.innerHTML = ""
         v++;
       }
