@@ -174,7 +174,7 @@ filter4.angle = 0.2;
 	bunny4 = new PIXI.Sprite(resources.forwardbutton.texture);
 	bunny4.anchor.x = 0.8;
 	bunny4.anchor.y = 0.8;
-	bunny4.position.x =480;
+	bunny4.position.x =80;
 	bunny4.position.y = 20;
         bunny4.basex = 80; bunny4.basey=20;
         bunny4.scale.x = 0.5;
@@ -270,8 +270,8 @@ filter4.angle = 0.2;
         if (vidtime > 60000) {
             tempGif4.innerHTML +=  '<img class="ggu4" id="cat1" src="' + 
                 gifList[i] + 
-                '" left=' + (Math.random()*400) + 'px' + 
-                '" top=' + (Math.random()*400) + 'px' + 
+                '" style="left=' + (Math.random()*400) + 'px;' + 
+                '" top=' + (Math.random()*400) + 'px;"' + 
                 ' >';
         } else {
             tempGif3.innerHTML =  '<img class="ggu" id="cat1" src="' + gifList[i] + '">';
