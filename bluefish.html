@@ -261,7 +261,7 @@ filter4.angle = 0.2;
         v++;
       }
       if (vidtime > gifchange + 10000) {
-        var i = Math.int(Math.random() * gifList.length);
+        var i = Math.floor(Math.random() * gifList.length);
           
         tempGif3.innerHTML =  '<img class="ggu" id="cat1" src="' + gifList[i] + '">';
         tempGif3.style.left = Math.random() * 400;
