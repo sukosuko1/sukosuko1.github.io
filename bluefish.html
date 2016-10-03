@@ -264,7 +264,10 @@ filter4.angle = 0.2;
         var i = Math.floor(Math.random() * gifList.length);
 
         if (vidtime > 60000) {
-            tempGif3.innerHTML +=  '<img class="ggu" id="cat1" src="' + gifList[i] + ' left=' Math.random()*400 + 'px' + ' ">';
+            tempGif3.innerHTML +=  '<img class="ggu" id="cat1" src="' + 
+                gifList[i] + 
+                ' left=' + (Math.random()*400) + 
+                 'px' + ' ">';
         } else {
             tempGif3.innerHTML =  '<img class="ggu" id="cat1" src="' + gifList[i] + '">';
         }
