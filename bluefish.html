@@ -41,6 +41,7 @@
   <div class="ggu" id="tempGif"></div>  
   <div class="ggu2" id="tempGif2"></div>  
   <div class="ggu2" id="tempGif3"></div>  
+  <div class="ggu4" id="tempGif4"></div>  
     
   <div id="outerbox">
     <div id="player" class="embed-video"></div>  
@@ -173,7 +174,7 @@ filter4.angle = 0.2;
 	bunny4 = new PIXI.Sprite(resources.forwardbutton.texture);
 	bunny4.anchor.x = 0.8;
 	bunny4.anchor.y = 0.8;
-	bunny4.position.x =180;
+	bunny4.position.x =480;
 	bunny4.position.y = 20;
         bunny4.basex = 80; bunny4.basey=20;
         bunny4.scale.x = 0.5;
@@ -199,6 +200,7 @@ filter4.angle = 0.2;
       var tempGif = document.getElementById("tempGif");
       var tempGif2 = document.getElementById("tempGif2");
       var tempGif3 = document.getElementById("tempGif3");
+      var tempGif4 = document.getElementById("tempGif4");
   var v = 0;  //replace with timeline json
 
   function animate() {
@@ -266,7 +268,7 @@ filter4.angle = 0.2;
         var i = Math.floor(Math.random() * gifList.length);
 
         if (vidtime > 60000) {
-            tempGif3.innerHTML +=  '<img class="ggu4" id="cat1" src="' + 
+            tempGif4.innerHTML +=  '<img class="ggu4" id="cat1" src="' + 
                 gifList[i] + 
                 '" left=' + (Math.random()*400) + 'px' + 
                 '" top=' + (Math.random()*400) + 'px' + 
