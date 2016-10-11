@@ -15,7 +15,7 @@
 			background-color: #440022;
 		}
 		.embed-video { position:absolute; z-index:-1; top: 0%; width:100%; height:100%;  }
-		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
+		#coverCanvas { position:absolute; z-index:77; opacity:1.0; width:100%; height:100%; }
         .ggu { position:absolute; z-index:2; top:10%; left: 20%; }
         .ggu2 { position:absolute; z-index:2; top:40%; left: 20%; }
         .ggu3 { position:absolute; z-index:2; top:40%; left: 20%; }
@@ -38,6 +38,7 @@
 
 <body>
   <h1 id="t1">Hello World</h1>
+  <div id="coverCanvas"></div>
   <img class="ggu" id="dog1" src="dogsprite1.gif">
   <img class="ggu" id="cpigeon1" src="cpigeon.gif">
   <div class="ggu" id="tempGif"></div>  
@@ -265,14 +266,14 @@ BufferLoader.prototype.load = function() {
       
 
 
-$("body").mousedown( function(e)  {
+$("#coverCanvas").mousedown( function(e)  {
     var pannerNode = context.createPanner();
     pannerNode.setPosition(-1 + 2 * Math.random(), 0, 0);//If you want it to play on the left channel
     
   var source1 = context.createBufferSource();
   source1.buffer = blist[0];
   source1.connect(pannerNode);
-  source1.connect(context.destination);
+  pannerNode.connect(context.destination);
      source1.start(0);
     
 //   soundpool['buzz'].play();
