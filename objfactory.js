@@ -44,6 +44,8 @@ var ClassA = function() {
   this.name = "animal"; 
   this.bulgeoffset = 0;
     
+  this.timelinenext = 0;
+    
   function show() { console.log("show " + this.name); }
 }
 
@@ -54,14 +56,19 @@ var a = new ClassA();
 a.render = function() {
     
   var ct = + new Date();
-  var node = this.timeline[this.timelinep];
     
     
-  if (ct > node.t + this.timelineBase) {
+//  if (ct > node.t + this.timelineBase) {
+  if (ct > this.timelinenext) {
+      var node = this.timeline[this.timelinep];
+      
       if (node.targetx) {
       this.targetx = node.targetx;
       this.targety = node.targety;
-      if (this.timelinep < this.timeline.length -1) this.timelinep++;
+      if (this.timelinep < this.timeline.length -1) {
+          this.timelinep++;
+          this.timelinenext = this.timeline[this.timelinep].t + this.timelineBase
+      }
       }
       if (node.loop) {
           this.timelineBase = +new Date();
@@ -83,12 +90,20 @@ a.render = function() {
       
   }
   if (this.ptr) {
-  this.ptr.style.left = this.x+"px";
-  this.ptr.style.top = this.y+"px"
+//  this.ptr.style.left = this.x+"px";/
+//  this.ptr.style.top = this.y+"px"
+//    this.ptr.style.transform = "translate(" + this.x+ "px," + this.y+ "px)";
+      
 //      this.ptr.style.transform = "rotate(15deg)";
 //      this.ptr.style.transform = "scaleX(3.0)";
 //      this.ptr.style.transform = "scaleX(" + (1 + 0.08 * Math.cos(ct * 0.005)) + ")";
-     if (this.name === "gif1") {
+      
+      this.ptr.style.transform = "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1) scale(" + (1 + 0.06 * Math.cos((ct+this.bulgeoffset) * 0.005)) 
+           +"," +  (1 + 0.04 * Math.sin((ct+this.bulgeoffset) * 0.005))  + ")";
+      
+      zz=999;
+/*
+      if (this.name === "gif1") {
          
       this.ptr.style.filter = "brightness(" + (50 + Math.cos(ct+this.bulgeoffset) * 50) + "%)";
       this.ptr.style.WebkitFilter = "brightness(" + (90 + Math.cos((ct+this.bulgeoffset)*0.005) * 10 ) + "%)";
@@ -98,8 +113,11 @@ a.render = function() {
      } else {
          
       this.ptr.style.transform = "scale(" + (1 + 0.06 * Math.cos((ct+this.bulgeoffset) * 0.005)) 
-           +"," +  (1 + 0.04 * Math.sin((ct+this.bulgeoffset) * 0.005))  + ")";
+           +"," +  (1 + 0.04 * Math.sin((ct+this.bulgeoffset) * 0.005))  + "), matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1)";
    }
+      */
+      
+      
   }
   var debug="";
 
