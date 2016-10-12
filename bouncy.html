@@ -29,13 +29,19 @@
         #tag2 {
             top:100px;
             left:300px;
+            width: 180px;
+            height: 180px;
+        }
+        image {
+            padding: 0px;
         }
         #minion1 {
             transform: scale(0.7);
+            padding: 0px;
         }
         #minion2 {
              position: absolute;
-            top:550px;
+            top:450px;
             left:200px;
         }
     </style>
@@ -46,7 +52,7 @@
 <body id="body">
     <div id="debug1">info</div>
     <div class="moveable" id="tag1">Hi there!</div>
-    <div class="moveable" id="tag2">Can't touch this<p></p>
+    <div class="moveable" id="tag2">Can't touch this
        <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
    <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
@@ -110,8 +116,8 @@ obj.addEventListener('touchmove', function(event) {
   if (event.targetTouches.length == 1) {
     var touch = event.targetTouches[0];
     // Place element where the finger is
-    obj.style.left = (touch.pageX - obj.style.width * 0.5)  + 'px';
-    obj.style.top = ( touch.pageY - 50) + 'px';
+    obj.style.left = (touch.pageX - 80)  + 'px';
+    obj.style.top = ( touch.pageY - 80) + 'px';
   }
 }, false);
     
