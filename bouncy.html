@@ -5,7 +5,7 @@
 <meta name="apple-mobile-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
 <meta name="HandheldFriendly" content="true" />
-<meta name="viewport" content="width=device-width, initial-scale=1, , maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
     
     <style>
         body {
@@ -31,6 +31,15 @@
     </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+    
+<body id="body">
+    <div id="debug1">info</div>
+    <div class="moveable" id="tag1">Hi there!</p>
+    <div class="moveable" id="tag2">Can't touch this</p>
+</body>
+    
+    
 
     <script>
 function addObject(text, x, y) {
@@ -47,6 +56,43 @@ function addObject(text, x, y) {
 }
     
 $(document).ready(function(){
+    
+    document.body.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    }, false); 
+    
+    
+var audio = new Audio('./phaser.wav');
+audio.play();
+    
+// Setup canvas and expose context via ctx variable
+document.addEventListener('touchstart', function(event) {
+     addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
+    
+/*  for (var i = 0; i < event.touches.length; i++) {
+    var touch = event.touches[i];
+    ctx.beginPath();
+    ctx.arc(touch.pageX, touch.pageY, 20, 0, 2*Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+  }*/
+    
+}, false);    
+    
+var obj = document.getElementById('tag2');
+obj.addEventListener('touchmove', function(event) {
+  // If there's exactly one finger inside this element
+audio.play();    
+  if (event.targetTouches.length == 1) {
+    var touch = event.targetTouches[0];
+    // Place element where the finger is
+    obj.style.left = touch.pageX + 'px';
+    obj.style.top = touch.pageY + 'px';
+  }
+}, false);
+    
+    
+    
 var w = window.innerWidth
 || document.documentElement.clientWidth
 || document.body.clientWidth;
@@ -62,16 +108,22 @@ var h = window.innerHeight
     
     $("#debug1").css("color","red");
     
+    
+    
     $("div").mousedown(function(){
         addObject("div", 100, 100);
     });
     
     $(document).mousedown(function(e){
+        audio.play();    
         addObject("hello!", e.pageX, e.pageY);
     });
+    
+    /*
     $(document).on("tap",(function(e){
         addObject("hello!", e.pageX, e.pageY);
     }));
+    */
     
     
 });
@@ -79,13 +131,9 @@ var h = window.innerHeight
 </script>
     
     
-</head>
     
-<body id="body">
-    <div id="debug1">info</div>
-    <div class="moveable" id="tag1">Hi there!</p>
-    <div class="moveable" id="tag2">Can't touch this</p>
-</body>
+    
+    
     
 </html>
 
