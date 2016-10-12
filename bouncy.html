@@ -117,9 +117,9 @@ var h = window.innerHeight
     
     console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
     
-    $("#debug1").text( "1.5 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
+    $("#debug1").text( "1.6 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
     
-    document.body.requestFullscreen();
+    window.navigator.standalone = true;
     
     $("#debug1").css("color","red");
     
