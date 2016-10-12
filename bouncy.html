@@ -30,9 +30,12 @@
             top:100px;
             left:300px;
         }
+        #minion1 {
+            transform: scale(0.7);
+        }
         #minion2 {
              position: absolute;
-            top:600px;
+            top:550px;
             left:200px;
         }
     </style>
@@ -44,9 +47,9 @@
     <div id="debug1">info</div>
     <div class="moveable" id="tag1">Hi there!</div>
     <div class="moveable" id="tag2">Can't touch this<p></p>
-       <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif">
+       <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
-   <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif">
+   <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
 </body>
     
     
@@ -108,7 +111,7 @@ obj.addEventListener('touchmove', function(event) {
     var touch = event.targetTouches[0];
     // Place element where the finger is
     obj.style.left = (touch.pageX - obj.style.width * 0.5)  + 'px';
-    obj.style.top = ( touch.pageY - obj.style.height * 0.5) + 'px';
+    obj.style.top = ( touch.pageY - 50) + 'px';
   }
 }, false);
     
@@ -125,7 +128,7 @@ var h = window.innerHeight
     
     console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
     
-    $("#debug1").text( "1.6 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
+    $("#debug1").text( "1.7 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
     
     window.navigator.standalone = true;
     
