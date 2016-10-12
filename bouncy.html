@@ -2,7 +2,16 @@
 <html>
     
 <head>
+<meta name="apple-mobile-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1, , maximum-scale=1.0, user-scalable=no, minimal-ui">
+    
     <style>
+        body {
+            width:375;
+            height:667;
+        }
         .moveable {
             position: absolute;
             background-color: aquamarine;
@@ -30,7 +39,7 @@ function addObject(text, x, y) {
     
    $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">hello</div>');
    $("#t1").hide()
-        .fadeIn(200, function (){} ).delay(500)
+        .fadeIn(50, function (){} ).delay(900)
         .effect( "puff", {percent:200}, 200, function(e) { 
        console.log("done");  
        $("#t1").remove();
