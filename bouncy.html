@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+    
+<head>
+    <style>
+        .moveable {
+            position: absolute;
+            background-color: aquamarine;
+            background-image: linear-gradient(45deg,#AAF,#88C);
+            padding: 10px 10px;
+            box-shadow: 8px 8px 5px #CCC;
+        }
+        .textpop {
+            position: absolute;
+            top:100px;
+        }
+        
+        #tag2 {
+            top:100px;
+            left:300px;
+        }
+    </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+function addObject(text, x, y) {
+//   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
+    
+    
+   $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">hello</div>');
+   $("#t1").hide()
+        .fadeIn(200, function (){} ).delay(500)
+        .effect( "puff", {percent:200}, 200, function(e) { 
+       console.log("done");  
+       $("#t1").remove();
+    });
+}
+    
+$(document).ready(function(){
+var w = window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+    
+var h = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+    
+    
+    console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
+    
+    $("#debug1").text( "sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h);
+    
+    $("#debug1").css("color","red");
+    
+    $("div").mousedown(function(){
+        addObject("div", 100, 100);
+    });
+    
+    $(document).mousedown(function(e){
+        addObject("hello!", e.pageX, e.pageY);
+    });
+    $(document).on("tap",(function(e){
+        addObject("hello!", e.pageX, e.pageY);
+    }));
+    
+    
+});
+    
+</script>
+    
+    
+</head>
+    
+<body id="body">
+    <div id="debug1">info</div>
+    <div class="moveable" id="tag1">Hi there!</p>
+    <div class="moveable" id="tag2">Can't touch this</p>
+</body>
+    
+</html>
+
