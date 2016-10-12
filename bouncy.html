@@ -63,10 +63,11 @@ $(document).ready(function(){
     
     
 var audio = new Audio('./phaser.wav');
-audio.play();
     
-// Setup canvas and expose context via ctx variable
+
+    // Setup canvas and expose context via ctx variable
 document.addEventListener('touchstart', function(event) {
+    audio.play();
      addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
     
 /*  for (var i = 0; i < event.touches.length; i++) {
@@ -82,7 +83,7 @@ document.addEventListener('touchstart', function(event) {
 var obj = document.getElementById('tag2');
 obj.addEventListener('touchmove', function(event) {
   // If there's exactly one finger inside this element
-audio.play();    
+//audio.play();    
   if (event.targetTouches.length == 1) {
     var touch = event.targetTouches[0];
     // Place element where the finger is
@@ -115,7 +116,7 @@ var h = window.innerHeight
     });
     
     $(document).mousedown(function(e){
-        audio.play();    
+//        audio.play();    
         addObject("hello!", e.pageX, e.pageY);
     });
     
