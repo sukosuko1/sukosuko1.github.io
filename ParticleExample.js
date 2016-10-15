@@ -135,13 +135,26 @@
 				emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
 			});
             
+			canvas.addEventListener('touchstart', function(e){
+				if(!emitter) return;
+				emitter.emit = true;
+				emitter.resetPositionTracking();
+				emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
+			});
 			canvas.addEventListener('touchmove', function(e){
 				if(!emitter) return;
 				emitter.emit = true;
 				emitter.resetPositionTracking();
 				emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
 			});
+			canvas.addEventListener('touchend', function(e){
+				if(!emitter) return;
+				emitter.emit = false;
+				emitter.resetPositionTracking();
+				emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
+			});
 
+            
 			// Start the update
 			update();
 			
