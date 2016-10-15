@@ -7,12 +7,29 @@
 			margin: 0;
 			padding: 0;
 			background-color: #000000;
+            position: absolute;
 		}
+        canvas {
+            position: absolute;
+            height: 50;
+        }
+        #stage{
+            z-index: 3;
+            height: 50;
+        }
+        stage {
+            height: 50;
+        }
 	</style>
 <script src="pixi.min.js"></script>
+<script src="/node_modules/pixi-particles/dist/pixi-particles.min.js"></script>
+<script src="ParticleExample.js"></script>
+    
 </head>
 
 <body>
+    	<canvas id="stage" width="400" height="150"></canvas>
+    
   <script>  
   console.log("text1");
   console.log(PIXI); 
@@ -25,6 +42,56 @@
   var bunny = 0;
   var bunny2 = 0;
 
+// See js/ParticleExample.js for actual setup
+			new ParticleExample(
+				// The image to use
+				["/assets/Pop1.png"],
+
+				// Emitter configuration, edit this to change the look
+				// of the emitter
+				{
+					"alpha": {
+						"start": 1,
+						"end": 0.22
+					},
+					"scale": {
+						"start": 0.25,
+						"end": 0.75,
+						"minimumScaleMultiplier":0.5
+					},
+					"color": {
+						"start": "ffffff",
+						"end": "ffffff"
+					},
+					"speed": {
+						"start": 200,
+						"end": 50
+					},
+					"startRotation": {
+						"min": 0,
+						"max": 360
+					},
+					"rotationSpeed": {
+						"min": 0,
+						"max": 10
+					},
+					"lifetime": {
+						"min": 1,
+						"max": 1.5
+					},
+					"blendMode": "normal",
+					"frequency": 0.016,
+					"emitterLifetime": 0,
+					"maxParticles": 500,
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"addAtBack": false,
+					"spawnType": "point"
+				});
+      
+            
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
 
     // create some white text using the Snippet webfont
@@ -93,10 +160,12 @@
         textSample.position.set(20);
 	stage.addChild(textSample);
 
-
 	animate();
   });
 
+      
+  var elapsed = 0;
+      
   function animate() {
  
     requestAnimationFrame( animate );
@@ -118,9 +187,14 @@
     bunny4.position.x = bunny4.basex;
     bunny4.position.y = bunny4.basey + 30 * Math.cos(timer * 0.0066);
 
+      
+//    emitter.update((timer - elapsed) * 0.001);
+    elapsed = timer;
 
     renderer.render(stage);
   }
+      
+
 
  function onButtonDown()
  {
