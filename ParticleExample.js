@@ -135,6 +135,7 @@
 				emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
 			});
             
+            
 			canvas.addEventListener('touchstart', function(e){
 				if(!emitter) return;
 				emitter.emit = true;

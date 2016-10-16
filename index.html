@@ -93,6 +93,56 @@
 				});
       */
       
+      			new ParticleExample(
+				// The image to use
+				["assets/particle.png", "assets/Fire.png"],
+				// Emitter configuration, edit this to change the look
+				// of the emitter
+				{
+					"alpha": {
+						"start": 0.62,
+						"end": 0
+					},
+					"scale": {
+						"start": 0.25,
+						"end": 0.75
+					},
+					"color": {
+						"start": "fff191",
+						"end": "ff622c"
+					},
+					"speed": {
+						"start": 5,
+						"end": 5
+					},
+					"startRotation": {
+						"min": 265,
+						"max": 275
+					},
+					"rotationSpeed": {
+						"min": 50,
+						"max": 50
+					},
+					"lifetime": {
+						"min": 0.1,
+						"max": 10.75
+					},
+					"blendMode": "normal",
+					"frequency": 0.01,
+					"emitterLifetime": 0,
+					"maxParticles": 1000,
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"addAtBack": false,
+					"spawnType": "circle",
+					"spawnCircle": {
+						"x": 0,
+						"y": 0,
+						"r": 10
+					}
+				});
       		// See js/ParticleExample.js for actual setup
 			new ParticleExample(
 				// The image to use
@@ -144,6 +194,7 @@
 						"r": 10
 					}
 				});
+
 
             
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
