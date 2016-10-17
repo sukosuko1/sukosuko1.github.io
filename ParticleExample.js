@@ -86,7 +86,7 @@
 			//bg is a 1px by 1px image
 			bg.scale.x = canvas.width;
 			bg.scale.y = canvas.height;
-//			bg.tint = 0x0000FF;
+			bg.tint = 0x0000FF;
 			stage.addChild(bg);
 			//collect the textures, now that they are all loaded
 			var art;

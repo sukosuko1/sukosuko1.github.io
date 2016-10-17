@@ -9,17 +9,25 @@
 			background-color: #000000;
             position: absolute;
 		}
+        #outerbox {
+            position:absolute;
+        }
         canvas {
             position: absolute;
-            height: 50;
+            z-index:6;
         }
         #stage{
-            z-index: 3;
-            height: 50;
+            position: absolute;
+            width:100px;
+            z-index:100;
         }
-        stage {
-            height: 50;
+        
+        #player { 
+            z-index:5; top: 0%; width:100%; height:100%; 
+        
         }
+        
+/*            transform:rotate(10deg) scale(3.0) */
 	</style>
 <script src="pixi.min.js"></script>
 <script src="/node_modules/pixi-particles/dist/pixi-particles.min.js"></script>
@@ -28,14 +36,18 @@
 </head>
 
 <body>
-    	<canvas id="stage" width="400" height="150"></canvas>
+   <div id="outerbox">
+     <div id="player" class="embed-video"></div>  
+   </div>
+
+    <canvas id="stage" width="400" height="150"></canvas>
     
   <script>  
   console.log("text1");
   console.log(PIXI); 
 //  window.alert(PIXI);
 
-  var renderer = PIXI.autoDetectRenderer(700, 700);
+  var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.view);
  
   var stage = new PIXI.Container();
@@ -65,8 +77,8 @@
 						"end": "ffffff"
 					},
 					"speed": {
-						"start": 200,
-						"end": 50
+						"start": 100,
+						"end": 30
 					},
 					"startRotation": {
 						"min": 0,
@@ -77,8 +89,8 @@
 						"max": 10
 					},
 					"lifetime": {
-						"min": 1,
-						"max": 1.5
+						"min": 0.5,
+						"max": 1.0
 					},
 					"blendMode": "normal",
 					"frequency": 0.016,
@@ -93,6 +105,7 @@
 				});
       */
       
+      /*
       			new ParticleExample(
 				// The image to use
 				["assets/particle.png", "assets/Fire.png"],
@@ -143,7 +156,9 @@
 						"r": 10
 					}
 				});
+      */
       		// See js/ParticleExample.js for actual setup
+      if (true) {
 			new ParticleExample(
 				// The image to use
 				["assets/particle.png", "assets/Fire.png"],
@@ -195,7 +210,7 @@
 					}
 				});
 
-
+      }
             
   PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
 
@@ -336,10 +351,79 @@ function onDragMove() {
 }
 
   </script>
+     <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
 
-  <h1>Hello World</h1>
-  <p>Pixitest is hosted with GitHub Pages 2d.</p>
-  <iframe width="200" height="113" src="https://www.youtube.com/embed/M3IWsWzSo14?autoplay=1&loop=1?controls=0" frameborder="0"></iframe>
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.allowfullscreen = false;
+      tag.enablejsapi = 1;
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      
+      
+      var player;
+     
+      function onYouTubeIframeAPIReady() {
+
+          
+        player = new YT.Player('player', {
+          allowfullscreen: false,
+          height: '100%',
+          width: '100%',
+          videoId: '31crA53Dgu0',
+          style: 'border: solid 4px #37474F',
+          loop: 'true',
+          playsinline: 1,
+          autoplay:1,
+            enablejsapi:1,
+         controls:0,
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      var pdiv = document.getElementById("player");
+         
+      function onPlayerStateChange(event) {
+          var playerStatus = event.data;
+          
+    if (playerStatus == -1) {
+      // unstarted = gray
+    } else if (playerStatus == 0) {
+        pdiv.style.zIndex = "99";
+      nextVideo();
+       // ended = yellow
+    } else if (playerStatus == 1) {
+        // playing = green
+        pdiv.style.zIndex = "-1";
+    } else if (playerStatus == 2) {
+       // paused = red
+    } else if (playerStatus == 3) {
+       // buffering = purple
+    } else if (playerStatus == 5) {
+         console.log("play");       
+        event.target.playVideo();
+        
+      // video cued = orange
+    }
+      }
+    </script>
+    
 
 </body>
 </html>
