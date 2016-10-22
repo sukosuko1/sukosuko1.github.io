@@ -71,7 +71,7 @@ var a = new ClassA();
     
                  $('#gifholder').append('<div id="'+ tag + '" class="moveable mybutton touchable">boo</div>');
                 b.timeline = this.timeline = [ 
-                                {t:1333,targetx:Math.random()*800,targety:Math.random()*500}, {t:2000,targetx:Math.random()*500,targety:Math.random()*500},
+                                {t:1333,targetx:Math.random()*800,targety:Math.random()*1200}, {t:2000,targetx:Math.random()*500,targety:Math.random()*500},
                                 {t:2001,loop:true} ];
                 break;
                 
