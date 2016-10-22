@@ -1,15 +1,75 @@
 <html>
 <head>
+    <style>
+    .comictext {
+font-family: 'Walter Turncoat', cursive;
+        font-size: 74px;
+        color:black;
+        text-shadow: 1px 0px  #FF0000;
+        }
+    </style>
 </head>
 <body>
     <div id="t1">text</div>
     <div id="t2">text</div>
     <div id="t3">text</div>
+    <div id="t4">test</div>
+    <div class="comictext" id="t5">text</div>
+    <div class="comictext" id="t6">Once upon a time youtube was monolithic and dull...</div>
 </body>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Walter+Turncoat" rel="stylesheet">
+    
 <script>
+
+function showType(value) {
+    if(Array.isArray(value)) {
+        console.log("types=array");
+        return;
+    }
+    console.log("type=" + typeof value);
+}
+    
+    
+function doall() {
+    var args = _.toArray(arguments);
+    var method = args.shift();
+    var target = args.shift();
+    
+    return method.apply(target,args);
+}
+
+var funclist = [
+    function(x) {console.log(x*2);},
+    function(x) {console.log(x*3);},
+    function(x) {console.log(x*5);},
+    function(x) {console.log(x*1);},
+    function(x) {console.log(x*0.5);},
+];
+
+funclist[1].call(this, 5);
+funclist[2].call(this, 5);
+funclist[2].apply(this, [7,8,9]);
+
+    var flist = [10,11,12,13];
+    while ( i = flist.shift()) {
+        console.log(i);
+    }
+    var funclist2 = flist.shift();
+    var funclist3 = flist.shift();
+
+[4,6,"mark",true,{},99].map(showType);
+    
+showType([2,3,4]);
+showType(funclist);
+showType( {});
+    showType(9);
+    showType(true);
+    showType(this);
+    
+    
 var objs = [
     {id: 't1', movetype:'spring'},
     {id: 't2', movetype:'walk'},
@@ -21,6 +81,7 @@ var objs = [
     {id: 't8', movetype:'hang'}
 ]    
 console.log(objs);
+
 
 var isSpring = function(obj) {
     return obj.movetype === 'spring'
@@ -45,7 +106,6 @@ console.log("totalX=" + totalX);
     
 </script>
 <script>
-    return true;
     
     $("#t1").text("hello world");
     document.getElementById("t2").innerHTML = "two";
@@ -64,7 +124,6 @@ function render2() {
 } 
     
     $("document").ready(function() {
-    $("div").css('background-color', 'red');
     $("div").text = "nahdffd";
         $("#t3").html("fjdf");
         

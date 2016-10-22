@@ -1,52 +1,5 @@
 var factory = (function objfactory() {
-    var my = {};
-    var counter = 0;
-    var rcounter = 0;
     
-    my.createobj = function () {
-        var v = a;
-        if (counter == 0)        v= a;
-        if (counter == 1)        v= b;
-        if (counter == 2)        v = c;
-        if (counter == 3)        v = d;
-        counter++
-        return v;
-    }
-    
-    my.createrandomobj = function () {
-        var tag = "rand" + rcounter;
-       
-        $('#gifholder').append('<div id="'+ tag + '" class="moveable touchable">boo</div>');
-  
-        var b = Object.assign({}, a);
-        b.ptr = document.getElementById(tag);
-        b.bulgeoffset = 0.9;
-        if (Math.random() < 0.5) {
-        b.timeline =  this.timeline = [ 
-            {t:666,targetx:Math.random()*500,targety:Math.random()*500}, {t:1333,targetx:Math.random()*800,targety:Math.random()*500}, {t:2000,targetx:Math.random()*500,targety:Math.random()*500},
-        {t:2001,loop:true} ];
-      } else {
-          if (Math.random() < 0.2) {
-                var x = Math.random()*800;
-        b.timeline =  this.timeline = [ 
-          
-            {t:0+Math.random()*90,targetx:x,targety:600}, 
-            {t:666+Math.random() * 90,targetx:x,targety:700}, 
-            {t:1333,loop:true} ];
-      } else {
-        b.timeline =  this.timeline = [ 
-            {t:0,targetx:Math.random()*500,targety:Math.random()*500}, {t:666,targetx:Math.random()*800,targety:Math.random()*500}, 
-        {t:1333,loop:true} ];
-      }
-        
-    }
-        b.name = tag;
-        rcounter++;
-        
-        return b;
-    }
-    
-
 
 var ClassA = function() {
   this.ptr = document.getElementById("t1");
@@ -67,9 +20,84 @@ var ClassA = function() {
   function show() { console.log("show " + this.name); }
 }
 
-
     
 var a = new ClassA();
+    
+    var my = {};
+    var counter = 0;
+    var rcounter = 0;
+    
+    my.createobj = function () {
+        var v = a;
+        if (counter == 0)        v= a;
+        if (counter == 1)        v= b;
+        if (counter == 2)        v = c;
+        if (counter == 3)        v = d;
+        counter++
+        return v;
+    }
+    
+    my.createrandomobj = function () {
+        var tag = "rand" + rcounter;
+       
+
+         
+        var b = Object.assign({}, a);
+        b.bulgeoffset = 0.9;
+        
+        var r = Math.random();
+        if (r < 0.2) {
+            b.mytype = "pigeon";
+        } else{
+            if (r < 0.5) {
+            b.mytype = "button";
+                
+            } else {
+                
+            b.mytype = "button2";
+            }
+            
+        }
+        switch (b.mytype) {
+            case "button2":
+                 $('#gifholder').append('<div id="'+ tag + '" class="moveable mybutton touchable">boo</div>');
+
+        b.timeline =  this.timeline = [ 
+            {t:0,targetx:Math.random()*500,targety:Math.random()*500}, {t:666,targetx:Math.random()*800,targety:Math.random()*500}, 
+        {t:1333,loop:true} ];
+                break;
+                
+            case "button":
+    
+                 $('#gifholder').append('<div id="'+ tag + '" class="moveable mybutton touchable">boo</div>');
+                b.timeline = this.timeline = [ 
+                                {t:1333,targetx:Math.random()*800,targety:Math.random()*500}, {t:2000,targetx:Math.random()*500,targety:Math.random()*500},
+                                {t:2001,loop:true} ];
+                break;
+                
+            case "pigeon":
+                 $('#gifholder').append('<div id="'+ tag + '" class="moveable touchable">boo<img src="cpigeon.gif"></div>');
+                                        
+                var x = Math.random() * 700;
+                b.timeline =  this.timeline = [ 
+            {t:0+Math.random()*90,targetx:x,targety:600}, 
+            {t:666+Math.random() * 90,targetx:x,targety:700}, 
+            {t:1333,loop:true} ];
+                break;
+            default:
+                console.log(b.mytype + " no found");
+        }
+    
+        b.name = tag;
+        b.ptr = document.getElementById(tag);
+
+        rcounter++;
+        
+        return b;
+    }
+               
+
+
 
 a.render = function() {
     
@@ -187,5 +215,6 @@ a.quack();
     
     return my;
 }());
-               
+            
+
                

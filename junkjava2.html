@@ -1,11 +1,11 @@
 <html>
 <head>
     <style>
-        .moveablebasic {
-            position: absolute;
-        }
         .moveable {
             position:absolute;
+            z-index: 99;
+        }
+        .mybutton {
             background-color: #FCC;
             text-align:center;
             font-size: 16px;
@@ -13,7 +13,6 @@
             border-radius: 40%;
             background:linear-gradient(90deg,#FCC,#844);
             box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);
-            z-index: 99;
         }
         
         /*
@@ -38,7 +37,10 @@
             font-family: "Helvetica", sans-serif;
         }
         #gifholder {
-            z-index: 5;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            border: 1px red;
         }
         
         #player { position:absolute; z-index:5; top: 0%; width:100%; height:100%; 
@@ -66,7 +68,7 @@
     <script type="text/javascript" src="objfactory.js"></script>
     
 <script>
-
+var gPlayUntilCt;
     
 function addUpFunction() {
     var i = 0;
@@ -101,7 +103,7 @@ objpool['obj1'] = factory.createobj();
 objpool['obj2'] = factory.createobj();
 objpool['obj3'] = factory.createobj();
 
-for (var i = 0; i < 100; i++) {
+for (var i = 0; i < 2; i++) {
   objpool['randy'+i] = factory.createrandomobj();
 }
     
@@ -133,12 +135,25 @@ function render() {
     
 var soundpool = {};
 soundpool['buzz'] = new Audio("Collision.wav");
+
     
+function onmouseup(e) {
+    ct = + new Date();
+    gPlayUntilCt = ct + 900;
+    console.log("onmousup=" + e.target.id + " " + ct);
+}
+            
+//document.addEventListener("mouseup", onmouseup);
+document.getElementById("gifholder").addEventListener("mouseup", onmouseup,true);
+//document.getElementById("t2").addEventListener("mouseup", onmouseup);
+//  $("#gifholder").mouseup(onmouseup);
     
+/*    
 $(".touchable").mousedown( function(e)  {
    soundpool['buzz'].play();
     e.currentTarget.parentNode.removeChild(e.currentTarget);
-});
+});*/
+    
     
 /*$(".touchable").touchstart( function(e)  {
    soundpool['buzz'].play();
@@ -154,6 +169,8 @@ $(".touchable").mousedown( function(e)  {
     
     
      <script>
+    
+         
       // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
 
@@ -190,16 +207,31 @@ $(".touchable").mousedown( function(e)  {
         });
       }
          var anchorct = + new Date();
-         
+        
+        var pState = 0;
        function playerRender() {
            var ct = + new Date();
+           if (pState === 2) {
+               if (ct < gPlayUntilCt) {
+//                    player.setPlaybackRate(1.0);
+                   player.playVideo();
+                    pState = 1;
+               }
+           }
+           if (ct > gPlayUntilCt) {
+//                    player.setPlaybackRate(0.5);
+               player.pauseVideo();
+               pState = 2;
+           }
+           
+           if (false) {
            if (ct > anchorct + 333) {
               player.seekTo(39,true);
                anchorct = ct;
                if (Math.random() < 0.5) anchorct += 333;
                console.log(ct/1000);
            }
-           
+       }
        }
 
       // 4. The API will call this function when the video player is ready.
@@ -222,7 +254,7 @@ $(".touchable").mousedown( function(e)  {
     if (playerStatus == -1) {
       // unstarted = gray
     } else if (playerStatus == 0) {
-        pdiv.style.zIndex = "99";
+        pdiv.style.zIndex = "2";
       nextVideo();
        // ended = yellow
     } else if (playerStatus == 1) {
