@@ -41,6 +41,7 @@
             width: 100%;
             height: 100%;
             border: 1px red;
+            color: yellow;
         }
         
         #player { position:absolute; z-index:5; top: 0%; width:100%; height:100%; 
@@ -50,7 +51,7 @@
     </style>
     </head>
     <body>
-     <div id="gifholder"></div>
+     <div id="gifholder">2.0</div>
         
    <div id="outerbox">
      <div id="player" class="embed-video"></div>  
@@ -145,7 +146,11 @@ function onmouseup(e) {
             
 //document.addEventListener("mouseup", onmouseup);
 document.getElementById("gifholder").addEventListener("mouseup", onmouseup,true);
-//document.getElementById("t2").addEventListener("mouseup", onmouseup);
+document.getElementById("t1").addEventListener("mouseup", onmouseup,true);
+document.getElementById("gifholder").addEventListener("touchstart", onmouseup,true);
+document.getElementById("t1").addEventListener("touchstart", onmouseup,true);
+
+    //document.getElementById("t2").addEventListener("mouseup", onmouseup);
 //  $("#gifholder").mouseup(onmouseup);
     
 /*    
