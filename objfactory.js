@@ -82,7 +82,7 @@ var a = new ClassA();
                 b.timeline =  this.timeline = [ 
             {t:0+Math.random()*90,targetx:x,targety:600}, 
             {t:666+Math.random() * 90,targetx:x,targety:700}, 
-            {t:1333,loop:true} ];
+            {t:1333,loop:true}];
                 break;
             default:
                 console.log(b.mytype + " no found");
