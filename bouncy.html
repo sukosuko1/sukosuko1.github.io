@@ -44,28 +44,57 @@
             top:450px;
             left:200px;
         }
+        
+        #outerbox {
+            position:absolute;
+        }
+        #player { 
+            z-index:5; top: 0%; width:100%; height:100%; 
+        
+        }
+        #c1 {
+              position:absolute;
+            width: 100%;
+            height: 100%;
+            z-index:99;
+            background-color: rgba(158, 167, 184, 0.2);
+        }
     </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
     
 <body id="body">
-    <div id="debug1">info</div>
+    <button id="b1" onclick="clickButton()">button</button>
+   <div id="outerbox">
+     <div id="player" class="embed-video"></div>  
+   </div>
+    <canvas id="c1"></canvas>
+    
     <div class="moveable" id="tag1">Hi there!</div>
     <div class="moveable" id="tag2">Can't touch this
        <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
-   <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
+    <script src="https://www.reddit.com/hot/.embed?limit=5&t=all&bgcolor=CCBBFF" type="text/javascript"></script>
+
 </body>
     
     
-
+    
     <script>
+    var audio = new Audio('./phaser.wav');
+var audio2 = new Audio('./bloop_x.wav');
+
+        function clickButton() {
+            $("c1").css('z-index', 99);
+            audio2.play();
+        }
+        
 function addObject(text, x, y) {
 //   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
     
     
-   $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">hello</div>');
+   $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">' + text + '</div>');
    $("#t1").hide()
         .fadeIn(50, function (){} ).delay(900)
         .effect( "puff", {percent:200}, 200, function(e) { 
@@ -75,52 +104,11 @@ function addObject(text, x, y) {
 }
     
 $(document).ready(function(){
+  
     
-    document.body.addEventListener('touchmove', function(event) {
-    event.preventDefault();
-    }, false); 
-
-    document.ontouchmove = function(event){
-    event.preventDefault();
-}
-    
-var audio = new Audio('./phaser.wav');
-var audio2 = new Audio('./bloop_x.wav');
+    var c1 = document.getElementById("c1");
     
 
-    // Setup canvas and expose context via ctx variable
-document.addEventListener('touchstart', function(event) {
-    event.preventDefault();
-    if ( event.touches[0].pageY < 300) {
-    audio2.play();
-    } else {
-    audio.play();
-        
-    }
-     addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
-    
-/*  for (var i = 0; i < event.touches.length; i++) {
-    var touch = event.touches[i];
-    ctx.beginPath();
-    ctx.arc(touch.pageX, touch.pageY, 20, 0, 2*Math.PI, true);
-    ctx.fill();
-    ctx.stroke();
-  }*/
-    
-}, false);    
-
-var obj = document.getElementById('tag2');
-obj.addEventListener('touchmove', function(event) {
-  // If there's exactly one finger inside this element
-//audio.play();    
-  if (event.targetTouches.length == 1) {
-    var touch = event.targetTouches[0];
-    // Place element where the finger is
-    obj.style.left = (touch.pageX - 80)  + 'px';
-    obj.style.top = ( touch.pageY - 80) + 'px';
-  }
-}, false);
-    
     
     
 var w = window.innerWidth
@@ -142,26 +130,91 @@ var h = window.innerHeight
     
     
     
-    $("div").mousedown(function(){
-        addObject("div", 100, 100);
-    });
     
-    $(document).mousedown(function(e){
+    $("#c1").mousedown(function(e){
 //        audio.play();    
-        addObject("hello!", e.pageX, e.pageY);
+         audio.play();
+        addObject("+10", e.pageX, e.pageY);
     });
     
-    /*
-    $(document).on("tap",(function(e){
-        addObject("hello!", e.pageX, e.pageY);
-    }));
-    */
-    
+
     
 });
     
 </script>
     
+     <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.allowfullscreen = false;
+      tag.enablejsapi = 1;
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      
+      
+      var player;
+     
+      function onYouTubeIframeAPIReady() {
+
+          
+        player = new YT.Player('player', {
+          allowfullscreen: false,
+          height: '100%',
+          width: '100%',
+          videoId: 'WbpchhZu0Nc',
+          style: 'border: solid 4px #37474F',
+          loop: 'true',
+          playsinline: 1,
+          autoplay:1,
+            enablejsapi:1,
+         controls:0,
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      var pdiv = document.getElementById("player");
+         
+      function onPlayerStateChange(event) {
+          var playerStatus = event.data;
+          
+    if (playerStatus == -1) {
+      // unstarted = gray
+    } else if (playerStatus == 0) {
+        pdiv.style.zIndex = "99";
+      nextVideo();
+       // ended = yellow
+    } else if (playerStatus == 1) {
+        // playing = green
+        pdiv.style.zIndex = "-1";
+    } else if (playerStatus == 2) {
+       // paused = red
+    } else if (playerStatus == 3) {
+       // buffering = purple
+    } else if (playerStatus == 5) {
+         console.log("play");       
+        event.target.playVideo();
+        
+      // video cued = orange
+    }
+      }
+    </script>
     
     
     
