@@ -270,6 +270,21 @@ var h = window.innerHeight
                tlI++;
                               if (tlI > 1) tlI = 0;
                }
+               if (trumpI === 3) {
+               if (tlI === 0) {
+                   nodeStart = 2219 * 1000;
+                   nodeEnd = nodeStart + 1200;
+                    player.setPlaybackRate(1.0);
+               }
+               
+               if (tlI === 1) {
+                   nodeStart = 2219 * 1000;
+                   nodeEnd = nodeStart + 600;
+                   player.setPlaybackRate(2.0);
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+               }
                
                if (player) {
                    player.seekTo( (nodeStart/1000),true);
