@@ -10,11 +10,14 @@
 <meta name="HandheldFriendly" content="true">
      <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link href="https://fonts.googleapis.com/css?family=Walter+Turncoat" rel="stylesheet">
+
     <style>
         body {
             width:375;
             height:667;
-            font-family: 'Montserrat', sans-serif	;
+/*            font-family: 'Montserrat', sans-serif	; */
+            font-family: 'Walter Turncoat', cursive;
         }
         .moveable {
             position: absolute;
@@ -27,8 +30,9 @@
             position: absolute;
             top:100px;
             font-size: 30px;
-            color: crimson;
+            color: yellow;
             font-weight: bold;
+            text-shadow: 1px 0px #FF0000;
         }
         
         #tag2 {
@@ -54,8 +58,9 @@
             position:absolute;
         }
         #player { 
-            z-index:5; top: 0%; width:100%; height:100%; 
-        
+            z-index:5; 
+            width: 375px;
+            height:667px;
         }
         #c1 {
               position:absolute;
@@ -72,6 +77,7 @@
     </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
 </head>
     
 <body id="body">
@@ -93,6 +99,9 @@
     
     
     <script>
+            var trumpI = 0;
+         var tlI = 0;
+
     var audio = new Audio('./phaser.wav');
 var audio2 = new Audio('./bloop_x.wav');
 
@@ -107,7 +116,8 @@ function addObject(text, x, y) {
     
    $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">' + text + '</div>');
    $("#t1").hide()
-        .fadeIn(50, function (){} ).delay(900)
+        .fadeIn(500, function (){} ).delay(1400)
+        .animate({'transform' : 'rotate(90deg)'}, 500)
         .effect( "puff", {percent:200}, 200, function(e) { 
        console.log("done");  
        $("#t1").remove();
@@ -139,11 +149,20 @@ var h = window.innerHeight
     
     $("#debug1").css("color","red");
     
+    
     $("#c1").bind("mousedown touchstart", function(e){
         e.preventDefault();
 //        audio.play();    
          audio.play();
-        addObject("+10", e.pageX, e.pageY);
+        trumpI++;
+        if (trumpI > 4) trumpI = 0;
+        if (trumpI === 0) trumpText = "chewify";
+        if (trumpI === 1) trumpText = "drunkify";
+        if (trumpI === 2) trumpText = "drunkify";
+        if (trumpI === 3) trumpText = "dudeify";
+        if (trumpI === 4) trumpText = "Vote Trump Fuck yeah!";
+        tlI = 0;
+        addObject(trumpText, e.pageX, e.pageY);
     } );
     
     window.setInterval(render, 10);
@@ -178,7 +197,7 @@ var h = window.innerHeight
           allowfullscreen: false,
           height: '100%',
           width: '100%',
-          videoId: 'WbpchhZu0Nc',
+          videoId: 'q_q61B-DyPk',
           style: 'border: solid 4px #37474F',
           loop: 'true',
           playsinline: 1,
@@ -195,23 +214,73 @@ var h = window.innerHeight
          var anchorct = +new Date();
         
         var pState = 0;
-           var tt1 = 300 * 1000;
-           var tt2 = 300 * 1000 + 5;
+           var nodeEnd = 300 * 1000;
+           var nodeStart = 300 * 1000 + 5;
          
        function playerRender() {
+           if (pState === 1 ) {
            var ct = + new Date();
 //                    player.setPlaybackRate(0.5);
 //               player.pauseVideo();
            
-           if (ct > anchorct + tt1) {
-               if (player) {
-                   player.seekTo( (tt2/1000),true);
+           if (ct > anchorct + nodeEnd) {
+               
+               if (trumpI === 0) {
+               if (tlI === 0) {
+                   nodeStart = 1522 * 1000;
+                   nodeEnd = nodeStart + 500;
+                    player.setPlaybackRate(1.0);
                }
                
-               tt1 = tt2 + 500;
-               tt2 = tt1 + 10000;
+               if (tlI === 1) {
+                   nodeStart = 1522 * 1000;
+                   nodeEnd = nodeStart + 500;
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+              }
                
-               console.log(tt1 + " " + tt2)
+               if (trumpI === 1) {
+               if (tlI === 0) {
+                   nodeStart = 1322 * 1000;
+                   nodeEnd = nodeStart + 5500;
+                   player.setPlaybackRate(1.0);
+               }
+               if (tlI === 1) {
+                   nodeStart = 1322 * 1000;
+                   nodeEnd = nodeStart + 14500;
+                   player.setPlaybackRate(0.5);
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+               }
+               
+               if (trumpI === 2) {
+               if (tlI === 0) {
+                   nodeStart = 380 * 1000;
+                   nodeEnd = nodeStart + 1500;
+                    player.setPlaybackRate(1.0);
+               }
+               
+               if (tlI === 1) {
+                   nodeStart = 380 * 1000;
+                   nodeEnd = nodeStart + 7500;
+                   player.setPlaybackRate(0.5);
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+               }
+               
+               if (player) {
+                   player.seekTo( (nodeStart/1000),true);
+               }
+               
+               if (tlI > 4) tlI = 0;
+                
+               console.log(tlI + " " +nodeStart);
+               
+//               console.log(tt1 + " " + tt2)
+           }
            } 
        }
          
@@ -227,11 +296,12 @@ var h = window.innerHeight
       //    the player should play for six seconds and then stop.
       var done = false;
       var pdiv = document.getElementById("player");
-         
+
       function onPlayerStateChange(event) {
           var playerStatus = event.data;
+          pState = 0;
           anchorct = + new Date() - 1000 * event.target.getCurrentTime();
-          
+          console.log("state change" + anchorct);
     if (playerStatus == -1) {
       // unstarted = gray
     } else if (playerStatus == 0) {
@@ -241,6 +311,7 @@ var h = window.innerHeight
     } else if (playerStatus == 1) {
         // playing = green
         pdiv.style.zIndex = "-1";
+        pState = 1;
     } else if (playerStatus == 2) {
        // paused = red
     } else if (playerStatus == 3) {
