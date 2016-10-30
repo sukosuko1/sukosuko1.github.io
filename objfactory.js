@@ -49,9 +49,9 @@ var a = new ClassA();
         statict1[i] = {t:i*1333,targetx:lx,targety:ly};
         statict2[i] = {t:i*1333 + 200,targetx:lx+40,targety:ly+10};
     }
-        statict1[20] ={t:2001,loop:true} ;    
-        statict2[20] = {t:2001,loop:true};    
-    
+    statict1[20] = {t:2001,loop:true};    
+    statict2[20] = {t:2001,loop:true};    
+
     my.createobjnum = function (i) {
         var b = Object.create(a);
         b.name = "myobj"+i;
@@ -75,8 +75,6 @@ var a = new ClassA();
     my.createrandomobj = function () {
         var tag = "rand" + rcounter;
        
-
-         
         var b = Object.assign({}, a);
         b.bulgeoffset = 0.9;
         
