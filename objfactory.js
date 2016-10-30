@@ -1,3 +1,4 @@
+
 var factory = (function objfactory() {
     
 
@@ -20,6 +21,9 @@ var ClassA = function() {
   function show() { console.log("show " + this.name); }
 }
 
+
+
+
     
 var a = new ClassA();
     
@@ -36,6 +40,37 @@ var a = new ClassA();
         counter++
         return v;
     }
+    
+   var statict1 = [];
+    var statict2 = [];
+    for (var i = 0; i < 20; i++) {
+        var lx = Math.random() * $(window).width();
+        var ly = Math.random() * $(window).height();
+        statict1[i] = {t:i*1333,targetx:lx,targety:ly};
+        statict2[i] = {t:i*1333 + 200,targetx:lx+40,targety:ly+10};
+    }
+        statict1[20] ={t:2001,loop:true} ;    
+        statict2[20] = {t:2001,loop:true};    
+    
+    my.createobjnum = function (i) {
+        var b = Object.create(a);
+        b.name = "myobj"+i;
+        if (i == 1)  {
+            var htmlstr = '<div id="'+ b.name + '" class="titletext">Join</div>';
+            $('body').append(htmlstr);
+            b.timeline = statict1;     
+        }
+        if (i == 2)  {
+            var htmlstr = '<div id="'+ b.name + '" class="titletext">In</div>';
+            $('body').append(htmlstr);
+            b.timeline = statict2;     
+        }
+        b.ptr = document.getElementById(b.name);
+            
+        return b;
+    }
+    
+    
     
     my.createrandomobj = function () {
         var tag = "rand" + rcounter;
@@ -126,9 +161,9 @@ a.render = function() {
   this.y += this.dy;
 
   this.dy+= (this.targety - this.y) * 0.01;
-    this.dy *= 0.91;
+    this.dy *= 0.87;
   this.dx+= (this.targetx - this.x) * 0.01;
-    this.dx *= 0.91;
+    this.dx *= 0.87;
     
     
   if (this.name === "player1") {
@@ -144,8 +179,10 @@ a.render = function() {
 //      this.ptr.style.transform = "scaleX(3.0)";
 //      this.ptr.style.transform = "scaleX(" + (1 + 0.08 * Math.cos(ct * 0.005)) + ")";
       
-      this.ptr.style.transform = "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1) scale(" + (1 + 0.06 * Math.cos((ct+this.bulgeoffset) * 0.005)) 
-           +"," +  (1 + 0.04 * Math.sin((ct+this.bulgeoffset) * 0.005))  + ")";
+//      this.ptr.style.transform = "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1) scale(" + (1 + 0.06 * Math.cos((ct+this.bulgeoffset) * 0.005)) 
+  //         +"," +  (1 + 0.04 * Math.sin((ct+this.bulgeoffset) * 0.005))  + ")";
+      
+      this.ptr.style.transform = "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1)";
       
       zz=999;
 /*
