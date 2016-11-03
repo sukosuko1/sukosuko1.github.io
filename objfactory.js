@@ -44,10 +44,10 @@ var a = new ClassA();
    var statict1 = [];
     var statict2 = [];
     for (var i = 0; i < 20; i++) {
-        var lx = Math.random() * $(window).width();
-        var ly = Math.random() * $(window).height();
+        var lx = Math.random() * $(window).width() * 0.9;
+        var ly = Math.random() * $(window).height() * 0.9;
         statict1[i] = {t:i*1333,targetx:lx,targety:ly};
-        statict2[i] = {t:i*1333 + 200,targetx:lx+40,targety:ly+10};
+        statict2[i] = {t:i*1333 + 200,targetx:lx+50,targety:ly+10};
     }
     statict1[20] = {t:2001,loop:true};    
     statict2[20] = {t:2001,loop:true};    

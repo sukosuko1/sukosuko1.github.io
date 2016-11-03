@@ -56,11 +56,15 @@
         
         #outerbox {
             position:absolute;
+            width:100%;
+            height:80%;
         }
         #player { 
             z-index:5; 
-            width: 375px;
-            height:667px;
+            width:100%;
+            height:80%;
+/*            width: 375px;
+            height:667px; */
         }
         #c1 {
               position:absolute;
@@ -72,7 +76,7 @@
         #redditbox {
             position:absolute;
             top: 80%;
-            left: 300px;
+            left: 0px;
         }
     </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -81,16 +85,18 @@
 </head>
     
 <body id="body">
-    <button id="b1" onclick="clickButton()">button</button>
    <div id="outerbox">
      <div id="player" class="embed-video"></div>  
    </div>
     <canvas id="c1"></canvas>
-    
+<!--    
+    <button id="b1" onclick="clickButton()">button</button>
     <div class="moveable" id="tag1">Hi there!</div>
-    <div class="moveable" id="tag2">Can't touch this
-       <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
-    </div>
+    <div class="moveable" id="tag2">Can't touch this 
+       <image id="minion1" src="http://i.giphy.com/1xxx.gif"/>
+    </div> 
+    -->
+    
     <div id="redditbox">
        <script src="https://www.reddit.com/hot/.embed?limit=5&t=all&bgcolor=CCBBFF" type="text/javascript"></script>
     </div>
@@ -158,9 +164,9 @@ var h = window.innerHeight
         if (trumpI > 4) trumpI = 0;
         if (trumpI === 0) trumpText = "chewify";
         if (trumpI === 1) trumpText = "drunkify";
-        if (trumpI === 2) trumpText = "drunkify";
-        if (trumpI === 3) trumpText = "dudeify";
-        if (trumpI === 4) trumpText = "Vote Trump Fuck yeah!";
+        if (trumpI === 3) trumpText = "drunkify2.0";
+        if (trumpI === 2) trumpText = "hyperify";
+        if (trumpI === 4) trumpText = "Vote Trump?";
         tlI = 0;
         addObject(trumpText, e.pageX, e.pageY);
     } );
@@ -255,7 +261,7 @@ var h = window.innerHeight
                               if (tlI > 1) tlI = 0;
                }
                
-               if (trumpI === 2) {
+               if (trumpI === 3) {
                if (tlI === 0) {
                    nodeStart = 380 * 1000;
                    nodeEnd = nodeStart + 1500;
@@ -270,7 +276,7 @@ var h = window.innerHeight
                tlI++;
                               if (tlI > 1) tlI = 0;
                }
-               if (trumpI === 3) {
+               if (trumpI === 2) {
                if (tlI === 0) {
                    nodeStart = 2219 * 1000;
                    nodeEnd = nodeStart + 1200;
