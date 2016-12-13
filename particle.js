@@ -17,20 +17,15 @@ function touchStart(evt) {
     c.fillText("touchs--", 20, 200);
 
   evt.preventDefault();
-  log("touchstart.");
   var touches = evt.changedTouches;
         
   for (var i = 0; i < touches.length; i++) {
-    log("touchstart:" + i + "...");
 //    ongoingTouches.push(copyTouch(touches[i]));
-    var color = colorForTouch(touches[i]);
+//    var color = colorForTouch(touches[i]);
     c.beginPath();
     c.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
-    c.fillStyle = color;
+    c.fillStyle = "red";
     c.fill();
-    log("touchstart:" + i + ".");
-      
-
   }
     c.fillText("touchstart", 20, 200);
 }
@@ -199,6 +194,6 @@ world.update();
 
     c.font = "32px serif";
     c.fillStyle = "yellow";
-    c.fillText("starting", 20, 120);
+    c.fillText("starting2", 20, 120);
 
 //setInterval(world.update, 30);
