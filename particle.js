@@ -173,7 +173,8 @@ Particle.prototype.update = function() {
         delete particles[this.id];
         return false;
     }
-    return true;
+    return true;  
+    
 }
 Particle.prototype.render = function() {
     c.fillStyle = "rgba(155,155,255,0.8)";
