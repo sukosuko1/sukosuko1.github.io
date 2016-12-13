@@ -195,4 +195,8 @@ for (var i = 0; i < particleNum; i++ ) {
 }
 world.update();
 
+    c.font = "32px serif";
+    c.fillStyle = "yellow";
+    c.fillText("starting", 20, 120);
+
 //setInterval(world.update, 30);
