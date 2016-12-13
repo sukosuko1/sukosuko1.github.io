@@ -20,8 +20,8 @@ function touchStart(evt) {
   var touches = evt.changedTouches;
         
   for (var i = 0; i < touches.length; i++) {
-//    ongoingTouches.push(copyTouch(touches[i]));
-//    var color = colorForTouch(touches[i]);
+    ongoingTouches.push(copyTouch(touches[i]));
+    var color = colorForTouch(touches[i]);
     c.beginPath();
     c.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
     c.fillStyle = "red";
@@ -29,13 +29,13 @@ function touchStart(evt) {
   }
     c.fillText("touchstart", 20, 200);
 }
+
 function touchMove(evt) {
         c.font = "48px serif";
     c.fillStyle = "yellow";
+        c.fillText("touch-", 20, 250);
 
   evt.preventDefault();
-  var el = document.getElementsByTagName("canvas1")[0];
-  var ctx = el.getContext("2d");
   var touches = evt.changedTouches;
 
   for (var i = 0; i < touches.length; i++) {
@@ -44,14 +44,14 @@ function touchMove(evt) {
 
     if (idx >= 0) {
       log("continuing touch "+idx);
-      ctx.beginPath();
+      c.beginPath();
       log("ctx.moveTo(" + ongoingTouches[idx].pageX + ", " + ongoingTouches[idx].pageY + ");");
-      ctx.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
+      c.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
       log("ctx.lineTo(" + touches[i].pageX + ", " + touches[i].pageY + ");");
-      ctx.lineTo(touches[i].pageX, touches[i].pageY);
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = color;
-      ctx.stroke();
+      c.lineTo(touches[i].pageX, touches[i].pageY);
+      c.lineWidth = 4;
+      c.strokeStyle = color;
+      c.stroke();
 
       ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
       log(".");
