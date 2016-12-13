@@ -14,21 +14,20 @@ var ongoingTouches = [];
 function touchStart(evt) {
     c.font = "48px serif";
     c.fillStyle = "yellow";
+    c.fillText("touchs--", 20, 200);
 
   evt.preventDefault();
   log("touchstart.");
-  var el = document.getElementsByTagName("canvas1")[0];
-  var ctx = el.getContext("2d");
   var touches = evt.changedTouches;
         
   for (var i = 0; i < touches.length; i++) {
     log("touchstart:" + i + "...");
-    ongoingTouches.push(copyTouch(touches[i]));
+//    ongoingTouches.push(copyTouch(touches[i]));
     var color = colorForTouch(touches[i]);
-    ctx.beginPath();
-    ctx.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
-    ctx.fillStyle = color;
-    ctx.fill();
+    c.beginPath();
+    c.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
+    c.fillStyle = color;
+    c.fill();
     log("touchstart:" + i + ".");
       
 
