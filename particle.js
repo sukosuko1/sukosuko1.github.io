@@ -194,6 +194,6 @@ world.update();
 
     c.font = "32px serif";
     c.fillStyle = "yellow";
-    c.fillText("starting2", 20, 120);
+    c.fillText("starting3", 20, 120);
 
 //setInterval(world.update, 30);
