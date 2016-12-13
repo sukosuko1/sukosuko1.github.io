@@ -5,6 +5,9 @@ var canvas = document.getElementById("canvas1"),
     particleIndex = 0,
     particleNum = 10;
 
+var canvas = document.getElementById("canvas2"),
+    c2 = canvas.getContext("2d");
+  
 canvas.addEventListener("touchstart", touchStart, false);
 canvas.addEventListener("touchend", touchEnd, false);
 canvas.addEventListener("touchcancel", touchCancel, false);
@@ -65,8 +68,6 @@ function touchMove(evt) {
 function touchEnd(evt) {
   evt.preventDefault();
   log("touchend");
-  var el = document.getElementsByTagName("canvas1")[0];
-  var ctx = el.getContext("2d");
   var touches = evt.changedTouches;
 
   for (var i = 0; i < touches.length; i++) {
@@ -74,18 +75,19 @@ function touchEnd(evt) {
     var idx = ongoingTouchIndexById(touches[i].identifier);
 
     if (idx >= 0) {
-      ctx.lineWidth = 4;
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
-      ctx.lineTo(touches[i].pageX, touches[i].pageY);
-      ctx.fillRect(touches[i].pageX - 4, touches[i].pageY - 4, 8, 8);  // and a square at the end
+      c.lineWidth = 4;
+      c.fillStyle = color;
+      c.beginPath();
+      c.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
+      c.lineTo(touches[i].pageX, touches[i].pageY);
+      c.fillRect(touches[i].pageX - 4, touches[i].pageY - 4, 8, 8);  // and a square at the end
       ongoingTouches.splice(idx, 1);  // remove it; we're done
     } else {
       log("can't figure out which touch to end");
     }
   }
 }
+
 function touchCancel(evt) {
   evt.preventDefault();
   log("touchcancel.");
@@ -129,8 +131,9 @@ var world = {};
 world.gravity = 0.2;
 world.prevCt = 0;
 world.update = function() {
-   c.fillStyle = "black";
-    c.fillRect(0,0,canvas.width,canvas.height);
+//   c2.fillStyle = "black";
+     c2.fillStyle = "rgba(0,0,0,0)";
+    c2.fillRect(0,0,canvas.width,canvas.height);
     var tempCount = 0;
     for (var i in particles) {
         if (particles[i].update())
@@ -145,12 +148,14 @@ world.update = function() {
     for (var j = 0; j < 100; j++) {
         new Particle();
     }
-    c.font = "48px serif";
-    c.fillStyle = "yellow";
+    c2.font = "24px serif";
+    c2.fillStyle = "yellow";
     var date = new Date();
     var ct = date.getTime()
     var elapsedTime = ct - world.prevCt;
     c.fillText(tempCount + " " + (elapsedTime), 20, 50);
+    
+    
     world.prevCt = ct;
 }
 
@@ -182,8 +187,8 @@ Particle.prototype.update = function() {
     
 }
 Particle.prototype.render = function() {
-    c.fillStyle = "rgba(155,155,255,0.8)";
-    c.fillRect(this.x, this.y, 5, 5);
+    c2.fillStyle = "rgba(155,155,255,0.8)";
+    c2.fillRect(this.x, this.y, 5, 5);
 }
 
 for (var i = 0; i < particleNum; i++ ) {
@@ -196,4 +201,4 @@ world.update();
     c.fillStyle = "yellow";
     c.fillText("starting3", 20, 120);
 
-//setInterval(world.update, 30);
+setInterval(world.update, 30);
