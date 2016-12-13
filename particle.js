@@ -14,7 +14,6 @@ var ongoingTouches = [];
 function touchStart(evt) {
     c.font = "48px serif";
     c.fillStyle = "yellow";
-    c.fillText("touchstart", 20, 50);
 
   evt.preventDefault();
   log("touchstart.");
@@ -31,12 +30,14 @@ function touchStart(evt) {
     ctx.fillStyle = color;
     ctx.fill();
     log("touchstart:" + i + ".");
+      
+
   }
+    c.fillText("touchstart", 20, 200);
 }
 function touchMove(evt) {
         c.font = "48px serif";
     c.fillStyle = "yellow";
-    c.fillText("touchmove", 20, 50);
 
   evt.preventDefault();
   var el = document.getElementsByTagName("canvas1")[0];
@@ -64,6 +65,8 @@ function touchMove(evt) {
       log("can't figure out which touch to continue");
     }
   }
+        c.fillText("touchmove", 20, 250);
+
 }
 function touchEnd(evt) {
   evt.preventDefault();
