@@ -1,429 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+    
 <head>
-<title>pixi.js example 1</title>
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-			background-color: #000000;
-            position: absolute;
-		}
-        #outerbox {
-            position:absolute;
-        }
-        canvas {
-            position: absolute;
-            z-index:6;
-        }
-        #stage{
-            position: absolute;
-            width:100px;
-            z-index:100;
-        }
-        
-        #player { 
-            z-index:5; top: 0%; width:100%; height:100%; 
-        
-        }
-        
-/*            transform:rotate(10deg) scale(3.0) */
-	</style>
-<script src="pixi.min.js"></script>
-<script src="/node_modules/pixi-particles/dist/pixi-particles.min.js"></script>
-<script src="ParticleExample.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="objfactory.js"></script>
     
-</head>
-
+    <style>
+        @import url('http://fonts.googleapis.com/css?family=PT+Sans');
+        
+     body {
+         font-family: 'PT Sans', sans-serif;
+         font-weight: bold;
+         font-size: 100px;
+        }
+        
+    </style>
+    </head>
 <body>
-   <div id="outerbox">
-     <div id="player" class="embed-video"></div>  
-   </div>
-
-    <canvas id="stage" width="400" height="150"></canvas>
-    
-  <script>  
-  console.log("text1");
-  console.log(PIXI); 
-//  window.alert(PIXI);
-
-  var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.view);
- 
-  var stage = new PIXI.Container();
-  var bunny = 0;
-  var bunny2 = 0;
-
-// See js/ParticleExample.js for actual setup
-      /*
-			new ParticleExample(
-				// The image to use
-				["/assets/Pop1.png"],
-
-				// Emitter configuration, edit this to change the look
-				// of the emitter
-				{
-					"alpha": {
-						"start": 1,
-						"end": 0.22
-					},
-					"scale": {
-						"start": 0.25,
-						"end": 0.75,
-						"minimumScaleMultiplier":0.5
-					},
-					"color": {
-						"start": "ffffff",
-						"end": "ffffff"
-					},
-					"speed": {
-						"start": 100,
-						"end": 30
-					},
-					"startRotation": {
-						"min": 0,
-						"max": 360
-					},
-					"rotationSpeed": {
-						"min": 0,
-						"max": 10
-					},
-					"lifetime": {
-						"min": 0.5,
-						"max": 1.0
-					},
-					"blendMode": "normal",
-					"frequency": 0.016,
-					"emitterLifetime": 0,
-					"maxParticles": 500,
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
-					"addAtBack": false,
-					"spawnType": "point"
-				});
-      */
-      
-      /*
-      			new ParticleExample(
-				// The image to use
-				["assets/particle.png", "assets/Fire.png"],
-				// Emitter configuration, edit this to change the look
-				// of the emitter
-				{
-					"alpha": {
-						"start": 0.62,
-						"end": 0
-					},
-					"scale": {
-						"start": 0.25,
-						"end": 0.75
-					},
-					"color": {
-						"start": "fff191",
-						"end": "ff622c"
-					},
-					"speed": {
-						"start": 5,
-						"end": 5
-					},
-					"startRotation": {
-						"min": 265,
-						"max": 275
-					},
-					"rotationSpeed": {
-						"min": 50,
-						"max": 50
-					},
-					"lifetime": {
-						"min": 0.1,
-						"max": 10.75
-					},
-					"blendMode": "normal",
-					"frequency": 0.01,
-					"emitterLifetime": 0,
-					"maxParticles": 1000,
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
-					"addAtBack": false,
-					"spawnType": "circle",
-					"spawnCircle": {
-						"x": 0,
-						"y": 0,
-						"r": 10
-					}
-				});
-      */
-      		// See js/ParticleExample.js for actual setup
-      if (true) {
-			new ParticleExample(
-				// The image to use
-				["assets/particle.png", "assets/Fire.png"],
-				// Emitter configuration, edit this to change the look
-				// of the emitter
-				{
-					"alpha": {
-						"start": 0.62,
-						"end": 0
-					},
-					"scale": {
-						"start": 0.25,
-						"end": 0.75
-					},
-					"color": {
-						"start": "fff191",
-						"end": "ff622c"
-					},
-					"speed": {
-						"start": 500,
-						"end": 500
-					},
-					"startRotation": {
-						"min": 265,
-						"max": 275
-					},
-					"rotationSpeed": {
-						"min": 50,
-						"max": 50
-					},
-					"lifetime": {
-						"min": 0.1,
-						"max": 0.75
-					},
-					"blendMode": "normal",
-					"frequency": 0.001,
-					"emitterLifetime": 0,
-					"maxParticles": 1000,
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
-					"addAtBack": false,
-					"spawnType": "circle",
-					"spawnCircle": {
-						"x": 0,
-						"y": 0,
-						"r": 10
-					}
-				});
-
-      }
-            
-  PIXI.loader.add('Inever2','Inever2.png').load(function(loader,resources) {
-
-    // create some white text using the Snippet webfont
-
-	bunny = new PIXI.Sprite(resources.Inever2.texture);
-	bunny.anchor.x = 0.5;
-	bunny.anchor.y = 0.5;
-	bunny.position.x = 120;
-	bunny.position.y = 300;
-        bunny.scale.x = 0.4;
-        bunny.scale.y = 0.4;
-	stage.addChild(bunny);
-
-	bunny2 = new PIXI.Sprite(resources.Inever2.texture);
-	bunny2.anchor.x = 0.5;
-	bunny2.anchor.y = 0.5;
-	bunny2.position.x = 250;
-	bunny2.position.y = 500;
-        bunny2.scale.x = 0.1;
-        bunny2.scale.y = 0.2;
-	stage.addChild(bunny2);
-
-	bunny3 = new PIXI.Sprite(resources.Inever2.texture);
-	bunny3.anchor.x = 0.8;
-	bunny3.anchor.y = 0.8;
-	bunny3.position.x = 400;
-	bunny3.position.y = 400;
-        bunny3.basex = 400; bunny3.basey=400;
-        bunny3.scale.x = 0.04;
-        bunny3.scale.y = 0.04;
-        bunny3.interactive = true;
-        bunny3
-         .on('mousedown', onDragStart)
-         .on('touchstart', onDragStart)
-         .on('mouseup', onDragEnd)
-         .on('mouseupoutside', onDragEnd)
-         .on('touchend', onDragEnd)
-         .on('touchendoutside', onDragEnd)
-         .on('mousemove', onDragMove)
-          .on('touchmove', onDragMove)
-
-	stage.addChild(bunny3);
-
-	bunny4 = new PIXI.Sprite(resources.Inever2.texture);
-	bunny4.anchor.x = 0.8;
-	bunny4.anchor.y = 0.8;
-	bunny4.position.x = 550;
-	bunny4.position.y = 400;
-        bunny4.basex = 550; bunny4.basey=400;
-        bunny4.scale.x = 0.04;
-        bunny4.scale.y = 0.04;
-        bunny4.interactive = true;
-        bunny4
-         .on('mousedown', onDragStart)
-         .on('touchstart', onDragStart)
-         .on('mouseup', onDragEnd)
-         .on('mouseupoutside', onDragEnd)
-         .on('touchend', onDragEnd)
-         .on('touchendoutside', onDragEnd)
-         .on('mousemove', onDragMove)
-          .on('touchmove', onDragMove)
-
-	stage.addChild(bunny4);
-
-        var textSample = new PIXI.Text('Pixi.js can has\n multiline text!', { font: '35px Snippet', fill: 'white', align: 'left' });
-        textSample.position.set(20);
-	stage.addChild(textSample);
-
-	animate();
-  });
-
-      
-  var elapsed = 0;
-      
-  function animate() {
- 
-    requestAnimationFrame( animate );
- 
-    bunny.rotation += 0.005;
-//    bunny2.rotation += -0.02;
-
-    var timer = +new Date;
-//    bunny2.tint = Math.cos(timer * 0.01) * 0xFF0000 + Math.cos(timer * 0.01) * 0x00FF00 + Math.cos(timer * 0.01) * 0x0000FF;
-
-//    bunny2.scale.x = 1 + 0.05 * Math.sin(timer * 0.01);
- //   bunny2.scale.y = 1 + 0.02 * Math.sin(timer * 0.01);
-
-    bunny2.alpha =  0.3 + 0.3 * Math.sin(timer * 0.001);
-
-    bunny3.position.x = bunny3.basex;
-    bunny3.position.y = bunny3.basey + 40 * Math.cos(timer * 0.01);
-
-    bunny4.position.x = bunny4.basex;
-    bunny4.position.y = bunny4.basey + 30 * Math.cos(timer * 0.0066);
-
-      
-//    emitter.update((timer - elapsed) * 0.001);
-    elapsed = timer;
-
-    renderer.render(stage);
-  }
-      
-
-
- function onButtonDown()
- {
-    this.isdown = true;
-    this.alpha = 0;
- }
- function onButtonUp()
- {
-    this.scale.x *= 1.1;
-    this.alpha = 1;
- }
-
-function onDragStart(event)
-{
-  this.data = event.data;
-  this.alpha = 0.5;
-  this.dragging = true;
-   console.log("dragstrt");
-}
-
-function onDragEnd()
-{
-  this.alpha = 1;
-  this.dragging = false;
-}
-
-function onDragMove() {
-   if (this.dragging) {
-     var newPosition = this.data.getLocalPosition(this.parent);
-      this.basex = newPosition.x;
-      this.basey = newPosition.y;
-      console.log(x + "," + y);
-  }
-}
-
-  </script>
-     <script>
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      tag.allowfullscreen = false;
-      tag.enablejsapi = 1;
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      
-      
-      var player;
-     
-      function onYouTubeIframeAPIReady() {
-
-          
-        player = new YT.Player('player', {
-          allowfullscreen: false,
-          height: '100%',
-          width: '100%',
-          videoId: '31crA53Dgu0',
-          style: 'border: solid 4px #37474F',
-          loop: 'true',
-          playsinline: 1,
-          autoplay:1,
-            enablejsapi:1,
-         controls:0,
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
-
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      var pdiv = document.getElementById("player");
-         
-      function onPlayerStateChange(event) {
-          var playerStatus = event.data;
-          
-    if (playerStatus == -1) {
-      // unstarted = gray
-    } else if (playerStatus == 0) {
-        pdiv.style.zIndex = "99";
-      nextVideo();
-       // ended = yellow
-    } else if (playerStatus == 1) {
-        // playing = green
-        pdiv.style.zIndex = "-1";
-    } else if (playerStatus == 2) {
-       // paused = red
-    } else if (playerStatus == 3) {
-       // buffering = purple
-    } else if (playerStatus == 5) {
-         console.log("play");       
-        event.target.playVideo();
+    <script>
         
-      // video cued = orange
-    }
-      }
-    </script>
+//        alert ("w="+$(document).width());
+
+        var objpool = {};
+        
+window.onload = function() {
     
 
+objpool['obj1'] = factory.createobjnum(1);
+objpool['obj2'] = factory.createobjnum(2);
+objpool['obj1'].connection = {x: 100, y: 40};
+//objpool['obj1'].connection = 99;
+    
+window.setInterval(render, 10);
+        
+}
+
+        
+function PhysicsElastic(obj, obja) {
+    obj.dy += (obja.y - obj.y) * 0.01;
+    obj.dx += (obja.x - obj.x) * 0.01;
+}
+function render() {
+    
+   for (var o in objpool) {
+       if (objpool.hasOwnProperty(o)){
+           if ("connection" in objpool[o]) {
+               PhysicsElastic(objpool[o], objpool[o].connection);
+           }
+           objpool[o].render();
+       }
+   }
+}
+    
+    </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86816140-1', 'auto');
+  ga('send', 'pageview');
+
+</script>    
 </body>
 </html>
