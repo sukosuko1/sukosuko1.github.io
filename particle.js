@@ -12,9 +12,13 @@ canvas.addEventListener("touchmove", touchMove, false);
 var ongoingTouches = [];
 
 function touchStart(evt) {
+    c.font = "48px serif";
+    c.fillStyle = "yellow";
+    c.fillText("touchstart", 20, 50);
+
   evt.preventDefault();
   log("touchstart.");
-  var el = document.getElementsByTagName("canvas")[0];
+  var el = document.getElementsByTagName("canvas1")[0];
   var ctx = el.getContext("2d");
   var touches = evt.changedTouches;
         
@@ -30,8 +34,12 @@ function touchStart(evt) {
   }
 }
 function touchMove(evt) {
+        c.font = "48px serif";
+    c.fillStyle = "yellow";
+    c.fillText("touchmove", 20, 50);
+
   evt.preventDefault();
-  var el = document.getElementsByTagName("canvas")[0];
+  var el = document.getElementsByTagName("canvas1")[0];
   var ctx = el.getContext("2d");
   var touches = evt.changedTouches;
 
@@ -60,7 +68,7 @@ function touchMove(evt) {
 function touchEnd(evt) {
   evt.preventDefault();
   log("touchend");
-  var el = document.getElementsByTagName("canvas")[0];
+  var el = document.getElementsByTagName("canvas1")[0];
   var ctx = el.getContext("2d");
   var touches = evt.changedTouches;
 
