@@ -145,15 +145,15 @@ world.update = function() {
     new Particle();
     new Particle();
     new Particle();
-    for (var j = 0; j < 100; j++) {
-        new Particle();
-    }
+//    for (var j = 0; j < 100; j++) {
+//        new Particle();
+//    }
     c2.font = "24px serif";
     c2.fillStyle = "yellow";
     var date = new Date();
     var ct = date.getTime()
     var elapsedTime = ct - world.prevCt;
-    c.fillText(tempCount + " " + (elapsedTime), 20, 50);
+    c2.fillText(tempCount + " " + (elapsedTime), 20, 50);
     
     
     world.prevCt = ct;
@@ -176,7 +176,7 @@ Particle.prototype.update = function() {
     this.y += this.vy;
     this.vy += world.gravity;
     
-    if (this.y > 400) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
+    if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
     this.life++;
     if (this.life >= this.maxLife) {
