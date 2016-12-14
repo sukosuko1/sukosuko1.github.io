@@ -132,7 +132,7 @@ world.gravity = 0.2;
 world.prevCt = 0;
 world.update = function() {
 //   c2.fillStyle = "black";
-     c2.fillStyle = "rgba(0,0,0,0.2)";
+     c2.fillStyle = "rgba(255,255,255,0.2)";
     c2.fillRect(0,0,canvas.width,canvas.height);
     var tempCount = 0;
     for (var i in particles) {
@@ -162,8 +162,8 @@ world.update = function() {
 function Particle() {
     this.x = canvas.width * 0.5;
     this.y = canvas.height;
-    this.vx = Math.random() * 3 - 1.5;
-    this.vy = Math.random() * 6 + -20;
+    this.vx = Math.random() * 4 - 2;
+    this.vy = Math.random() * 6 + -30;
     particleIndex++;
     particles[particleIndex] = this;
     this.id = particleIndex;
@@ -187,8 +187,8 @@ Particle.prototype.update = function() {
 }
 
 Particle.prototype.render = function() {
-    c2.fillStyle = "rgba(155,155,255,0.8)";
-    c2.fillRect(this.x, this.y, 10, 10);
+    c2.fillStyle = "rgba(0,0,0,0.8)";
+    c2.fillRect(this.x, this.y, 20, 20);
 }
 
 for (var i = 0; i < particleNum; i++ ) {
@@ -199,6 +199,6 @@ world.update();
 
     c.font = "32px serif";
     c.fillStyle = "red";
-    c.fillText("starting6", 20, 120);
+    c.fillText("starting7", 20, 120);
 
 setInterval(world.update, 30);
