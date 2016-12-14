@@ -163,12 +163,12 @@ function Particle() {
     this.x = canvas.width * 0.5;
     this.y = canvas.height;
     this.vx = Math.random() * 4 - 2;
-    this.vy = Math.random() * 6 + -30;
+    this.vy = Math.random() * 6 + -25;
     particleIndex++;
     particles[particleIndex] = this;
     this.id = particleIndex;
     this.life = 0;
-    this.maxLife = Math.random() * 20 + 100;
+    this.maxLife = Math.random() * 40 + 200;
 }
 
 Particle.prototype.update = function() {
@@ -187,7 +187,7 @@ Particle.prototype.update = function() {
 }
 
 Particle.prototype.render = function() {
-    c2.fillStyle = "rgba(0,0,0,0.8)";
+    c2.fillStyle = "rgba(0,0,140,0.8)";
     c2.fillRect(this.x, this.y, 20, 20);
 }
 
