@@ -163,7 +163,7 @@ function Particle() {
     this.x = canvas.width * 0.5;
     this.y = canvas.height;
     this.vx = Math.random() * 3 - 1.5;
-    this.vy = Math.random() * 4 + -12;
+    this.vy = Math.random() * 6 + -20;
     particleIndex++;
     particles[particleIndex] = this;
     this.id = particleIndex;
@@ -188,7 +188,7 @@ Particle.prototype.update = function() {
 
 Particle.prototype.render = function() {
     c2.fillStyle = "rgba(155,155,255,0.8)";
-    c2.fillRect(this.x, this.y, 5, 5);
+    c2.fillRect(this.x, this.y, 10, 10);
 }
 
 for (var i = 0; i < particleNum; i++ ) {
