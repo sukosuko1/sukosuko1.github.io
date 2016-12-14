@@ -132,7 +132,7 @@ world.gravity = 0.2;
 world.prevCt = 0;
 world.update = function() {
 //   c2.fillStyle = "black";
-     c2.fillStyle = "rgba(0,0,0,0)";
+     c2.fillStyle = "rgba(0,0,0,0.2)";
     c2.fillRect(0,0,canvas.width,canvas.height);
     var tempCount = 0;
     for (var i in particles) {
@@ -198,7 +198,7 @@ for (var i = 0; i < particleNum; i++ ) {
 world.update();
 
     c.font = "32px serif";
-    c.fillStyle = "yellow";
-    c.fillText("starting3", 20, 120);
+    c.fillStyle = "red";
+    c.fillText("starting4", 20, 120);
 
 setInterval(world.update, 30);
