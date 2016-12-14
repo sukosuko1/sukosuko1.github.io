@@ -5,8 +5,8 @@ var canvas = document.getElementById("canvas1"),
     particleIndex = 0,
     particleNum = 10;
 
-var canvas = document.getElementById("canvas2"),
-    c2 = canvas.getContext("2d");
+var canvas2 = document.getElementById("canvas2"),
+    c2 = canvas2.getContext("2d");
   
 canvas.addEventListener("touchstart", touchStart, false);
 canvas.addEventListener("touchend", touchEnd, false);
@@ -184,8 +184,8 @@ Particle.prototype.update = function() {
         return false;
     }
     return true;  
-    
 }
+
 Particle.prototype.render = function() {
     c2.fillStyle = "rgba(155,155,255,0.8)";
     c2.fillRect(this.x, this.y, 5, 5);
