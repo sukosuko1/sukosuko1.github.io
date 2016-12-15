@@ -178,7 +178,7 @@ world.update = function() {
     
         c.font = "32px serif";
     c.fillStyle = "red";
-    c.fillText("starting8", 20, 120);
+    c.fillText("starting9", 20, 120);
 
     
     world.prevCt = ct;
