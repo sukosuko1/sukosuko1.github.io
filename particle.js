@@ -176,6 +176,10 @@ world.update = function() {
     var elapsedTime = ct - world.prevCt;
     c.fillText(tempCount + " " + (elapsedTime), 20, 50);
     
+        c.font = "32px serif";
+    c.fillStyle = "red";
+    c.fillText("starting8", 20, 120);
+
     
     world.prevCt = ct;
 }
@@ -230,8 +234,5 @@ for (var i = 0; i < particleNum; i++ ) {
 }
 world.update();
 
-    c.font = "32px serif";
-    c.fillStyle = "red";
-    c.fillText("starting8", 20, 120);
 
 setInterval(world.update, 30);
