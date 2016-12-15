@@ -130,6 +130,8 @@ function log(msg) {
 var world = {};
 world.gravity = 0.2;
 world.prevCt = 0;
+world.ax = 0;
+world.ay = 0;
 world.update = function() {
 //   c2.fillStyle = "black";
      c2.fillStyle = "rgba(255,255,255,0.2)";
@@ -159,6 +161,17 @@ world.update = function() {
     world.prevCt = ct;
 }
 
+if (window.DeviceMotionEvent != undefined) {
+	window.ondevicemotion = function(e) {
+		world.ax = event.accelerationIncludingGravity.x * 1;
+		world.ay = event.accelerationIncludingGravity.y * 1;
+//		document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
+//		document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
+//		document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
+
+    }
+}
+
 function Particle() {
     this.x = canvas.width * 0.5;
     this.y = canvas.height;
@@ -172,9 +185,10 @@ function Particle() {
 }
 
 Particle.prototype.update = function() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.vy += world.gravity;
+    this.x += this.vx
+    this.y += this.vy ;
+    this.vx += world.ax;
+    this.vy += world.gravity+ world.ay;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
