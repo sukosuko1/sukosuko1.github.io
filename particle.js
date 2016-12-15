@@ -142,23 +142,23 @@ world.update = function() {
     }
     
     var colorv = 80 + world.ax * 10;
-    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + ")";
     c.fillRect(200, 200, 240, 800);
     
      colorv = 80 + world.ay * 10;
-    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + ")";
     c.fillRect(200, 200, 440, 240);
 
      colorv = 80 + world.ax * -10;
-    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + ")";
     c.fillRect(400, 200, 440, 800);
 
     var colorv = 80 + world.ay * 10;
-    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + ")";
     c.fillRect(200, 760, 400, 800);
     
      colorv = 180 + world.ax * 5 + world.ay * 5;
-    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + ")";
     c.fillRect(241, 241, 399, 759);
 
     new Particle();
