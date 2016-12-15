@@ -140,6 +140,27 @@ world.update = function() {
         particles[i].render();
         tempCount++;
     }
+    
+    var colorv = 80 + world.ax * 10;
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillRect(200, 200, 240, 800);
+    
+     colorv = 80 + world.ay * 10;
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillRect(200, 200, 440, 240);
+
+     colorv = 80 + world.ax * -10;
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillRect(400, 200, 440, 800);
+
+    var colorv = 80 + world.ay * 10;
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillRect(200, 760, 400, 800);
+    
+     colorv = 180 + world.ax * 5 + world.ay * 5;
+    c.fillStyle = "rgb(" + colorv + "," + colorv + "," + colorv + )";
+    c.fillRect(241, 241, 399, 759);
+
     new Particle();
     new Particle();
     new Particle();
@@ -161,8 +182,8 @@ world.update = function() {
 
 if (window.DeviceMotionEvent != undefined) {
 	window.ondevicemotion = function(e) {
-		world.ax = event.accelerationIncludingGravity.x * 1;
-		world.ay = event.accelerationIncludingGravity.y * 1;
+		world.ax = event.accelerationIncludingGravity.x * -0.5;
+		world.ay = event.accelerationIncludingGravity.y * -0.5;
 //		document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
 //		document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
 //		document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
