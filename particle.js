@@ -144,26 +144,26 @@ world.update = function() {
     var colorv = Math.floor(80 + world.ax * 10);
     var colorstr = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillStyle = colorstr;
-    c.fillRect(200, 200, 240, 800);
+    c.fillRect(200, 200, 40, 800);
     
-     colorv = 80 + world.ay * 10;
+     colorv = Math.floor(80 + world.ay * 10);
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillRect(200, 200, 440, 240);
+    c.fillRect(200, 200, 400, 40);
 
-     colorv = 80 + world.ax * -10;
+     colorv = Math.floor(80 + world.ax * -10);
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillRect(400, 200, 440, 800);
+    c.fillRect(560, 200, 40, 800);
 
-    var colorv = 80 + world.ay * 10;
+    var colorv = Math.floor(80 + world.ay * 10);
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillRect(200, 760, 400, 800);
+    c.fillRect(200, 960, 400, 40);
     
     
         c.fillStyle = "rgba(140,0,140,0.8)";
 
-     colorv = 180 + world.ax * 5 + world.ay * 5;
+     colorv = Math.floor(180 + world.ax * 5 + world.ay * 5);
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillRect(241, 241, 399, 759);
+    c.fillRect(241, 241, 320, 720);
 
     new Particle();
     new Particle();
