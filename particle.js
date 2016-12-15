@@ -217,7 +217,7 @@ Particle.prototype.update = function() {
     this.x += this.vx
     this.y += this.vy ;
     this.vx += world.ax * 0.2;
-    this.vy += world.gravity+ world.ay * 0.2;
+    this.vy += world.gravity+ world.ay * -0.2;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
