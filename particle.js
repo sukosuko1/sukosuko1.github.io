@@ -141,8 +141,9 @@ world.update = function() {
         tempCount++;
     }
     
-    var colorv = 80 + world.ax * 10;
-    c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
+    var colorv = Math.floor(80 + world.ax * 10);
+    var colorstr = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
+    c.fillStyle = colorstr;
     c.fillRect(200, 200, 240, 800);
     
      colorv = 80 + world.ay * 10;
@@ -183,6 +184,7 @@ world.update = function() {
     c.fillStyle = "red";
     c.fillText("starting10", 20, 120);
     c.fillText(colorv, 20, 220);
+    c.fillText(colorstr, 20, 320);
 
     
     world.prevCt = ct;
@@ -190,8 +192,8 @@ world.update = function() {
 
 if (window.DeviceMotionEvent != undefined) {
 	window.ondevicemotion = function(e) {
-		world.ax = event.accelerationIncludingGravity.x * -0.5;
-		world.ay = event.accelerationIncludingGravity.y * -0.5;
+		world.ax = event.accelerationIncludingGravity.x * 0.2;
+		world.ay = event.accelerationIncludingGravity.y * -0.2;
 //		document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
 //		document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
 //		document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
