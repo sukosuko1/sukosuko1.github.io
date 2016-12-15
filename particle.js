@@ -123,7 +123,7 @@ function ongoingTouchIndexById(idToFind) {
 }
 function log(msg) {
   var p = document.getElementById('log');
-  p.innerHTML = msg + "\n" + p.innerHTML;
+//  p.innerHTML = msg + "\n" + p.innerHTML;
 }
 
 
@@ -213,6 +213,6 @@ world.update();
 
     c.font = "32px serif";
     c.fillStyle = "red";
-    c.fillText("starting7", 20, 120);
+    c.fillText("starting8", 20, 120);
 
 setInterval(world.update, 30);
