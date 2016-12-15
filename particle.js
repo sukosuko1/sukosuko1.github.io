@@ -5,8 +5,6 @@ var canvas = document.getElementById("canvas1"),
     particleIndex = 0,
     particleNum = 10;
 
-var canvas2 = document.getElementById("canvas2"),
-    c2 = canvas2.getContext("2d");
   
 canvas.addEventListener("touchstart", touchStart, false);
 canvas.addEventListener("touchend", touchEnd, false);
@@ -134,8 +132,8 @@ world.ax = 0;
 world.ay = 0;
 world.update = function() {
 //   c2.fillStyle = "black";
-     c2.fillStyle = "rgba(255,255,255,0.2)";
-    c2.fillRect(0,0,canvas.width,canvas.height);
+     c.fillStyle = "rgba(255,255,255,0.2)";
+    c.fillRect(0,0,canvas.width,canvas.height);
     var tempCount = 0;
     for (var i in particles) {
         if (particles[i].update())
@@ -150,12 +148,12 @@ world.update = function() {
 //    for (var j = 0; j < 100; j++) {
 //        new Particle();
 //    }
-    c2.font = "24px serif";
-    c2.fillStyle = "yellow";
+    c.font = "24px serif";
+    c.fillStyle = "yellow";
     var date = new Date();
     var ct = date.getTime()
     var elapsedTime = ct - world.prevCt;
-    c2.fillText(tempCount + " " + (elapsedTime), 20, 50);
+    c.fillText(tempCount + " " + (elapsedTime), 20, 50);
     
     
     world.prevCt = ct;
@@ -201,8 +199,8 @@ Particle.prototype.update = function() {
 }
 
 Particle.prototype.render = function() {
-    c2.fillStyle = "rgba(0,0,140,0.8)";
-    c2.fillRect(this.x, this.y, 20, 20);
+    c.fillStyle = "rgba(0,0,140,0.8)";
+    c.fillRect(this.x, this.y, 20, 20);
 }
 
 for (var i = 0; i < particleNum; i++ ) {
