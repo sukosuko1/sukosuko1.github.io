@@ -157,6 +157,9 @@ world.update = function() {
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(200, 760, 400, 800);
     
+    
+        c.fillStyle = "rgba(140,0,140,0.8)";
+
      colorv = 180 + world.ax * 5 + world.ay * 5;
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(241, 241, 399, 759);
@@ -179,6 +182,7 @@ world.update = function() {
         c.font = "32px serif";
     c.fillStyle = "red";
     c.fillText("starting10", 20, 120);
+    c.fillText(colorv, 20, 220);
 
     
     world.prevCt = ct;
