@@ -62,6 +62,9 @@ function touchMove(evt) {
 
       ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
       log(".");
+        
+       world.currentTouchX = touches[i].pageX;
+       world.currentTouchY = touches[i].pageY;
     } else {
       log("can't figure out which touch to continue");
     }
@@ -93,7 +96,8 @@ function touchEnd(evt) {
       log("can't figure out which touch to end");
     }
   }
-    
+    world.currentTouchX = canvas.width * 0.5;
+    world.currentTouchY = canvas.height;
     
 }
 
@@ -142,6 +146,9 @@ world.gravity = 0.2;
 world.prevCt = 0;
 world.ax = 0;
 world.ay = 0;
+    world.currentTouchX = canvas.width * 0.5;
+    world.currentTouchY = canvas.height;
+
 world.update = function() {
 //   c2.fillStyle = "black";
      c.fillStyle = "rgba(255,255,255,0.2)";
@@ -224,6 +231,8 @@ if (window.DeviceMotionEvent != undefined) {
 function Particle() {
     this.x = canvas.width * 0.5;
     this.y = canvas.height;
+    this.x = world.currentTouchX;
+    this.y = world.currentTouchY;
     this.vx = Math.random() * 4 - 2;
     this.vy = Math.random() * 6 + -25;
     particleIndex++;
