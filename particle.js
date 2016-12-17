@@ -12,7 +12,7 @@ canvas.addEventListener("touchcancel", touchCancel, false);
 canvas.addEventListener("touchmove", touchMove, false);
 var ongoingTouches = [];
 
-var logstr = "";
+var logstr = "x";
 
 function touchStart(evt) {
     c.font = "48px serif";
@@ -31,7 +31,7 @@ function touchStart(evt) {
     c.fill();
   }
     
-    logstr = "";
+    logstr = "LS ";
     if (touches[0].force) logstr += " a=" + touches[0].force;
     if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
     
@@ -67,6 +67,9 @@ function touchMove(evt) {
     }
   }
         c.fillText("touchmove", 20, 250);
+    logstr = "Lm ";
+    if (touches[0].force) logstr += " a=" + touches[0].force;
+    if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
 
 }
 function touchEnd(evt) {
@@ -155,7 +158,7 @@ world.update = function() {
     c.fillStyle = colorstr;
     c.fillRect(200, 200, 40, 800);
     
-     colorv = Math.floor(80 + world.ay * 10);
+     colorv = Math.floor(80 + world.ay * -10);
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(200, 200, 400, 40);
 
@@ -163,7 +166,7 @@ world.update = function() {
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(560, 200, 40, 800);
 
-    var colorv = Math.floor(80 + world.ay * -10);
+    var colorv = Math.floor(80 + world.ay * 10);
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(200, 960, 400, 40);
     
@@ -175,8 +178,8 @@ world.update = function() {
     c.fillRect(241, 241, 320, 720);
 
     c.beginPath();
-    c.arc(300 + world.ax * -15, 200 + world.ay * -10, 300,0, 2 * Math.PI, false);
-    c.fillStyle = 'rgba(255,255,255,0.5)';
+    c.arc(300 + world.ax * -20, 200 + world.ay * 13, 300,0, 2 * Math.PI, false);
+    c.fillStyle = 'rgba(255,245,230,0.5)';
     c.fill();
     
     new Particle();
@@ -202,7 +205,7 @@ world.update = function() {
 
     c.font = "60px serif";
     c.fillStyle = "green";
-    c.fillText(logstr, 20, 160);
+    c.fillText(logstr, 20, 800);
 
     world.prevCt = ct;
 }
