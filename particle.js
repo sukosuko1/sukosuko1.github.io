@@ -15,7 +15,7 @@ var ongoingTouches = [];
 function touchStart(evt) {
     c.font = "48px serif";
     c.fillStyle = "yellow";
-    c.fillText("touchs--", 20, 200);
+    c.fillText("touchs--", 20, 300);
 
   evt.preventDefault();
   var touches = evt.changedTouches;
@@ -192,7 +192,7 @@ world.update = function() {
     
         c.font = "32px serif";
     c.fillStyle = "red";
-    c.fillText("starting10", 20, 120);
+    c.fillText("starting11", 20, 120);
 //    c.fillText(colorv, 20, 220);
 //    c.fillText(colorstr, 20, 320);
 
