@@ -192,9 +192,10 @@ world.update = function() {
     */
     
     c.rect(0,0, canvas.width, canvas.height);
-    var grd = c.createRadialGradient(238+ world.ax * -20,50+ world.ay * 13,10, 338+ world.ax * -20,70+ world.ay * 13,500);
-    grd.addColorStop(1,'rgba(200,200,255,0.2)');
-    grd.addColorStop(0,'rgba(255,255,255,0.2)');
+    var grd = c.createRadialGradient(238+ world.ax * -30,100+ world.ay * 20,10, 
+                                     338+ world.ax * -30,120+ world.ay * 20,500);
+    grd.addColorStop(1,'rgba(180,180,255,0.3)');
+    grd.addColorStop(0,'rgba(255,255,255,0.3)');
     c.fillStyle = grd;
     c.fill();
     
@@ -215,7 +216,7 @@ world.update = function() {
     
     c.font = "32px serif";
     c.fillStyle = "red";
-    c.fillText("starting13", 20, 120);
+    c.fillText("starting14", 20, 120);
 //    c.fillText(colorv, 20, 220);
 //    c.fillText(colorstr, 20, 320);
 
