@@ -28,7 +28,14 @@ function touchStart(evt) {
     c.fillStyle = "red";
     c.fill();
   }
-    c.fillText("touchstart", 20, 200);
+    
+    var logstr = "";
+    if (touches[0].force) logstr += " a=" + touches[0].force;
+    if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
+      c.font = "60px serif";
+    c.fillStyle = "green";
+    c.fillText(logstr, 20, 160);
+    
 }
 
 function touchMove(evt) {
@@ -84,6 +91,8 @@ function touchEnd(evt) {
       log("can't figure out which touch to end");
     }
   }
+    
+    
 }
 
 function touchCancel(evt) {
@@ -122,6 +131,7 @@ function ongoingTouchIndexById(idToFind) {
 function log(msg) {
   var p = document.getElementById('log');
 //  p.innerHTML = msg + "\n" + p.innerHTML;
+//  p.innerHTML = msg;
 }
 
 
@@ -154,7 +164,7 @@ world.update = function() {
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(560, 200, 40, 800);
 
-    var colorv = Math.floor(80 + world.ay * 10);
+    var colorv = Math.floor(80 + world.ay * -10);
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(200, 960, 400, 40);
     
@@ -183,8 +193,8 @@ world.update = function() {
         c.font = "32px serif";
     c.fillStyle = "red";
     c.fillText("starting10", 20, 120);
-    c.fillText(colorv, 20, 220);
-    c.fillText(colorstr, 20, 320);
+//    c.fillText(colorv, 20, 220);
+//    c.fillText(colorstr, 20, 320);
 
     
     world.prevCt = ct;
