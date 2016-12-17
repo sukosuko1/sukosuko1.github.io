@@ -174,6 +174,11 @@ world.update = function() {
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(241, 241, 320, 720);
 
+    c.beginPath();
+    c.arc(300 + world.ax * -15, 200 + world.ay * -10, 300,0, 2 * Math.PI, false);
+    c.fillStyle = 'rgba(255,255,255,0.5)';
+    c.fill();
+    
     new Particle();
     new Particle();
     new Particle();
