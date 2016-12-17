@@ -184,9 +184,18 @@ world.update = function() {
     c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
     c.fillRect(241, 241, 320, 720);
 
+    /*
     c.beginPath();
     c.arc(300 + world.ax * -20, 200 + world.ay * 13, 300,0, 2 * Math.PI, false);
     c.fillStyle = 'rgba(255,245,230,0.5)';
+    c.fill();
+    */
+    
+    c.rect(0,0, canvas.width, canvas.height);
+    var grd = c.createRadialGradient(238+ world.ax * -20,50+ world.ay * 13,10, 338+ world.ax * -20,70+ world.ay * 13,500);
+    grd.addColorStop(1,'rgba(200,200,255,0.2)');
+    grd.addColorStop(0,'rgba(255,255,255,0.2)');
+    c.fillStyle = grd;
     c.fill();
     
     new Particle();
@@ -204,9 +213,9 @@ world.update = function() {
     var elapsedTime = ct - world.prevCt;
     c.fillText(tempCount + " " + (elapsedTime), 20, 50);
     
-        c.font = "32px serif";
+    c.font = "32px serif";
     c.fillStyle = "red";
-    c.fillText("starting12", 20, 120);
+    c.fillText("starting13", 20, 120);
 //    c.fillText(colorv, 20, 220);
 //    c.fillText(colorstr, 20, 320);
 
