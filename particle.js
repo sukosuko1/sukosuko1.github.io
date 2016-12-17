@@ -12,9 +12,11 @@ canvas.addEventListener("touchcancel", touchCancel, false);
 canvas.addEventListener("touchmove", touchMove, false);
 var ongoingTouches = [];
 
+var logstr = "";
+
 function touchStart(evt) {
     c.font = "48px serif";
-    c.fillStyle = "yellow";
+    c.fillStyle = "green";
     c.fillText("touchs--", 20, 300);
 
   evt.preventDefault();
@@ -29,18 +31,15 @@ function touchStart(evt) {
     c.fill();
   }
     
-    var logstr = "";
+    logstr = "";
     if (touches[0].force) logstr += " a=" + touches[0].force;
     if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
-      c.font = "60px serif";
-    c.fillStyle = "green";
-    c.fillText(logstr, 20, 160);
     
 }
 
 function touchMove(evt) {
         c.font = "48px serif";
-    c.fillStyle = "yellow";
+    c.fillStyle = "green";
         c.fillText("touch-", 20, 250);
 
   evt.preventDefault();
@@ -184,7 +183,7 @@ world.update = function() {
 //        new Particle();
 //    }
     c.font = "24px serif";
-    c.fillStyle = "yellow";
+    c.fillStyle = "red";
     var date = new Date();
     var ct = date.getTime()
     var elapsedTime = ct - world.prevCt;
@@ -192,11 +191,14 @@ world.update = function() {
     
         c.font = "32px serif";
     c.fillStyle = "red";
-    c.fillText("starting11", 20, 120);
+    c.fillText("starting12", 20, 120);
 //    c.fillText(colorv, 20, 220);
 //    c.fillText(colorstr, 20, 320);
 
-    
+    c.font = "60px serif";
+    c.fillStyle = "green";
+    c.fillText(logstr, 20, 160);
+
     world.prevCt = ct;
 }
 
