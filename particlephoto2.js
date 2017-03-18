@@ -197,11 +197,13 @@ world.update = function() {
 
     c.font = "60px serif";
     c.fillStyle = "green";
-    c.fillText(logstr, 20, 800);
+    c.fillText(world.angle , 20, 800);
 
+    c.translate(canvas.width/2, canvas.height/2);
     c.rotate(world.angle * Math.PI/180);
     
     c.drawImage(imageObj, 0, 0)
+    c.restore();
     
     world.prevCt = ct;
 }
