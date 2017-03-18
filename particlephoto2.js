@@ -199,7 +199,10 @@ world.update = function() {
     c.fillStyle = "green";
     c.fillText(world.angle , 20, 800);
 
+        c.save();
+    
     c.translate(canvas.width/2, canvas.height/2);
+//    c.translate(50,50);
     c.rotate(world.angle * Math.PI/180);
     
     c.drawImage(imageObj, 0, 0)
