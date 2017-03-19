@@ -163,11 +163,11 @@ world.update = function() {
     
     c.drawImage(imageObj, 0, 0);
     
-    c.restore();
-
-    c.translate(imageObj.width/2, imageObj.height/2);
+    c.translate(imageObj.width*0.55, imageObj.height*0.45);
     c.drawImage(imageObj2, 0, 0);
     
+    c.restore();
+
     var tempCount = 0;
     for (var i in particles) {
         if (particles[i].update())
