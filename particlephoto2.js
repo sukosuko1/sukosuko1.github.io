@@ -156,13 +156,14 @@ world.update = function() {
     
         c.save();
     
-    c.translate(canvas.width/2, canvas.height/2);
+    c.translate(canvas.width*0.55, canvas.height*0.45);
     c.rotate(world.angle * Math.PI/180);
     c.translate(-imageObj.width/2, -imageObj.height/2);
 //    c.translate(50,50);
     
     c.drawImage(imageObj, 0, 0);
-    c.translate(50,0);
+    
+    c.translate(imageObj.width/2, imageObj.height/2));
     c.drawImage(imageObj2, 0, 0);
     c.restore();
 
@@ -245,7 +246,7 @@ function Particle() {
     particles[particleIndex] = this;
     this.id = particleIndex;
     this.life = 0;
-    this.maxLife = Math.random() * 40 + 200;
+    this.maxLife = Math.random() * 40 + 200 + 999999;
 }
 
 Particle.prototype.update = function() {
