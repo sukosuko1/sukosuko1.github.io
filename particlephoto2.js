@@ -153,6 +153,19 @@ world.update = function() {
 //   c2.fillStyle = "black";
      c.fillStyle = "rgba(255,255,255,0.2)";
     c.fillRect(0,0,canvas.width,canvas.height);
+    
+        c.save();
+    
+    c.translate(canvas.width/2 - imageObj.width/2, canvas.height/2 - imageObj.height/2);
+//    c.translate(50,50);
+    c.rotate(world.angle * Math.PI/180);
+    
+    c.drawImage(imageObj, 0, 0);
+    c.translate(50,0);
+    c.drawImage(imageObj2, 0, 0);
+    c.restore();
+
+    
     var tempCount = 0;
     for (var i in particles) {
         if (particles[i].update())
@@ -199,16 +212,6 @@ world.update = function() {
     c.fillStyle = "green";
     c.fillText(world.angle , 20, 800);
 
-        c.save();
-    
-    c.translate(canvas.width/2 - imageObj.width/2, canvas.height/2 - imageObj.height/2);
-//    c.translate(50,50);
-    c.rotate(world.angle * Math.PI/180);
-    
-    c.drawImage(imageObj, 0, 0);
-    c.translate(50,0);
-    c.drawImage(imageObj2, 0, 0);
-    c.restore();
     
     world.prevCt = ct;
 }
