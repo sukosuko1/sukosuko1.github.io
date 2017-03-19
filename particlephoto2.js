@@ -156,7 +156,7 @@ world.update = function() {
     
         c.save();
     
-    c.translate(canvas.width*0.55, canvas.height*0.45);
+    c.translate(canvas.width*0.45, canvas.height*0.55);
     c.rotate(world.angle * Math.PI/180);
     c.translate(-imageObj.width/2, -imageObj.height/2);
 //    c.translate(50,50);
@@ -214,6 +214,8 @@ world.update = function() {
     c.fillStyle = "green";
     c.fillText(world.angle , 20, 800);
 
+    var bubble1 = document.getElementById("bubble1");
+    
     
     world.prevCt = ct;
 }
