@@ -156,9 +156,9 @@ world.update = function() {
     
         c.save();
     
+    c.rotate(world.angle * Math.PI/180);
     c.translate(canvas.width/2 - imageObj.width/2, canvas.height/2 - imageObj.height/2);
 //    c.translate(50,50);
-    c.rotate(world.angle * Math.PI/180);
     
     c.drawImage(imageObj, 0, 0);
     c.translate(50,0);
