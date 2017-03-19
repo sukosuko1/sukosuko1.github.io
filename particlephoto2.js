@@ -205,7 +205,9 @@ world.update = function() {
 //    c.translate(50,50);
     c.rotate(world.angle * Math.PI/180);
     
-    c.drawImage(imageObj, 0, 0)
+    c.drawImage(imageObj, 0, 0);
+    c.translate(50,0);
+    c.drawImage(imageObj2, 0, 0);
     c.restore();
     
     world.prevCt = ct;
@@ -268,7 +270,12 @@ for (var i = 0; i < particleNum; i++ ) {
     
 }
 var imageObj = new Image();
-imageObj.src = "http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg";
+//imageObj.src = "http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg";
+imageObj.src = "IMG_2755.jpg";
+
+var imageObj2 = new Image();
+imageObj2.src = "blue-music-note-icon-3.png";
+
 world.update();
 
 
