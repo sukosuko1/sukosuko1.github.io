@@ -163,7 +163,7 @@ world.update = function() {
     
     c.drawImage(imageObj, 0, 0);
     
-    c.translate(imageObj.width/2, imageObj.height/2));
+    c.translate(imageObj.width/2, imageObj.height/2);
     c.drawImage(imageObj2, 0, 0);
     c.restore();
 
