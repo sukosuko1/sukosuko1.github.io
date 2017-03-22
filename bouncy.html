@@ -123,7 +123,6 @@ var audio2 = new Audio('./bloop_x.wav');
         event.preventDefault();
         if ( event.touches[0].pageY < 300) {
             audio2.play();
-        
             $(".moveable").css("background-color", "blue");
         } else {
             audio.play();
