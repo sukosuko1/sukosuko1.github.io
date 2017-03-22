@@ -1,0 +1,369 @@
+<!doctype html>
+<html>
+    
+<head>
+<meta name="viewport" content="width=100px, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+<meta name="apple-mobile-web-app-title" content="Mumble App">
+<meta name="HandheldFriendly" content="true">
+     <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link href="https://fonts.googleapis.com/css?family=Walter+Turncoat" rel="stylesheet">
+
+    <style>
+        body {
+            width:375;
+            height:667;
+/*            font-family: 'Montserrat', sans-serif	; */
+            font-family: 'Walter Turncoat', cursive;
+        }
+        .moveable {
+            position: absolute;
+            background-color: aquamarine;
+            background-image: linear-gradient(45deg,#AAF,#88C);
+            padding: 10px 10px;
+            box-shadow: 8px 8px 5px #CCC;
+        }
+        .textpop {
+            position: absolute;
+            top:100px;
+            font-size: 30px;
+            color: yellow;
+            font-weight: bold;
+            text-shadow: 1px 0px #FF0000;
+        }
+        
+        #tag2 {
+            top:100px;
+            left:300px;
+            width: 180px;
+            height: 180px;
+        }
+        image {
+            padding: 0px;
+        }
+        #minion1 {
+            transform: scale(0.7);
+            padding: 0px;
+        }
+        #minion2 {
+             position: absolute;
+            top:450px;
+            left:200px;
+        }
+        
+        #outerbox {
+            position:absolute;
+            width:100%;
+            height:80%;
+        }
+        #player { 
+            z-index:5; 
+            width:100%;
+            height:80%;
+/*            width: 375px;
+            height:667px; */
+        }
+        #c1 {
+              position:absolute;
+            width: 100%;
+            height: 55%;
+            z-index:99;
+            background-color: rgba(158, 167, 184, 0.2);
+        }
+        #redditbox {
+            position:absolute;
+            top: 80%;
+            left: 0px;
+        }
+    </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+</head>
+    
+<body id="body">
+   <div id="outerbox">
+     <div id="player" class="embed-video"></div>  
+   </div>
+    <canvas id="c1"></canvas>
+    
+<!--    
+    <button id="b1" onclick="clickButton()">button</button>
+    <div class="moveable" id="tag1">Hi there!</div>
+    <div class="moveable" id="tag2">Can't touch this 
+       <image id="minion1" src="http://i.giphy.com/1xxx.gif"/>
+    </div> 
+    -->
+    
+    <div id="redditbox">
+            <script src="https://www.reddit.com/domain/joinin.io/hot/.embed?limit=5&t=all" type="text/javascript"></script>        
+    </div>
+</body>
+    
+    
+    
+    <script>
+            var trumpI = 0;
+         var tlI = 0;
+
+    var audio = new Audio('./phaser.wav');
+var audio2 = new Audio('./bloop_x.wav');
+
+        function clickButton() {
+            $("c1").css('z-index', 99);
+            audio2.play();
+        }
+        
+function addObject(text, x, y) {
+//   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
+    
+    
+   $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">' + text + '</div>');
+   $("#t1").hide()
+        .fadeIn(500, function (){} ).delay(1400)
+        .animate({'transform' : 'rotate(90deg)'}, 500)
+        .effect( "puff", {percent:200}, 200, function(e) { 
+       console.log("done");  
+       $("#t1").remove();
+    });
+}
+    
+$(document).ready(function(){
+  
+    
+    var c1 = document.getElementById("c1");
+    
+
+    
+    
+var w = window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+    
+var h = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+    
+    
+    console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
+    
+    $("#debug1").text( "1.7 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
+    
+    window.navigator.standalone = true;
+    
+    $("#debug1").css("color","red");
+    
+    
+    $("#c1").bind("mousedown touchstart", function(e){
+        e.preventDefault();
+//        audio.play();    
+         audio.play();
+        trumpI++;
+        if (trumpI > 4) trumpI = 0;
+        if (trumpI === 0) trumpText = "chewify";
+        if (trumpI === 1) trumpText = "drunkify";
+        if (trumpI === 3) trumpText = "drunkify2.0";
+        if (trumpI === 2) trumpText = "hyperify";
+        if (trumpI === 4) trumpText = "Vote Trump?";
+        tlI = 0;
+        addObject(trumpText, e.pageX, e.pageY);
+    } );
+    
+    window.setTimeout(
+       addObject("Touch Touchy Trump", screen.width * 0.1, screen.height * 0.1), 1000);
+   
+    
+    window.setInterval(render, 10);
+
+    function render() {
+        playerRender();
+    }
+});
+    
+</script>
+    
+     <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.allowfullscreen = false;
+      tag.enablejsapi = 1;
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      
+      
+      var player;
+     
+      function onYouTubeIframeAPIReady() {
+
+          
+        player = new YT.Player('player', {
+          allowfullscreen: false,
+          height: '100%',
+          width: '100%',
+          videoId: 'q_q61B-DyPk',
+          style: 'border: solid 4px #37474F',
+          loop: 'true',
+          playsinline: 1,
+          autoplay:1,
+            enablejsapi:1,
+         controls:0,
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+         
+         var anchorct = +new Date();
+        
+        var pState = 0;
+           var nodeEnd = 300 * 1000;
+           var nodeStart = 300 * 1000 + 5;
+         
+       function playerRender() {
+           if (pState === 1 ) {
+           var ct = + new Date();
+//                    player.setPlaybackRate(0.5);
+//               player.pauseVideo();
+           
+           if (ct > anchorct + nodeEnd) {
+               
+               if (trumpI === 0) {
+               if (tlI === 0) {
+                   nodeStart = 1522 * 1000;
+                   nodeEnd = nodeStart + 500;
+                    player.setPlaybackRate(1.0);
+               }
+               
+               if (tlI === 1) {
+                   nodeStart = 1522 * 1000;
+                   nodeEnd = nodeStart + 500;
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+              }
+               
+               if (trumpI === 1) {
+               if (tlI === 0) {
+                   nodeStart = 1322 * 1000;
+                   nodeEnd = nodeStart + 5500;
+                   player.setPlaybackRate(1.0);
+               }
+               if (tlI === 1) {
+                   nodeStart = 1322 * 1000;
+                   nodeEnd = nodeStart + 14500;
+                   player.setPlaybackRate(0.5);
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+               }
+               
+               if (trumpI === 3) {
+               if (tlI === 0) {
+                   nodeStart = 380 * 1000;
+                   nodeEnd = nodeStart + 1500;
+                    player.setPlaybackRate(1.0);
+               }
+               
+               if (tlI === 1) {
+                   nodeStart = 380 * 1000;
+                   nodeEnd = nodeStart + 7500;
+                   player.setPlaybackRate(0.5);
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+               }
+               if (trumpI === 2) {
+               if (tlI === 0) {
+                   nodeStart = 2219 * 1000;
+                   nodeEnd = nodeStart + 1200;
+                    player.setPlaybackRate(1.0);
+               }
+               
+               if (tlI === 1) {
+                   nodeStart = 2219 * 1000;
+                   nodeEnd = nodeStart + 600;
+                   player.setPlaybackRate(2.0);
+               }
+               tlI++;
+                              if (tlI > 1) tlI = 0;
+               }
+               
+               if (player) {
+                   player.seekTo( (nodeStart/1000),true);
+               }
+               
+               if (tlI > 4) tlI = 0;
+                
+               console.log(tlI + " " +nodeStart);
+               
+//               console.log(tt1 + " " + tt2)
+           }
+           } 
+       }
+         
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+          event.target.seekTo(300, true);
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      var pdiv = document.getElementById("player");
+
+      function onPlayerStateChange(event) {
+          var playerStatus = event.data;
+          pState = 0;
+          anchorct = + new Date() - 1000 * event.target.getCurrentTime();
+          console.log("state change" + anchorct);
+    if (playerStatus == -1) {
+      // unstarted = gray
+    } else if (playerStatus == 0) {
+        pdiv.style.zIndex = "99";
+      nextVideo();
+       // ended = yellow
+    } else if (playerStatus == 1) {
+        // playing = green
+        pdiv.style.zIndex = "-1";
+        pState = 1;
+    } else if (playerStatus == 2) {
+       // paused = red
+    } else if (playerStatus == 3) {
+       // buffering = purple
+    } else if (playerStatus == 5) {
+         console.log("play");       
+        event.target.playVideo();
+        
+      // video cued = orange
+    }
+      }
+    </script>
+    
+    
+    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86816140-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+    
+</html>
+

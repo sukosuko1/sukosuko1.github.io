@@ -1,0 +1,300 @@
+<html>
+<head>
+    <style>
+    .comictext {
+font-family: 'Walter Turncoat', cursive;
+        font-size: 74px;
+        color:black;
+        text-shadow: 1px 0px  #FF0000;
+        }
+    </style>
+</head>
+<body>
+    <div id="log">log</div>
+    <button onclick="testPromise()">BUTTON</button>
+    <div id="t1">text</div>
+    <div id="t2">text</div>
+    <div id="t3">text</div>
+    <div id="t4">test</div>
+    <div class="comictext" id="t5">text</div>
+    <div class="comictext" id="t6">Once upon a time youtube was monolithic and dull...</div>
+</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Walter+Turncoat" rel="stylesheet">
+    
+<script>
+
+'use strict';
+function testPromise() {
+    
+}
+
+// A-> $http function is implemented in order to follow the standard Adapter pattern
+function $http(url){
+ 
+  // A small example of object
+  var core = {
+
+    // Method that performs the ajax request
+    ajax: function (method, url, args) {
+
+      // Creating a promise
+      var promise = new Promise( function (resolve, reject) {
+
+        // Instantiates the XMLHttpRequest
+        var client = new XMLHttpRequest();
+        var uri = url;
+
+        if (args && (method === 'POST' || method === 'PUT')) {
+          uri += '?';
+          var argcount = 0;
+            var key;
+          for (key in args) {
+            if (args.hasOwnProperty(key)) {
+              if (argcount++) {
+                uri += '&';
+              }
+              uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
+            }
+          }
+        }
+
+          console.log(client);
+          
+        client.open(method, uri);
+        client.send();
+
+        client.onload = function () {
+       
+            
+          if (this.status >= 200 && this.status < 300) {
+            // Performs the function "resolve" when this.status is equal to 2xx
+            resolve(this.response);
+          } else {
+            // Performs the function "reject" when this.status is different than 2xx
+            reject(this.statusText);
+          }
+        };
+        client.onerror = function () {
+          reject(this.statusText);
+        };
+      });
+
+      // Return the promise
+      return promise;
+    }
+  };
+
+  // Adapter pattern
+  return {
+    'get': function(args) {
+      return core.ajax('GET', url, args);
+    },
+    'post': function(args) {
+      return core.ajax('POST', url, args);
+    },
+    'put': function(args) {
+      return core.ajax('PUT', url, args);
+    },
+    'delete': function(args) {
+      return core.ajax('DELETE', url, args);
+    }
+  };
+};
+// End A
+
+// B-> Here you define its functions and its payload
+var mdnAPI = 'http://developer.mozilla.org/en-US/search.json';
+var payload = {
+  'topic' : 'js',
+  'q'     : 'Promise'
+};
+
+var callback = {
+  success: function(data) {
+    console.log(1, 'success', JSON.parse(data));
+  },
+  error: function(data) {
+    console.log(2, 'error', JSON.parse(data));
+  }
+};
+// End B
+
+// Executes the method call 
+$http(mdnAPI) 
+  .get(payload) 
+  .then(callback.success) 
+  .catch(callback.error);
+
+// Executes the method call but an alternative way (1) to handle Promise Reject case 
+$http(mdnAPI) 
+  .get(payload) 
+  .then(callback.success, callback.error);
+
+// Executes the method call but an alternative way (2) to handle Promise Reject case 
+$http(mdnAPI) 
+  .get(payload) 
+  .then(callback.success)
+  .then(undefined, callback.error);
+    
+    
+    
+function showType(value) {
+    if(Array.isArray(value)) {
+        console.log("types=array");
+        return;
+    }
+    console.log("type=" + typeof value);
+}
+    
+    
+function doall() {
+    var args = _.toArray(arguments);
+    var method = args.shift();
+    var target = args.shift();
+    
+    return method.apply(target,args);
+}
+
+var funclist = [
+    function(x) {console.log(x*2);},
+    function(x) {console.log(x*3);},
+    function(x) {console.log(x*5);},
+    function(x) {console.log(x*1);},
+    function(x) {console.log(x*0.5);},
+];
+
+funclist[1].call(this, 5);
+funclist[2].call(this, 5);
+funclist[2].apply(this, [7,8,9]);
+
+    var i;
+    var flist = [10,11,12,13];
+    while (i = flist.shift()) {
+        console.log(i);
+    }
+    var funclist2 = flist.shift();
+    var funclist3 = flist.shift();
+
+[4,6,"mark",true,{},99].map(showType);
+    
+showType([2,3,4]);
+showType(funclist);
+showType( {});
+    showType(9);
+    showType(true);
+    showType(this);
+    
+    
+var objs = [
+    {id: 't1', movetype:'spring'},
+    {id: 't2', movetype:'walk'},
+    {id: 't3', movetype:'walk'},
+    {id: 't4', movetype:'fly'},
+    {id: 't5', movetype:'walk'},
+    {id: 't6', movetype:'fly'},
+    {id: 't7', movetype:'spring'},
+    {id: 't8', movetype:'hang'}
+]    
+console.log(objs);
+
+
+var isSpring = function(obj) {
+    return obj.movetype === 'spring'
+}
+var springobjs = objs.filter(isSpring);
+
+var pipelinePhysics = function(obj) {
+    obj.x = Math.random();
+    obj.y = Math.random();
+    return obj;
+}
+var otherobjs = objs.map(pipelinePhysics);
+
+var totalX = otherobjs.reduce(function(sum, obj) {
+    return sum + obj.x;
+}, 0);
+
+console.log(springobjs);
+console.log(otherobjs);
+    
+console.log("totalX=" + totalX);
+    
+</script>
+<script>
+    
+    $("#t1").text("hello world");
+    document.getElementById("t2").innerHTML = "two";
+    
+    $("#t3").html("three");
+    
+var starttime = + new Date;
+    
+
+function render2() {
+     var ct = + new Date;
+        $("#t1").html( ct - starttime);
+        $("#t2").html = "nah";
+        $("div").html = ct - starttime;
+    
+} 
+    
+    $("document").ready(function() {
+    $("div").text = "nahdffd";
+        $("#t3").html("fjdf");
+        
+    setInterval(render2, 400);
+        
+        /*
+    $.ajax({
+        url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%3D%22AAPL%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=quote",
+        dataType: "jsonp",
+        jsonp: "callback",
+        jsonpCallback: "quote"
+    });
+
+    quote = function(data) {
+       console.log(data);
+    };
+        */
+        
+    var YAHOO = {
+        Finance: {
+            SymbolSuggest: {}
+        }
+    };
+
+        var query;
+
+        query = 'Yahoo';        
+        if (query.length > 0)
+        {
+
+          $.ajax({
+              type: "GET",
+              url: "http://d.yimg.com/autoc.finance.yahoo.com/autoc",
+              data: {query: query},
+              dataType: "jsonp",
+              jsonp : "callback",
+              jsonpCallback: "YAHOO.Finance.SymbolSuggest.ssCallback",
+          });
+          // call back function
+          YAHOO.Finance.SymbolSuggest.ssCallback = function (data) {
+            alert(JSON.stringify(data));
+          }
+        }
+
+
+        
+
+
+
+        
+    });
+    
+    
+</script>
+
+</html>

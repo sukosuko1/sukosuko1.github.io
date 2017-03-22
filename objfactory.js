@@ -1,34 +1,6 @@
-var factory = (function objfactory() {
-    var my = {};
-    var counter = 0;
-    var rcounter = 0;
-    
-    my.createobj = function () {
-        var v = a;
-        if (counter == 0)        v= a;
-        if (counter == 1)        v= b;
-        if (counter == 2)        v = c;
-        if (counter == 3)        v = d;
-        counter++
-        return v;
-    }
-    
-    my.createrandomobj = function () {
-        var tag = "rand" + rcounter;
-       
-        $('#gifholder').append('<div id="'+ tag + '" class="moveable touchable">boo</div>');
-  
-        var b = Object.assign({}, a);
-        b.ptr = document.getElementById(tag);
-        b.bulgeoffset = 0.9;
-        b.timeline =  this.timeline = [ {t:2000,targetx:Math.random()*500,targety:Math.random()*500}, {t:7000,targetx:Math.random()*800,targety:Math.random()*500}, {t:13000,targetx:Math.random()*500,targety:Math.random()*500},{t:14000+Math.random()*3000,loop:true} ];
-        b.name = tag;
-        rcounter++;
-        
-        return b;
-    }
-    
 
+var factory = (function objfactory() {
+    
 
 var ClassA = function() {
   this.ptr = document.getElementById("t1");
@@ -50,8 +22,115 @@ var ClassA = function() {
 }
 
 
+
+
     
 var a = new ClassA();
+    
+    var my = {};
+    var counter = 0;
+    var rcounter = 0;
+    
+    my.createobj = function () {
+        var v = a;
+        if (counter == 0)        v= a;
+        if (counter == 1)        v= b;
+        if (counter == 2)        v = c;
+        if (counter == 3)        v = d;
+        counter++
+        return v;
+    }
+    
+   var statict1 = [];
+    var statict2 = [];
+    for (var i = 0; i < 20; i++) {
+        var lx = Math.random() * $(window).width() * 0.9;
+        var ly = Math.random() * $(window).height() * 0.9;
+        statict1[i] = {t:i*1333,targetx:lx,targety:ly};
+        statict2[i] = {t:i*1333 + 200,targetx:lx+90,targety:ly+10};
+    }
+    statict1[20] = {t:2001,loop:true};    
+    statict2[20] = {t:2001,loop:true};    
+
+    my.createobjnum = function (i) {
+        var b = Object.create(a);
+        b.name = "myobj"+i;
+        if (i == 1)  {
+            var htmlstr = '<div id="'+ b.name + '" class="titletext">Join</div>';
+            $('body').append(htmlstr);
+            b.timeline = statict1;     
+        }
+        if (i == 2)  {
+            var htmlstr = '<div id="'+ b.name + '" class="titletext">In</div>';
+            $('body').append(htmlstr);
+            b.timeline = statict2;     
+        }
+        b.ptr = document.getElementById(b.name);
+            
+        return b;
+    }
+    
+    
+    
+    my.createrandomobj = function () {
+        var tag = "rand" + rcounter;
+       
+        var b = Object.assign({}, a);
+        b.bulgeoffset = 0.9;
+        
+        var r = Math.random();
+        if (r < 0.2) {
+            b.mytype = "pigeon";
+        } else{
+            if (r < 0.5) {
+            b.mytype = "button";
+                
+            } else {
+                
+            b.mytype = "button2";
+            }
+            
+        }
+        switch (b.mytype) {
+            case "button2":
+                 $('#gifholder').append('<div id="'+ tag + '" class="moveable mybutton touchable">boo</div>');
+
+        b.timeline =  this.timeline = [ 
+            {t:0,targetx:Math.random()*500,targety:Math.random()*500}, {t:666,targetx:Math.random()*800,targety:Math.random()*500}, 
+        {t:1333,loop:true} ];
+                break;
+                
+            case "button":
+    
+                 $('#gifholder').append('<div id="'+ tag + '" class="moveable mybutton touchable">boo</div>');
+                b.timeline = this.timeline = [ 
+                                {t:1333,targetx:Math.random()*800,targety:Math.random()*1200}, {t:2000,targetx:Math.random()*500,targety:Math.random()*500},
+                                {t:2001,loop:true} ];
+                break;
+                
+            case "pigeon":
+                 $('#gifholder').append('<div id="'+ tag + '" class="moveable touchable">boo<img src="cpigeon.gif"></div>');
+                                        
+                var x = Math.random() * 700;
+                b.timeline =  this.timeline = [ 
+            {t:0+Math.random()*90,targetx:x,targety:600}, 
+            {t:666+Math.random() * 90,targetx:x,targety:700}, 
+            {t:1333,loop:true}];
+                break;
+            default:
+                console.log(b.mytype + " no found");
+        }
+    
+        b.name = tag;
+        b.ptr = document.getElementById(tag);
+
+        rcounter++;
+        
+        return b;
+    }
+               
+
+
 
 a.render = function() {
     
@@ -80,9 +159,9 @@ a.render = function() {
   this.y += this.dy;
 
   this.dy+= (this.targety - this.y) * 0.01;
-    this.dy *= 0.91;
+    this.dy *= 0.87;
   this.dx+= (this.targetx - this.x) * 0.01;
-    this.dx *= 0.91;
+    this.dx *= 0.87;
     
     
   if (this.name === "player1") {
@@ -98,8 +177,10 @@ a.render = function() {
 //      this.ptr.style.transform = "scaleX(3.0)";
 //      this.ptr.style.transform = "scaleX(" + (1 + 0.08 * Math.cos(ct * 0.005)) + ")";
       
-      this.ptr.style.transform = "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1) scale(" + (1 + 0.06 * Math.cos((ct+this.bulgeoffset) * 0.005)) 
-           +"," +  (1 + 0.04 * Math.sin((ct+this.bulgeoffset) * 0.005))  + ")";
+//      this.ptr.style.transform = "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1) scale(" + (1 + 0.06 * Math.cos((ct+this.bulgeoffset) * 0.005)) 
+  //         +"," +  (1 + 0.04 * Math.sin((ct+this.bulgeoffset) * 0.005))  + ")";
+      
+      this.ptr.style.transform = "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + this.x+ "," + this.y+ ",0,1)";
       
       zz=999;
 /*
@@ -169,5 +250,6 @@ a.quack();
     
     return my;
 }());
-               
+            
+
                
