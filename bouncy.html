@@ -119,25 +119,30 @@ var audio2 = new Audio('./bloop_x.wav');
     
 
     // Setup canvas and expose context via ctx variable
-document.addEventListener('touchstart', function(event) {
-    event.preventDefault();
-    if ( event.touches[0].pageY < 300) {
-    audio2.play();
-    } else {
-    audio.play();
+    document.addEventListener('touchstart', function(event) {
+        event.preventDefault();
+        if ( event.touches[0].pageY < 300) {
+            audio2.play();
         
-    }
-     addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
+            $(".moveable").css("background-color", "blue");
+        } else {
+            audio.play();
+            $(".moveable").css("background-color", "brown");
+        }
     
-/*  for (var i = 0; i < event.touches.length; i++) {
+        addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
+    
+  for (var i = 0; i < event.touches.length; i++) {
     var touch = event.touches[i];
     ctx.beginPath();
     ctx.arc(touch.pageX, touch.pageY, 20, 0, 2*Math.PI, true);
     ctx.fill();
     ctx.stroke();
-  }*/
+  }
     
-}, false);    
+    }, false);    
+    
+    
 
 var obj = document.getElementById('tag2');
 obj.addEventListener('touchmove', function(event) {
