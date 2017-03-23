@@ -35,7 +35,8 @@ function touchStart(evt) {
     if (touches[0].force) logstr += " a=" + touches[0].force;
     if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
     
-    new Particle();
+    p = new Particle();
+    p.mytext = "scott";
     
 }
 
@@ -58,7 +59,7 @@ function touchMove(evt) {
       c.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
       log("ctx.lineTo(" + touches[i].pageX + ", " + touches[i].pageY + ");");
       c.lineTo(touches[i].pageX, touches[i].pageY);
-      c.lineWidth = 4;
+      c.lineWidth = 20;
       c.strokeStyle = color;
       c.stroke();
 
@@ -295,6 +296,12 @@ Particle.prototype.update = function() {
 Particle.prototype.render = function() {
     c.fillStyle = "rgba(0,0,140,0.8)";
     c.fillRect(this.x, this.y, 60, 60);
+
+    if (this.mytext) {
+        c.font = "32px serif";
+        c.fillStyle = "yelllow";
+        c.fillText(mytext, this.x, this.y);
+    }
 }
 
 for (var i = 0; i < particleNum; i++ ) {
