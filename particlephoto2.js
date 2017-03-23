@@ -146,6 +146,7 @@ world.gravity = 0.2;
 world.prevCt = 0;
 world.ax = 0;
 world.ay = 0;
+world.ax_raw = 0;
     world.currentTouchX = canvas.width * 0.5;
     world.currentTouchY = canvas.height;
 
@@ -157,7 +158,7 @@ world.update = function() {
         c.save();
     
     c.translate(canvas.width*0.5, canvas.height*0.5);
-    c.rotate(world.angle * 0.5 * Math.PI/180);
+    c.rotate(world.angle * Math.PI / 360);
     c.translate(-imageObj.width*0.55, -imageObj.height*0.45);
 //    c.translate(50,50);
     
@@ -211,7 +212,7 @@ world.update = function() {
 //    c.fillText(colorstr, 20, 320);
 
     c.font = "120px serif";
-    c.fillStyle = "red";
+    c.fillStyle = "white";
 //    c.fillText(world.angle , 20, 800);
     c.fillText(world.ax_raw , 20, 800);
 
