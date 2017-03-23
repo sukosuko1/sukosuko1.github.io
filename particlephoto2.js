@@ -159,7 +159,7 @@ world.update = function() {
         c.save();
     
     c.translate(canvas.width*0.5, canvas.height*0.5);
-    c.rotate(world.angle * Math.PI / 360);
+    c.rotate(world.angle * Math.PI / 180);
     c.translate(-imageObj.width*0.55, -imageObj.height*0.45);
 //    c.translate(50,50);
     
@@ -274,7 +274,7 @@ Particle.prototype.update = function() {
     this.vy *= 0.92;
     
     this.vx += world.ax_raw * -3.0;
-    this.vy += world.ay_raw * -3.0;
+    this.vy += world.ay_raw * 3.0;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
