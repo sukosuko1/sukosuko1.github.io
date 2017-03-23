@@ -279,7 +279,7 @@ Particle.prototype.render = function() {
     if (this.mytext) {
         c.font = "32px serif";
         c.fillStyle = "yelllow";
-        c.fillText(mytext, this.x, this.y);
+        c.fillText(this.mytext, this.x, this.y);
     }
 }
 
