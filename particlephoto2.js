@@ -210,9 +210,10 @@ world.update = function() {
 //    c.fillText(colorv, 20, 220);
 //    c.fillText(colorstr, 20, 320);
 
-    c.font = "60px serif";
-    c.fillStyle = "green";
-    c.fillText(world.angle , 20, 800);
+    c.font = "120px serif";
+    c.fillStyle = "white";
+//    c.fillText(world.angle , 20, 800);
+    c.fillText(world.ax_raw , 20, 800);
 
     var bubble1 = document.getElementById("bubble1");
     
@@ -269,7 +270,7 @@ Particle.prototype.update = function() {
     this.vx *= 0.92;
     this.vy *= 0.92;
     
-    this.vx += world.ax_raw * 2.0;
+//    this.vx += world.ax_raw * 2.0;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
