@@ -224,6 +224,8 @@ if (window.DeviceMotionEvent != undefined) {
 	window.ondevicemotion = function(e) {
 		world.ax = event.accelerationIncludingGravity.x;
 		world.ay = event.accelerationIncludingGravity.y;
+        
+		world.ax_raw = event.acceleration.x;
 //		document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
 //		document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
 //		document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
@@ -266,6 +268,8 @@ Particle.prototype.update = function() {
     if (this.anchory) this.vy += (this.anchory - this.y) * this.anchorw;
     this.vx *= 0.92;
     this.vy *= 0.92;
+    
+    this.vx += world.ax_raw * 2.0;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
