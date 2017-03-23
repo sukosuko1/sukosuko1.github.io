@@ -273,8 +273,8 @@ Particle.prototype.update = function() {
     this.vx *= 0.92;
     this.vy *= 0.92;
     
-    this.vx += world.ax_raw * 2.0;
-    this.vy += world.ay_raw * 2.0;
+    this.vx += world.ax_raw * -3.0;
+    this.vy += world.ay_raw * -3.0;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
@@ -289,7 +289,7 @@ Particle.prototype.update = function() {
 
 Particle.prototype.render = function() {
     c.fillStyle = "rgba(0,0,140,0.8)";
-    c.fillRect(this.x, this.y, 20, 20);
+    c.fillRect(this.x, this.y, 60, 60);
 }
 
 for (var i = 0; i < particleNum; i++ ) {
