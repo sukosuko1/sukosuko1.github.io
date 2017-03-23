@@ -147,6 +147,7 @@ world.prevCt = 0;
 world.ax = 0;
 world.ay = 0;
 world.ax_raw = 0;
+world.ay_raw = 0;
     world.currentTouchX = canvas.width * 0.5;
     world.currentTouchY = canvas.height;
 
@@ -228,6 +229,7 @@ if (window.DeviceMotionEvent != undefined) {
 		world.ay = event.accelerationIncludingGravity.y;
         
 		world.ax_raw = event.acceleration.x;
+		world.ay_raw = event.acceleration.y;
 //		document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
 //		document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
 //		document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
@@ -271,7 +273,8 @@ Particle.prototype.update = function() {
     this.vx *= 0.92;
     this.vy *= 0.92;
     
-    this.vx += world.ax_raw * -2.0;
+    this.vx += world.ax_raw * 2.0;
+    this.vy += world.ay_raw * 2.0;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
