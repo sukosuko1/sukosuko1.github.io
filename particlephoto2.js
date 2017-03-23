@@ -102,7 +102,6 @@ function touchEnd(evt) {
     world.currentTouchX = canvas.width * 0.5;
     world.currentTouchY = canvas.height;
     
-    
 }
 
 function touchCancel(evt) {
@@ -174,33 +173,6 @@ world.update = function() {
     
     c.restore();
 
-    var tempCount = 0;
-    for (var i in particles) {
-        if (particles[i].update())
-        particles[i].render();
-        tempCount++;
-    }
-    
-    /*
-    var colorv = Math.floor(80 + world.ax * 10);
-    var colorstr = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillStyle = colorstr;
-    c.fillRect(200, 200, 40, 800);
-    
-     colorv = Math.floor(80 + world.ay * -10);
-    c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillRect(200, 200, 400, 40);
-
-     colorv = Math.floor(80 + world.ax * -10);
-    c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillRect(560, 200, 40, 800);
-
-    var colorv = Math.floor(80 + world.ay * 10);
-    c.fillStyle = 'rgb(' + colorv + ',' + colorv + ',' + colorv + ')';
-    c.fillRect(200, 960, 400, 40);
-    
-    
-    */
     
  
     c.font = "24px serif";
@@ -218,10 +190,17 @@ world.update = function() {
 
     c.font = "120px serif";
     c.fillStyle = "white";
-//    c.fillText(world.angle , 20, 800);
-    c.fillText(world.ax_raw , 20, 800);
+    c.fillText(particleIndex , 20, 800);
+//    c.fillText(world.ax_raw , 20, 800);
 
     var bubble1 = document.getElementById("bubble1");
+    
+    var tempCount = 0;
+    for (var i in particles) {
+        if (particles[i].update())
+        particles[i].render();
+        tempCount++;
+    }
     
     
     world.prevCt = ct;
