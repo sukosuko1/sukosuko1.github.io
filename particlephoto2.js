@@ -277,9 +277,10 @@ Particle.prototype.render = function() {
     c.fillRect(this.x, this.y, 60, 60);
 
     if (this.mytext) {
-        c.font = "32px serif";
+        c.font = "60px serif";
         c.fillStyle = "yelllow";
         c.fillText(this.mytext, this.x, this.y);
+        c.fillText("bub", this.x, this.y);
     }
 }
 
