@@ -157,7 +157,7 @@ world.update = function() {
         c.save();
     
     c.translate(canvas.width*0.5, canvas.height*0.5);
-    c.rotate(world.angle * Math.PI/180);
+    c.rotate(world.angle * 0.5 * Math.PI/180);
     c.translate(-imageObj.width*0.55, -imageObj.height*0.45);
 //    c.translate(50,50);
     
@@ -211,7 +211,7 @@ world.update = function() {
 //    c.fillText(colorstr, 20, 320);
 
     c.font = "120px serif";
-    c.fillStyle = "white";
+    c.fillStyle = "red";
 //    c.fillText(world.angle , 20, 800);
     c.fillText(world.ax_raw , 20, 800);
 
@@ -270,7 +270,7 @@ Particle.prototype.update = function() {
     this.vx *= 0.92;
     this.vy *= 0.92;
     
-//    this.vx += world.ax_raw * 2.0;
+    this.vx += world.ax_raw * 5.0;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
