@@ -35,6 +35,8 @@ function touchStart(evt) {
     if (touches[0].force) logstr += " a=" + touches[0].force;
     if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
     
+    new Particle();
+    
 }
 
 function touchMove(evt) {
@@ -98,6 +100,7 @@ function touchEnd(evt) {
   }
     world.currentTouchX = canvas.width * 0.5;
     world.currentTouchY = canvas.height;
+    
     
 }
 
@@ -244,6 +247,7 @@ if (window.DeviceOrientationEvent != undefined) {
 }
 
 
+//automatically append to the particles[] index
 function Particle() {
     this.x = canvas.width * 0.5;
     this.y = canvas.height;
@@ -262,6 +266,7 @@ function Particle() {
     this.anchorw = 0.03;
 }
 
+
 Particle.prototype.update = function() {
     this.x += this.vx
     this.y += this.vy ;
@@ -273,7 +278,7 @@ Particle.prototype.update = function() {
     this.vx *= 0.92;
     this.vy *= 0.92;
     
-    this.vx += world.ax_raw * -3.0;
+    this.vx += world.ax_raw * 3.0;
     this.vy += world.ay_raw * 3.0;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
@@ -294,7 +299,6 @@ Particle.prototype.render = function() {
 
 for (var i = 0; i < particleNum; i++ ) {
     new Particle();
-    
 }
 var imageObj = new Image();
 //imageObj.src = "http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg";
