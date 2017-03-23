@@ -250,6 +250,10 @@ function Particle() {
     this.id = particleIndex;
     this.life = 0;
     this.maxLife = Math.random() * 40 + 200;
+    
+    this.anchorx = canvas.width * Math.random();
+    this.anchory = canvas.height * Math.random();
+    this.anchorw = 2.0;
 }
 
 Particle.prototype.update = function() {
@@ -257,7 +261,10 @@ Particle.prototype.update = function() {
     this.y += this.vy ;
     this.vx += world.ax * 0.2;
     this.vy += world.gravity+ world.ay * -0.2;
-    
+
+    if (this.anchorx) this.vx += (this.anchorx - this.x) * this.anchorw;
+    if (this.anchory) this.vy += (this.anchory - this.y) * this.anchorw;
+        
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
     this.life++;

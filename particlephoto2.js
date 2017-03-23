@@ -237,6 +237,7 @@ if (window.DeviceOrientationEvent != undefined) {
     }
 }
 
+
 function Particle() {
     this.x = canvas.width * 0.5;
     this.y = canvas.height;
@@ -248,7 +249,11 @@ function Particle() {
     particles[particleIndex] = this;
     this.id = particleIndex;
     this.life = 0;
-    this.maxLife = Math.random() * 40 + 200 + 999999;
+    this.maxLife = Math.random() * 40 + 200 + 99999;
+    
+    this.anchorx = canvas.width * Math.random();
+    this.anchory = canvas.height * Math.random();
+    this.anchorw = 0.03;
 }
 
 Particle.prototype.update = function() {
@@ -256,6 +261,11 @@ Particle.prototype.update = function() {
     this.y += this.vy ;
     this.vx += world.ax * 0.2;
     this.vy += world.gravity+ world.ay * -0.2;
+
+    if (this.anchorx) this.vx += (this.anchorx - this.x) * this.anchorw;
+    if (this.anchory) this.vy += (this.anchory - this.y) * this.anchorw;
+    this.vx *= 0.92;
+    this.vy *= 0.92;
     
     if (this.y > canvas.height) if (this.vy > 0) this.vy = -1 * this.vy * Math.random() * 0.5;
     
@@ -266,6 +276,7 @@ Particle.prototype.update = function() {
     }
     return true;  
 }
+
 
 Particle.prototype.render = function() {
     c.fillStyle = "rgba(0,0,140,0.8)";

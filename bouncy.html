@@ -76,6 +76,8 @@
    <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     
     <canvas id="c1"></canvas>
+    <p id="mapholder">map</p>
+    
 </body>
     
     
@@ -85,7 +87,7 @@
 function addObject(text, x, y) {
 //   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
     
-    testaction();
+
     
    $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">hello</div>');
    $("#t1").hide()
@@ -96,12 +98,16 @@ function addObject(text, x, y) {
     });
 }
 
-function testaction() {
-var player =  document.getElementById("player");
-player.style.zIndex = -3;
-var canvas = document.getElementById("c1");
-var ctx = canvas.getContext("2d");        
-//    ctx.drawImage(player,300,300);
+
+
+function showPosition(position) {
+    var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=YOUR_:KEY";
+
+    alert(img_url);
+    
+    document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
 }
         
 $(document).ready(function(){
@@ -112,7 +118,33 @@ $(document).ready(function(){
 
     document.ontouchmove = function(event){
     event.preventDefault();
+    
+    getLocation();
+    
 }
+    
+ var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+function success(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+  alert(`Latitude : ${crd.latitude}` + `More or less ${crd.accuracy} meters.` );
+};
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+};
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+
     
 var audio = new Audio('./phaser.wav');
 var audio2 = new Audio('./bloop_x.wav');
