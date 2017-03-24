@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     $(this).on('keypress', function(event) {
-        alert(event.keyCode );
+        $("#bubble1").text(event.keyCode);
     });
 })
 
