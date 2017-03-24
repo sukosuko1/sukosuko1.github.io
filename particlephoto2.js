@@ -304,6 +304,10 @@ setInterval(world.update, 30);
 var textx = 10;
 var texty = 80;
 
+  var viewportmeta = document.querySelector('meta[name="viewport"]');
+    if (viewportmeta) {
+        viewportmeta.content = "user-scalable=0";
+    }
 $("#text1").value(window.width);
 
 $(document).ready(function() {
