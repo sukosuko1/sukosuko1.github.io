@@ -38,6 +38,8 @@ function touchStart(evt) {
     p = new Particle();
     p.mytext = "scott";
     
+    $("#text1").focus();
+    
 }
 
 function touchMove(evt) {
