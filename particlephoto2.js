@@ -308,7 +308,8 @@ var texty = 80;
     if (viewportmeta) {
         viewportmeta.content = "user-scalable=0";
     }
-$("#text1").value(window.width);
+
+$("#text1").text(window.width);
 
 $(document).ready(function() {
     $(this).on('keypress', function(event) {
