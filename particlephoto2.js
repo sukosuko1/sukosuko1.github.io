@@ -257,8 +257,8 @@ Particle.prototype.update = function() {
 
     if (this.anchorx) this.vx += (this.anchorx - this.x) * this.anchorw;
     if (this.anchory) this.vy += (this.anchory - this.y) * this.anchorw;
-    this.vx *= 0.92;
-    this.vy *= 0.92;
+    this.vx *= 0.78;
+    this.vy *= 0.78;
     
     this.vx += world.ax_raw * 3.0;
     this.vy += world.ay_raw * 3.0;
@@ -275,14 +275,14 @@ Particle.prototype.update = function() {
 
 
 Particle.prototype.render = function() {
-    c.fillStyle = "rgba(0,0,140,0.8)";
-    c.fillRect(this.x, this.y, 60, 60);
+//    c.fillStyle = "rgba(0,0,140,0.8)";
+//    c.fillRect(this.x, this.y, 60, 60);
 
     if (this.mytext) {
-        c.font = "60px serif";
+        c.font = "bold 60px serif";
         c.fillStyle = "yelllow";
         c.fillText(this.mytext, this.x, this.y);
-        c.fillText("bub", this.x, this.y);
+//        c.fillText("bub", this.x, this.y);
     }
 }
 
@@ -300,5 +300,29 @@ world.update();
 
 
 setInterval(world.update, 30);
+
+var textx = 10;
+var texty = 80;
+
+$(document).ready(function() {
+    $(this).on('keypress', function(event) {
+        if (event.keyCode == 13) {
+            textx = 10;
+            texty += 80;
+            return;
+        }
+        if (event.keyCode == 32) {
+            textx += 80;
+            return;
+        }
+        $("#bubble1").text(event.keyCode);
+        p = new Particle();
+        p.mytext = String.fromCharCode(event.keyCode);
+        p.anchorx = textx;
+        p.anchory = texty;
+        textx += 35;
+    });
+})
+
 
 

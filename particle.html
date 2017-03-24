@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Fountain World</title>
+<meta name="viewport" content="width=100px, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+<meta name="apple-mobile-web-app-title" content="Mumble App">
+<meta name="HandheldFriendly" content="true">
+    
+    <title>Fox Chat</title>
     <style>
         #canvas1 {
             position: absolute;
@@ -40,22 +47,27 @@ p.speech:before {
   border-color: #000 transparent transparent #000;
 } 
         #text1{
-                border: 25px solid;
+            position: absolute;
+  width: 1400px;
+  height: 86px;
+  left: 0px;
+  top: 1250px;
+                border: 7px solid;
                 border-color: orangered;
-        }
-        input{
-                border: 25px solid;
-                border-color: green;
+            z-index: 55;
         }
     </style>
 </head>
     <body>
         <canvas id="canvas1" height="1736" width="1414"></canvas>
         <div id="log"></div>
-        <p class="speech" id="bubble1">More food please!</p>
+        <p class="speech" id="bubble1">More 3food please!</p>
         <input type="text" id="text1">
         
     </body>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
     <script src="particlephoto2.js"></script>
     
 </html>
