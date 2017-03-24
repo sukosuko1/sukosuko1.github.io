@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fountain World</title>
+    <style>
+        #canvas1 {
+            position: absolute;
+        }
+        #canvas2 {
+            position: absolute;
+        }
+        
+p.speech {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  text-align: center;
+  font-size: 40px;
+  line-height: 100px;
+  background-color: #000;
+  color: #CfC;
+  border: 8px solid #000;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-shadow: 2px 2px 4px #888;
+  -moz-box-shadow: 2px 2px 4px #888;
+  box-shadow: 2px 2px 4px #888;
+  top:300px;
+  left: 500px;
+}        
+p.speech:before {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 30px;
+  top: 100px;
+  border: 25px solid;
+  border-color: #000 transparent transparent #000;
+} 
+        #text1{
+            position: absolute;
+  width: 1414px;
+  height: 150px;
+  left: 0px;
+  top: 50px;
+                border: 25px solid;
+                border-color: orangered;
+            z-index: 55;
+        }
+        input{
+                border: 25px solid;
+                border-color: green;
+        }
+    </style>
+</head>
+    <body>
+        <canvas id="canvas1" height="1736" width="1414"></canvas>
+        <div id="log"></div>
+        <p class="speech" id="bubble1">More food please!</p>
+        <input type="text" id="text1" value="testing..">
+        
+    </body>
+    <script src="xparticlephoto2.js"></script>
+    
+</html>
