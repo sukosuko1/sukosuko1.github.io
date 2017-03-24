@@ -304,6 +304,8 @@ setInterval(world.update, 30);
 var textx = 10;
 var texty = 80;
 
+$("#text1").value(window.width);
+
 $(document).ready(function() {
     $(this).on('keypress', function(event) {
         if (event.keyCode == 13) {
