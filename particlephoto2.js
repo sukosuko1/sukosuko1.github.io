@@ -36,7 +36,7 @@ function touchStart(evt) {
     if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
     
     p = new Particle();
-    p.mytext = "scott";
+    p.mytext = "FOX";
     
     $("#text1").focus();
     
@@ -191,7 +191,7 @@ world.update = function() {
 //    c.fillText(colorstr, 20, 320);
 
     c.font = "120px serif";
-    c.fillStyle = "green";
+    c.fillStyle = "white";
     c.fillText(particleIndex , 20, 800);
 //    c.fillText(world.ax_raw , 20, 800);
 
@@ -279,8 +279,10 @@ Particle.prototype.render = function() {
 //    c.fillRect(this.x, this.y, 60, 60);
 
     if (this.mytext) {
-        c.font = "bold 60px serif";
-        c.fillStyle = "yelllow";
+        c.font = "bold 80px serif";
+        c.fillStyle = "rgba(50,50,70,0.3)"
+        c.fillText(this.mytext, this.x+15, this.y+10);
+        c.fillStyle = "blue";
         c.fillText(this.mytext, this.x, this.y);
 //        c.fillText("bub", this.x, this.y);
     }
