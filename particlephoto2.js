@@ -191,7 +191,7 @@ world.update = function() {
 //    c.fillText(colorstr, 20, 320);
 
     c.font = "120px serif";
-    c.fillStyle = "white";
+    c.fillStyle = "green";
     c.fillText(particleIndex , 20, 800);
 //    c.fillText(world.ax_raw , 20, 800);
 
