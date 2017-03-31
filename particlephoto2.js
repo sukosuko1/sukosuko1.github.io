@@ -158,7 +158,7 @@ world.ay_raw = 0;
 
 world.update = function() {
 //   c2.fillStyle = "black";
-     c.fillStyle = "rgba(255,255,255,0.2)";
+     c.fillStyle = "rgba(255,255,255,0.5)";
     c.fillRect(0,0,canvas.width,canvas.height);
     
         c.save();
@@ -281,7 +281,7 @@ Particle.prototype.render = function() {
     if (this.mytext) {
         c.font = "bold 80px serif";
         c.fillStyle = "rgba(50,50,70,0.3)"
-        c.fillText(this.mytext, this.x+15, this.y+10);
+        c.fillText(this.mytext, this.x+10, this.y+7);
         c.fillStyle = "blue";
         c.fillText(this.mytext, this.x, this.y);
 //        c.fillText("bub", this.x, this.y);
