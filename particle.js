@@ -73,8 +73,9 @@ function touchMove(evt) {
     logstr = "Lm ";
     if (touches[0].force) logstr += " a=" + touches[0].force;
     if (touches[0].radiusX) logstr += " b=" +touches[0].radiusX;
-
 }
+
+
 function touchEnd(evt) {
   evt.preventDefault();
   log("touchend");

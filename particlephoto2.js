@@ -335,6 +335,10 @@ $(document).ready(function() {
         p.anchory = texty;
         textx += 35;
     });
+    
+    var audio = new Audio('owlcity.mp3');
+    audio.play();
+    
 })
 
 
