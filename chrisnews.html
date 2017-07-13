@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1, , maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<title>Tuna1</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #440022;
+		}
+		.embed-video { position:absolute; z-index:-1; top: 0%; width:100%; height:100%;  }
+		.coverCanvas { position:absolute; z-index:-3; opacity:1.0; width:100%; height:100%; }
+        .ggu { position:absolute; z-index:2; top:11%; left: 15%; }
+        .ggu2 { position:absolute; z-index:2; top:40%; left: 20%; }
+        .ggu3 { position:absolute; z-index:2; top:40%; left: 20%; }
+        .ggu4 { position:absolute; z-index:2; }
+        
+        .ggu:hover { transform: rotateX(150deg); }
+        #tempGif { top:10%; left: 50%; }
+        
+        #t1 { position:absolute; z-index:99; top:0%; left: 0%; }
+        #player { transform:scale(1.1,2.0); }
+		h1    {color: white;}
+        
+        .maintext { color: #FFA; background-color:#A4F; font-size:300%; margin:4px; 
+            padding: 10px; border: 5px; border-radius: 10px; }
+        #text1 {position:absolute; z-index:3; top:30%; left: 5%;  }
+        #text2 {position:absolute; z-index:3; top:48%; left: 5%;  }
+	</style>
+</head>
+
+<body>
+  <img class="ggu" id="cpigeon1" src="cpigeon.gif">
+  <div class="ggu" id="tempGif"></div>  
+  <div class="ggu2" id="tempGif2"></div>  
+  <div class="ggu2" id="tempGif3"></div>  
+  <div class="ggu4" id="tempGif4"></div>  
+    
+  <div id="outerbox">
+    <div id="player" class="embed-video"></div>  
+        <div id="text1" class="maintext">Chris</div>
+        <div id="text2" class="maintext">News</div>
+        <video
+          id="performPlayer" 
+          data-video-id="5495948635001"
+          data-video-source="brightcove"
+          data-video-name="Global Banking Conference 2017: London Highlights"
+          data-video-description="James Longsdon, Fitch’s Co-Head of EMEA Financial Institutions, discusses the earnings outlook for European banks, as well as Southern European banks’ progress on addressing non-performing loan issues."
+          class="video-js"
+          class="embed-video"
+         poster="https://bcsecure01-a.akamaihd.net/13/1301119679001/201707/382/1301119679001_5495966309001_5495859720001-vs.jpg?pubId=1301119679001&amp;videoId=5495859720001"  controls></video>
+      
+  <canvas id="myCanvas" class="coverCanvas" value="transparent"></canvas>
+  </div>
+  <p>Pixitest is hosted with GitHub Pages 2d.</p>
+</body>
+    
+    
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    
+<script>  
+                      
+  console.log("text1");
+//  window.alert(PIXI);
+/* works on all elements except iframes */
+
+
+  var gameCanvas = document.getElementById("myCanvas");
+  
+//  gameCanvas.addEventListener("touchmove", canvastouchmove, true);
+  
+   gameWidth = window.innerWidth;
+   gameHeight = window.innerHeight;  
+    gameWidth = 375;
+   gameHeight = 667;
+   
+  var bunny = 0;
+  var bunny2 = 0;
+  var s = [];
+  
+  var gifList = ['http://i.giphy.com/uXNYDeQ20XWSs.gif', 
+                 'http://i.giphy.com/yPjoKlFdQn2GA.gif',
+                 'http://i.giphy.com/140nEtr54F1v32.gif',
+                 'http://i.giphy.com/UvxgzzjSaHYdy.gif',
+                 'http://i.giphy.com/iRqb5SliyTxNS.gif',
+                 'http://i.giphy.com/2YjYSFaUgLSeY.gif',
+                 'http://i.giphy.com/B8VEvtykK1CBq.gif',
+                 'http://i.giphy.com/A9rJJcBbu1ah2.gif',
+                 'http://i.giphy.com/fNzWEc9Et5uDK.gif',
+                
+                 'http://i.giphy.com/11OFTQnbXx4lR6.gif',
+                 'http://i.giphy.com/P7De1qUo7Z25W.gif',
+                 'http://i.giphy.com/A1L821b7315GU.gif',
+                 'http://i.giphy.com/azcgzDvL0GSJO.gif',
+                
+                ];
+  var gifchange = 0; 
+                
+   var prevtt = 0;
+   var shockx = 0.1;  
+    var vidanchortime = 0;
+      
+      var tempGif = document.getElementById("tempGif");
+      var tempGif2 = document.getElementById("tempGif2");
+      var tempGif3 = document.getElementById("tempGif3");
+      var tempGif4 = document.getElementById("tempGif4");
+  var v = 0;  //replace with timeline json
+
+  function animate() {
+ 
+    requestAnimationFrame( animate );
+ 
+    var timer = +new Date;  //in millisecondds
+    var vidtime = timer - vidanchortime;
+ document.getElementById("t1").innerHTML = vidtime; 
+
+    var tt = timer * (107/60000) % 1.0;
+      
+//      if (vidtime > timeline[v].time) {
+      if (vidtime > 10000 && (v == 0) ) {
+        tempGif.innerHTML =  '<img class="ggu" id="cat2" src="cpigeon.gif">';
+        tempGif2.innerHTML =  '<img class="ggu" id="cat1" src="http://i.giphy.com/fWrorpy7Jrlvi.gif">';
+        v++;
+      }
+      if (vidtime > 20000 && (v == 1)) {
+        tempGif.innerHTML = ""
+        v++;
+      }
+      if ( (vidtime > gifchange + 10000) || (vidtime < gifchange) ) {
+        var i = Math.floor(Math.random() * gifList.length);
+
+        if (vidtime > 60000) {
+            tempGif4.innerHTML +=  '<img class="ggu4" id="cat1" src="' + 
+                gifList[i] + 
+                '" style="left:' + (Math.random()*400) + 'px;' + 
+                ' top:' + (Math.random()*400) + 'px;"' + 
+                ' >';
+        } else {
+            tempGif3.innerHTML =  '<img class="ggu" id="cat1" src="' + gifList[i] + '">';
+            tempGif4.innerHTML = "";
+        }
+        tempGif3.style.left = Math.random() * 400 + "px";
+        tempGif3.style.top = Math.random() * 600 + "px";
+        gifchange = vidtime
+      }
+  }
+
+ function onButtonDown()
+ {
+    this.isdown = true;
+    this.alpha = 0;
+ }
+ function onButtonUp()
+ {
+    this.scale.x *= 1.1;
+    this.alpha = 1;
+ }
+
+function onDragStart(event)
+{
+  this.data = event.data;
+  this.alpha = 0.5;
+  this.dragging = true;
+   console.log("dragstrt");
+}
+
+function onDragEnd()
+{
+  this.alpha = 1;
+  this.dragging = false;
+}
+
+function onDragMove() {
+   if (this.dragging) {
+     var newPosition = this.data.getLocalPosition(this.parent);
+      this.basex = newPosition.x;
+      this.basey = newPosition.y;
+      console.log(x + "," + y);
+        textSample.setText("touch2");
+  }
+}
+  function canvastouchmove(e) {
+            if (!e) {
+                var e = event;
+            e.preventDefault();
+            bunny4.basex  = e.targetTouches[0].pageX - can.offsetLeft;
+            bunny4.basey = e.targetTouches[0].pageY - can.offsetTop;
+            } 
+        textSample.setText("touch");
+        
+   }
+    function touchEnd() {
+        console.log("touch");
+        event.preventDefault();
+        if (event.target === bunny4) {
+            console.log("bunny4touch");
+            nextVideo();
+        } else {
+            
+            console.log("bunny4touch");
+            nextVideo();
+            
+        }
+    }
+</script>
+    
+</html>
