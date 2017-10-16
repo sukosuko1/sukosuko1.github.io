@@ -82,7 +82,7 @@
     
     
 
-    <script>
+<script>
         
 function addObject(text, x, y) {
 //   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
@@ -154,15 +154,14 @@ var audio2 = new Audio('./bloop_x.wav');
     document.addEventListener('touchstart', function(event) {
         event.preventDefault();
         if ( event.touches[0].pageY < 300) {
-            audio2.play();
             $(".moveable").css("background-color", "blue");
         } else {
-            audio.play();
             $(".moveable").css("background-color", "brown");
         }
     
         addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
-    
+        var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
   for (var i = 0; i < event.touches.length; i++) {
     var touch = event.touches[i];
     ctx.beginPath();
@@ -184,6 +183,16 @@ obj.addEventListener('touchmove', function(event) {
     // Place element where the finger is
     obj.style.left = (touch.pageX - 80)  + 'px';
     obj.style.top = ( touch.pageY - 80) + 'px';
+  }
+            var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
+
+  for (var i = 0; i < event.touches.length; i++) {
+    var touch = event.touches[i];
+    ctx.beginPath();
+    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
   }
 }, false);
     
