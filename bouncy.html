@@ -70,7 +70,7 @@
     <button id="b1" onclick="buttonclick()">button</button>
     <div id="debug1">info</div>
     <div class="moveable" id="tag1">Hi there!</div>
-    <div class="moveable" id="tag2">Can't touchstart this
+    <div class="moveable" id="tag2">Can't 4 touch this 
        <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
    <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
@@ -173,6 +173,22 @@ var audio2 = new Audio('./bloop_x.wav');
     }, false);    
     
     
+document.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+
+            var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
+
+  for (var i = 0; i < event.touches.length; i++) {
+    var touch = event.touches[i];
+ctx.strokeStyle="#FF0000";
+      ctx.beginPath();
+    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+  }
+}, false);
+    
 
 var obj = document.getElementById('tag2');
 obj.addEventListener('touchmove', function(event) {
@@ -183,16 +199,6 @@ obj.addEventListener('touchmove', function(event) {
     // Place element where the finger is
     obj.style.left = (touch.pageX - 80)  + 'px';
     obj.style.top = ( touch.pageY - 80) + 'px';
-  }
-            var c = document.getElementById("c1");
-        var ctx = c.getContext("2d");    
-
-  for (var i = 0; i < event.touches.length; i++) {
-    var touch = event.touches[i];
-    ctx.beginPath();
-    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
-    ctx.fill();
-    ctx.stroke();
   }
 }, false);
     
