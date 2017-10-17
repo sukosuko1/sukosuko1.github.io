@@ -115,19 +115,16 @@ $(document).ready(function(){
     event.preventDefault();
     }, false); 
 
-    document.ontouchmove = function(event){
-    event.preventDefault();
+     var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
+            var touch = event.touches[i];
+            ctx.moveTo(0,0)
+            ctx.lineTo(ctx.width,0);
+            ctx.lineTo(ctx.width,ctx.height);
+            ctx.lineTo(0,ctx.height);
+            ctx.lineTo(0,0);
+            ctx.stroke();    
     
-    getLocation();
-    
-}
-    
- var options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
-
 function success(pos) {
   var crd = pos.coords;
 
