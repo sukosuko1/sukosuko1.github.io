@@ -116,13 +116,14 @@ $(document).ready(function(){
     }, false); 
 
      var c = document.getElementById("c1");
-        var ctx = c.getContext("2d");    
-            ctx.moveTo(0,0)
-            ctx.lineTo(ctx.width,0);
+    var ctx = c.getContext("2d");    
+        ctx.beginPath();
+    ctx.moveTo(0,0)
+    ctx.lineTo(ctx.width,0);
             ctx.lineTo(ctx.width,ctx.height);
             ctx.lineTo(0,ctx.height);
-            ctx.lineTo(0,0);
-            ctx.stroke();    
+    ctx.lineTo(0,0);
+    ctx.stroke();    
     
 function success(pos) {
   var crd = pos.coords;
