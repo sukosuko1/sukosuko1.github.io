@@ -162,27 +162,26 @@ var prevY = 0;
         addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
         var c = document.getElementById("c1");
         var ctx = c.getContext("2d");    
-  for (var i = 0; i < event.touches.length; i++) {
-    var touch = event.touches[i];
-    ctx.beginPath();
-    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
-    ctx.fill();
-    ctx.stroke();
-  }
-    if (touch.pageY < 100) {
-        prevX = touch.pageX;
-        prevY = touch.pageY;
-        
-        var img = new Image();
-        img.onload = function () {
-            context.drawImage(img, prevX, prevY);
+        for (var i = 0; i < event.touches.length; i++) {
+            var touch = event.touches[i];
+            ctx.beginPath();
+            ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+            ctx.fill();
+            ctx.stroke();
         }
-        img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif"";
-    }
+        if (touch.pageY < 100) {
+            prevX = touch.pageX;
+            prevY = touch.pageY;
         
+            var img = new Image();
+            img.onload = function () {
+                context.drawImage(img, prevX, prevY);
+            }
+            img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif"";
+        }
     }
     
-    }, false);    
+    , false);    
     
     
 document.addEventListener('touchmove', function(event) {
