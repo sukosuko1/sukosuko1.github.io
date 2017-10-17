@@ -58,14 +58,14 @@
             top: 600px;
         }
         #c1 {
-            width: 300px;
-            height: 300px;
+            width: 375;
+            height: 667;
         }
     </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
-    
+
 <body id="body">
     <button id="b1" onclick="buttonclick()">button</button>
     <div id="debug1">info</div>
@@ -73,7 +73,6 @@
     <div class="moveable" id="tag2">Can't 4 touch this 
        <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
-   <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     
     <canvas id="c1"></canvas>
     <p id="mapholder">map</p>
@@ -81,7 +80,7 @@
 </body>
     
     
-
+    
 <script>
         
 function addObject(text, x, y) {
@@ -148,7 +147,8 @@ navigator.geolocation.getCurrentPosition(success, error, options);
     
 var audio = new Audio('./phaser.wav');
 var audio2 = new Audio('./bloop_x.wav');
-    
+var prevX = 0;
+var prevY = 0;
 
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
@@ -169,6 +169,18 @@ var audio2 = new Audio('./bloop_x.wav');
     ctx.fill();
     ctx.stroke();
   }
+    if (touch.pageY < 100) {
+        prevX = touch.pageX;
+        prevY = touch.pageY;
+        
+        var img = new Image();
+        img.onload = function () {
+            context.drawImage(img, prevX, prevY);
+        }
+        img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif"";
+    }
+        
+    }
     
     }, false);    
     
@@ -183,6 +195,7 @@ document.addEventListener('touchmove', function(event) {
     var touch = event.touches[i];
 ctx.strokeStyle="#FF0000";
       ctx.beginPath();
+     
     ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
     ctx.fill();
     ctx.stroke();
