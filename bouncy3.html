@@ -271,6 +271,7 @@ function worldInit() {
         myObjs[i].y = Math.random() * screenHeight * 20;
         myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
         myObjs[i].height = Math.random() * myObjs[i].width
+        myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
         
     }
     
@@ -298,7 +299,9 @@ function render() {
         ctx.fill();
 
     for (var i = 0; i < myObjs.length; i++) {
+        var obj = myObjs[i];
         if ((myObjs[i].y > globalY) && (myObjs[i].y < globalY + screenHeight)) {
+
             
             ctx.beginPath();
             ctx.rect(myObjs[i].x, myObjs[i].y - globalY, myObjs[i].width, myObjs[i].height);
@@ -307,6 +310,11 @@ function render() {
             ctx.lineWidth = 7;
             ctx.strokeStyle = 'black';
             ctx.stroke();    
+            
+            ctx.font = "30px Comic Sans MS";
+            ctx.fillStyle = "black";
+            ctx.strokeText("s", obj.x + 5, obj.y - globalY + 30);
+            if (obj.text) {ctx.strokeText(obj.text, obj.x + 30, obj.y - globalY + 30); }
             
         }
     }
