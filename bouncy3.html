@@ -2,7 +2,7 @@
 <html>
     
 <head>
-<meta name="viewport" content="width=100px, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 <meta name="apple-mobile-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
@@ -103,7 +103,8 @@ function showPosition(position) {
     
     document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
 }
-        
+
+    
 $(document).ready(function(){
     
     document.body.addEventListener('touchmove', function(event) {
@@ -123,10 +124,16 @@ $(document).ready(function(){
 
 var prevX = 0;
 var prevY = 0;
-
+var touchStartTime = 0;
+var touchEndTime = 0;
+    
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
         event.preventDefault();
+        
+        touchStartTime = +new Date;
+        touchStartY = event.touches[0].pageY;
+        
         if ( event.touches[0].pageY < 300) {
             $(".moveable").css("background-color", "blue");
         } else {
@@ -174,6 +181,20 @@ ctx.strokeStyle="#FF0000";
     ctx.stroke();
   }
 }, false);
+    
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+
+    var c = document.getElementById("c1");
+    touchEndTime = +new Date;
+    touchEndY = event.touches[0].pageY;
+    
+    globalDy = -30 * (touchEndY - touchStartY) / (touchEndTime - touchStartTime + 0.000001);
+    
+    console.log(globalDy);
+    
+}, false);
+    
     
 
 var obj = document.getElementById('tag2');
@@ -224,6 +245,63 @@ var h = window.innerHeight
     
     
 });
+    
+var globalY = 0;
+var globalDy = 2;
+var screenHeight = 675;
+var screenWidth = 350;
+var myObjs = [];
+    
+function worldInit() {
+    for (var i = 0; i < 100; i++) {
+        myObjs[i] = {}
+        myObjs[i].x = Math.random() * screenWidth;
+        myObjs[i].y = Math.random() * screenHeight * 20;
+        myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
+        myObjs[i].height = Math.random() * myObjs[i].width
+        
+    }
+    
+    
+}   
+    
+worldInit();
+var id = setInterval(function() { worldUpdate(); render(); } , 16)    
+
+function worldUpdate() {
+    globalY += globalDy;
+
+    globalDy *= 0.96;
+    
+//    console.log(globalY);
+}    
+
+function render() {
+    var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+    
+        ctx.beginPath();
+        ctx.rect(0, 0, screenWidth, screenHeight);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+
+    for (var i = 0; i < myObjs.length; i++) {
+        if ((myObjs[i].y > globalY) && (myObjs[i].y < globalY + screenHeight)) {
+            
+            ctx.beginPath();
+            ctx.rect(myObjs[i].x, myObjs[i].y - globalY, myObjs[i].width, myObjs[i].height);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.lineWidth = 7;
+            ctx.strokeStyle = 'black';
+            ctx.stroke();    
+            
+        }
+    }
+      
+}
+    
+    
     
 </script>
     
