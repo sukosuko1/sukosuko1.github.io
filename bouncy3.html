@@ -126,6 +126,8 @@ var prevX = 0;
 var prevY = 0;
 var touchStartTime = 0;
 var touchEndTime = 0;
+var touchStartY = 0;
+var touchStartGlobalY = 0;
     
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
@@ -133,6 +135,8 @@ var touchEndTime = 0;
         
         touchStartTime = +new Date;
         touchStartY = event.touches[0].pageY;
+        globalDy *= 0.7;
+        touchStartGlobalY = globalY;
         
         if ( event.touches[0].pageY < 300) {
             $(".moveable").css("background-color", "blue");
@@ -167,10 +171,14 @@ var touchEndTime = 0;
     
 document.addEventListener('touchmove', function(event) {
             event.preventDefault();
-
+    
+    
+    
             var c = document.getElementById("c1");
         var ctx = c.getContext("2d");    
 
+    var touch = event.touches[0];
+    
   for (var i = 0; i < event.touches.length; i++) {
     var touch = event.touches[i];
 ctx.strokeStyle="#FF0000";
@@ -180,6 +188,10 @@ ctx.strokeStyle="#FF0000";
     ctx.fill();
     ctx.stroke();
   }
+    
+    globalDy *= 0.7;
+    globalY = -1 * (touch.pageY - touchStartY) + touchStartGlobalY;
+    
 }, false);
     
 document.addEventListener('touchmove', function(event) {
