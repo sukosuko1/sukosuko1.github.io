@@ -194,10 +194,13 @@ ctx.strokeStyle="#FF0000";
     
 }, false);
     
-document.addEventListener('touchmove', function(event) {
+document.addEventListener('touchend', function(event) {
     event.preventDefault();
 
     var c = document.getElementById("c1");
+    touchEndTime = +new Date;
+    touchEndY = event.touches[0].pageY;
+
     touchEndTime = +new Date;
     touchEndY = event.touches[0].pageY;
     
