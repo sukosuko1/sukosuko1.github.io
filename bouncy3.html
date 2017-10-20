@@ -130,7 +130,7 @@ var touchStartGlobalY = 0;
     
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
-//        event.preventDefault();
+        event.preventDefault();
         
         touchStartTime = +new Date;
         touchStartY = event.touches[0].pageY;
@@ -202,7 +202,7 @@ ctx.strokeStyle="#FF0000";
     globalY = -1.2 * (touch.pageY - touchStartY) + touchStartGlobalY;
     
 	
-    if (touchMidTime < ct -300) {
+    if (touchMidTime < ct - 100) {
 		touchMidTime2 = touchMidTime;
 		touchMidY2 = touchMidY;
 		touchMidTime = ct;
@@ -346,7 +346,7 @@ function render() {
 	
     ctx.font = "50px Arial";
     ctx.fillStyle = "black";
-    ctx.strokeText("v3 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
+    ctx.strokeText("v4 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
       
 }
     
