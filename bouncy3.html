@@ -64,7 +64,6 @@
 <body id="body">
     <button id="b1" onclick="buttonclick()">button</button>
     <div id="debug1">info</div>
-    <div class="moveable" id="tag1">Hi there!</div>
     <div class="moveable" id="tag2">Can't 4 touch this 
        <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
@@ -360,15 +359,15 @@ function render() {
         }
     }
 	
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "black";
-    ctx.strokeText("v4 " + debugNumTouch + " r= " + debugTouchRange, 50,150);
-    ctx.strokeText("v4 " + Math.floor(dy3) + " " + dy3ct % 10000, 50,200);
-    ctx.strokeText("v4 "   + Math.floor(dy2) + " " + dy2ct % 10000, 50,250);
-    ctx.strokeText("v4 "  + Math.floor(dy1) + " " + dy1ct % 10000, 50,300);
-    ctx.strokeText("v4 " + Math.floor(dy0) + " " + dy0ct % 10000, 50,350);
+    ctx.font = "normal 20px Georgia";
+    ctx.strokeStyle = 'black';
+    ctx.fillText("v5 " + debugNumTouch + " r= " + debugTouchRange, 50,150);
+    ctx.fillText("v4 " + Math.floor(dy3) + " " + dy3ct % 10000, 50,200);
+    ctx.fillText("v4 "   + Math.floor(dy2) + " " + dy2ct % 10000, 50,250);
+    ctx.fillText("v4 "  + Math.floor(dy1) + " " + dy1ct % 10000, 50,300);
+    ctx.fillText("v4 " + Math.floor(dy0) + " " + dy0ct % 10000, 50,350);
       
-    ctx.strokeText("st "   + touchStartY + " " + touchStartTime % 10000, 50,430);
+    ctx.fillText("st "   + Math.floor(touchStartY) + " " + touchStartTime % 10000, 50,120);
 }
     
     
