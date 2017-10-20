@@ -172,7 +172,7 @@ var touchStartGlobalY = 0;
 var touch = {};
 	
 document.addEventListener('touchmove', function(event) {
-//    event.preventDefault();
+    event.preventDefault();
     
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");    
@@ -199,7 +199,7 @@ ctx.strokeStyle="#FF0000";
 	debugTouchRange = (sMax - sMin);
 	
     globalDy *= 0.7;
-    globalY = -1 * (touch.pageY - touchStartY) + touchStartGlobalY;
+    globalY = -1.2 * (touch.pageY - touchStartY) + touchStartGlobalY;
     
 	
     if (touchMidTime < ct -300) {
@@ -346,7 +346,7 @@ function render() {
 	
     ctx.font = "50px Arial";
     ctx.fillStyle = "black";
-    ctx.strokeText("v2 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
+    ctx.strokeText("v3 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
       
 }
     
