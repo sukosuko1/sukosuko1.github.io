@@ -104,7 +104,9 @@ function showPosition(position) {
     document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
 }
 
-    
+var debugNumTouch = 0;
+var debugTouchRange = 0;
+
 $(document).ready(function(){
     
     document.body.addEventListener('touchmove', function(event) {
@@ -168,15 +170,21 @@ var touchStartGlobalY = 0;
     
     , false);    
     
-    
+	var touchMidTime2 = 0, touchMidTime = 0, touchMidY2 = 0, touchMidY = 0;
+
+
 document.addEventListener('touchmove', function(event) {
     event.preventDefault();
     
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");    
-
+	var ct = +new Date;
+	
     var touch = event.touches[0];
-    
+    debugNumTouch = 0;
+	debugTouchRange = 0;
+	var sMax = 0, sMin = 0;
+	
   for (var i = 0; i < event.touches.length; i++) {
      touch = event.touches[i];
 ctx.strokeStyle="#FF0000";
@@ -185,16 +193,23 @@ ctx.strokeStyle="#FF0000";
     ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
     ctx.fill();
     ctx.stroke();
+	  if (touch.pageY > sMax) sMax = touch.pageY;
+	  if ( (touch.pageY < sMin) || (sMin == 0) ) sMin = touch.pageY
+	  debugNumTouch+=1;
+	  
   }
+	debugTouchRange = (sMax - sMin);
 	
     globalDy *= 0.7;
     globalY = -1 * (touch.pageY - touchStartY) + touchStartGlobalY;
     
-
-    if (touchMidTime < )
-    touchMidTime = +new Date;
-    touchMidY = event.touches[event.touches.length - 1].pageY;
-
+	
+    if (touchMidTime < ct -300) {
+		touchMidTime2 = touchMidTime;
+		touchMidY2 = touchMidY;
+		touchMidTime = ct;
+    	touchMidY = event.touches[event.touches.length - 1].pageY;
+	}
     
 }, false);
     
@@ -328,6 +343,9 @@ function render() {
             
         }
     }
+    ctx.font = "50px Arial";
+    ctx.fillStyle = "black";
+    ctx.strokeText("" + debugNumTouch + " r= " + debugTouchRange, 50,500);
       
 }
     
