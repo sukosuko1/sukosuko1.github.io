@@ -109,9 +109,6 @@ var debugTouchRange = 0;
 
 $(document).ready(function(){
     
-    document.body.addEventListener('touchmove', function(event) {
-    event.preventDefault();
-    }, false); 
 
      var c = document.getElementById("c1");
     var ctx = c.getContext("2d");    
@@ -133,7 +130,7 @@ var touchStartGlobalY = 0;
     
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
-        event.preventDefault();
+//        event.preventDefault();
         
         touchStartTime = +new Date;
         touchStartY = event.touches[0].pageY;
@@ -172,15 +169,16 @@ var touchStartGlobalY = 0;
     
 	var touchMidTime2 = 0, touchMidTime = 0, touchMidY2 = 0, touchMidY = 0;
 
-
+var touch = {};
+	
 document.addEventListener('touchmove', function(event) {
-    event.preventDefault();
+//    event.preventDefault();
     
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");    
 	var ct = +new Date;
 	
-    var touch = event.touches[0];
+    touch = event.touches[0];
     debugNumTouch = 0;
 	debugTouchRange = 0;
 	var sMax = 0, sMin = 0;
@@ -221,15 +219,15 @@ document.addEventListener('touchend', function(event) {
 
     console.log(event.touches.length);
     
-    if (event.touches.length == 0) return;
 
     touchEndTime = +new Date;
-    touchEndY = event.touches[0].pageY;
+    touchEndY = touch.pageY;
     
     globalDy = -30 * (touchEndY - touchStartY) / (touchEndTime - touchStartTime + 0.000001);
 	
     globalDy = -30 * (touchEndY - touchMidY2) / (touchEndTime - touchMidTime2 + 0.000001);
     
+	console.log("diff=" + touchEndY - touchMidY2);
     console.log(globalDy);
     
 }, false);
@@ -348,7 +346,7 @@ function render() {
 	
     ctx.font = "50px Arial";
     ctx.fillStyle = "black";
-    ctx.strokeText("v1 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
+    ctx.strokeText("v2 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
       
 }
     
