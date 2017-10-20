@@ -227,6 +227,8 @@ document.addEventListener('touchend', function(event) {
     touchEndY = event.touches[0].pageY;
     
     globalDy = -30 * (touchEndY - touchStartY) / (touchEndTime - touchStartTime + 0.000001);
+	
+    globalDy = -30 * (touchEndY - touchMidY2) / (touchEndTime - touchMidTime2 + 0.000001);
     
     console.log(globalDy);
     
@@ -343,9 +345,10 @@ function render() {
             
         }
     }
+	
     ctx.font = "50px Arial";
     ctx.fillStyle = "black";
-    ctx.strokeText("" + debugNumTouch + " r= " + debugTouchRange, 50,500);
+    ctx.strokeText("v1 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
       
 }
     
