@@ -107,6 +107,14 @@ function showPosition(position) {
 var debugNumTouch = 0;
 var debugTouchRange = 0;
 
+var dy3,dy2,dy1,dy0, dy3ct, dy2ct, dy1ct,dy0ct;
+	
+var touchStartTime = 0;
+var touchEndTime = 0;
+var touchStartY = 0;
+var touchStartGlobalY = 0;
+
+	
 $(document).ready(function(){
     
 
@@ -123,10 +131,6 @@ $(document).ready(function(){
 
 var prevX = 0;
 var prevY = 0;
-var touchStartTime = 0;
-var touchEndTime = 0;
-var touchStartY = 0;
-var touchStartGlobalY = 0;
     
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
@@ -197,7 +201,19 @@ ctx.strokeStyle="#FF0000";
 	  
   }
 	debugTouchRange = (sMax - sMin);
+
+	dy3 = dy2;
+	dy2 = dy1;
+	dy1 = dy0;
 	
+	dy3ct = dy2ct;
+	dy2ct = dy1ct;
+	dy1ct = dy0ct;
+	
+	dy0 =  touch.pageY;
+	dy0ct = ct;
+		
+		
     globalDy *= 0.7;
     globalY = -1.2 * (touch.pageY - touchStartY) + touchStartGlobalY;
     
@@ -344,10 +360,15 @@ function render() {
         }
     }
 	
-    ctx.font = "50px Arial";
+    ctx.font = "30px Arial";
     ctx.fillStyle = "black";
-    ctx.strokeText("v4 " + debugNumTouch + " r= " + debugTouchRange, 50,500);
+    ctx.strokeText("v4 " + debugNumTouch + " r= " + debugTouchRange, 50,150);
+    ctx.strokeText("v4 " + Math.floor(dy3) + " " + dy3ct % 10000, 50,200);
+    ctx.strokeText("v4 "   + Math.floor(dy2) + " " + dy2ct % 10000, 50,250);
+    ctx.strokeText("v4 "  + Math.floor(dy1) + " " + dy1ct % 10000, 50,300);
+    ctx.strokeText("v4 " + Math.floor(dy0) + " " + dy0ct % 10000, 50,350);
       
+    ctx.strokeText("st "   + touchStartY + " " + touchStartTime % 10000, 50,430);
 }
     
     
