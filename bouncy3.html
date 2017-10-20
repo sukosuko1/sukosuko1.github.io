@@ -170,17 +170,15 @@ var touchStartGlobalY = 0;
     
     
 document.addEventListener('touchmove', function(event) {
-            event.preventDefault();
+    event.preventDefault();
     
-    
-    
-            var c = document.getElementById("c1");
-        var ctx = c.getContext("2d");    
+    var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
 
     var touch = event.touches[0];
     
   for (var i = 0; i < event.touches.length; i++) {
-    var touch = event.touches[i];
+     touch = event.touches[i];
 ctx.strokeStyle="#FF0000";
       ctx.beginPath();
      
@@ -188,18 +186,27 @@ ctx.strokeStyle="#FF0000";
     ctx.fill();
     ctx.stroke();
   }
-    
+	
     globalDy *= 0.7;
     globalY = -1 * (touch.pageY - touchStartY) + touchStartGlobalY;
     
+
+    if (touchMidTime < )
+    touchMidTime = +new Date;
+    touchMidY = event.touches[event.touches.length - 1].pageY;
+
+    
 }, false);
+    
     
 document.addEventListener('touchend', function(event) {
     event.preventDefault();
 
     var c = document.getElementById("c1");
-    touchEndTime = +new Date;
-    touchEndY = event.touches[0].pageY;
+
+    console.log(event.touches.length);
+    
+    if (event.touches.length == 0) return;
 
     touchEndTime = +new Date;
     touchEndY = event.touches[0].pageY;
