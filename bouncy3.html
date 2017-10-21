@@ -110,10 +110,14 @@ var dy3,dy2,dy1,dy0, dy3ct, dy2ct, dy1ct,dy0ct;
 	
 var touchStartTime = 0;
 var touchEndTime = 0;
+var touchStartX = 0;
 var touchStartY = 0;
 var touchStartGlobalY = 0;
 var touchControlNum = 0;
-
+var touchControlStartX = 0;
+var touchControlStartY = 0;
+	
+	
 $(document).ready(function(){
     
 
@@ -139,6 +143,7 @@ var prevY = 0;
 		
 		
         touchStartTime = +new Date;
+        touchStartX = event.touches[0].pageX;
         touchStartY = event.touches[0].pageY;
         globalDy *= 0.7;
         touchStartGlobalY = globalY;
@@ -169,8 +174,10 @@ var prevY = 0;
             }
             img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif";
         }
-		if (touch.pageX > 250) {
+		if ( (touch.pageY > myControls[1].y) && (touch.pageY < myControls[1].y + myControls[1].height) ) {
 			touchControlNum = 1;
+			touchControlStartX = myControls[1].x;
+			touchControlStartY = myControls[1].y;
 			prevX = touch.pageX;
 		}
     }
@@ -194,8 +201,9 @@ document.addEventListener('touchmove', function(event) {
 	var sMax = 0, sMin = 0;
 	
 	if (touchControlNum > 0) {
-    	myControls[touchControlNum].x += 1.2 * (touch.pageX - prevX);
+    	myControls[touchControlNum].x = touchControlStartX + 1.2 * (touch.pageX - touchStartX);
 		prevX = touch.pageX;
+		return;
 	}
 	
   for (var i = 0; i < event.touches.length; i++) {
