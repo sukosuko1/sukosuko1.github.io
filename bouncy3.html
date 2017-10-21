@@ -174,12 +174,25 @@ var prevY = 0;
             }
             img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif";
         }
+		for (var i = 0; i < myControls.length; i++) {
+			var obj = myControls[i];	 
+			 if ( (touch.pageY > obj.y) && (touch.pageY < obj.y + myControls[1].height) ) {
+				touchControlNum = i+1;
+				touchControlStartX = obj.x;
+				touchControlStartY = obj.y;
+				prevX = touch.pageX;
+			}
+		}
+		
+		/*
 		if ( (touch.pageY > myControls[1].y) && (touch.pageY < myControls[1].y + myControls[1].height) ) {
 			touchControlNum = 1;
 			touchControlStartX = myControls[1].x;
 			touchControlStartY = myControls[1].y;
 			prevX = touch.pageX;
 		}
+		*/
+							  
     }
     
     , false);    
@@ -201,7 +214,7 @@ document.addEventListener('touchmove', function(event) {
 	var sMax = 0, sMin = 0;
 	
 	if (touchControlNum > 0) {
-    	myControls[touchControlNum].x = touchControlStartX + 1.2 * (touch.pageX - touchStartX);
+    	myControls[touchControlNum-1].x = touchControlStartX + 1.2 * (touch.pageX - touchStartX);
 		prevX = touch.pageX;
 		return;
 	}
@@ -320,10 +333,11 @@ var h = window.innerHeight
     
 var globalY = 0;
 var globalDy = 2;
-var screenHeight = 675;
-var screenWidth = 350;
+var screenHeight = 667;
+var screenWidth = 375;
 var myObjs = [];
 var myControls = [];
+
 function worldInit() {
     for (var i = 0; i < 100; i++) {
         myObjs[i] = {}
@@ -339,15 +353,21 @@ function worldInit() {
     myControls[0].y = 300;
     myControls[0].width = 300;
     myControls[0].height = 50;
-    myControls[0].text = 'acontrol'
+    myControls[0].text = 'apples'
 	myControls[1] = {}
     myControls[1].x = 300;
     myControls[1].y = 150;
     myControls[1].width = 300;
     myControls[1].height = 50;
-    myControls[1].text = 'acontrol'
+    myControls[1].text = 'broccoli sprouts'
+	myControls[2] = {}
+    myControls[2].x = 300;
+    myControls[2].y = 450;
+    myControls[2].width = 300;
+    myControls[2].height = 50;
+    myControls[2].text = 'brussel sprouts'
     
-}   
+}
     
 worldInit();
 var id = setInterval(function() { worldUpdate(); render(); } , 16)    
@@ -358,7 +378,7 @@ function worldUpdate() {
     globalDy *= 0.96;
     
 //    console.log(globalY);
-}    
+}
 
 function render() {
     var c = document.getElementById("c1");
@@ -402,7 +422,8 @@ function render() {
             
             ctx.font = "14px Comic Sans MS";
             ctx.fillStyle = "black";
-            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y); }
+            ctx.fillText("test", obj.x + 0, obj.y); 
+            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
     }
 	
 	
