@@ -112,8 +112,8 @@ var touchStartTime = 0;
 var touchEndTime = 0;
 var touchStartY = 0;
 var touchStartGlobalY = 0;
+var touchControlNum = 0;
 
-	
 $(document).ready(function(){
     
 
@@ -135,6 +135,9 @@ var prevY = 0;
     document.addEventListener('touchstart', function(event) {
         event.preventDefault();
         
+		touchControlNum = 0;
+		
+		
         touchStartTime = +new Date;
         touchStartY = event.touches[0].pageY;
         globalDy *= 0.7;
@@ -166,6 +169,10 @@ var prevY = 0;
             }
             img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif";
         }
+		if (touch.pageX > 250) {
+			touchControlNum = 1;
+			prevX = touch.pageX;
+		}
     }
     
     , false);    
@@ -185,6 +192,11 @@ document.addEventListener('touchmove', function(event) {
     debugNumTouch = 0;
 	debugTouchRange = 0;
 	var sMax = 0, sMin = 0;
+	
+	if (touchControlNum > 0) {
+    	myControls[touchControlNum].x += 1.2 * (touch.pageX - prevX);
+		prevX = touch.pageX;
+	}
 	
   for (var i = 0; i < event.touches.length; i++) {
      touch = event.touches[i];
@@ -303,7 +315,7 @@ var globalDy = 2;
 var screenHeight = 675;
 var screenWidth = 350;
 var myObjs = [];
-    
+var myControls = [];
 function worldInit() {
     for (var i = 0; i < 100; i++) {
         myObjs[i] = {}
@@ -314,7 +326,18 @@ function worldInit() {
         myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
         
     }
-    
+	myControls[0] = {}
+    myControls[0].x = 300;
+    myControls[0].y = 300;
+    myControls[0].width = 300;
+    myControls[0].height = 50;
+    myControls[0].text = 'acontrol'
+	myControls[1] = {}
+    myControls[1].x = 300;
+    myControls[1].y = 150;
+    myControls[1].width = 300;
+    myControls[1].height = 50;
+    myControls[1].text = 'acontrol'
     
 }   
     
@@ -340,7 +363,7 @@ function render() {
 
     for (var i = 0; i < myObjs.length; i++) {
         var obj = myObjs[i];
-        if ((myObjs[i].y > globalY) && (myObjs[i].y < globalY + screenHeight)) {
+        if ((myObjs[i].y + myObjs[i].height> globalY) && (myObjs[i].y < globalY + screenHeight)) {
 
             
             ctx.beginPath();
@@ -353,13 +376,29 @@ function render() {
             
             ctx.font = "30px Comic Sans MS";
             ctx.fillStyle = "black";
-            ctx.strokeText("s", obj.x + 5, obj.y - globalY + 30);
-            if (obj.text) {ctx.strokeText(obj.text, obj.x + 30, obj.y - globalY + 30); }
+            ctx.fillText("s", obj.x + 5, obj.y - globalY + 30);
+            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y - globalY + 30); }
             
         }
     }
+    for (var i = 0; i < myControls.length; i++) {
+        var obj = myControls[i];
+            
+            ctx.beginPath();
+            ctx.rect(obj.x, obj.y, obj.width, obj.height);
+            ctx.fillStyle = 'brown';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'black';
+            ctx.stroke();    
+            
+            ctx.font = "14px Comic Sans MS";
+            ctx.fillStyle = "black";
+            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y); }
+    }
 	
-    ctx.font = "normal 20px Georgia";
+	
+    ctx.font = "normal 16px Georgia";
     ctx.strokeStyle = 'black';
     ctx.fillText("v5 " + debugNumTouch + " r= " + debugTouchRange, 50,150);
     ctx.fillText("v4 " + Math.floor(dy3) + " " + dy3ct % 10000, 50,200);
