@@ -366,17 +366,37 @@ function worldInit() {
     myControls[2].width = 300;
     myControls[2].height = 50;
     myControls[2].text = 'brussel sprouts'
+	
+	myControls[3] = {}
+    myControls[3].x = 50;
+    myControls[3].y = 0;
+    myControls[3].width = 50;
+    myControls[3].height = 50;
+    myControls[3].text = '9'
+	myControls[3].action = function() {
+		this.text =  String.fromCharCode(97 + Math.floor(26 * Math.random()));
+	}
     
 }
     
 worldInit();
-var id = setInterval(function() { worldUpdate(); render(); } , 16)    
+//var id = setInterval(function() { worldUpdate(); render(); } , 16)    
 
+function tick() { worldUpdate(); render(); requestAnimationFrame(tick); } 	
+requestAnimationFrame(tick);
+	
 function worldUpdate() {
     globalY += globalDy;
 
     globalDy *= 0.96;
     
+	for (var i = 0;  i < myControls.length; i++) {
+		var obj = myControls[i];
+		if ("action" in obj) {
+			obj.action();
+		}	
+	}
+	
 //    console.log(globalY);
 }
 
