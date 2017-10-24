@@ -445,7 +445,7 @@ function render() {
             ctx.fillStyle = "white";
             
             if ("imgready" in obj) {
-                ctx.drawImage(obj.img, 0, obj.y);
+                ctx.drawImage(obj.img, 0, obj.y + 50);
             }
             
             if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
