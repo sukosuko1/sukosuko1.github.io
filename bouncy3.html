@@ -1,0 +1,471 @@
+<!doctype html>
+<html>
+    
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+<meta name="apple-mobile-web-app-title" content="Mumble App">
+<meta name="HandheldFriendly" content="true">
+    
+    <style>
+        body {
+            width:375;
+            height:667;
+        }
+        .moveable {
+            position: absolute;
+            background-color: aquamarine;
+            background-image: linear-gradient(45deg,#AAF,#88C);
+            padding: 10px 10px;
+            box-shadow: 8px 8px 5px #CCC;
+            z-index 9;
+        }
+        .textpop {
+            position: absolute;
+            top:100px;
+        }
+        
+        #tag2 {
+             position: absolute;
+        }
+        image {
+             position: absolute;
+            padding: 0px;
+        }
+        #minion1 {
+             position: absolute;
+            transform: scale(0.7);
+            padding: 0px;
+        }
+        #minion2 {
+             position: absolute;
+            top:150;
+            left:100;
+        }
+        #player {
+            position: absolute;
+            z-index -1;
+        }
+        #c1 {
+            position: absolute;
+            top: 0;
+            width: 375;
+            height: 667;
+            background-color: darkgoldenrod;
+            z-index: -1;
+        }
+    </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body id="body">
+    <button id="b1" onclick="buttonclick()">button</button>
+    <div id="debug1">info</div>
+    <div class="moveable" id="tag2">Can't 4 touch this 
+       <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
+    </div>
+    
+    <canvas id="c1" height="667" width="375"></canvas>
+    <p id="mapholder">map</p>
+    
+</body>
+    
+    
+    
+<script>
+        
+function addObject(text, x, y) {
+//   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
+    
+
+    
+   $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">hello</div>');
+   $("#t1").hide()
+        .fadeIn(50, function (){} ).delay(900)
+        .effect( "puff", {percent:200}, 200, function(e) { 
+       console.log("done");  
+       $("#t1").remove();
+    });
+}
+
+
+
+function showPosition(position) {
+    var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=YOUR_:KEY";
+
+    alert(img_url);
+    
+    document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+}
+
+var debugNumTouch = 0;
+var debugTouchRange = 0;
+
+var dy3,dy2,dy1,dy0, dy3ct, dy2ct, dy1ct,dy0ct;
+	
+var touchStartTime = 0;
+var touchEndTime = 0;
+var touchStartX = 0;
+var touchStartY = 0;
+var touchStartGlobalY = 0;
+var touchControlNum = 0;
+var touchControlStartX = 0;
+var touchControlStartY = 0;
+	
+	
+$(document).ready(function(){
+    
+
+     var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+        ctx.beginPath();
+    ctx.moveTo(0,0)
+    ctx.lineTo(ctx.width,0);
+            ctx.lineTo(ctx.width,ctx.height);
+            ctx.lineTo(0,ctx.height);
+    ctx.lineTo(0,0);
+    ctx.stroke();    
+    
+
+var prevX = 0;
+var prevY = 0;
+    
+    // Setup canvas and expose context via ctx variable
+    document.addEventListener('touchstart', function(event) {
+        event.preventDefault();
+        
+		touchControlNum = 0;
+		
+		
+        touchStartTime = +new Date;
+        touchStartX = event.touches[0].pageX;
+        touchStartY = event.touches[0].pageY;
+        globalDy *= 0.7;
+        touchStartGlobalY = globalY;
+        
+        if ( event.touches[0].pageY < 300) {
+            $(".moveable").css("background-color", "blue");
+        } else {
+            $(".moveable").css("background-color", "brown");
+        }
+    
+        addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
+        var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
+        for (var i = 0; i < event.touches.length; i++) {
+            var touch = event.touches[i];
+            ctx.beginPath();
+            ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+            ctx.fill();
+            ctx.stroke();
+        }
+        if (touch.pageY < 100) {
+            prevX = touch.pageX;
+            prevY = touch.pageY;
+        
+            var img = new Image();
+            img.onload = function () {
+                context.drawImage(img, prevX, prevY);
+            }
+            img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif";
+        }
+		for (var i = 0; i < myControls.length; i++) {
+			var obj = myControls[i];	 
+			 if ( (touch.pageY > obj.y) && (touch.pageY < obj.y + myControls[1].height) ) {
+				touchControlNum = i+1;
+				touchControlStartX = obj.x;
+				touchControlStartY = obj.y;
+				prevX = touch.pageX;
+			}
+		}
+		
+		/*
+		if ( (touch.pageY > myControls[1].y) && (touch.pageY < myControls[1].y + myControls[1].height) ) {
+			touchControlNum = 1;
+			touchControlStartX = myControls[1].x;
+			touchControlStartY = myControls[1].y;
+			prevX = touch.pageX;
+		}
+		*/
+							  
+    }
+    
+    , false);    
+    
+	var touchMidTime2 = 0, touchMidTime = 0, touchMidY2 = 0, touchMidY = 0;
+
+var touch = {};
+	
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    
+    var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+	var ct = +new Date;
+	
+    touch = event.touches[0];
+    debugNumTouch = 0;
+	debugTouchRange = 0;
+	var sMax = 0, sMin = 0;
+	
+	if (touchControlNum > 0) {
+    	myControls[touchControlNum-1].x = touchControlStartX + 1.2 * (touch.pageX - touchStartX);
+		prevX = touch.pageX;
+		return;
+	}
+	
+  for (var i = 0; i < event.touches.length; i++) {
+     touch = event.touches[i];
+ctx.strokeStyle="#FF0000";
+      ctx.beginPath();
+     
+    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+	  if (touch.pageY > sMax) sMax = touch.pageY;
+	  if ( (touch.pageY < sMin) || (sMin == 0) ) sMin = touch.pageY
+	  debugNumTouch+=1;
+	  
+  }
+	debugTouchRange = (sMax - sMin);
+
+	dy3 = dy2;
+	dy2 = dy1;
+	dy1 = dy0;
+	
+	dy3ct = dy2ct;
+	dy2ct = dy1ct;
+	dy1ct = dy0ct;
+	
+	dy0 =  touch.pageY;
+	dy0ct = ct;
+		
+		
+    globalDy *= 0.7;
+    globalY = -1.2 * (touch.pageY - touchStartY) + touchStartGlobalY;
+    
+	
+    if (touchMidTime < ct - 100) {
+		touchMidTime2 = touchMidTime;
+		touchMidY2 = touchMidY;
+		touchMidTime = ct;
+    	touchMidY = event.touches[event.touches.length - 1].pageY;
+	}
+    
+}, false);
+    
+    
+document.addEventListener('touchend', function(event) {
+    event.preventDefault();
+
+    var c = document.getElementById("c1");
+
+    console.log(event.touches.length);
+    
+
+    touchEndTime = +new Date;
+    touchEndY = touch.pageY;
+    
+    globalDy = -30 * (touchEndY - touchStartY) / (touchEndTime - touchStartTime + 0.000001);
+	
+    globalDy = -30 * (touchEndY - touchMidY2) / (touchEndTime - touchMidTime2 + 0.000001);
+    
+	console.log("diff=" + touchEndY - touchMidY2);
+    console.log(globalDy);
+    
+}, false);
+    
+    
+
+var obj = document.getElementById('tag2');
+obj.addEventListener('touchmove', function(event) {
+  // If there's exactly one finger inside this element
+  if (event.targetTouches.length == 1) {
+    var touch = event.targetTouches[0];
+    // Place element where the finger is
+    obj.style.left = (touch.pageX - 80)  + 'px';
+    obj.style.top = ( touch.pageY - 80) + 'px';
+  }
+}, false);
+    
+    
+    
+var w = window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+    
+var h = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+    
+    
+    console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
+    
+    $("#debug1").text( "1.8 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
+    
+    window.navigator.standalone = true;
+    
+    $("#debug1").css("color","red");
+    
+    
+    
+    $("div").mousedown(function(){
+        addObject("div", 100, 100);
+    });
+    
+    $(document).mousedown(function(e){
+        addObject("hello!", e.pageX, e.pageY);
+    });
+    
+    /*
+    $(document).on("tap",(function(e){
+        addObject("hello!", e.pageX, e.pageY);
+    }));
+    */
+    
+    
+});
+    
+var globalY = 0;
+var globalDy = 2;
+var screenHeight = 667;
+var screenWidth = 375;
+var myObjs = [];
+var myControls = [];
+
+function worldInit() {
+    for (var i = 0; i < 100; i++) {
+        myObjs[i] = {}
+        myObjs[i].x = Math.random() * screenWidth;
+        myObjs[i].y = Math.random() * screenHeight * 20;
+        myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
+        myObjs[i].height = Math.random() * myObjs[i].width
+        myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
+        
+    }
+	myControls[0] = {}
+    myControls[0].x = 300;
+    myControls[0].y = 300;
+    myControls[0].width = 300;
+    myControls[0].height = 50;
+    myControls[0].text = 'apples'
+	myControls[1] = {}
+    myControls[1].x = 300;
+    myControls[1].y = 150;
+    myControls[1].width = 300;
+    myControls[1].height = 50;
+    myControls[1].text = 'broccoli sprouts'
+	myControls[2] = {}
+    myControls[2].x = 300;
+    myControls[2].y = 450;
+    myControls[2].width = 300;
+    myControls[2].height = 50;
+    myControls[2].text = 'brussel sprouts'
+	
+	myControls[3] = {}
+    myControls[3].x = 50;
+    myControls[3].y = 0;
+    myControls[3].width = 50;
+    myControls[3].height = 50;
+    myControls[3].text = '9'
+	myControls[3].action = function() {
+		this.text =  String.fromCharCode(97 + Math.floor(26 * Math.random()));
+	}
+    
+}
+    
+worldInit();
+//var id = setInterval(function() { worldUpdate(); render(); } , 16)    
+
+function tick() { worldUpdate(); render(); requestAnimationFrame(tick); } 	
+requestAnimationFrame(tick);
+	
+function worldUpdate() {
+    globalY += globalDy;
+
+    globalDy *= 0.96;
+    
+	for (var i = 0;  i < myControls.length; i++) {
+		var obj = myControls[i];
+		if ("action" in obj) {
+			obj.action();
+		}	
+	}
+	
+//    console.log(globalY);
+}
+
+function render() {
+    var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+    
+        ctx.beginPath();
+        ctx.rect(0, 0, screenWidth, screenHeight);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+
+    for (var i = 0; i < myObjs.length; i++) {
+        var obj = myObjs[i];
+        if ((myObjs[i].y + myObjs[i].height> globalY) && (myObjs[i].y < globalY + screenHeight)) {
+
+            
+            ctx.beginPath();
+            ctx.rect(myObjs[i].x, myObjs[i].y - globalY, myObjs[i].width, myObjs[i].height);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.lineWidth = 7;
+            ctx.strokeStyle = 'black';
+            ctx.stroke();    
+            
+            ctx.font = "30px Comic Sans MS";
+            ctx.fillStyle = "black";
+            ctx.fillText("s", obj.x + 5, obj.y - globalY + 30);
+            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y - globalY + 30); }
+            
+        }
+    }
+    for (var i = 0; i < myControls.length; i++) {
+        var obj = myControls[i];
+            
+            ctx.beginPath();
+            ctx.rect(obj.x, obj.y, obj.width, obj.height);
+            ctx.fillStyle = 'brown';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'black';
+            ctx.stroke();    
+            
+            ctx.font = "14px Comic Sans MS";
+            ctx.fillStyle = "black";
+            ctx.fillText("test", obj.x + 0, obj.y); 
+            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
+    }
+	
+	
+    ctx.font = "normal 16px Georgia";
+    ctx.strokeStyle = 'black';
+    ctx.fillText("v5 " + debugNumTouch + " r= " + debugTouchRange, 50,150);
+    ctx.fillText("v4 " + Math.floor(dy3) + " " + dy3ct % 10000, 50,200);
+    ctx.fillText("v4 "   + Math.floor(dy2) + " " + dy2ct % 10000, 50,250);
+    ctx.fillText("v4 "  + Math.floor(dy1) + " " + dy1ct % 10000, 50,300);
+    ctx.fillText("v4 " + Math.floor(dy0) + " " + dy0ct % 10000, 50,350);
+      
+    ctx.fillText("st "   + Math.floor(touchStartY) + " " + touchStartTime % 10000, 50,120);
+}
+    
+    
+    
+</script>
+    
+    
+    
+    
+    
+    
+</html>
+

@@ -58,22 +58,21 @@
             top: 600px;
         }
         #c1 {
-            width: 300px;
-            height: 300px;
+            width: 375;
+            height: 667;
         }
     </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
-    
+
 <body id="body">
     <button id="b1" onclick="buttonclick()">button</button>
     <div id="debug1">info</div>
     <div class="moveable" id="tag1">Hi there!</div>
-    <div class="moveable" id="tag2">Can't touch this3
+    <div class="moveable" id="tag2">Can't 4 touch this 
        <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
-   <image id="minion2" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     
     <canvas id="c1"></canvas>
     <p id="mapholder">map</p>
@@ -81,8 +80,8 @@
 </body>
     
     
-
-    <script>
+    
+<script>
         
 function addObject(text, x, y) {
 //   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
@@ -116,19 +115,16 @@ $(document).ready(function(){
     event.preventDefault();
     }, false); 
 
-    document.ontouchmove = function(event){
-    event.preventDefault();
+     var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+        ctx.beginPath();
+    ctx.moveTo(0,0)
+    ctx.lineTo(ctx.width,0);
+            ctx.lineTo(ctx.width,ctx.height);
+            ctx.lineTo(0,ctx.height);
+    ctx.lineTo(0,0);
+    ctx.stroke();    
     
-    getLocation();
-    
-}
-    
- var options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
-
 function success(pos) {
   var crd = pos.coords;
 
@@ -143,36 +139,63 @@ function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
 };
 
-navigator.geolocation.getCurrentPosition(success, error, options);
 
     
 var audio = new Audio('./phaser.wav');
 var audio2 = new Audio('./bloop_x.wav');
-    
+var prevX = 0;
+var prevY = 0;
 
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
         event.preventDefault();
         if ( event.touches[0].pageY < 300) {
-            audio2.play();
             $(".moveable").css("background-color", "blue");
         } else {
-            audio.play();
             $(".moveable").css("background-color", "brown");
         }
     
         addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
+        var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
+        for (var i = 0; i < event.touches.length; i++) {
+            var touch = event.touches[i];
+            ctx.beginPath();
+            ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+            ctx.fill();
+            ctx.stroke();
+        }
+        if (touch.pageY < 100) {
+            prevX = touch.pageX;
+            prevY = touch.pageY;
+        
+            var img = new Image();
+            img.onload = function () {
+                context.drawImage(img, prevX, prevY);
+            }
+            img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif";
+        }
+    }
     
+    , false);    
+    
+    
+document.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+
+            var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
+
   for (var i = 0; i < event.touches.length; i++) {
     var touch = event.touches[i];
-    ctx.beginPath();
-    ctx.arc(touch.pageX, touch.pageY, 20, 0, 2*Math.PI, true);
+ctx.strokeStyle="#FF0000";
+      ctx.beginPath();
+     
+    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
     ctx.fill();
     ctx.stroke();
   }
-    
-    }, false);    
-    
+}, false);
     
 
 var obj = document.getElementById('tag2');
