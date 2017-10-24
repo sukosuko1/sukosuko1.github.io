@@ -1,0 +1,455 @@
+<!doctype html>
+<html>
+    
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+<meta name="apple-mobile-web-app-title" content="Mumble App">
+<meta name="HandheldFriendly" content="true">
+    
+    <style>
+        body {
+            width:375;
+            height:667;
+        }
+        .moveable {
+            position: absolute;
+            background-color: aquamarine;
+            background-image: linear-gradient(45deg,#AAF,#88C);
+            padding: 10px 10px;
+            box-shadow: 8px 8px 5px #CCC;
+            z-index 9;
+        }
+        .textpop {
+            position: absolute;
+            top:100px;
+        }
+        
+        #tag2 {
+             position: absolute;
+        }
+        image {
+             position: absolute;
+            padding: 0px;
+        }
+        #minion1 {
+             position: absolute;
+            transform: scale(0.7);
+            padding: 0px;
+        }
+        #minion2 {
+             position: absolute;
+            top:150;
+            left:100;
+        }
+        #player {
+            position: absolute;
+            z-index -1;
+        }
+        #c1 {
+            position: absolute;
+            top: 0;
+            width: 375;
+            height: 667;
+            background-color: darkgoldenrod;
+            z-index: -1;
+        }
+    </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body id="body">
+    <canvas id="c1" height="667" width="375"></canvas>
+</body>
+    
+    
+    
+<script>
+        
+function addObject(text, x, y) {
+/*    
+   $("body").after('<div id="t1" class="textpop" style="top:' + (y-10) + 'px;left:' + (x-20) + 'px">hello</div>');
+   $("#t1").hide()
+        .fadeIn(50, function (){} ).delay(900)
+        .effect( "puff", {percent:200}, 200, function(e) { 
+       console.log("done");  
+       $("#t1").remove();
+    });
+    */
+    
+}
+
+
+
+function showPosition(position) {
+    var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=YOUR_:KEY";
+
+    alert(img_url);
+    
+    document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+}
+
+var debugNumTouch = 0;
+var debugTouchRange = 0;
+
+var dy3,dy2,dy1,dy0, dy3ct, dy2ct, dy1ct,dy0ct;
+	
+var touchStartTime = 0;
+var touchEndTime = 0;
+var touchStartX = 0;
+var touchStartY = 0;
+var touchStartGlobalY = 0;
+var touchControlNum = 0;
+var touchControlStartX = 0;
+var touchControlStartY = 0;
+	
+	
+$(document).ready(function(){
+    
+
+     var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+        ctx.beginPath();
+    ctx.moveTo(0,0)
+    ctx.lineTo(ctx.width,0);
+            ctx.lineTo(ctx.width,ctx.height);
+            ctx.lineTo(0,ctx.height);
+    ctx.lineTo(0,0);
+    ctx.stroke();    
+    
+
+var prevX = 0;
+var prevY = 0;
+    
+    // Setup canvas and expose context via ctx variable
+    document.addEventListener('touchstart', function(event) {
+        event.preventDefault();
+        
+		touchControlNum = 0;
+		
+		
+        touchStartTime = +new Date;
+        touchStartX = event.touches[0].pageX;
+        touchStartY = event.touches[0].pageY;
+        globalDy *= 0.7;
+        touchStartGlobalY = globalY;
+        
+        if ( event.touches[0].pageY < 300) {
+            $(".moveable").css("background-color", "blue");
+        } else {
+            $(".moveable").css("background-color", "brown");
+        }
+    
+        addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
+        var c = document.getElementById("c1");
+        var ctx = c.getContext("2d");    
+        for (var i = 0; i < event.touches.length; i++) {
+            var touch = event.touches[i];
+            ctx.beginPath();
+            ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+            ctx.fill();
+            ctx.stroke();
+        }
+		for (var i = 0; i < myControls.length; i++) {
+			var obj = myControls[i];
+            if ( (touch.pageY >= obj.y)&&(touch.pageY < obj.y +600)&&(obj.state==0)) {
+                if ("touchstart" in obj) {
+                    obj.touchstart(obj);
+                    console.log("calling " + obj.text + " y=" + obj.y);
+                    break;   
+                }
+            }
+		}
+		
+		/*
+		if ( (touch.pageY > myControls[1].y) && (touch.pageY < myControls[1].y + myControls[1].height) ) {
+			touchControlNum = 1;
+			touchControlStartX = myControls[1].x;
+			touchControlStartY = myControls[1].y;
+			prevX = touch.pageX;
+		}
+		*/
+							  
+    }
+    
+    , false);    
+    
+	var touchMidTime2 = 0, touchMidTime = 0, touchMidY2 = 0, touchMidY = 0;
+
+var touch = {};
+	
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    
+    var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+	var ct = +new Date;
+	
+    touch = event.touches[0];
+    debugNumTouch = 0;
+	debugTouchRange = 0;
+	var sMax = 0, sMin = 0;
+	
+	if (touchControlNum > 0) {
+    	myControls[touchControlNum-1].x = touchControlStartX + 1.2 * (touch.pageX - touchStartX);
+		prevX = touch.pageX;
+		return;
+	}
+	
+  for (var i = 0; i < event.touches.length; i++) {
+     touch = event.touches[i];
+ctx.strokeStyle="#FF0000";
+      ctx.beginPath();
+     
+    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+	  if (touch.pageY > sMax) sMax = touch.pageY;
+	  if ( (touch.pageY < sMin) || (sMin == 0) ) sMin = touch.pageY
+	  debugNumTouch+=1;
+	  
+  }
+	debugTouchRange = (sMax - sMin);
+
+	dy3 = dy2;
+	dy2 = dy1;
+	dy1 = dy0;
+	
+	dy3ct = dy2ct;
+	dy2ct = dy1ct;
+	dy1ct = dy0ct;
+	
+	dy0 =  touch.pageY;
+	dy0ct = ct;
+		
+		
+    globalDy *= 0.7;
+    globalY = -1.2 * (touch.pageY - touchStartY) + touchStartGlobalY;
+    
+	
+    if (touchMidTime < ct - 100) {
+		touchMidTime2 = touchMidTime;
+		touchMidY2 = touchMidY;
+		touchMidTime = ct;
+    	touchMidY = event.touches[event.touches.length - 1].pageY;
+	}
+    
+}, false);
+    
+    
+document.addEventListener('touchend', function(event) {
+    event.preventDefault();
+
+    var c = document.getElementById("c1");
+
+
+    touchEndTime = +new Date;
+    touchEndY = touch.pageY;
+
+    
+}, false);
+    
+    
+    
+    
+var w = window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+    
+var h = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+    
+    
+    console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
+    
+    $("#debug1").text( "1.8 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
+    
+    window.navigator.standalone = true;
+    
+    $("#debug1").css("color","red");
+    
+    
+    
+    $("div").mousedown(function(){
+        addObject("div", 100, 100);
+    });
+    
+    $(document).mousedown(function(e){
+        addObject("hello!", e.pageX, e.pageY);
+    });
+    
+    /*
+    $(document).on("tap",(function(e){
+        addObject("hello!", e.pageX, e.pageY);
+    }));
+    */
+    
+    
+});
+    
+var globalY = 0;
+var globalDy = 2;
+var screenHeight = 667;
+var screenWidth = 375;
+var myObjs = [];
+var myControls = [];
+
+var globalImgNum = 0;
+    
+function worldInit() {
+    for (var i = 0; i < 100; i++) {
+        myObjs[i] = {}
+        myObjs[i].x = Math.random() * screenWidth;
+        myObjs[i].y = Math.random() * screenHeight * 20;
+        myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
+        myObjs[i].height = Math.random() * myObjs[i].width
+        myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
+        
+    }
+	
+    i=0;
+    
+    for (var num = 0; num < 6; num++) {
+    var obj = {};
+    obj.x = 0;
+    obj.y = 50;
+    obj.dx = 0;
+    obj.dy = 0;
+    obj.width = 50;
+    obj.height = 59;
+    obj.state = 0;
+    obj.img = new Image();
+    obj.img.onload = new function() {
+        obj.imgready = true; 
+    }
+    if (num == 0) {
+    obj.text = "Peter Campbell"
+    obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18145-1281458403-15.jpg";
+    }
+    if (num == 1) {
+    obj.text = "Pete2"
+    obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18153-1281458418-10.jpg";
+    }
+    if (num == 2) {
+    obj.text = "Pete3"
+    obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18135-1281458433-10.jpg";
+    }
+    if (num == 3) {
+    obj.text = "Pete"
+    obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18145-1281458442-16.jpg";
+    }
+    if (num == 4) {
+    obj.text = "Pete"
+    obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18131-1281458480-11.jpg";
+    }
+    if (num == 5) {
+    obj.text = "Pete"
+    obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18139-1281458385-7.jpg";
+    }
+        
+	obj.touchstart =  function(obj) {
+        if (obj.state == 0) {
+            obj.state = 1;
+            obj.statex = num;
+            
+            var nexti = globalImgNum + 1;
+            if (nexti > 5) nexti = 0;
+            myControls[nexti].state = 0;
+            myControls[nexti].y = 0;
+            myControls[nexti].dy = 0;
+            globalImgNum = nexti;
+            console.log("nextimg=" + nexti);
+        }
+        if (obj.state == 2) {
+            obj.y = 900;
+        }
+        console.log('checklist');
+        
+	}
+    obj.action = function(obj) {
+        if (obj.state == 1) {
+            obj.dy += 1;
+            if (obj.y > screenHeight) obj.state = 2;
+        }
+    }
+    myControls[i++] = obj;
+    }
+    
+    
+    
+}
+    
+worldInit();
+//var id = setInterval(function() { worldUpdate(); render(); } , 16)    
+
+function tick() { worldUpdate(); render(); requestAnimationFrame(tick); } 	
+requestAnimationFrame(tick);
+	
+function worldUpdate() {
+    globalY += globalDy;
+
+    globalDy *= 0.96;
+    
+	for (var i = 0;  i < myControls.length; i++) {
+		var obj = myControls[i];
+        obj.y += obj.dy;
+        obj.dy *= 0.99;
+		if ("action" in obj) {
+			obj.action(obj);
+		}	
+	}
+	
+//    console.log(globalY);
+}
+
+    
+function render() {
+    var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+    
+    ctx.beginPath();
+    ctx.rect(0, 0, screenWidth, screenHeight);
+    ctx.fillStyle = 'brown';
+    ctx.fill();
+
+
+    for (var nstate = 0; nstate < 2; nstate++) {
+    for (var i = 0; i < myControls.length; i++) {
+        var obj = myControls[i];
+
+        if ( (obj.state == nstate) && (obj.y < screenHeight) ) {
+            
+            ctx.font = "14px Comic Sans MS";
+            ctx.fillStyle = "white";
+            
+            if ("imgready" in obj) {
+                ctx.drawImage(obj.img, 0, obj.y);
+            }
+            
+            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
+        }
+    }
+    }
+        
+    
+	
+	
+}
+    
+    
+    
+</script>
+    
+    
+    
+    
+    
+    
+</html>
+
