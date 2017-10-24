@@ -301,6 +301,8 @@ var myObjs = [];
 var myControls = [];
 
 var globalImgNum = 0;
+
+var globalNumImages= 9;
     
 function worldInit() {
     for (var i = 0; i < 100; i++) {
@@ -315,7 +317,7 @@ function worldInit() {
 	
     i=0;
     
-    for (var num = 0; num < 6; num++) {
+    for (var num = 0; num < globalNumImages; num++) {
     var obj = {};
     obj.x = 0;
     obj.y = 50;
@@ -323,21 +325,22 @@ function worldInit() {
     obj.dy = 0;
     obj.width = 50;
     obj.height = 59;
-    obj.state = 0;
+    obj.state = 2;
     obj.img = new Image();
     obj.img.onload = new function() {
         obj.imgready = true; 
     }
     if (num == 0) {
-    obj.text = "Peter Campbell"
+    obj.text = "Peter Campbell0"
     obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18145-1281458403-15.jpg";
+     obj.state = 0;
     }
     if (num == 1) {
-    obj.text = "Pete2"
+    obj.text = "Pete1"
     obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18153-1281458418-10.jpg";
     }
     if (num == 2) {
-    obj.text = "Pete3"
+    obj.text = "Pete2"
     obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18135-1281458433-10.jpg";
     }
     if (num == 3) {
@@ -350,16 +353,29 @@ function worldInit() {
     }
     if (num == 5) {
     obj.text = "Pete"
-    obj.img.src = "http://s-ak.buzzfed.com/static/enhanced/web03/2010/8/10/12/enhanced-buzz-18139-1281458385-7.jpg";
+    obj.img.src = "http://i234.photobucket.com/albums/ee136/suwarnaadi/hair/pete-campbell-hairstyle.jpg";
+    }
+    if (num == 6) {
+    obj.text = "Pete"
+    obj.img.src = "https://tvrecappersanonymous.files.wordpress.com/2010/07/pete-campbell.jpg?w=500";
+    }
+        
+    if (num == 7) {
+    obj.text = "Pete"
+    obj.img.src = "http://assets.nydailynews.com/polopoly_fs/1.2205530!/img/httpImage/article-pete-0430.jpg";
+    }
+    if (num == 8) {
+    obj.text = "Pete"
+    obj.img.src = "http://dlisted.com/wp-content/uploads/2014/04/petecambellshavedhairline.jpg";
     }
         
 	obj.touchstart =  function(obj) {
         if (obj.state == 0) {
             obj.state = 1;
             obj.statex = num;
-            
+            console.log("drop " + obj.text);
             var nexti = globalImgNum + 1;
-            if (nexti > 5) nexti = 0;
+            if (nexti >= globalNumImages) nexti = 0;
             myControls[nexti].state = 0;
             myControls[nexti].y = 0;
             myControls[nexti].dy = 0;
@@ -437,7 +453,9 @@ function render() {
     }
     }
         
-    
+    ctx.font = "30px Comic Sans MS";
+    ctx.fillStyle = "white";
+    ctx.fillText("My Punchable Face", 20, 575); 
 	
 	
 }
