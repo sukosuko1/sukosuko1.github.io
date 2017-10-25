@@ -164,23 +164,32 @@ var prevY = 0;
             ctx.fill();
             ctx.stroke();
         }
-        if (touch.pageY < 100) {
+        if (touch.pageY > 500) {
             prevX = touch.pageX;
             prevY = touch.pageY;
         
             var img = new Image();
             img.onload = function () {
-                context.drawImage(img, prevX, prevY);
+                ctx.drawImage(img, prevX, 300);
+				ctx.fillRect(100,100,100,100);
+				ctx.fill();
+				console.log("debug");
             }
             img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif";
         }
 		for (var i = 0; i < myControls.length; i++) {
 			var obj = myControls[i];	 
-			 if ( (touch.pageY > obj.y) && (touch.pageY < obj.y + myControls[1].height) ) {
+			 if ( (touch.pageY > obj.y) && (touch.pageY < obj.y + myControls[1].height) &&
+				   (touch.pageX > obj.x) && (touch.pageX < obj.x + myControls[1].width)  ) {
 				touchControlNum = i+1;
 				touchControlStartX = obj.x;
 				touchControlStartY = obj.y;
 				prevX = touch.pageX;
+				 
+				 if ("touchstart" in obj) {
+					obj.touchstart();
+				 }	
+				 
 			}
 		}
 		
@@ -367,18 +376,83 @@ function worldInit() {
     myControls[2].height = 50;
     myControls[2].text = 'brussel sprouts'
 	
-	myControls[3] = {}
-    myControls[3].x = 50;
-    myControls[3].y = 0;
-    myControls[3].width = 50;
-    myControls[3].height = 50;
-    myControls[3].text = '9'
-	myControls[3].action = function() {
-		this.text =  String.fromCharCode(97 + Math.floor(26 * Math.random()));
+	var obj = {}
+    obj.x = 50;
+    obj.y = 0;
+    obj.width = 50;
+    obj.height = 50;
+    obj.text = '9'
+	obj.counter1 = 99;
+	obj.state1 = 0;
+	obj.dy = 0;
+	obj.dx = 0;
+	obj.touchstart = function() {
+		if (this.state1 == 0) {
+			this.counter1 = 99;
+		}
 	}
+	obj.action = function() {
+		if (this.state1 == 0) {
+		if (this.counter1 > 0) {
+			this.counter1--;
+		} else {
+			this.counter1=99;
+			this.state1=1;
+		}
+//		this.text =  String.fromCharCode(97 + Math.floor(26 * Math.random()));
+		this.text =  String.fromCharCode(48 + Math.floor(this.counter1/10));
+		}
+		if (this.state1 == 1) {
+			var acc = 0.5;
+			var fric = -0.01;
+			if (this.y > 0.85 * screenHeight) fric = -0.03;
+			
+			acc += fric * Math.pow(this.dy, 2);
+			this.dy += acc;
+			
+			this.y += obj.dy;
+			
+			if (this.y > screenHeight) {
+				
+				this.state1 = 2;
+				this.counter1 = 100;
+			}
+		}
+		if (this.state1 == 2) {
+			if (this.counter1 > 0) {
+				this.counter1--;
+			} else {
+				this.state1=0;
+				this.counter1=99;
+				this.y = 0;
+				this.dy = 0;
+			}
+		}
+	}
+	myControls[3] = obj
     
 }
-    
+      function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      } 
+	
+	
 worldInit();
 //var id = setInterval(function() { worldUpdate(); render(); } , 16)    
 
@@ -446,6 +520,7 @@ function render() {
             if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
     }
 	
+	var gb = "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this. But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth."
 	
     ctx.font = "normal 16px Georgia";
     ctx.strokeStyle = 'black';
@@ -456,6 +531,10 @@ function render() {
     ctx.fillText("v4 " + Math.floor(dy0) + " " + dy0ct % 10000, 50,350);
       
     ctx.fillText("st "   + Math.floor(touchStartY) + " " + touchStartTime % 10000, 50,120);
+	
+    wrapText(ctx, gb, 10 , 50 - globalY, 350, 15);
+    wrapText(ctx, gb, 10 , 550 - globalY, 350, 15);
+    wrapText(ctx, gb, 10 , 1550 - globalY, 350, 15);
 }
     
     
