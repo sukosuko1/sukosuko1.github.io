@@ -8,7 +8,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
 <meta name="apple-mobile-web-app-title" content="Mumble App">
 <meta name="HandheldFriendly" content="true">
-    
+	
+	
     <style>
         body {
             width:750;
@@ -537,6 +538,18 @@ function render() {
     wrapText(ctx, gb, 10 , 50 - globalY, 350, 33);
     wrapText(ctx, gb, 10 , 550 - globalY, 350, 33);
     wrapText(ctx, gb, 10 , 1550 - globalY, 350, 33);
+	
+    ctx.fillText("0", 100,0);
+    ctx.fillText("20", 100,20);
+    ctx.fillText("40", 100,40);
+    ctx.fillText("60", 100,60);
+	ctx.fillRect(200,0,100,10);
+	
+	ctx.fillRect(200,20,100,10);
+	
+	ctx.fillRect(200,40,100,10);
+	
+	ctx.fillRect(200,60,100,10);
 }
     
     
