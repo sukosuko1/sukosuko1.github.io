@@ -291,9 +291,24 @@ document.addEventListener('touchend', function(event) {
     console.log(globalDy);
     
 }, false);
-    
-    
+	
+window.addEventListener("deviceorientation", handleOrientation, true);    
 
+var gAlpha = 0;
+var gBeta = 0;
+var gGamma = 0;
+	
+function handleOrientation(event) {
+  var absolute = event.absolute;
+  gAlpha    = event.alpha * Math.PI/360;
+  gBeta     = event.beta;
+  gGamma    = event.gamma;
+
+  // Do stuff with the new orientation data
+}
+	
+	
+	
 var obj = document.getElementById('tag2');
 obj.addEventListener('touchmove', function(event) {
   // If there's exactly one finger inside this element
@@ -473,14 +488,14 @@ function worldUpdate() {
 			obj.action();
 		}	
 	}
-	
 //    console.log(globalY);
 }
 
+	
 function render() {
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");    
-    
+    ctx.rotate(gAlpha);
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
         ctx.fillStyle = 'yellow';
@@ -550,6 +565,11 @@ function render() {
 	ctx.fillRect(200,40,100,10);
 	
 	ctx.fillRect(200,60,100,10);
+	
+	ctx.rotate(0)
+	ctx.fillText("alpha= " + gAlpha, 50,400);
+	
+	
 }
     
     
