@@ -295,10 +295,10 @@ document.addEventListener('touchend', function(event) {
     console.log(globalDy);
     
 }, false);
-	
+
 window.addEventListener("deviceorientation", handleOrientation, true);    
 
-	
+
 function handleOrientation(event) {
   var absolute = event.absolute;
   gAlpha    = -0.5 * event.alpha * Math.PI/360;
@@ -551,9 +551,9 @@ function render() {
       
     ctx.fillText("st "   + Math.floor(touchStartY) + " " + touchStartTime % 10000, 50,120);
 	
-    wrapText(ctx, gb, 10 , 50 - globalY, 350, 33);
-    wrapText(ctx, gb, 10 , 550 - globalY, 350, 33);
-    wrapText(ctx, gb, 10 , 1550 - globalY, 350, 33);
+//    wrapText(ctx, gb, 10 , 50 - globalY, 350, 33);
+//    wrapText(ctx, gb, 10 , 550 - globalY, 350, 33);
+//    wrapText(ctx, gb, 10 , 1550 - globalY, 350, 33);
 	
     ctx.fillText("0", 100,0);
     ctx.fillText("20", 100,20);
@@ -569,6 +569,7 @@ function render() {
 	
 	ctx.rotate(0)
 	ctx.fillText("alpha= " + gAlpha, 50,400);
+	ctx.fillText("ralpha= " + eventdevicemoth.rotationRate.alpha, 50,450);
 	
 	
 }
