@@ -506,7 +506,7 @@ function render() {
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");  
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
-	ctx.transform(-150,-300);
+	ctx.translate(-150,-300);
 	
     ctx.rotate(gAlpha);
         ctx.beginPath();
