@@ -195,7 +195,7 @@ var prevY = 0;
 				prevX = touch.pageX;
 				 
 				 if ("touchstart" in obj) {
-					obj.touchstart();
+					obj.touchstart(obj);
 				 }	
 				 
 			}
@@ -405,7 +405,7 @@ function worldInit() {
     myControls[2].text = 'brussel sprouts'
 	
 	var obj = {}
-    obj.x = 350;
+    obj.x = 250;
     obj.y = 0;
     obj.width = 50;
     obj.height = 50;
@@ -414,53 +414,65 @@ function worldInit() {
 	obj.state1 = 0;
 	obj.dy = 0;
 	obj.dx = 0;
-	obj.touchstart = function() {
-		if (this.state1 == 0) {
-			this.counter1 = 99;
+	obj.touchstart = function(obj) {
+		if (obj.state1 == 0) {
+			obj.counter1 = 99;
 		}
-		if (this.state1 == 1) {
-			this.dy += -5;
+		if (obj.state1 == 1) {
+			obj.dy += -3;
 		}
 	}
-	obj.action = function() {
-		if (this.state1 == 0) {
-		if (this.counter1 > 0) {
-			this.counter1--;
+	obj.action = function(obj) {
+		if (obj.state1 == 0) {
+		if (obj.counter1 > 0) {
+			obj.counter1--;
 		} else {
-			this.counter1=99;
-			this.state1=1;
+			obj.counter1=99;
+			obj.state1=1;
 		}
 //		this.text =  String.fromCharCode(97 + Math.floor(26 * Math.random()));
-		this.text =  String.fromCharCode(48 + Math.floor(this.counter1/10));
+		obj.text =  String.fromCharCode(48 + Math.floor(this.counter1/10));
 		}
 		if (this.state1 == 1) {
-			var acc = 0.5;
+			var acc = 0.2;
 			var fric = -0.01;
 			if (this.y > 0.85 * screenHeight) fric = -0.03;
 			
-			acc += fric * Math.pow(this.dy, 2);
-			this.dy += acc;
+			acc += fric * Math.pow(obj.dy, 2);
+			obj.dy += acc;
 			
-			this.y += obj.dy;
+			obj.y += obj.dy;
 			
-			if (this.y > screenHeight) {
+			if (obj.y > screenHeight) {
 				
-				this.state1 = 2;
-				this.counter1 = 100;
+				obj.state1 = 2;
+				obj.counter1 = 100;
 			}
 		}
-		if (this.state1 == 2) {
-			if (this.counter1 > 0) {
-				this.counter1--;
+		if (obj.state1 == 2) {
+			if (obj.counter1 > 0) {
+				obj.counter1--;
 			} else {
-				this.state1=0;
-				this.counter1=99;
-				this.y = 50;
-				this.dy = 0;
+				obj.state1=0;
+				obj.counter1=99;
+				obj.y = 50;
+				obj.dy = 0;
 			}
 		}
 	}
 	myControls[3] = obj
+    
+    obj = Object.assign({}, obj);
+    obj.x = 150;
+    obj.counter1 = 1;
+    myControls.push(obj);
+    
+    obj = Object.assign({}, obj);
+    obj.x = 50;
+    obj.y = 999;
+    obj.state1 = 2;
+    obj.counter1 = 71;
+    myControls.push(obj);
     
 }
       function wrapText(context, text, x, y, maxWidth, lineHeight) {
@@ -498,7 +510,7 @@ function worldUpdate() {
 	for (var i = 0;  i < myControls.length; i++) {
 		var obj = myControls[i];
 		if ("action" in obj) {
-			obj.action();
+			obj.action(obj);
 		}	
 	}
 //    console.log(globalY);
@@ -508,10 +520,10 @@ function worldUpdate() {
 function render() {
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");  
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
-	ctx.translate(150,300);
-	
-    ctx.rotate(gAlpha);
+//	ctx.setTransform(1, 0, 0, 1, 0, 0);
+//	ctx.translate(150,300);
+//    ctx.rotate(gAlpha);
+    
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
         ctx.fillStyle = 'yellow';
