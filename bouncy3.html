@@ -303,7 +303,7 @@ window.addEventListener("devicemotion", handleMotion, true);
 
 function handleOrientation(event) {
   var absolute = event.absolute;
-  gAlpha    = -0.5 * event.alpha * Math.PI/360;
+  gAlpha    = event.alpha * Math.PI/360;
   gBeta     = event.beta;
   gGamma    = event.gamma;
 
@@ -506,6 +506,8 @@ function render() {
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");  
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
+	ctx.transform(-150,-300);
+	
     ctx.rotate(gAlpha);
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
