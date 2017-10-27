@@ -461,6 +461,9 @@ function worldInit() {
 		}
 	}
 	myControls[3] = obj
+	
+	obj.x = 150;
+	myControls.push(obj);
     
 }
       function wrapText(context, text, x, y, maxWidth, lineHeight) {
@@ -508,8 +511,8 @@ function worldUpdate() {
 function render() {
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");  
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
-	ctx.translate(150,300);
+//	ctx.setTransform(1, 0, 0, 1, 0, 0);
+//	ctx.translate(150,300);
 	
     ctx.rotate(gAlpha);
         ctx.beginPath();
