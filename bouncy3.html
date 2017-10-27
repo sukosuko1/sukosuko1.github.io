@@ -504,7 +504,8 @@ function worldUpdate() {
 	
 function render() {
     var c = document.getElementById("c1");
-    var ctx = c.getContext("2d");    
+    var ctx = c.getContext("2d");  
+	ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.rotate(gAlpha);
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
@@ -576,6 +577,8 @@ function render() {
 	
 	ctx.fillRect(200,60,100,10);
 	
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
+
 	ctx.rotate(0)
 	ctx.fillText("alpha= " + gAlpha, 50,400);
 	if (gMotionEventReady) {
