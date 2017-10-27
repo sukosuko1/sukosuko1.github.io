@@ -301,7 +301,7 @@ window.addEventListener("deviceorientation", handleOrientation, true);
 	
 function handleOrientation(event) {
   var absolute = event.absolute;
-  gAlpha    = event.alpha * Math.PI/360;
+  gAlpha    = -0.5 * event.alpha * Math.PI/360;
   gBeta     = event.beta;
   gGamma    = event.gamma;
 
