@@ -125,6 +125,45 @@ var gBeta = 0;
 var gGamma = 0;
 var gmotionevent = {};
 var gMotionEventReady = false;
+
+var ongoingTouches = [];
+function copyTouch(touch) {
+  return { identifier: touch.identifier, pageX: touch.pageX, pageY: touch.pageY };
+}	
+function ongoingTouchIndexById(idToFind) {
+  for (var i = 0; i < ongoingTouches.length; i++) {
+    var id = ongoingTouches[i].identifier;
+    
+    if (id == idToFind) {
+      return i;
+    }
+  }
+  return -1;    // not found
+}	
+function handleMove(evt) {
+  var touches = evt.changedTouches;
+
+  for (var i = 0; i < touches.length; i++) {
+    var idx = ongoingTouchIndexById(touches[i].identifier);
+
+    if (idx >= 0) {
+      ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
+    } else {
+      console.log("can't figure out which touch to continue");
+    }
+  }
+}
+function handleCancel(evt) {
+  evt.preventDefault();
+  console.log("touchcancel.");
+  var touches = evt.changedTouches;
+  
+  for (var i = 0; i < touches.length; i++) {
+    var idx = ongoingTouchIndexById(touches[i].identifier);
+    ongoingTouches.splice(idx, 1);  // remove it; we're done
+  }
+}
+	
 	
 $(document).ready(function(){
     
@@ -149,7 +188,6 @@ var prevY = 0;
         
 		touchControlNum = 0;
 		
-		
         touchStartTime = +new Date;
         touchStartX = event.touches[0].pageX;
         touchStartY = event.touches[0].pageY;
@@ -172,19 +210,6 @@ var prevY = 0;
             ctx.fill();
             ctx.stroke();
         }
-        if (touch.pageY > 500) {
-            prevX = touch.pageX;
-            prevY = touch.pageY;
-        
-            var img = new Image();
-            img.onload = function () {
-                ctx.drawImage(img, prevX, 300);
-				ctx.fillRect(100,100,100,100);
-				ctx.fill();
-				console.log("debug");
-            }
-            img.src = "http://i.giphy.com/10ca1VbQzmsokE.gif";
-        }
 		for (var i = 0; i < myControls.length; i++) {
 			var obj = myControls[i];	 
 			 if ( (touch.pageY > obj.y) && (touch.pageY < obj.y + myControls[1].height) &&
@@ -199,6 +224,11 @@ var prevY = 0;
 				 }	
 				 
 			}
+		}
+		var touches = event.changedTouches;
+        
+		for (var i = 0; i < touches.length; i++) {		
+			ongoingTouches.push(copyTouch(touches[i]));
 		}
 		
 		/*
@@ -219,7 +249,7 @@ var prevY = 0;
 var touch = {};
 	
 document.addEventListener('touchmove', function(event) {
-    event.preventDefault();
+//    event.preventDefault();
     
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");    
@@ -229,6 +259,8 @@ document.addEventListener('touchmove', function(event) {
     debugNumTouch = 0;
 	debugTouchRange = 0;
 	var sMax = 0, sMin = 0;
+	
+	handleMove(event);
 	
 	if (touchControlNum > 0) {
     	myControls[touchControlNum-1].x = touchControlStartX + 1.2 * (touch.pageX - touchStartX);
@@ -274,6 +306,8 @@ ctx.strokeStyle="#FF0000";
     	touchMidY = event.touches[event.touches.length - 1].pageY;
 	}
     
+	
+	
 }, false);
     
     
@@ -282,7 +316,7 @@ document.addEventListener('touchend', function(event) {
 
     var c = document.getElementById("c1");
 
-    console.log(event.touches.length);
+    console.log("touchend= " + event.touches.length);
     
 
     touchEndTime = +new Date;
@@ -292,10 +326,19 @@ document.addEventListener('touchend', function(event) {
 	
     globalDy = -30 * (touchEndY - touchMidY2) / (touchEndTime - touchMidTime2 + 0.000001);
     
-	console.log("diff=" + touchEndY - touchMidY2);
-    console.log(globalDy);
+	console.log("diff=" + (touchEndY - touchMidY2));
+	handleCancel(event);
     
 }, false);
+
+
+document.addEventListener('touchcancel', function(event) {
+    event.preventDefault();
+	console.log("touchcancel")
+	handleCancel(event);
+}, false);
+
+
 
 window.addEventListener("deviceorientation", handleOrientation, true);    
 window.addEventListener("devicemotion", handleMotion, true);    
@@ -437,15 +480,28 @@ function worldInit() {
 			var acc = 0.2;
 			var fric = -0.01;
 			if (this.y > 0.85 * screenHeight) fric = -0.03;
-			
-			acc += fric * Math.pow(obj.dy, 2);
+			if (obj.dy > 0) {
+				acc += fric * Math.pow(obj.dy, 2);
+			}
 			obj.dy += acc;
+			if (obj.dy < 0) obj.dy *= 0.97;
 			
 			obj.y += obj.dy;
 			
 			if (obj.y > screenHeight) {
 				obj.state1 = 2;
 				obj.counter1 = 100;
+			}
+			for (var i = 0; i < ongoingTouches.length; i++) {
+				var evt = ongoingTouches[i];
+				if ( (evt.pageX > obj.x) && (evt.pageX < obj.x + obj.width)) {
+					var distY = (obj.y + obj.height) - evt.pageY;
+					if ( (distY < 0) && (distY > -80) ) {
+						accTouch = -1.0 * (1 +  distY / 50);
+						obj.dy += accTouch;
+				console.log("found a touch");
+					}
+				}
 			}
 		}
 		if (obj.state1 == 2) {
@@ -465,7 +521,7 @@ function worldInit() {
 	myControls.push(obj);
     
     obj = Object.assign({}, obj);
-    obj.x = 150;
+    obj.x = 250;
     obj.counter1 = 1;
     myControls.push(obj);
     
