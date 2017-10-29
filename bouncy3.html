@@ -67,7 +67,7 @@
 <body id="body">
     <button id="b1" onclick="buttonclick()">button</button>
     <div id="debug1">info</div>
-    <div class="moveable" id="tag2">Can't 5 touch this 
+    <div class="moveable" id="tag2">Can't 6 touch this 
        <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
     </div>
     
@@ -268,6 +268,7 @@ document.addEventListener('touchmove', function(event) {
 		return;
 	}
 	
+	/*
   for (var i = 0; i < event.touches.length; i++) {
      touch = event.touches[i];
 ctx.strokeStyle="#FF0000";
@@ -281,6 +282,8 @@ ctx.strokeStyle="#FF0000";
 	  debugNumTouch+=1;
 	  
   }
+  */
+	
 	debugTouchRange = (sMax - sMin);
 
 	dy3 = dy2;
@@ -581,7 +584,7 @@ function render() {
 //	ctx.setTransform(1, 0, 0, 1, 0, 0);
 //	ctx.translate(150,300);
 	
-    ctx.rotate(gAlpha);
+//    ctx.rotate(gAlpha);
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
         ctx.fillStyle = 'yellow';
