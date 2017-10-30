@@ -529,8 +529,8 @@ function worldUpdate() {
 	}
 	
 	if (ongoingTouches.length > 0) {
-		globalX += 1;
-		globalY += 1;
+		globalX += 3 * Math.cos(gAlpha);
+		globalY += 3 * Math.sin(gAlpha);
 	}
 //    console.log(globalY);
 }
