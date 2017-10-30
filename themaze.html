@@ -547,8 +547,11 @@ function render() {
         ctx.fillStyle = 'yellow';
         ctx.fill();
 	
-    ctx.rotate(gAlpha);
-	ctx.translate(250,500);
+	ctx.fillStyle = 'blue';
+	ctx.fillText("alpha= " + gAlpha, 550,160);
+	
+//    ctx.rotate(gAlpha * 2);
+//	ctx.translate(screenWidth * 0.5, screenHeight * 0.5);
 	
 	var rTop = globalY - screenHeight * 0.5;
 	var rLeft = globalX - screenWidth * 0.5;
@@ -602,7 +605,6 @@ function render() {
 	
 	ctx.fillText("global= " + globalX + "," + globalY, 50,580);
 	
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	ctx.fillText("alpha= " + gAlpha, 50,600);
 	if (gMotionEventReady) {
 	ctx.fillText("ralpha= " + gmotionevent.rotationRate.alpha, 50,620);
