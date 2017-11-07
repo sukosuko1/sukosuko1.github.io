@@ -398,7 +398,22 @@ var h = window.innerHeight
     }));
     */
     
-    
+	/*
+	var imgx = new Image();
+  	imgx.onload = function(evt) {
+		var c = document.getElementById("c1");
+    	var ctx = c.getContext("2d");  
+		ctx.drawImage(imgx,20,20);
+  	}
+	imgx.onerror=function(evt) {
+		console.log(this.src + " cant be loaded");
+	}
+//  	imgx.src = 'winchester.png';
+  	imgx.src = 'fishicon.png';
+	
+    */
+	
+	
 });
     
 var globalY = 0;
@@ -411,10 +426,10 @@ var myObjs = [];
 var myControls = [];
 
 function worldInit() {
-    for (var i = 0; i < 200; i++) {
+    for (var i = 0; i < 4; i++) {
         myObjs[i] = {}
-        myObjs[i].x = Math.random() * screenWidth * 4 - screenWidth;
-        myObjs[i].y = Math.random() * screenHeight * 4 - screenHeight;
+        myObjs[i].x = Math.random() * screenWidth * 2 - screenWidth;
+        myObjs[i].y = Math.random() * screenHeight * 2 - screenHeight;
         myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
         myObjs[i].height = Math.random() * myObjs[i].width
         myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
@@ -508,10 +523,109 @@ function worldInit() {
     myControls.push(obj);
     */
 	
+	obj = {};
+    obj.x = 50;
+    obj.y = 0;
+    obj.width = 50;
+    obj.height = 50;
+	obj.dy = 0;
+	obj.dx = 0;
+	
+    obj = Object.assign({}, obj);
+	obj.img = new Image();
+  	obj.img.src = 'winchester.png';
+  	obj.img.onload = function() {
+		obj.sprite = true;
+  	}
+  	obj.img.onerror = function(evt) {
+		console.log(this.src + "cant be loaded");
+  	}
+	obj.render = function(ctx,x,y) {
+		ctx.drawImage(this.img,x,y);
+	} 
+    myObjs.push(obj);
 	
 }
 	
+var SpriteStar = {
+	create : function(px,py) {
+		var obj = Object.create(this);
+		obj.x = px;
+    	obj.y = py;
+    	obj.width = 50;
+    	obj.height = 50;
+		obj.dy = 0;
+		obj.dx = 0;
+		obj.rot = Math.random();
+		obj.drot = 0.02 + -0.04 * Math.random();
+		obj.lifetime = 200;
+		
+		obj.img = new Image();
+  		obj.img.src = 'Star-icon.png';
+		obj.img.onload = function() {
+			obj.sprite = true;
+		}
+		return obj;
+	},
+	action : function() {
+		//do nothing
+//		this.dy += 0.1;
+//		this.y += this.dy;
+		var now = +new Date;
+		speed = Math.cos(5 * now / 1000);
+		speed = Math.sqrt(Math.abs(speed));
+		this.rot += this.drot * speed;
+	},
+	render : function(ctx,x,y) {
+		ctx.transform(1,0,0,1,0,0);
+		ctx.rotate(this.rot)
+		ctx.drawImage(this.img, x, y);
+	} 
+}
 
+
+var Pet = {
+	create : function(name) {
+		var obj = Object.create(this);
+		obj.name = name;
+		obj.stuff = [];
+		return obj;
+	},
+	give : function(item) {
+		this.stuff.push(item)
+	}
+}
+
+var dog1 = {}
+dog1.name = "fluffy";
+dog1.stuff = [];
+dog1.talk = function() {
+	console.log(this.name);
+}
+dog1.give = function(thing) {
+	this.stuff.push(thing);
+	
+}
+dog2 = Object.assign({},dog1);
+dog2.name = "nobby";
+	
+dog1.talk();
+dog2.talk();
+dog1.give("bone");
+dog1.give("toy");
+console.log(dog1.stuff.length);	
+console.log(dog2.stuff.length);	
+
+var cat1 = Pet.create("matrix");
+var cat2 = Pet.create("whiskers");
+cat1.give("catnip");
+cat1.give("ball of yarn");
+	
+console.log(cat1.stuff.length);	
+console.log(cat2.stuff.length);	
+	
+	
+	
 	
 worldInit();
 //var id = setInterval(function() { worldUpdate(); render(); } , 16)    
@@ -527,10 +641,21 @@ function worldUpdate() {
 			obj.action(obj);
 		}	
 	}
+	for (var i = 0;  i < myObjs.length; i++) {
+		var obj = myObjs[i];
+		if ("action" in obj) {
+			obj.action(obj);
+		}	
+	}
 	
 	if (ongoingTouches.length > 0) {
-		globalX += -3 * Math.sin(gAlpha);
-		globalY += -3 * Math.cos(gAlpha);
+//		globalX += -3 * Math.sin(gAlpha);
+//		globalY += -3 * Math.cos(gAlpha);
+			for (var i = 0; i < ongoingTouches.length; i++) {
+				var evt = ongoingTouches[i];
+				myObjs.push(SpriteStar.create(evt.pageX, evt.pageY));
+			}
+		
 	}
 //    console.log(globalY);
 }
@@ -544,7 +669,7 @@ function render() {
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
-        ctx.fillStyle = 'yellow';
+        ctx.fillStyle = 'brown';
         ctx.fill();
 	
 	ctx.fillStyle = 'blue';
@@ -577,7 +702,11 @@ function render() {
             if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y - globalY + 30); }
 			
 			ctx.fillText("found one= " + (obj.x - globalX) + "," + (obj.y - globalY), 50,550);
-
+			
+			if (obj.sprite) {
+				obj.render(ctx,obj.x - globalX, obj.y - globalY); 
+			}
+			
         }
     }
     for (var i = 0; i < myControls.length; i++) {
