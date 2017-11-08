@@ -376,7 +376,6 @@ var h = window.innerHeight
     
     console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
     
-    $("#debug1").text( "1.8 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
     
     window.navigator.standalone = true;
     
@@ -579,7 +578,9 @@ var SpriteStar = {
 	},
 	render : function(ctx,x,y) {
 		ctx.transform(1,0,0,1,0,0);
+		ctx.translate(x+50,y+50)
 		ctx.rotate(this.rot)
+		ctx.translate(-x-50,-y-50)
 		var alpha = Math.min(this.lifetime / 500, 1);
 		ctx.globalAlpha = alpha;
 		ctx.drawImage(this.img, x, y);
@@ -627,8 +628,12 @@ var MyBackground = {
 			this.zoomGoalScale =  1 + Math.random() * 0.2;
 			this.zoomCount = 1200;
 		}
-		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
-		this.zoomY += (this.zoomGoalY - this.zoomY) * 0.01;
+//		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
+//		this.zoomY += (this.zoomGoalY - this.zoomY) * 0.01;
+		if (Math.abs(this.zoomGoalX - this.zoomX) > 2)
+		this.zoomX += (this.zoomGoalX > this.zoomX) ? 2 : -2;
+		if (Math.abs(this.zoomGoalY - this.zoomY) > 2)
+		this.zoomY += (this.zoomGoalY > this.zoomY) ? 2 : -2;
 		this.zoomScale += (this.zoomGoalScale - this.zoomScale) * 0.15;
 		
 	},
@@ -741,10 +746,6 @@ function render() {
 		myBackground.render(ctx);
 	}
 	
-	ctx.fillStyle = 'blue';
-	ctx.fillText("init" , 50,50);
-	ctx.fillText("test" , 250,260);
-	ctx.fillText("alpha= " + gAlpha, 250,160);
 	
 	ctx.translate(screenWidth * 0.2, screenHeight * 0.2);
     ctx.rotate(gAlpha * 2);
