@@ -67,9 +67,6 @@
 <body id="body">
     <button id="b1" onclick="buttonclick()">button</button>
     <div id="debug1">info</div>
-    <div class="moveable" id="tag2">Can't 6 touch this 
-       <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
-    </div>
     
     <canvas id="c1" height="667" width="375"></canvas>
     <p id="mapholder">map</p>
@@ -77,7 +74,7 @@
 </body>
     
     
-    
+<script src="sukoutil.js"></script>
 <script>
         
 function addObject(text, x, y) {
@@ -365,16 +362,6 @@ function handleMotion(event) {
 	
 	
 	
-var obj = document.getElementById('tag2');
-obj.addEventListener('touchmove', function(event) {
-  // If there's exactly one finger inside this element
-  if (event.targetTouches.length == 1) {
-    var touch = event.targetTouches[0];
-    // Place element where the finger is
-    obj.style.left = (touch.pageX - 80)  + 'px';
-    obj.style.top = ( touch.pageY - 80) + 'px';
-  }
-}, false);
     
     
     
@@ -389,7 +376,6 @@ var h = window.innerHeight
     
     console.log( "sc=" + screen.width + "," + screen.height + "  " + w + "," + h);
     
-    $("#debug1").text( "1.8 sc=" + screen.width + "," + screen.height + " dc=" + w + "," + h + " sa="+ window.navigator.standalone);
     
     window.navigator.standalone = true;
     
@@ -411,45 +397,45 @@ var h = window.innerHeight
     }));
     */
     
-    
+	/*
+	var imgx = new Image();
+  	imgx.onload = function(evt) {
+		var c = document.getElementById("c1");
+    	var ctx = c.getContext("2d");  
+		ctx.drawImage(imgx,20,20);
+  	}
+	imgx.onerror=function(evt) {
+		console.log(this.src + " cant be loaded");
+	}
+//  	imgx.src = 'winchester.png';
+  	imgx.src = 'fishicon.png';
+	
+    */
+	
+	
 });
     
 var globalY = 0;
 var globalDy = 2;
+var globalX = 0;
+var globalDx = 2;
 var screenHeight = 1334;
 var screenWidth = 750;
 var myObjs = [];
 var myControls = [];
 
 function worldInit() {
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 0; i++) {
         myObjs[i] = {}
-        myObjs[i].x = Math.random() * screenWidth;
-        myObjs[i].y = Math.random() * screenHeight * 20;
+        myObjs[i].x = Math.random() * screenWidth * 2 - screenWidth;
+        myObjs[i].y = Math.random() * screenHeight * 2 - screenHeight;
         myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
         myObjs[i].height = Math.random() * myObjs[i].width
         myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
         
     }
-	myControls[0] = {}
-    myControls[0].x = 300;
-    myControls[0].y = 300;
-    myControls[0].width = 300;
-    myControls[0].height = 50;
-    myControls[0].text = 'apples'
-	myControls[1] = {}
-    myControls[1].x = 300;
-    myControls[1].y = 150;
-    myControls[1].width = 300;
-    myControls[1].height = 50;
-    myControls[1].text = 'broccoli sprouts'
-	myControls[2] = {}
-    myControls[2].x = 300;
-    myControls[2].y = 450;
-    myControls[2].width = 300;
-    myControls[2].height = 50;
-    myControls[2].text = 'brussel sprouts'
-	
+
+	/*
 	var obj = {}
     obj.x = 250;
     obj.y = 0;
@@ -534,45 +520,212 @@ function worldInit() {
     obj.state1 = 2;
     obj.counter1 = 71;
     myControls.push(obj);
-    
+    */
+	
+	obj = {};
+    obj.x = 50;
+    obj.y = 0;
+    obj.width = 50;
+    obj.height = 50;
+	obj.dy = 0;
+	obj.dx = 0;
+	
+    obj = Object.assign({}, obj);
+	obj.img = new Image();
+  	obj.img.src = 'winchester.png';
+  	obj.img.onload = function() {
+		obj.sprite = true;
+  	}
+  	obj.img.onerror = function(evt) {
+		console.log(this.src + "cant be loaded");
+  	}
+	obj.render = function(ctx,x,y) {
+		ctx.drawImage(this.img,x,y);
+	} 
+//    myObjs.push(obj);
+	
 }
-      function wrapText(context, text, x, y, maxWidth, lineHeight) {
-        var words = text.split(' ');
-        var line = '';
+	
+var SpriteStar = {
+	create : function(px,py) {
+		var obj = Object.create(this);
+		obj.x = px;
+    	obj.y = py;
+    	obj.width = 50;
+    	obj.height = 50;
+		obj.dy = 0;
+		obj.dx = 0;
+		obj.rot = Math.random();
+		obj.drot = 0.02 + -0.04 * Math.random();
+		obj.lifetime = 3000;
+		
+		obj.img = new Image();
+  		obj.img.src = 'Star-icon.png';
+		obj.img.onload = function() {
+			obj.sprite = true;
+		}
+		return obj;
+	},
+	action : function(elapsed) {
+		//do nothing
+//		this.dy += 0.1;
+//		this.y += this.dy;
+		var now = +new Date;
+		speed = Math.cos(5 * now / 1000);
+		speed = Math.sqrt(Math.abs(speed));
+		this.rot += this.drot * speed;
+		this.lifetime -= elapsed;
+	},
+	render : function(ctx,x,y) {
+		ctx.transform(1,0,0,1,0,0);
+		ctx.translate(x+50,y+50)
+		ctx.rotate(this.rot)
+		ctx.translate(-x-50,-y-50)
+		var alpha = Math.min(this.lifetime / 500, 1);
+		ctx.globalAlpha = alpha;
+		ctx.drawImage(this.img, x, y);
+		ctx.globalAlpha = 1.0;
+	} 
+}
 
-        for(var n = 0; n < words.length; n++) {
-          var testLine = line + words[n] + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
-            context.fillText(line, x, y);
-            line = words[n] + ' ';
-            y += lineHeight;
-          }
-          else {
-            line = testLine;
-          }
-        }
-        context.fillText(line, x, y);
-      } 
+var MyBackground = {
+	create : function(px,py) {
+		var obj = Object.create(this);
+		obj.x = 0;
+    	obj.y = 0;
+		obj.dy = 0;
+		obj.dx = 0;
+		obj.rot = 0;
+		obj.drot = 0;
+		
+		obj.img = new Image();
+  		obj.img.src = './IMG_2755.jpg';
+		obj.img.onload = function() {
+			obj.sprite = true;
+		}
+		obj.img.onerror = function() {
+			if (this.img) {
+			console.log("failed to load" + this.img.src)
+			} else {
+				console.log("image error");
+			}
+		}
+		
+		obj.zoomGoalX = 0;
+		obj.zoomGoalY = 0;
+		obj.zoomGoalScale = 1.0;
+		obj.zoomX = 0;
+		obj.zoomY = 0;
+		obj.zoomScale = 1.0;
+		obj.zoomCount = 500;
+		return obj;
+	},
+	action : function(elapsed) {
+		this.zoomCount -= elapsed;
+		if (this.zoomCount < 0) {
+			this.zoomGoalX = Math.random() * -100;
+			this.zoomGoalY = Math.random() * -100;
+			this.zoomGoalScale =  1 + Math.random() * 0.2;
+			this.zoomCount = 1200;
+		}
+//		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
+//		this.zoomY += (this.zoomGoalY - this.zoomY) * 0.01;
+		if (Math.abs(this.zoomGoalX - this.zoomX) > 2)
+		this.zoomX += (this.zoomGoalX > this.zoomX) ? 2 : -2;
+		if (Math.abs(this.zoomGoalY - this.zoomY) > 2)
+		this.zoomY += (this.zoomGoalY > this.zoomY) ? 2 : -2;
+		this.zoomScale += (this.zoomGoalScale - this.zoomScale) * 0.15;
+		
+	},
+	render : function(ctx,x,y) {
+		ctx.transform(this.zoomScale,0,0,this.zoomScale,this.zoomX,this.zoomY);
+		if (this.sprite) {
+			ctx.drawImage(this.img, 0, 0);
+		}
+	} 
+}
+
+var Pet = {
+	create : function(name) {
+		var obj = Object.create(this);
+		obj.name = name;
+		obj.stuff = [];
+		return obj;
+	},
+	give : function(item) {
+		this.stuff.push(item)
+	}
+}
+
+var dog1 = {}
+dog1.name = "fluffy";
+dog1.stuff = [];
+dog1.talk = function() {
+	console.log(this.name);
+}
+dog1.give = function(thing) {
+	this.stuff.push(thing);
 	
+}
+dog2 = Object.assign({},dog1);
+dog2.name = "nobby";
 	
+dog1.talk();
+dog2.talk();
+dog1.give("bone");
+dog1.give("toy");
+console.log(dog1.stuff.length);	
+console.log(dog2.stuff.length);	
+
+var cat1 = Pet.create("matrix");
+var cat2 = Pet.create("whiskers");
+cat1.give("catnip");
+cat1.give("ball of yarn");
+	
+console.log(cat1.stuff.length);	
+console.log(cat2.stuff.length);	
+
+var myBackground = MyBackground.create(0,0);
+
 worldInit();
 //var id = setInterval(function() { worldUpdate(); render(); } , 16)    
 
 function tick() { worldUpdate(); render(); requestAnimationFrame(tick); } 	
 requestAnimationFrame(tick);
-	
+var prevCt = 0;
 function worldUpdate() {
-    globalY += globalDy;
-
-    globalDy *= 0.96;
-    
+    var ct = + new Date();
+	var elapsed = ct - prevCt;
+	prevCt = ct;
+	
+	if (myBackground) {
+		myBackground.action(elapsed);
+	}
+	
 	for (var i = 0;  i < myControls.length; i++) {
 		var obj = myControls[i];
 		if ("action" in obj) {
-			obj.action(obj);
+			obj.action(elapsed);
 		}	
+	}
+	for (var i = 0;  i < myObjs.length; i++) {
+		var obj = myObjs[i];
+		if ("action" in obj) {
+			obj.action(elapsed);
+			if (obj.lifetime < 0) {
+				myObjs.splice(i,1);
+			}
+		}
+	}
+	
+	if (ongoingTouches.length > 0) {
+//		globalX += -3 * Math.sin(gAlpha);
+//		globalY += -3 * Math.cos(gAlpha);
+			for (var i = 0; i < ongoingTouches.length; i++) {
+				var evt = ongoingTouches[i];
+				myObjs.push(SpriteStar.create(evt.pageX, evt.pageY));
+			}
+		
 	}
 //    console.log(globalY);
 }
@@ -581,22 +734,35 @@ function worldUpdate() {
 function render() {
     var c = document.getElementById("c1");
     var ctx = c.getContext("2d");  
-//	ctx.setTransform(1, 0, 0, 1, 0, 0);
-//	ctx.translate(150,300);
 	
-//    ctx.rotate(gAlpha);
+	
+	ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
-        ctx.fillStyle = 'yellow';
+        ctx.fillStyle = 'brown';
         ctx.fill();
-
+	
+	if (myBackground) {
+		myBackground.render(ctx);
+	}
+	
+	
+	ctx.translate(screenWidth * 0.2, screenHeight * 0.2);
+    ctx.rotate(gAlpha * 2);
+	
+	var rTop = globalY - screenHeight * 0.5;
+	var rLeft = globalX - screenWidth * 0.5;
+	
     for (var i = 0; i < myObjs.length; i++) {
         var obj = myObjs[i];
-        if ((myObjs[i].y + myObjs[i].height> globalY) && (myObjs[i].y < globalY + screenHeight)) {
+        if ((obj.y + obj.height> rTop) && (obj.y < rTop + screenHeight) && 
+			(obj.x + obj.width > rLeft) && (obj.x < rLeft + screenWidth)     ) {
 
-            
+			if (obj.sprite) {
+				obj.render(ctx,obj.x - globalX, obj.y - globalY); 
+			} else {
             ctx.beginPath();
-            ctx.rect(myObjs[i].x, myObjs[i].y - globalY, myObjs[i].width, myObjs[i].height);
+            ctx.rect(obj.x - globalX, obj.y - globalY, obj.width, obj.height);
             ctx.fillStyle = 'red';
             ctx.fill();
             ctx.lineWidth = 7;
@@ -607,7 +773,13 @@ function render() {
             ctx.fillStyle = "black";
             ctx.fillText("s", obj.x + 5, obj.y - globalY + 30);
             if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y - globalY + 30); }
-            
+			
+			ctx.fillText("found one= " + (obj.x - globalX) + "," + (obj.y - globalY), 50,550);
+			
+				
+				
+			}
+			
         }
     }
     for (var i = 0; i < myControls.length; i++) {
@@ -627,40 +799,19 @@ function render() {
             if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
     }
 	
-	var gb = "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this. But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth."
 	
+	
+	ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = 'red';
     ctx.font = "normal 20px PT serif";
     ctx.strokeStyle = 'black';
-    ctx.fillText("v5 " + debugNumTouch + " r= " + debugTouchRange, 50,150);
-    ctx.fillText("v4 " + Math.floor(dy3) + " " + dy3ct % 10000, 50,200);
-    ctx.fillText("v4 "   + Math.floor(dy2) + " " + dy2ct % 10000, 50,250);
-    ctx.fillText("v4 "  + Math.floor(dy1) + " " + dy1ct % 10000, 50,300);
-    ctx.fillText("v4 " + Math.floor(dy0) + " " + dy0ct % 10000, 50,350);
-      
-    ctx.fillText("st "   + Math.floor(touchStartY) + " " + touchStartTime % 10000, 50,120);
 	
-//    wrapText(ctx, gb, 10 , 50 - globalY, 350, 33);
-//    wrapText(ctx, gb, 10 , 550 - globalY, 350, 33);
-//    wrapText(ctx, gb, 10 , 1550 - globalY, 350, 33);
 	
-    ctx.fillText("0", 100,0);
-    ctx.fillText("20", 100,20);
-    ctx.fillText("40", 100,40);
-    ctx.fillText("60", 100,60);
-	ctx.fillRect(200,0,100,10);
+	ctx.fillText("global= " + globalX + "," + globalY, 50,580);
 	
-	ctx.fillRect(200,20,100,10);
-	
-	ctx.fillRect(200,40,100,10);
-	
-	ctx.fillRect(200,60,100,10);
-	
-		ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-	ctx.rotate(0)
-	ctx.fillText("alpha= " + gAlpha, 50,400);
+	ctx.fillText("alpha= " + gAlpha, 50,600);
 	if (gMotionEventReady) {
-	ctx.fillText("ralpha= " + gmotionevent.rotationRate.alpha, 50,450);
+	ctx.fillText("ralpha= " + gmotionevent.rotationRate.alpha, 50,620);
 	}
 	
 }
