@@ -598,12 +598,16 @@ var MyBackground = {
 		obj.drot = 0;
 		
 		obj.img = new Image();
-  		obj.img.src = 'img_2755.jpg';
+  		obj.img.src = './IMG_2755.jpg';
 		obj.img.onload = function() {
 			obj.sprite = true;
 		}
 		obj.img.onerror = function() {
+			if (this.img) {
 			console.log("failed to load" + this.img.src)
+			} else {
+				console.log("image error");
+			}
 		}
 		
 		obj.zoomGoalX = 0;
