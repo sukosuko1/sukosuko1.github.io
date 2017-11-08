@@ -623,9 +623,9 @@ var MyBackground = {
 	action : function(elapsed) {
 		this.zoomCount -= elapsed;
 		if (this.zoomCount < 0) {
-			this.zoomGoalX = Math.random() * -200;
-			this.zoomGoalY = Math.random() * -200;
-			this.zoomGoalScale =  1 + Math.random() * 0.5;
+			this.zoomGoalX = -150 + Math.random() * -150;
+			this.zoomGoalY = -100 + Math.random() * -100;
+			this.zoomGoalScale =  1.3 + Math.random() * 0.2;
 			this.zoomCount = 1200;
 		}
 //		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
@@ -759,7 +759,7 @@ function render() {
 			(obj.x + obj.width > rLeft) && (obj.x < rLeft + screenWidth)     ) {
 
 			if (obj.sprite) {
-				obj.render(ctx,obj.x - globalX, obj.y - globalY); 
+				obj.render(ctx,obj.x, obj.y); 
 			} else {
             ctx.beginPath();
             ctx.rect(obj.x - globalX, obj.y - globalY, obj.width, obj.height);
