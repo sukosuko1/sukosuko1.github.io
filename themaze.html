@@ -639,13 +639,23 @@ var DogChar = {
 	},
 	render : function(ctx,x,y) {
 		ctx.transform(1,0,0,1,0,0);
+		ctx.fillStyle = "white";
+		ctx.fillRect(x+40,y+40,120,50);
+		ctx.fillStyle = "black";
+		var offsetX = this.attention.x / 20;
+		var offsetY = this.attention.y / 50;
+		ctx.fillRect(x+55 + offsetX,y+50+offsetY,13,10);
+		ctx.fillRect(x+115 + offsetX,y+50+offsetY,13,10);
+		
 		ctx.drawImage(this.img, x, y);
 		ctx.lineCap = 'round';
       	ctx.beginPath();
 		ctx.moveTo(this.x,this.y);
       	ctx.lineTo(this.attention.x,this.attention.y);
       	ctx.closePath();
-      	ctx.stroke();		
+      	ctx.stroke();
+		
+		
 	} 
 }
 
