@@ -546,6 +546,7 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
+	myControls.push(DogChar.create(180,500));
 }
 	
 var SpriteStar = {
@@ -579,6 +580,8 @@ var SpriteStar = {
 		this.lifetime -= elapsed;
 	},
 	render : function(ctx,x,y) {
+		ctx.save();
+		
 		ctx.transform(1,0,0,1,0,0);
 		ctx.translate(x+50,y+50)
 		ctx.rotate(this.rot)
@@ -587,8 +590,65 @@ var SpriteStar = {
 		ctx.globalAlpha = alpha;
 		ctx.drawImage(this.img, x, y);
 		ctx.globalAlpha = 1.0;
+		ctx.restore();
 	} 
 }
+
+var Attention = {
+	create: function() {
+		var obj = Object.create(this);
+		obj.x = 0;
+		obj.y = 0;
+		obj.timer = 500;
+		return obj;
+	},
+	action : function(elapsed) {
+		this.timer -= elapsed;
+		if (this.timer < 0) {
+			this.x = Math.random() * 500;
+			this.y = Math.random() * 500;
+			this.timer = 100 + Math.random() * 2000;
+		}
+	}
+}
+
+	
+var DogChar = {
+	create : function(px,py) {
+		var obj = Object.create(this);
+		obj.x = px;
+    	obj.y = py;
+    	obj.width = 50;
+    	obj.height = 50;
+		obj.dy = 0;
+		obj.dx = 0;
+		obj.attention = Attention.create();
+		obj.img = new Image();
+  		obj.img.src = 'dog1.png';
+		obj.img.onload = function() {
+			obj.sprite = true;
+		}
+		obj.img.onerror = function() {
+			console.log("cant load dog");
+		}
+		return obj;
+	},
+	action : function(elapsed) {
+		this.attention.action(elapsed);
+		
+	},
+	render : function(ctx,x,y) {
+		ctx.transform(1,0,0,1,0,0);
+		ctx.drawImage(this.img, x, y);
+		ctx.lineCap = 'round';
+      	ctx.beginPath();
+		ctx.moveTo(this.x,this.y);
+      	ctx.lineTo(this.attention.x,this.attention.y);
+      	ctx.closePath();
+      	ctx.stroke();		
+	} 
+}
+
 
 var MyBackground = {
 	create : function(px,py) {
@@ -640,10 +700,12 @@ var MyBackground = {
 		
 	},
 	render : function(ctx,x,y) {
+		ctx.save();
 		ctx.transform(this.zoomScale,0,0,this.zoomScale,this.zoomX,this.zoomY);
 		if (this.sprite) {
 			ctx.drawImage(this.img, 0, 0);
 		}
+		ctx.restore();
 	} 
 }
 
@@ -688,6 +750,7 @@ console.log(cat1.stuff.length);
 console.log(cat2.stuff.length);	
 
 var myBackground = MyBackground.create(0,0);
+
 
 worldInit();
 //var id = setInterval(function() { worldUpdate(); render(); } , 16)    
@@ -784,9 +847,15 @@ function render() {
 			
         }
     }
+	
+	ctx.setTransform(1, 0, 0, 1, 0, 0);
+	
     for (var i = 0; i < myControls.length; i++) {
         var obj = myControls[i];
             
+			if (obj.sprite) {
+				obj.render(ctx,obj.x, obj.y); 
+			} else {
             ctx.beginPath();
             ctx.rect(obj.x, obj.y, obj.width, obj.height);
             ctx.fillStyle = 'brown';
@@ -799,6 +868,7 @@ function render() {
             ctx.fillStyle = "black";
             ctx.fillText("test", obj.x + 0, obj.y); 
             if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
+		}
     }
 	
 	
