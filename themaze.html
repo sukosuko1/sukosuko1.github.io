@@ -546,7 +546,9 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
+	myControls.push(SpeechBubble.create(10,510));
 	myControls.push(DogChar.create(180,450));
+	
 }
 	
 var SpriteStar = {
@@ -614,6 +616,22 @@ var Attention = {
 	}
 }
 
+
+var TextGenerator = {
+	
+	create: function() {
+		var obj = Object.create(this);
+		obj.timer = 500;
+		return obj;
+	},
+	action : function(elapsed) {
+		this.timer -= elapsed;
+		if (this.timer < 0) {
+			this.timer = 2000 + Math.random() * 2000;
+			this.text = "" + Math.random() * 10
+		}
+	}
+}
 	
 var DogChar = {
 	create : function(px,py) {
@@ -668,12 +686,38 @@ var DogChar = {
       	ctx.closePath();
       	ctx.stroke();
 		*/
-		
-		
 	} 
 }
 
-
+var SpeechBubble = {
+	create : function(px,py) {
+		var obj = Object.create(this);
+		obj.x = px;
+    	obj.y = py;
+    	obj.width = 50;
+    	obj.height = 50;
+		obj.dy = 0;
+		obj.dx = 0;
+		obj.textgen = TextGenerator.create();
+		return obj;
+	},
+	action : function(elapsed) {
+		this.textgen.action(elapsed);
+	},
+	render : function(ctx,x,y) {
+		ctx.transform(1,0,0,1,0,0);
+		ctx.shadowColor = "#000000";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+		ctx.fillStyle = "white";
+		ctx.fillRect(x+0,y+0,200,50);
+		
+		ctx.shadowBlur = 0;
+		ctx.fillStyle = "black";
+		ctx.fillText(this.textgen.text,this.x + 5, this.y + 25);
+	} 
+}
 var MyBackground = {
 	create : function(px,py) {
 		var obj = Object.create(this);
@@ -878,23 +922,8 @@ function render() {
     for (var i = 0; i < myControls.length; i++) {
         var obj = myControls[i];
             
-			if (obj.sprite) {
-				obj.render(ctx,obj.x, obj.y); 
-			} else {
-            ctx.beginPath();
-            ctx.rect(obj.x, obj.y, obj.width, obj.height);
-            ctx.fillStyle = 'brown';
-            ctx.fill();
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = 'black';
-            ctx.stroke();    
-            
-            ctx.font = "14px Comic Sans MS";
-            ctx.fillStyle = "black";
-            ctx.fillText("test", obj.x + 0, obj.y); 
-            if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y+ 20); }
-		}
-    }
+			obj.render(ctx,obj.x, obj.y); 
+  }
 	
 	
 	
