@@ -647,11 +647,11 @@ var DogChar = {
 		var offsetX = this.attention.x / 20;
 		var offsetY = this.attention.y / 50;
 		var offsetX = gGamma * -0.20 + 13 + this.attention.x /250;
-		var offsetY = gBeta * -0.10 + 5 + this.attention.y / 150 - 1;
+		var offsetY = gBeta * -0.10 + 6 + this.attention.y / 150;
 		var offsetLR = this.attention.z * -0.01;
 		
-		ctx.fillRect(x+55 + offsetX - offsetLR,y+50+offsetY,13,10);
-		ctx.fillRect(x+115 + offsetX + offsetLR,y+50+offsetY,13,10);
+		ctx.fillRect(x+56 + offsetX - offsetLR,y+50+offsetY,13,10);
+		ctx.fillRect(x+113 + offsetX + offsetLR,y+50+offsetY,13,10);
 		
 		ctx.shadowColor = "#000000";
         ctx.shadowBlur = 10;
