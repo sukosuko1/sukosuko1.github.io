@@ -599,6 +599,7 @@ var Attention = {
 		var obj = Object.create(this);
 		obj.x = 0;
 		obj.y = 0;
+		obj.z = 0;
 		obj.timer = 500;
 		return obj;
 	},
@@ -607,6 +608,7 @@ var Attention = {
 		if (this.timer < 0) {
 			this.x = Math.random() * 500;
 			this.y = Math.random() * 500;
+			this.z = Math.random() * 100;
 			this.timer = 100 + Math.random() * 2000;
 		}
 	}
@@ -644,10 +646,12 @@ var DogChar = {
 		ctx.fillStyle = "black";
 		var offsetX = this.attention.x / 20;
 		var offsetY = this.attention.y / 50;
-		var offsetX = gGamma * -0.20 + 13 + this.attention.x /200;
-		var offsetY = gBeta * -0.10 + 5 + this.attention.y / 500;
-		ctx.fillRect(x+55 + offsetX,y+50+offsetY,13,10);
-		ctx.fillRect(x+115 + offsetX,y+50+offsetY,13,10);
+		var offsetX = gGamma * -0.20 + 13 + this.attention.x /250;
+		var offsetY = gBeta * -0.10 + 5 + this.attention.y / 150 - 1;
+		var offsetLR = this.attention.z * -0.01;
+		
+		ctx.fillRect(x+55 + offsetX - offsetLR,y+50+offsetY,13,10);
+		ctx.fillRect(x+115 + offsetX + offsetLR,y+50+offsetY,13,10);
 		
 		ctx.shadowColor = "#000000";
         ctx.shadowBlur = 10;
