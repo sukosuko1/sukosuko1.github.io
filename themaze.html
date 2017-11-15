@@ -644,7 +644,8 @@ var DogChar = {
 		ctx.fillStyle = "black";
 		var offsetX = this.attention.x / 20;
 		var offsetY = this.attention.y / 50;
-		var offsetX = gGamma / 10;
+		var offsetX = gGamma * -0.25 + 10 + this.attention.x /200;
+		var offsety = gBeta * -0.1 + 5 + this.attention.y / 500;
 		ctx.fillRect(x+55 + offsetX,y+50+offsetY,13,10);
 		ctx.fillRect(x+115 + offsetX,y+50+offsetY,13,10);
 		
