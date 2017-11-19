@@ -425,10 +425,17 @@ function worldInit() {
     for (var i = 0; i < 100; i++) {
         myObjs[i] = {}
         myObjs[i].x = Math.random() * screenWidth;
-        myObjs[i].y = Math.random() * screenHeight * 20;
+        myObjs[i].y = Math.random() * screenHeight * 12;
         myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
         myObjs[i].height = Math.random() * myObjs[i].width
         myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
+	myObjs[i].calcY = function() {
+		if (globalY < this.y - 50) return -1;
+		if (globalY < this.y) return 400 + (globalY - this.y) * 10;
+		if (globalY < this.y + 200) return 400;
+		if (globalY < this.y + 250) return 400 + (globalY - 200 - this.y) * 10;
+		return -1;
+	}
         
     }
 	myControls[0] = {}
@@ -467,6 +474,13 @@ function worldInit() {
 		if (obj.state1 == 1) {
 			obj.dy += -3;
 		}
+	}
+	obj.calcY = function() {
+		if (globalY < this.y - 50) return -1;
+		if (globalY < this.y) return 400 + (globalY - this.y) * 10;
+		if (globalY < this.y + 200) return 400;
+		if (globalY < this.y + 50) return 400 + (globalY - this.y) * 10;
+		return -1;
 	}
 	obj.action = function(obj) {
 		if (obj.state1 == 0) {
@@ -519,7 +533,8 @@ function worldInit() {
 		}
 	}
 	myControls[3] = obj
-	
+
+	/*
 	obj.x = 150;
 	myControls.push(obj);
     
@@ -534,6 +549,8 @@ function worldInit() {
     obj.state1 = 2;
     obj.counter1 = 71;
     myControls.push(obj);
+	*/
+	
     
 }
       function wrapText(context, text, x, y, maxWidth, lineHeight) {
@@ -566,7 +583,7 @@ requestAnimationFrame(tick);
 function worldUpdate() {
     globalY += globalDy;
 
-    globalDy *= 0.96;
+    globalDy *= 0.85;
     
 	for (var i = 0;  i < myControls.length; i++) {
 		var obj = myControls[i];
@@ -592,11 +609,14 @@ function render() {
 
     for (var i = 0; i < myObjs.length; i++) {
         var obj = myObjs[i];
-        if ((myObjs[i].y + myObjs[i].height> globalY) && (myObjs[i].y < globalY + screenHeight)) {
+		
+		var dispY = obj.calcY();
+		
+//        if ((myObjs[i].y + myObjs[i].height> globalY) && (myObjs[i].y < globalY + screenHeight)) {
+        if (dispY >= 0) {
 
-            
             ctx.beginPath();
-            ctx.rect(myObjs[i].x, myObjs[i].y - globalY, myObjs[i].width, myObjs[i].height);
+            ctx.rect(myObjs[i].x, dispY, myObjs[i].width, myObjs[i].height);
             ctx.fillStyle = 'red';
             ctx.fill();
             ctx.lineWidth = 7;
@@ -632,10 +652,7 @@ function render() {
     ctx.font = "normal 20px PT serif";
     ctx.strokeStyle = 'black';
     ctx.fillText("v5 " + debugNumTouch + " r= " + debugTouchRange, 50,150);
-    ctx.fillText("v4 " + Math.floor(dy3) + " " + dy3ct % 10000, 50,200);
-    ctx.fillText("v4 "   + Math.floor(dy2) + " " + dy2ct % 10000, 50,250);
-    ctx.fillText("v4 "  + Math.floor(dy1) + " " + dy1ct % 10000, 50,300);
-    ctx.fillText("v4 " + Math.floor(dy0) + " " + dy0ct % 10000, 50,350);
+    ctx.fillText("v4 " + Math.floor(globalY) + " " + dy0ct % 10000, 50,350);
       
     ctx.fillText("st "   + Math.floor(touchStartY) + " " + touchStartTime % 10000, 50,120);
 	

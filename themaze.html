@@ -415,6 +415,30 @@ var h = window.innerHeight
 	
 });
     
+function wrapText(context, text, x, y, maxWidth, lineHeight, testFlag) {
+        var words = text.split(' ');
+        var line = '';
+	var lineNum = 1;
+	
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            if (!testFlag) context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+			  lineNum += 1;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        if (!testFlag) context.fillText(line, x, y);
+	if (testFlag) return lineNum;
+} 
+    
+    
 var globalY = 0;
 var globalDy = 2;
 var globalX = 0;
@@ -603,6 +627,7 @@ var Attention = {
 		obj.y = 0;
 		obj.z = 0;
 		obj.timer = 500;
+        obj.state = 0;
 		return obj;
 	},
 	action : function(elapsed) {
@@ -612,6 +637,7 @@ var Attention = {
 			this.y = Math.random() * 500;
 			this.z = Math.random() * 100;
 			this.timer = 100 + Math.random() * 2000;
+            this.state = Math.floor(Math.random() * 2);
 		}
 	}
 }
@@ -622,13 +648,28 @@ var TextGenerator = {
 	create: function() {
 		var obj = Object.create(this);
 		obj.timer = 500;
+        obj.state = 0;
+        obj.chatlist = ['You look great!','You are the most perfect lady', 'I like your style','ou have the best laugh', 'looking good','you should be proud of yourself','all the right moves','sunshine on a rainy day','Perfect color','want to be around this girl!','wonderful!','hair looks stunning',
+                       'Inspiring!','keep getting back up','trying new things','Gorgeous!','irresistable','best reason to smile','good head on your shoulders','something special','gift to all'];
+        
 		return obj;
 	},
 	action : function(elapsed) {
 		this.timer -= elapsed;
 		if (this.timer < 0) {
-			this.timer = 2000 + Math.random() * 2000;
-			this.text = "" + Math.random() * 10
+            if (this.state == 1) {
+                this.timer = 4000 + Math.random() * 1000;
+                var n = Math.floor(Math.random() * this.chatlist.length);
+			     this.text = this.chatlist[n];
+                this.state = 0;
+                return 2;
+            }
+            if (this.state == 0) {
+                this.timer = 1800 + Math.random() * 1200;
+                this.text = "";
+                this.state = 1;
+                return 1;
+            }
 		}
 	}
 }
@@ -668,6 +709,11 @@ var DogChar = {
 		var offsetY = gBeta * -0.10 + 6 + this.attention.y / 150;
 		var offsetLR = this.attention.z * -0.01;
 		
+        if (this.attention.state == 1) {
+            offsetX = 0 + this.attention.x / 250 * 1.5;
+		    offsetY = 0 + this.attention.y / 150 * 1.5;
+            offsetLR = 0;
+        }
 		ctx.fillRect(x+56 + offsetX - offsetLR,y+50+offsetY,13,10);
 		ctx.fillRect(x+113 + offsetX + offsetLR,y+50+offsetY,13,10);
 		
@@ -694,6 +740,8 @@ var SpeechBubble = {
 		var obj = Object.create(this);
 		obj.x = px;
     	obj.y = py;
+        obj.offsetx = 0;
+        obj.offsety = 0;
     	obj.width = 50;
     	obj.height = 50;
 		obj.dy = 0;
@@ -706,25 +754,54 @@ var SpeechBubble = {
   		var b = y + h;
 		ctx.beginPath();
   		ctx.strokeStyle="black";
-  		ctx.lineWidth="2";
+  		ctx.lineWidth="4";
+		
+  		ctx.moveTo(x+radius, y);
+		//top left
+		/*
   		ctx.moveTo(x+radius, y);
   		ctx.lineTo(x+radius/2, y-10);
   		ctx.lineTo(x+radius * 2, y);
   		ctx.lineTo(r-radius, y);
+		*/
+		
+  		ctx.lineTo(r-radius, y);
   		ctx.quadraticCurveTo(r, y, r, y+radius);
   		ctx.lineTo(r, y+h-radius);
+		
+  		ctx.moveTo(r, b-radius-10);
+  		ctx.lineTo(r+10, b-radius);
+  		ctx.lineTo(r, b-radius);
+		
   		ctx.quadraticCurveTo(r, b, r-radius, b);
+/*		
+  		ctx.moveTo(r-radius, b);
+  		ctx.lineTo(r-radius/2, b+10);
+  		ctx.lineTo(r-radius * 2, b);
+  		ctx.lineTo(r-radius, b);
+		*/
+		
   		ctx.lineTo(x+radius, b);
 		ctx.quadraticCurveTo(x, b, x, b-radius);
   		ctx.lineTo(x, y+radius);
   		ctx.quadraticCurveTo(x, y, x+radius, y);
+		
   		ctx.stroke();
 		ctx.fill();
 	},
 	action : function(elapsed) {
-		this.textgen.action(elapsed);
+		var r = this.textgen.action(elapsed);
+        if (r == 2) {
+            this.offsetx = Math.random() * 20;
+            this.offsety = Math.random() * 20;
+        }
 	},
 	render : function(ctx,x,y) {
+        if (this.textgen.text != "") {
+
+        var lineNum = wrapText(ctx, this.textgen.text, 
+				 this.x + 8+this.offsetx, this.y + 25+this.offsety, 165-this.offsetx, 20, true); 			
+			
 		ctx.transform(1,0,0,1,0,0);
 		ctx.shadowColor = "#000000";
         ctx.shadowBlur = 10;
@@ -732,11 +809,16 @@ var SpeechBubble = {
         ctx.shadowOffsetY = 1;
 		ctx.fillStyle = "white";
 //		ctx.fillRect(x+0,y+0,200,50);		
-		this.drawBubble(ctx,x+0,y+0,200,50,10);
+		this.drawBubble(ctx,x+this.offsetx,y+this.offsety,180-this.offsetx, 20+ 20 * lineNum,10);
 
 		ctx.shadowBlur = 0;
 		ctx.fillStyle = "black";
-		ctx.fillText(this.textgen.text,this.x + 5, this.y + 25);
+        ctx.font = "20px Helvetica"
+//		ctx.fillText(this.textgen.text,this.x + 5+this.offsetx, this.y + 25+this.offsety);
+
+        wrapText(ctx, this.textgen.text, 
+				 this.x + 8+this.offsetx, this.y + 25+this.offsety, 165-this.offsetx, 20);            
+        }
 	} 
 }
 var MyBackground = {
@@ -775,10 +857,10 @@ var MyBackground = {
 	action : function(elapsed) {
 		this.zoomCount -= elapsed;
 		if (this.zoomCount < 0) {
-			this.zoomGoalX = Math.random() * -200;
-			this.zoomGoalY = Math.random() * -200;
-			this.zoomGoalScale =  1 + Math.random() * 0.5;
-			this.zoomCount = 1200;
+			this.zoomGoalX = Math.random() * -100 - 120;
+			this.zoomGoalY = Math.random() * -100 -100;
+			this.zoomGoalScale =  1.1 + Math.random() * 0.25;
+			this.zoomCount = 4200;
 		}
 //		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
 //		this.zoomY += (this.zoomGoalY - this.zoomY) * 0.01;
@@ -892,14 +974,16 @@ function render() {
 	
 	
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.beginPath();
-        ctx.rect(0, 0, screenWidth, screenHeight);
-        ctx.fillStyle = 'brown';
-        ctx.fill();
+    ctx.beginPath();
+    ctx.rect(0, 0, screenWidth, screenHeight);
+    ctx.fillStyle = 'brown';
+    ctx.fill();
 	
 	if (myBackground) {
 		myBackground.render(ctx);
 	}
+    ctx.fillStyle = 'brown';
+    ctx.fillRect(0, 550, screenWidth, screenHeight - 550);
 	
 	
 	ctx.translate(screenWidth * 0.2, screenHeight * 0.2);
