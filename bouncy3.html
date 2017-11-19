@@ -430,9 +430,9 @@ function worldInit() {
 		myObjs[i].calcYOffset = Math.random() * 200 - 100;
 		myObjs[i].calcY = function() {
 		if (globalY < this.y - 50) return -1;
-		if (globalY < this.y) return 400 + this.calcYOffset+ (globalY - this.y) * 7;
+		if (globalY < this.y) return 400 + this.calcYOffset+ (-globalY + this.y) * 7;
 		if (globalY < this.y + 200) return 400 + this.calcYOffset;
-		if (globalY < this.y + 250) return 400 + this.calcYOffset+ (globalY - 200 - this.y) * 7;
+		if (globalY < this.y + 250) return 400 + this.calcYOffset+ (-globalY + 200 + this.y) * 7;
 		return -1;
 	}
         
@@ -606,6 +606,18 @@ function render() {
         ctx.fillStyle = 'yellow';
         ctx.fill();
 
+	for (var i = globalY % 20; i < screenHeight; i+= 20) {
+		ctx.fillStyle = 'gray';
+		    ctx.strokeStyle = 'black';
+		ctx.fillRect(0,i,screenWidth,2);
+
+		ctx.beginPath();
+		ctx.moveTo(0,i);
+		ctx.lineTo(screenWidth,i);
+		ctx.closePath();
+		
+	}
+	
     for (var i = 0; i < myObjs.length; i++) {
         var obj = myObjs[i];
 		
