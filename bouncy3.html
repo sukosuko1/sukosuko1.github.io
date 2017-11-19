@@ -67,9 +67,6 @@
 <body id="body">
     <button id="b1" onclick="buttonclick()">button</button>
     <div id="debug1">info</div>
-    <div class="moveable" id="tag2">Can't 6 touch this 
-       <image id="minion1" src="http://i.giphy.com/10ca1VbQzmsokE.gif"/>
-    </div>
     
     <canvas id="c1" height="667" width="375"></canvas>
     <p id="mapholder">map</p>
@@ -424,16 +421,18 @@ var myControls = [];
 function worldInit() {
     for (var i = 0; i < 100; i++) {
         myObjs[i] = {}
-        myObjs[i].x = Math.random() * screenWidth;
-        myObjs[i].y = Math.random() * screenHeight * 12;
+        myObjs[i].x = Math.random() * screenWidth * 0.6;
+        myObjs[i].y = Math.random() * screenHeight * 5;
         myObjs[i].width = Math.random() * screenWidth * 0.5 + 20;
         myObjs[i].height = Math.random() * myObjs[i].width
         myObjs[i].text = String.fromCharCode(97 + Math.floor(26 * Math.random()));
-	myObjs[i].calcY = function() {
+		
+		myObjs[i].calcYOffset = Math.random() * 200 - 100;
+		myObjs[i].calcY = function() {
 		if (globalY < this.y - 50) return -1;
-		if (globalY < this.y) return 400 + (globalY - this.y) * 10;
-		if (globalY < this.y + 200) return 400;
-		if (globalY < this.y + 250) return 400 + (globalY - 200 - this.y) * 10;
+		if (globalY < this.y) return 400 + this.calcYOffset+ (globalY - this.y) * 7;
+		if (globalY < this.y + 200) return 400 + this.calcYOffset;
+		if (globalY < this.y + 250) return 400 + this.calcYOffset+ (globalY - 200 - this.y) * 7;
 		return -1;
 	}
         
@@ -532,7 +531,7 @@ function worldInit() {
 			}
 		}
 	}
-	myControls[3] = obj
+//	myControls[3] = obj
 
 	/*
 	obj.x = 150;
