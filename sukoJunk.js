@@ -1,0 +1,2 @@
+var chatlist = ['You look great!','You are the most perfect lady', 'I like your style','ou have the best laugh', 'looking good','you should be proud of yourself','all the right moves','sunshine on a rainy day','Perfect color','want to be around this girl!','wonderful!','hair looks stunning',
+                       'Inspiring!','keep getting back up','trying new things','Gorgeous!','irresistable','best reason to smile','good head on your shoulders','something special','gift to all'];
