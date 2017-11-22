@@ -9,7 +9,8 @@
 <meta name="apple-mobile-web-app-title" content="Mumble App">
 <meta name="HandheldFriendly" content="true">
 	
-	
+<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    
     <style>
         body {
             width:750;
@@ -59,23 +60,32 @@
             background-color: darkgoldenrod;
             z-index: -1;
         }
+        #top1 {
+            position: absolute;
+            top:1550;
+            left:550;
+        }
+        .ontop1 {
+            position: absolute;
+            top:1550;
+            left:550;
+        }
     </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body id="body">
-    <button id="b1" onclick="buttonclick()">button</button>
-    <div id="debug1">info</div>
     
     <canvas id="c1" height="667" width="375"></canvas>
-    <p id="mapholder">map</p>
     
 </body>
     
     
 <script src="sukoutil.js"></script>
 <script>
+    
+//    <img id="top1" src="starsgiphy.gif" class="ontop1">
         
 function addObject(text, x, y) {
 //   $("body").after('<div class="textpop" style="top:100px;left:150px">hello</div>');
@@ -570,8 +580,10 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
-	myControls.push(SpeechBubble.create(10,510));
-	myControls.push(DogChar.create(180,450));
+//	myControls.push(SpeechBubble.create(10,510));
+	myControls.push(DogChar.create(180,350));
+    
+	myControls.push(DogChar.create(20,370));
 	
 }
 	
@@ -833,7 +845,8 @@ var MyBackground = {
 		
 		obj.img = new Image();
 //  		obj.img.src = './IMG_2755.jpg';
-  		obj.img.src = './img_tuna2.jpg';
+//  		obj.img.src = './img_tuna2.jpg';
+  		obj.img.src = './tinaresty.jpg';
 		obj.img.onload = function() {
 			obj.sprite = true;
 		}
@@ -857,9 +870,9 @@ var MyBackground = {
 	action : function(elapsed) {
 		this.zoomCount -= elapsed;
 		if (this.zoomCount < 0) {
-			this.zoomGoalX = Math.random() * -100 - 120;
-			this.zoomGoalY = Math.random() * -100 -100;
-			this.zoomGoalScale =  1.1 + Math.random() * 0.25;
+			this.zoomGoalX = Math.random() * -50 - 120;
+			this.zoomGoalY = Math.random() * -20 + 0;
+			this.zoomGoalScale =  0.6 + Math.random() * 0.1;
 			this.zoomCount = 4200;
 		}
 //		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
@@ -1030,8 +1043,30 @@ function render() {
 			obj.render(ctx,obj.x, obj.y); 
   }
 	
-	
-	
+	ctx.globalAlpha = 0.8;
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0,480,screenWidth,60);
+    
+    ctx.fillStyle = '#8f0120';
+    ctx.fillRect(0,25, 140,25);
+	ctx.globalAlpha = 1.0;
+    
+    ctx.fillStyle = 'white';
+    ctx.fontFamily = 'Open Sans'
+    ctx.font = 'bold 12px open sans';
+    ctx.fillText('Live', 10, 25+18);
+    
+    ctx.fillStyle = 'black';
+    ctx.fontFamily = 'Open Sans'
+    ctx.font = 'bold 18px open sans';
+    ctx.fillText('BREAKING NEWS', 20, 484+20);
+    
+    ctx.fontFamily = 'Open Sans'
+    ctx.font = 'bold 16px open sans';
+    ctx.fillText('Tina Yan visiting Hong Kong', 20, 506+20);
+    
+    
+    
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.fillStyle = 'red';
     ctx.font = "normal 20px PT serif";
