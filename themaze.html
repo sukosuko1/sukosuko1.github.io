@@ -201,11 +201,6 @@ var prevY = 0;
         globalDy *= 0.7;
         touchStartGlobalY = globalY;
         
-        if ( event.touches[0].pageY < 300) {
-            $(".moveable").css("background-color", "blue");
-        } else {
-            $(".moveable").css("background-color", "brown");
-        }
     
         addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
         var c = document.getElementById("c1");
@@ -602,6 +597,7 @@ var SpriteStar = {
 		
 		obj.img = new Image();
   		obj.img.src = 'Star-icon.png';
+  		obj.img.src = 'spritesheet1.jpg';
 		obj.img.onload = function() {
 			obj.sprite = true;
 		}
@@ -609,24 +605,18 @@ var SpriteStar = {
 	},
 	action : function(elapsed) {
 		//do nothing
-//		this.dy += 0.1;
-//		this.y += this.dy;
-		var now = +new Date;
-		speed = Math.cos(5 * now / 1000);
-		speed = Math.sqrt(Math.abs(speed));
-		this.rot += this.drot * speed;
+		this.dy += 0.005 * elapsed;
+		this.y += this.dy;
 		this.lifetime -= elapsed;
+		this.spritex = Math.floor((+new Date() * 0.1) % 6);
 	},
 	render : function(ctx,x,y) {
 		ctx.save();
 		
-		ctx.transform(1,0,0,1,0,0);
-		ctx.translate(x+50,y+50)
-		ctx.rotate(this.rot)
-		ctx.translate(-x-50,-y-50)
 		var alpha = Math.min(this.lifetime / 500, 1);
 		ctx.globalAlpha = alpha;
-		ctx.drawImage(this.img, x, y);
+//		ctx.drawImage(this.img, x, y);
+		ctx.drawImage(this.img, 0+ this.spritex * 50, 200, 50 , 50, x, y, 50, 50);
 		ctx.globalAlpha = 1.0;
 		ctx.restore();
 	} 
@@ -973,7 +963,7 @@ function worldUpdate() {
 //		globalY += -3 * Math.cos(gAlpha);
 			for (var i = 0; i < ongoingTouches.length; i++) {
 				var evt = ongoingTouches[i];
-				myObjs.push(SpriteStar.create(evt.pageX, evt.pageY));
+				myControls.push(SpriteStar.create(evt.pageX, evt.pageY));
 			}
 		
 	}

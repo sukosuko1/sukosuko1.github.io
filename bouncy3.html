@@ -74,7 +74,9 @@
 </body>
     
     
-    
+<script src="sukoJunk.js"></script>
+<script src="sukoCanvas.js"></script>
+
 <script>
         
 function addObject(text, x, y) {
@@ -360,18 +362,6 @@ function handleMotion(event) {
 	}
 }
 	
-	
-	
-var obj = document.getElementById('tag2');
-obj.addEventListener('touchmove', function(event) {
-  // If there's exactly one finger inside this element
-  if (event.targetTouches.length == 1) {
-    var touch = event.targetTouches[0];
-    // Place element where the finger is
-    obj.style.left = (touch.pageX - 80)  + 'px';
-    obj.style.top = ( touch.pageY - 80) + 'px';
-  }
-}, false);
     
     
     
@@ -419,7 +409,10 @@ var myObjs = [];
 var myControls = [];
 
 function worldInit() {
+	var chati = 0;
+	
     for (var i = 0; i < 100; i++) {
+		/*
         myObjs[i] = {}
         myObjs[i].x = Math.random() * screenWidth * 0.6;
         myObjs[i].y = Math.random() * screenHeight * 5;
@@ -429,13 +422,33 @@ function worldInit() {
 		
 		myObjs[i].calcYOffset = Math.random() * 200 - 100;
 		myObjs[i].calcY = function() {
-		if (globalY < this.y - 50) return -1;
+		if (globalY < this.y - 50) return -9999;
 		if (globalY < this.y) return 400 + this.calcYOffset+ (-globalY + this.y) * 7;
 		if (globalY < this.y + 200) return 400 + this.calcYOffset;
 		if (globalY < this.y + 250) return 400 + this.calcYOffset+ (-globalY + 200 + this.y) * 7;
-		return -1;
-	}
-        
+		return -9999;
+		}
+        */
+		var obj = {};
+		
+		obj = SpeechBubble.create(0,0);
+		obj.textgen = {};
+		obj.textgen.text = "hello";
+		obj.textgen.text = chatlist[chati];  chati++;
+		if (chati >= chatlist.length) chati = 0;
+		
+		obj.y = Math.random() * screenHeight * 5;
+		obj.x = Math.random() * screenWidth * 0.2;
+		obj.offsety = Math.random() * 200 - 100;
+		obj.calcY = function() {
+			if (globalY < this.y - 50) return -9999;
+			if (globalY < this.y) return 300 + this.offsety + (-globalY + this.y) * 7;
+			if (globalY < this.y + 200) return 300 + this.offsety;
+			if (globalY < this.y + 250) return 300 + this.offsety+ (-globalY + 200 + this.y) * 7;
+			return -9999;
+		}
+		
+		myObjs.push(obj);
     }
 	myControls[0] = {}
     myControls[0].x = 300;
@@ -552,27 +565,6 @@ function worldInit() {
 	
     
 }
-      function wrapText(context, text, x, y, maxWidth, lineHeight) {
-        var words = text.split(' ');
-        var line = '';
-
-        for(var n = 0; n < words.length; n++) {
-          var testLine = line + words[n] + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
-            context.fillText(line, x, y);
-            line = words[n] + ' ';
-            y += lineHeight;
-          }
-          else {
-            line = testLine;
-          }
-        }
-        context.fillText(line, x, y);
-      } 
-	
-	
 worldInit();
 //var id = setInterval(function() { worldUpdate(); render(); } , 16)    
 
@@ -603,29 +595,37 @@ function render() {
 //    ctx.rotate(gAlpha);
         ctx.beginPath();
         ctx.rect(0, 0, screenWidth, screenHeight);
-        ctx.fillStyle = 'yellow';
+        ctx.fillStyle = '#FFEEFF';
         ctx.fill();
 
-	for (var i = globalY % 20; i < screenHeight; i+= 20) {
+	ctx.save()
+	for (var i = -globalY % 20; i < screenHeight; i+= 20) {
 		ctx.fillStyle = 'gray';
-		    ctx.strokeStyle = 'black';
-		ctx.fillRect(0,i,screenWidth,2);
-
+		ctx.strokeStyle = '#AAAAAA';
+		ctx.lineWidth = 1;
+		//ctx.fillRect(0,i,screenWidth,1);
+		ctx.setLineDash([5, 15]);
 		ctx.beginPath();
 		ctx.moveTo(0,i);
 		ctx.lineTo(screenWidth,i);
 		ctx.closePath();
-		
+		ctx.stroke();
 	}
+	ctx.restore();
 	
     for (var i = 0; i < myObjs.length; i++) {
         var obj = myObjs[i];
 		
+		var dispX = obj.x;
 		var dispY = obj.calcY();
 		
 //        if ((myObjs[i].y + myObjs[i].height> globalY) && (myObjs[i].y < globalY + screenHeight)) {
-        if (dispY >= 0) {
+        if (dispY >= -1 * obj.height) {
 
+			if (obj.render) {
+				obj.render(ctx, dispX, dispY);
+				
+			} else {
             ctx.beginPath();
             ctx.rect(myObjs[i].x, dispY, myObjs[i].width, myObjs[i].height);
             ctx.fillStyle = 'red';
@@ -638,7 +638,7 @@ function render() {
             ctx.fillStyle = "black";
             ctx.fillText("s", obj.x + 5, obj.y - globalY + 30);
             if (obj.text) {ctx.fillText(obj.text, obj.x + 30, obj.y - globalY + 30); }
-            
+			}
         }
     }
     for (var i = 0; i < myControls.length; i++) {
