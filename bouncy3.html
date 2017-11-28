@@ -362,7 +362,7 @@ function handleMotion(event) {
 	var ct = +new Date();
 	lastMotionCt = ct;
 	
-	rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z)
+	rwZ += (ct - lastMotionCt) * (event.acceleration.z)
 	
 	gmotionevent = event;
 	if (event.rotationRate.alpha) {
