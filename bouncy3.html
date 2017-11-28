@@ -368,7 +368,7 @@ var initBaseDzTotal = 0;
 function handleMotion(event) {
 	var ct = +new Date();
 	
-	if (gmotionevent && gmotionevent.acceleration) {
+	if (gmotionevent && gmotionevent.acceleration && initCount >= 100) {
 		rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z - rwBaseDz);
 	}
 	
@@ -378,8 +378,8 @@ function handleMotion(event) {
 	}
 	if (initCount < 100) {
 		initCount++;
-		rwBaseDzTotal += event.acceleration.z;
-		rwBaseDz = rwBaseDzTotal / initCount;
+		initBaseDzTotal += event.acceleration.z;
+		rwBaseDz = initBaseDzTotal / initCount;
 	}
 	
 	rwZ2 = (ct - lastMotionCt);
