@@ -366,13 +366,16 @@ function handleMotion(event) {
 	var ct = +new Date();
 	lastMotionCt = ct;
 	
-	rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z);
-//	rwZ = ct;
-	
 	gmotionevent = event;
 	if (event.rotationRate.alpha) {
 		gMotionEventReady = true;
 	}
+	
+//	rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z);
+	rwZ = (ct - lastMotionCt);
+//	rwZ = ct;
+	
+	
 }
 	
 
