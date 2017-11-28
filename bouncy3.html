@@ -355,7 +355,15 @@ function handleOrientation(event) {
   // Do stuff with the new orientation data
 }
 
+var lastMotionCt = 0;
+var rwZ = 0;
+	
 function handleMotion(event) {
+	var ct = +new Date();
+	lastMotionCt = ct;
+	
+	rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z)
+	
 	gmotionevent = event;
 	if (event.rotationRate.alpha) {
 		gMotionEventReady = true;
@@ -702,7 +710,8 @@ function render() {
 	ctx.fillText("dx= " + gmotionevent.acceleration.x.toFixed(2), 50,470);
 	ctx.fillText("dy= " + gmotionevent.acceleration.y.toFixed(2), 50,490);
 	ctx.fillText("dz= " + gmotionevent.acceleration.z.toFixed(2), 50,510);
-	ctx.fillText("dzg= " + gmotionevent.accelerationIncludingGravity.z.toFixed(2), 50,510);
+	ctx.fillText("dzg= " + gmotionevent.accelerationIncludingGravity.z.toFixed(2), 50,530);
+	ctx.fillText("rwz= " + rwZ, 50,550);
 	}
 	
 }
