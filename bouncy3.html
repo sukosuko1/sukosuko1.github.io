@@ -382,6 +382,7 @@ function handleMotion(event) {
 		initBaseDzTotal += event.acceleration.z;
 		rwBaseDz = initBaseDzTotal / initCount;
 	}
+	rwBaseDz = event.acceleration.z * 0.01 + rwBaseDz * 0.99;
 	
 	rwZ2 = (ct - lastMotionCt);
 //	rwZ = ct;
