@@ -162,7 +162,10 @@ function handleCancel(evt) {
     ongoingTouches.splice(idx, 1);  // remove it; we're done
   }
 }
+
 	
+var rwZ = 0;
+
 	
 $(document).ready(function(){
     
@@ -356,7 +359,6 @@ function handleOrientation(event) {
 }
 
 var lastMotionCt = 0;
-var rwZ = 0;
 	
 	
 	
@@ -364,8 +366,8 @@ function handleMotion(event) {
 	var ct = +new Date();
 	lastMotionCt = ct;
 	
-//	rwZ += (ct - lastMotionCt) * (event.acceleration.z);
-	rwZ = ct;
+	rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z);
+//	rwZ = ct;
 	
 	gmotionevent = event;
 	if (event.rotationRate.alpha) {
