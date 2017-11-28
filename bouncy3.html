@@ -432,6 +432,8 @@ function worldInit() {
 		var obj = {};
 		
 		obj = SpeechBubble.create(0,0);
+		obj.myObjs = [];
+		obj.myObjs.push(BackgroundSparkle.create(obj))
 		obj.textgen = {};
 		obj.textgen.text = "hello";
 		obj.textgen.text = chatlist[chati];  chati++;
@@ -583,6 +585,11 @@ function worldUpdate() {
 		}	
 	}
 //    console.log(globalY);
+	
+	for (var i = 0;  i < myObjs.length; i++) {
+		var obj = myObjs[i];
+		obj.action(10);
+	}
 }
 
 	
@@ -617,6 +624,9 @@ function render() {
         var obj = myObjs[i];
 		
 		var dispX = obj.x;
+		if (!obj.calcY) {
+			console.log('error');
+		}
 		var dispY = obj.calcY();
 		
 //        if ((myObjs[i].y + myObjs[i].height> globalY) && (myObjs[i].y < globalY + screenHeight)) {
@@ -688,7 +698,11 @@ function render() {
 	ctx.rotate(0)
 	ctx.fillText("alpha= " + gAlpha, 50,400);
 	if (gMotionEventReady) {
-	ctx.fillText("ralpha= " + gmotionevent.rotationRate.alpha, 50,450);
+	ctx.fillText("ralpha= " + gmotionevent.rotationRate.alpha.toFixed(2), 50,450);
+	ctx.fillText("dx= " + gmotionevent.acceleration.x.toFixed(2), 50,470);
+	ctx.fillText("dy= " + gmotionevent.acceleration.y.toFixed(2), 50,490);
+	ctx.fillText("dz= " + gmotionevent.acceleration.z.toFixed(2), 50,510);
+	ctx.fillText("dzg= " + gmotionevent.accelerationIncludingGravity.z.toFixed(2), 50,510);
 	}
 	
 }
