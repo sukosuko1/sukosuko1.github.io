@@ -167,6 +167,7 @@ function handleCancel(evt) {
 var rwZ = 0;
 var rwZ2 = 0;
 var rwBaseDz = 0;
+var rwTotalZ = 0;
 	
 var initCount = 0;
 var initBaseDzTotal = 0;
@@ -371,6 +372,7 @@ function handleMotion(event) {
 	
 	if (gmotionevent && gmotionevent.acceleration && initCount >= 100) {
 		rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z - rwBaseDz);
+		rwTotalZ = (ct - lastMotionCt) * rwZ;
 	}
 	
 	gmotionevent = event;
@@ -728,6 +730,7 @@ function render() {
 	ctx.rotate(0)
 	ctx.fillText("init= " + initBaseDzTotal.toFixed(3), 50,270);
 	ctx.fillText("rwBaseDz= " + rwBaseDz.toFixed(3), 50,300);
+	ctx.fillText("rwTotal= " + rwTotalZ, 50,320);
 	ctx.fillText("rwz2= " + rwZ2, 50,350);
 	ctx.fillText("alpha= " + gAlpha, 50,400);
 	if (gMotionEventReady) {
