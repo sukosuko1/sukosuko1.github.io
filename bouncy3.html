@@ -358,11 +358,14 @@ function handleOrientation(event) {
 var lastMotionCt = 0;
 var rwZ = 0;
 	
+	
+	
 function handleMotion(event) {
 	var ct = +new Date();
 	lastMotionCt = ct;
 	
-	rwZ += (ct - lastMotionCt) * (event.acceleration.z)
+//	rwZ += (ct - lastMotionCt) * (event.acceleration.z);
+	rwZ = ct;
 	
 	gmotionevent = event;
 	if (event.rotationRate.alpha) {
@@ -370,6 +373,7 @@ function handleMotion(event) {
 	}
 }
 	
+
     
     
     
