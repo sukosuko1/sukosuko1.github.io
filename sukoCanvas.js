@@ -139,7 +139,7 @@ var Particle = {
 	render : function(ctx,dispX,dispY) {
 		ctx.globalAlpha = this.lifetime / 30;
 		ctx.fillStyle = 'rgb(' + 255 * this.lifetime / 30 + ",55,55)";
-		ctx.fillRect(this.x, this.y, 10, 10); 			
+		ctx.fillRect(dispX + this.x, dispY + this.y, 10, 10); 			
 		ctx.globalAlpha = 1;
 	} 
 }
