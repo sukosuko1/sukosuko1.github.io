@@ -588,7 +588,6 @@ function worldInit() {
 //	myControls.push(SpeechBubble.create(10,510));
 	myControls.push(DogChar.create(180,350));
     
-	myControls.push(DogChar.create(20,370));
 	
 }
 	
@@ -846,7 +845,7 @@ var MyBackground = {
 		obj.img = new Image();
 //  		obj.img.src = './IMG_2755.jpg';
 //  		obj.img.src = './img_tuna2.jpg';
-  		obj.img.src = './tinaresty.jpg';
+  		obj.img.src = './mikefire.png';
 		obj.img.onload = function() {
 			obj.sprite = true;
 		}
@@ -870,9 +869,9 @@ var MyBackground = {
 	action : function(elapsed) {
 		this.zoomCount -= elapsed;
 		if (this.zoomCount < 0) {
-			this.zoomGoalX = Math.random() * -50 - 120;
-			this.zoomGoalY = Math.random() * -20 + 0;
-			this.zoomGoalScale =  0.6 + Math.random() * 0.1;
+			this.zoomGoalX = Math.random() * -50 - 65;
+			this.zoomGoalY = Math.random() * -20 - 20;
+			this.zoomGoalScale =  0.8 + Math.random() * 0.3;
 			this.zoomCount = 4200;
 		}
 //		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
@@ -1063,7 +1062,7 @@ function render() {
     
     ctx.fontFamily = 'Open Sans'
     ctx.font = 'bold 16px open sans';
-    ctx.fillText('Tina Yan visiting Hong Kong', 20, 506+20);
+    ctx.fillText('Bratwurst Fire in Wisconsin', 20, 506+20);
     
     
     
