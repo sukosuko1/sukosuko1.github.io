@@ -168,6 +168,9 @@ var rwZ = 0;
 var rwZ2 = 0;
 var rwBaseDz = 0;
 	
+var initCount = 0;
+var initBaseDzTotal = 0;
+
 	
 $(document).ready(function(){
     
@@ -363,8 +366,6 @@ function handleOrientation(event) {
 var lastMotionCt = 0;
 	
 	
-var initCount = 0;
-var initBaseDzTotal = 0;
 function handleMotion(event) {
 	var ct = +new Date();
 	
@@ -724,6 +725,7 @@ function render() {
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
 
 	ctx.rotate(0)
+	ctx.fillText("init= " + initBaseDzTotal.toFixed(3), 50,270);
 	ctx.fillText("rwBaseDz= " + rwBaseDz.toFixed(3), 50,300);
 	ctx.fillText("rwz2= " + rwZ2, 50,350);
 	ctx.fillText("alpha= " + gAlpha, 50,400);
