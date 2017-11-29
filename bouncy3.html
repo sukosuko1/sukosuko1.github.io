@@ -163,6 +163,8 @@ function handleCancel(evt) {
   }
 }
 
+var rwX = 0;
+var rwX2 = 0;
 	
 var rwZ = 0;
 var rwZ2 = 0;
@@ -374,6 +376,9 @@ function handleMotion(event) {
 	var ct = +new Date();
 	
 	if (gmotionevent && gmotionevent.acceleration && initCount >= 100) {
+		rwX += (ct - lastMotionCt) * (gmotionevent.acceleration.x);
+		rwX2 +=  (gmotionevent.acceleration.x);
+		
 		rwZ += (ct - lastMotionCt) * (gmotionevent.acceleration.z - rwBaseDz);
 		rwTotalZ = (ct - lastMotionCt) * rwZ;
 	}
@@ -738,8 +743,8 @@ function render() {
 	ctx.fillText("alpha= " + gAlpha, 50,400);
 	if (gMotionEventReady) {
 	ctx.fillText("ralpha= " + gmotionevent.rotationRate.alpha.toFixed(2), 50,450);
-	ctx.fillText("dx= " + gmotionevent.acceleration.x.toFixed(2), 50,470);
-	ctx.fillText("dy= " + gmotionevent.acceleration.y.toFixed(2), 50,490);
+	ctx.fillText("rx= " + rwX, 50,470);
+	ctx.fillText("rx2= " + rwX2.toFixed(2), 50,490);
 	ctx.fillText("dz= " + gmotionevent.acceleration.z.toFixed(2), 50,510);
 	ctx.fillText("dzg= " + gmotionevent.accelerationIncludingGravity.z.toFixed(2), 50,530);
 	ctx.fillText("rwz= " + rwZ, 50,550);
