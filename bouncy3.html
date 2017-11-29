@@ -193,7 +193,10 @@ var prevY = 0;
     // Setup canvas and expose context via ctx variable
     document.addEventListener('touchstart', function(event) {
         event.preventDefault();
-        
+		
+        var vibrate = navigator.vibrate || navigator.mozVibrate;
+		vibrate([200,200,100,50,100]);
+		
 		touchControlNum = 0;
 		
         touchStartTime = +new Date;
@@ -742,6 +745,9 @@ function render() {
 	ctx.fillText("rwz= " + rwZ, 50,550);
 	}
 	
+	var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
+	
+	ctx.fillText("battery=" + battery.level, 40, 240);
 }
     
     
