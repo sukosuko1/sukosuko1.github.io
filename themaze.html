@@ -585,10 +585,10 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
-//	myControls.push(SpeechBubble.create(10,510));
-	myControls.push(DogChar.create(180,350));
+	myControls.push(SpeechBubble.create(50,270));
+	myControls.push(DogChar.create(240,350));
     
-	myControls.push(DogChar.create(20,370));
+	myControls.push(DogChar.create(-40,370));
 	
 }
 	
@@ -663,7 +663,10 @@ var TextGenerator = {
         obj.state = 0;
         obj.chatlist = ['You look great!','You are the most perfect lady', 'I like your style','ou have the best laugh', 'looking good','you should be proud of yourself','all the right moves','sunshine on a rainy day','Perfect color','want to be around this girl!','wonderful!','hair looks stunning',
                        'Inspiring!','keep getting back up','trying new things','Gorgeous!','irresistable','best reason to smile','good head on your shoulders','something special','gift to all'];
-        
+
+        obj.chatlist = ['Did you see..','Heard that North Korea just launched a missile.','that happened FOUR hours ago','argh...','fuck you!','son of a beach!'];
+        obj.chatdir = [2,2,1,2,2,2];
+        obj.n = 0;
 		return obj;
 	},
 	action : function(elapsed) {
@@ -671,8 +674,10 @@ var TextGenerator = {
 		if (this.timer < 0) {
             if (this.state == 1) {
                 this.timer = 4000 + Math.random() * 1000;
-                var n = Math.floor(Math.random() * this.chatlist.length);
-			     this.text = this.chatlist[n];
+			    this.text = this.chatlist[this.n]; 
+                this.textdir = this.chatdir[this.n];
+                this.n++;
+                if (this.n >= this.chatlist.length) this.n = 0;
                 this.state = 0;
                 return 2;
             }
@@ -761,7 +766,7 @@ var SpeechBubble = {
 		obj.textgen = TextGenerator.create();
 		return obj;
 	},
-	drawBubble: function drawBubble(ctx, x, y, w, h, radius) {
+	drawBubble: function drawBubble(ctx, x, y, w, h, radius, dir) {
 		var r = x + w;
   		var b = y + h;
 		ctx.beginPath();
@@ -780,11 +785,13 @@ var SpeechBubble = {
   		ctx.lineTo(r-radius, y);
   		ctx.quadraticCurveTo(r, y, r, y+radius);
   		ctx.lineTo(r, y+h-radius);
-		
+
+        if (dir == 2) {
   		ctx.moveTo(r, b-radius-10);
   		ctx.lineTo(r+10, b-radius);
   		ctx.lineTo(r, b-radius);
-		
+        }
+        
   		ctx.quadraticCurveTo(r, b, r-radius, b);
 /*		
   		ctx.moveTo(r-radius, b);
@@ -795,6 +802,13 @@ var SpeechBubble = {
 		
   		ctx.lineTo(x+radius, b);
 		ctx.quadraticCurveTo(x, b, x, b-radius);
+        
+        if (dir == 1) {
+            ctx.moveTo(x, b-radius-10);
+  		    ctx.lineTo(x-10, b-radius);
+  		    ctx.lineTo(x, b-radius);
+        }
+        
   		ctx.lineTo(x, y+radius);
   		ctx.quadraticCurveTo(x, y, x+radius, y);
 		
@@ -811,6 +825,9 @@ var SpeechBubble = {
 	render : function(ctx,x,y) {
         if (this.textgen.text != "") {
 
+        this.offsetx = 0;
+        if (this.textgen.textdir == 2) this.offsex = 50;
+            
         var lineNum = wrapText(ctx, this.textgen.text, 
 				 this.x + 8+this.offsetx, this.y + 25+this.offsety, 165-this.offsetx, 20, true); 			
 			
@@ -821,7 +838,7 @@ var SpeechBubble = {
         ctx.shadowOffsetY = 1;
 		ctx.fillStyle = "white";
 //		ctx.fillRect(x+0,y+0,200,50);		
-		this.drawBubble(ctx,x+this.offsetx,y+this.offsety,180-this.offsetx, 20+ 20 * lineNum,10);
+		this.drawBubble(ctx,x+this.offsetx,y+this.offsety,180-this.offsetx, 20+ 20 * lineNum,10, this.textgen.textdir);
 
 		ctx.shadowBlur = 0;
 		ctx.fillStyle = "black";
@@ -846,7 +863,10 @@ var MyBackground = {
 		obj.img = new Image();
 //  		obj.img.src = './IMG_2755.jpg';
 //  		obj.img.src = './img_tuna2.jpg';
-  		obj.img.src = './tinaresty.jpg';
+//  		obj.img.src = './tinaresty.jpg';
+       obj.img.src ='https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1439,w_2560,x_0,y_0/dpr_2.0/c_limit,w_740/fl_lossy,q_auto/v1492119814/articles/2016/02/11/north-korea-s-generals-could-turn-against-kim-jong-un/160211-chang-nkorea-tease_cdsjmo';
+        
+        
 		obj.img.onload = function() {
 			obj.sprite = true;
 		}
@@ -1063,7 +1083,7 @@ function render() {
     
     ctx.fontFamily = 'Open Sans'
     ctx.font = 'bold 16px open sans';
-    ctx.fillText('Tina Yan visiting Hong Kong', 20, 506+20);
+    ctx.fillText('Two Dogs Chat', 20, 506+20);
     
     
     
