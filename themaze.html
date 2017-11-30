@@ -826,10 +826,10 @@ var SpeechBubble = {
         if (this.textgen.text != "") {
 
         this.offsetx = 0;
-        if (this.textgen.textdir == 2) this.offsex = 50;
+        if (this.textgen.textdir == 2) this.offsetx = 50;
             
         var lineNum = wrapText(ctx, this.textgen.text, 
-				 this.x + 8+this.offsetx, this.y + 25+this.offsety, 165-this.offsetx, 20, true); 			
+				 this.x + 8+this.offsetx, this.y + 25+this.offsety, 165, 20, true); 			
 			
 		ctx.transform(1,0,0,1,0,0);
 		ctx.shadowColor = "#000000";
@@ -838,7 +838,7 @@ var SpeechBubble = {
         ctx.shadowOffsetY = 1;
 		ctx.fillStyle = "white";
 //		ctx.fillRect(x+0,y+0,200,50);		
-		this.drawBubble(ctx,x+this.offsetx,y+this.offsety,180-this.offsetx, 20+ 20 * lineNum,10, this.textgen.textdir);
+		this.drawBubble(ctx,x+this.offsetx,y+this.offsety,180, 20+ 20 * lineNum,10, this.textgen.textdir);
 
 		ctx.shadowBlur = 0;
 		ctx.fillStyle = "black";
@@ -846,7 +846,7 @@ var SpeechBubble = {
 //		ctx.fillText(this.textgen.text,this.x + 5+this.offsetx, this.y + 25+this.offsety);
 
         wrapText(ctx, this.textgen.text, 
-				 this.x + 8+this.offsetx, this.y + 25+this.offsety, 165-this.offsetx, 20);            
+				 this.x + 8+this.offsetx, this.y + 25+this.offsety, 165, 20);            
         }
 	} 
 }
@@ -906,7 +906,7 @@ var MyBackground = {
 	},
 	render : function(ctx,x,y) {
 		ctx.save();
-		ctx.transform(this.zoomScale,0,0,this.zoomScale,this.zoomX,this.zoomY);
+		ctx.transform(this.zoomScale,0,0,this.zoomScale,this.zoomX + 0.5 * gGamma,this.zoomY + 0.5 * gBeta);
 		if (this.sprite) {
 			ctx.drawImage(this.img, 0, 0);
 		}
@@ -1094,9 +1094,9 @@ function render() {
 	
 	
 	if (gMotionEventReady || true) {
-//	ctx.fillText("ralpha= " + gAlpha, 50,520);
-//	ctx.fillText("gamme= " + gGamma, 50,540);
-//	ctx.fillText("beta= " + gBeta, 50,560);
+	ctx.fillText("ralpha= " + gAlpha, 50,520);
+	ctx.fillText("gamme= " + gGamma, 50,540);
+	ctx.fillText("beta= " + gBeta, 50,560);
 	}
 	
 }
