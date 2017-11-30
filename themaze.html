@@ -738,7 +738,7 @@ var DogChar = {
         ctx.shadowBlur = 10;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
-		ctx.drawImage(this.img, x, y);
+		ctx.drawImage(this.img, x-0.1 * gGamma, y-0.1 * gBeta);
 		
 		ctx.shadowBlur = 0;
 		/*
@@ -906,7 +906,7 @@ var MyBackground = {
 	},
 	render : function(ctx,x,y) {
 		ctx.save();
-		ctx.transform(this.zoomScale,0,0,this.zoomScale,this.zoomX + 0.5 * gGamma,this.zoomY + 0.5 * gBeta);
+		ctx.transform(this.zoomScale,0,0,this.zoomScale,this.zoomX + -0.5 * gGamma,this.zoomY + -0.5 * gBeta);
 		if (this.sprite) {
 			ctx.drawImage(this.img, 0, 0);
 		}
@@ -1094,9 +1094,9 @@ function render() {
 	
 	
 	if (gMotionEventReady || true) {
-	ctx.fillText("ralpha= " + gAlpha, 50,520);
-	ctx.fillText("gamme= " + gGamma, 50,540);
-	ctx.fillText("beta= " + gBeta, 50,560);
+//	ctx.fillText("ralpha= " + gAlpha, 50,520);
+//	ctx.fillText("gamme= " + gGamma, 50,540);
+//	ctx.fillText("beta= " + gBeta, 50,560);
 	}
 	
 }
