@@ -585,7 +585,10 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
+	myControls.push(PersonChar.create(120,280));
+    
 	myControls.push(SpeechBubble.create(50,270));
+    
 	myControls.push(DogChar.create(240,350));
     
 	myControls.push(DogChar.create(-40,370));
@@ -691,6 +694,51 @@ var TextGenerator = {
 	}
 }
 	
+var PersonChar = {
+	create : function(px,py) {
+		var obj = Object.create(this);
+		obj.x = px;
+    	obj.y = py;
+    	obj.width = 50;
+    	obj.height = 50;
+		obj.dy = 0;
+		obj.dx = 0;
+		obj.attention = Attention.create();
+		obj.img = new Image();
+  		obj.img.src = 'tunacutout.png';
+		obj.img.onload = function() {
+			obj.sprite = true;
+		}
+		obj.img.onerror = function() {
+			console.log("cant load dog");
+		}
+		return obj;
+	},
+	action : function(elapsed) {
+		
+	},
+	render : function(ctx,x,y) {
+		ctx.save();
+		ctx.transform(0.65,0,0,0.65,0,0);	
+		ctx.shadowColor = "#000000";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+		ctx.drawImage(this.img, x-0.3 * gGamma, y-0.3 * gBeta);
+		
+		ctx.shadowBlur = 0;
+        ctx.restore();
+		/*
+		ctx.lineCap = 'round';
+      	ctx.beginPath();
+		ctx.moveTo(this.x,this.y);
+      	ctx.lineTo(this.attention.x,this.attention.y);
+      	ctx.closePath();
+      	ctx.stroke();
+		*/
+	} 
+}
+
 var DogChar = {
 	create : function(px,py) {
 		var obj = Object.create(this);
@@ -864,8 +912,9 @@ var MyBackground = {
 //  		obj.img.src = './IMG_2755.jpg';
 //  		obj.img.src = './img_tuna2.jpg';
 //  		obj.img.src = './tinaresty.jpg';
-       obj.img.src ='https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1439,w_2560,x_0,y_0/dpr_2.0/c_limit,w_740/fl_lossy,q_auto/v1492119814/articles/2016/02/11/north-korea-s-generals-could-turn-against-kim-jong-un/160211-chang-nkorea-tease_cdsjmo';
+       // obj.img.src='https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1439,w_2560,x_0,y_0/dpr_2.0/c_limit,w_740/fl_lossy,q_auto/v1492119814/articles/2016/02/11/north-korea-s-generals-could-turn-against-kim-jong-un/160211-chang-nkorea-tease_cdsjmo';
         
+         obj.img.src = 'http://wallpaper.pickywallpapers.com/1920x1200/mad-men-cast.jpg'    ;
         
 		obj.img.onload = function() {
 			obj.sprite = true;
@@ -891,8 +940,8 @@ var MyBackground = {
 		this.zoomCount -= elapsed;
 		if (this.zoomCount < 0) {
 			this.zoomGoalX = Math.random() * -50 - 120;
-			this.zoomGoalY = Math.random() * -20 + 0;
-			this.zoomGoalScale =  0.6 + Math.random() * 0.1;
+			this.zoomGoalY = Math.random() * -20 + 15;
+			this.zoomGoalScale =  0.4 + Math.random() * 0.1;
 			this.zoomCount = 4200;
 		}
 //		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
