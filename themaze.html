@@ -585,7 +585,9 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
-	myControls.push(PersonChar.create(120,280));
+	myControls.push(PersonChar.create(120,280, 'tunacutout.png'));
+    
+//	myControls.push(PersonChar.create(40,280, 'http://www.stickpng.com/assets/thumbs/5853d26bd8951214834db49f.png'));
     
 	myControls.push(SpeechBubble.create(50,270));
     
@@ -695,7 +697,7 @@ var TextGenerator = {
 }
 	
 var PersonChar = {
-	create : function(px,py) {
+	create : function(px,py,src) {
 		var obj = Object.create(this);
 		obj.x = px;
     	obj.y = py;
@@ -705,7 +707,8 @@ var PersonChar = {
 		obj.dx = 0;
 		obj.attention = Attention.create();
 		obj.img = new Image();
-  		obj.img.src = 'tunacutout.png';
+//  		obj.img.src = 'tunacutout.png';
+  		obj.img.src = src;
 		obj.img.onload = function() {
 			obj.sprite = true;
 		}
@@ -765,6 +768,8 @@ var DogChar = {
 	},
 	render : function(ctx,x,y) {
 		ctx.transform(1,0,0,1,0,0);
+        
+        ctx.shadowBlur = 0;
 		ctx.fillStyle = "white";
 		ctx.fillRect(x+40,y+40,120,50);
 		ctx.fillStyle = "black";
@@ -779,9 +784,23 @@ var DogChar = {
 		    offsetY = 0 + this.attention.y / 150 * 1.5;
             offsetLR = 0;
         }
-		ctx.fillRect(x+56 + offsetX - offsetLR,y+50+offsetY,13,10);
-		ctx.fillRect(x+113 + offsetX + offsetLR,y+50+offsetY,13,10);
-		
+//		ctx.fillRect(x+56 + offsetX - offsetLR,y+50+offsetY,13,10);
+//		ctx.fillRect(x+113 + offsetX + offsetLR,y+50+offsetY,13,10);
+        
+        ctx.lineWidth= 5;
+		ctx.beginPath();
+        ctx.arc(x+56 + 0.5*offsetX - offsetLR+3,y+50+0.5*offsetY+3,4,0,2*Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = "black";
+        ctx.fill();
+        
+        ctx.lineWidth= 5;
+		ctx.beginPath();
+        ctx.arc(x+113 + 0.5*offsetX + offsetLR+3,y+50+0.5*offsetY+3,4,0,2*Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = "black";
+        ctx.fill();
+        
 		ctx.shadowColor = "#000000";
         ctx.shadowBlur = 10;
         ctx.shadowOffsetX = 1;
