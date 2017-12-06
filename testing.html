@@ -1,0 +1,310 @@
+<html>
+<style type="text/css">
+body {
+  background: #000;
+}
+
+canvas {
+  height: 1000px;
+  width: 1000px;
+}
+
+</style>
+
+<body>
+<canvas width="1000px" height="1000px" id="c1"></canvas>
+	
+</body>
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	
+  <script type="text/javascript">
+
+     var c = document.getElementById("c1");
+    var ctx = c.getContext("2d");    
+	  
+var back1 = new Image();
+back1.src = 'img_tuna.jpg';
+
+var smoke = new Image();
+smoke.onerror = function() { console.log("error " + this.src);}
+smoke.onload = function() { console.log("load " + this.src);}
+smoke.src = 'http://s4.postimg.org/atxdou6u1/smoke.png';
+	
+
+function Emitter(opts) {
+	this.opts = opts;
+	this.particles = [];
+	for(var c = 0; c < opts.particles; c++){
+     	this.particles.push(new Particle(opts));
+  	}
+}
+	  
+Emitter.prototype.render = function(ctx) {
+//      ctx.clearRect(0, 0, ctx.width, ctx.height);
+	  
+
+    this.particles.forEach(function(particle){
+      particle.update();
+		particle.render(ctx);
+    });
+    
+}
+	
+
+function Particle(opts) {
+	this.opts = opts;
+//    var x, y, size, speedX, speedY, opacity;
+    this.reset();
+}
+	
+Particle.prototype.update = function(){
+      if(this.opacity > 0){
+        this.opacity -= (Math.random() / this.opts.speed.fade);
+//        this.opacity -= 0.005;
+      }
+
+      if(this.opacity <= 0.0){
+//		  this.y = 300;
+         this.reset();
+		  /*
+		  opacity = 0.09;
+		  x=0;
+		  y= 0;
+		  size=200;
+		  */
+		  
+      }
+      
+      this.speedX -= Math.random() / this.opts.speed.acceleration;
+      this.speedY -= Math.random() / this.opts.speed.acceleration;
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.size += Math.random();
+      
+}
+
+Particle.prototype.render = function(ctx){
+	
+     ctx.globalAlpha = this.opacity;
+     ctx.drawImage(smoke, 0, 0, this.opts.size, this.opts.size, this.x, this.y, this.size, this.size);
+	ctx.globalAlpha = 1;
+}
+
+var prevCt;
+Particle.prototype.reset = function(){
+      this.x = this.opts.x;
+      this.y = this.opts.y;
+      this.size = this.opts.size;
+      this.speedX = Math.random() * this.opts.speed.x;
+      this.speedY = Math.random() * this.opts.speed.y;
+      this.opacity = Math.random();
+	
+//	console.log(+new Date() - prevCt);
+//	prevCt = +new Date();
+}
+
+	  
+var func1 = function() {
+	var val = 7;
+
+	function lookinside() {
+		val++;
+		return val;
+	}
+	return lookinside;
+};
+
+func1.val2 = 3;
+var ret = func1();
+	  
+console.log(func1.val2);
+func1.val++;
+func1.val2++;
+console.log(func1.val2);
+console.log(func1.val);
+console.log(ret());
+console.log(ret());
+console.log(ret());
+var ret2 = func1();
+console.log(ret2());
+console.log(ret());
+
+	  function whoami(){
+		  var me = 'scott';
+		  console.log("i am "+ me);
+	  }
+	  whoami();
+	  var w2 = whoami;
+	  
+	  me = 'phil';
+	  whoami();
+	  var w3 = whoami;
+	  w2();
+	  w3();
+	  
+
+	  if (true) {
+var emitter = new Emitter({
+  x: -200,
+  y: 50,
+  size: 70,
+  particles: 200,
+  speed: {
+    x: 2.5,
+    y: 1,
+    fade: 250,
+    acceleration: 200
+  }
+});
+var emitter2 = new Emitter({
+  x: -300,
+  y: 350,
+  size: 70,
+  particles: 200,
+  speed: {
+    x: 2.5,
+    y: 1,
+    fade: 250,
+    acceleration: 200
+  }
+});
+	  }
+	  
+	  var myPalette = new function() {
+		  
+		  this.randColor = function() {
+			  var i = Math.floor(Math.random() * 4);
+			  
+			  switch (i) {
+				  case 0: c = "#FFAA88"; break;
+				  case 1: c = "#FFFF88"; break;
+				  case 2: c = "#AAAAFF"; break;
+				  case 3: c = "#FF88AA"; break;
+					 }
+			  
+			  return c;
+		  }
+	  }();
+	  
+	  var title1 = {
+		  text : 'Scott',
+		  action: function () {
+			  	
+		  },
+		  render: function(ctx) {
+			  ctx.font="20px Comic Sans";
+			  ctx.fillStyle = "blue";
+			  ctx.fillText(this.text,4,24);  
+		  }
+	  }
+	  
+	  function Polygon () {
+		  this.x = Math.random() * 500;
+		  this.y = Math.random() * 500;
+		  this.dx = Math.random() * 0.2 - 0.1;
+		  this.dy = Math.random() * 0.2 - 0.1;
+		  this.degree= Math.random() * 6.28;
+		  this.ddegree = -0.01 + Math.random() * 0.02;
+		  this.width = 50;
+		  this.height = 50;
+		  this.color = myPalette.randColor();
+		  this.timer = 499;
+		  this.scale = 0;
+		  this.dscale = 0;
+		  this.tscale = 1;
+		  this.myObjs= [];
+		  
+		  this.action = function(elapsed) {
+			  this.degree += this.ddegree;
+			  if (this.degree > 6.28) this.degree -= 6.28;
+			  this.timer -= elapsed;
+			  
+			  if (this.timer < 50) this.tscale = 0;
+			  
+			  if (this.scale != this.tscale) {
+				  this.dscale += (this.tscale - this.scale) * 0.03;
+					this.dscale *= 0.85;
+				  if ((this.tscale == 0) && (this.dscale > 0)) {
+					  this.dscale = 0; 
+				  }
+			  }
+			  this.scale += this.dscale;
+			  this.x += this.dx;
+			  this.y += this.dy;
+			  for (k in this.myObjs) this.myObjs[k].action();
+		  }
+		  
+		  this.render = function(ctx) {
+			  ctx.save();
+//			  ctx.shadowBlur = 3;
+//			  ctx.shadowColor = '#888888';
+			  ctx.fillStyle = this.color;
+			   ctx.translate(this.x, this.y);
+				ctx.rotate (this.degree);
+			  ctx.transform(this.scale, 0, 0, this.scale, 0, 0);
+				ctx.fillRect(this.width*-0.5, this.height*-0.5, this.width, this.height);
+			  
+			  ctx.shadowBlur = 0;
+			  ctx.translate(this.width*-0.5, this.height*-0.5);
+			  for (k in this.myObjs) this.myObjs[k].render(ctx);
+			  ctx.restore();
+		  }
+	  }
+	  var myPoly = new function() {
+		  this.timer = 99;
+		  this.objs = [];
+		  this.objs.push(new Polygon());
+		  this.objs.push(new Polygon());
+		  this.objs.push(new Polygon());
+		  this.objs.push(new Polygon());
+		  
+		  this.objs[0].myObjs.push(title1);
+		  
+		  this.action = function(elapsed)  {
+			  let zzz = 99;
+			  for(let k in this.objs){
+				  this.objs[k].action(1);
+				  if (this.objs[k].timer < 0) this.objs.splice(k,1);
+			  }
+			  this.timer -= elapsed;
+			  if (this.timer < 0) {
+				  var objx = new Polygon()
+				  objx.myObjs.push(title1);
+				  this.objs.push(objx);
+				  this.timer = 99;
+			  }
+		  }
+		  this.render = function(ctx) {
+			  for(let k in this.objs){
+				  this.objs[k].render(ctx);
+			  }
+		  }
+	  } ();
+
+	  var q1 = new Polygon();
+	  q1.width = 250;
+	  q1.height = 100;
+	  var title2 = Object.assign({},title1); title2.text = "Who is the current host of american idol?";
+	  q1.myObjs.push(title2);
+	  myPoly.objs.push(q1);
+	  
+	  function AnimLoop() {
+		  	ctx.fillStyle = 'brown';
+    ctx.fillRect(0, 0, 700, 700);
+
+		  ctx.drawImage(back1, 0 ,0);
+
+		  emitter.render(ctx);
+		  emitter2.render(ctx);
+		  
+		  myPoly.action(1);
+		  myPoly.render(ctx);
+		  window.requestAnimationFrame(AnimLoop);
+	  }
+    window.requestAnimationFrame(AnimLoop);
+	  
+	</script>
+	
+</html>
