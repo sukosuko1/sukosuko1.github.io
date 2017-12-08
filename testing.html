@@ -356,7 +356,6 @@ var emitter2 = new Emitter({
 	  }
 
 	  var z = 7;
-	  canvas.addEventListener("touchstart", handleStart, false);
 	
 	 function handleStart(evt) {
 		 evt.preventDefault();
@@ -369,7 +368,9 @@ var emitter2 = new Emitter({
 	  q1.myObjs.push(title2);
 	  myPoly.objs.push(q1);
 	  };
-	  
+	 	
+	  canvas.addEventListener("touchstart", handleStart, false);
+
     window.requestAnimationFrame(AnimLoop);
 	  
 	</script>
