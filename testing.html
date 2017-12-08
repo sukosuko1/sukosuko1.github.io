@@ -370,8 +370,8 @@ var emitter2 = new Emitter({
 		 var ctx = canvas.getContext("2d");
   		var touches = evt.changedTouches;		 
 	  var q1 = new Polygon();
-	  q1.width = touches[i].pageX;
-	  q1.height = touches[i].pageY;
+	  q1.x = touches[0].pageX;
+	  q1.y = touches[0].pageY;
 	  var title2 = Object.assign({},title1); title2.text = z; z++;
 	  q1.myObjs.push(title2);
 	  myPoly.objs.push(q1);
