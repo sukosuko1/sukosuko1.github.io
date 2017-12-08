@@ -340,7 +340,9 @@ var emitter2 = new Emitter({
 	  q1.myObjs.push(title2);
 	  myPoly.objs.push(q1);
 	  
+	  var prevAnimCt=0, animAvg=0;
 	  function AnimLoop() {
+		  var animCt = +new Date();
 		  	ctx.fillStyle = 'brown';
     		ctx.fillRect(0, 0, 700, 700);
 //back1.height
@@ -352,6 +354,12 @@ var emitter2 = new Emitter({
 		  
 		  myPoly.action(1);
 		  myPoly.render(ctx);
+		  
+		  if (prevAnimCt > 0) animAvg = (animCt - prevAnimCt) * 0.01 + animAvg * 0.99;
+		  prevAnimCt = animCt;
+		  
+		  ctx.font="bold 30px arial"
+		  ctx.fillText("refresh= " + animAvg.toPrecision(2),30, 500);
 		  window.requestAnimationFrame(AnimLoop);
 	  }
 
@@ -369,7 +377,7 @@ var emitter2 = new Emitter({
 	  myPoly.objs.push(q1);
 	  };
 	 	
-	  canvas.addEventListener("touchstart", handleStart, false);
+	  canvas.addEventListener("touchstart", handleStart);
 
     window.requestAnimationFrame(AnimLoop);
 	  
