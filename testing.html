@@ -80,7 +80,8 @@ Particle.prototype.update = function(){
 		  */
 		  
       }
-      
+      this.speedY += 0.001;
+	
       this.speedX -= Math.random() / this.opts.speed.acceleration;
       this.speedY -= Math.random() / this.opts.speed.acceleration;
       this.x += this.speedX;
@@ -164,7 +165,7 @@ var emitter = new Emitter({
 });
 var emitter2 = new Emitter({
   x: -300,
-  y: 350,
+  y: 550,
   size: 100,
   particles: 200,
   speed: {
