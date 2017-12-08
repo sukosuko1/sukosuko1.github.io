@@ -153,25 +153,25 @@ console.log(ret());
 var emitter = new Emitter({
   x: -200,
   y: 50,
-  size: 70,
+  size: 100,
   particles: 200,
   speed: {
     x: 2.5,
     y: 1,
-    fade: 250,
-    acceleration: 200
+    fade: 350,
+    acceleration: 300
   }
 });
 var emitter2 = new Emitter({
   x: -300,
   y: 350,
-  size: 70,
+  size: 100,
   particles: 200,
   speed: {
     x: 2.5,
     y: 1,
-    fade: 250,
-    acceleration: 200
+    fade: 350,
+    acceleration: 300
   }
 });
 	  }
@@ -336,7 +336,7 @@ var emitter2 = new Emitter({
 	  var q1 = new Polygon();
 	  q1.width = 250;
 	  q1.height = 100;
-	  var title2 = Object.assign({},title1); title2.text = "Who is the current host of american idol?";
+	  var title2 = Object.assign({},title1); title2.text = "Who is Gaius?";
 	  q1.myObjs.push(title2);
 	  myPoly.objs.push(q1);
 	  
@@ -361,7 +361,7 @@ var emitter2 = new Emitter({
 	 function handleStart(evt) {
 		 evt.preventDefault();
 		 var ctx = canvas.getContext("2d");
-  	var touches = evt.changedTouches;		 
+  		var touches = evt.changedTouches;		 
 	  var q1 = new Polygon();
 	  q1.width = touches[i].pageX;
 	  q1.height = touches[i].pageY;
