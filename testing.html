@@ -117,6 +117,7 @@ audio.onended = function() {
 }
 var i = 0;
 audio.ontimeupdate = function() {
+	
 }
 
 
@@ -363,22 +364,42 @@ var emitter2 = new Emitter({
 		  emitter2.render(ctx);
 		  
 		  
-		  myPaula(ctx);
+//		  myPaula(ctx);
 //		  myPoly.action(1);
 //		  myPoly.render(ctx);
 		  
 		  if (prevAnimCt > 0) animAvg = (animCt - prevAnimCt) * 0.01 + animAvg * 0.99;
 		  prevAnimCt = animCt;
 		  
-		  ctx.font="bold 30px arial"
+		  ctx.setTransform(1,0,0,1,0,0)
+		  
+		  ctx.fillStyle = "white";
+		  ctx.font="bold 30px arial";
 		  ctx.fillText("refresh= " + animAvg.toPrecision(2),30, 500);
+		  
+		  ctx.setTransform(1,0,0,1,30,1200)
+		  if (touchTime > 0) {
+			  var scale = 1 - 0.2 * Math.min(1, (animCt - touchTime) / 70);
+		  	  ctx.setTransform(scale,0,0,scale,30,1200)
+		  }
+		  if (touchTime < 0) {
+//			  var scale = 1 - 0.2 * Math.min(1, (animCt - touchTime) / 200);
+//		  	  ctx.setTransform(scale,0,0,scale,0,0)
+		  }
+		  ctx.font="bold 80px arial";
+		  ctx.fillText("TEST ", 0, 0);
+		  ctx.setTransform(1,0,0,1,0,0)
+		  
 		  window.requestAnimationFrame(AnimLoop);
 	  }
 
 	  var z = 7;
 	
+	  var touchTime = 0;
+	  
 	 function handleStart(evt) {
 		 evt.preventDefault();
+		 touchTime = +new Date();
 		 var ctx = canvas.getContext("2d");
   		var touches = evt.changedTouches;		 
 	  var q1 = new Polygon();
@@ -389,7 +410,16 @@ var emitter2 = new Emitter({
 	  myPoly.objs.push(q1);
 	  };
 	 	
+	  function handleMove(evt) {
+		  
+	  }
+	  function handleEnd() {
+		  touchTime = -0.01;
+	  }
+	  
 	  canvas.addEventListener("touchstart", handleStart);
+	  canvas.addEventListener("touchmove", handleMove);
+	  canvas.addEventListener("touchend", handleEnd);
 
     window.requestAnimationFrame(AnimLoop);
 	  
