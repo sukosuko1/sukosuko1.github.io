@@ -17,7 +17,10 @@ canvas {
 
 <body>
 <canvas height="1334px" width="750px" id="c1"></canvas>
-	
+<audio controls>
+  <source src="ncs1.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>	
 </body>
 	
 	
@@ -111,7 +114,7 @@ Particle.prototype.reset = function(){
 }
 
 var audio = new Audio('ncs1.mp3');
-audio.play();
+//audio.play();
 audio.onended = function() {
 	audio.play();
 }
