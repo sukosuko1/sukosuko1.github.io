@@ -110,7 +110,16 @@ Particle.prototype.reset = function(){
 //	prevCt = +new Date();
 }
 
-	  
+var audio = new Audio('ncs1.mp3');
+audio.play();
+audio.onended = function() {
+	audio.play();
+}
+var i = 0;
+audio.ontimeupdate = function() {
+}
+
+
 var func1 = function() {
 	var val = 7;
 
@@ -398,7 +407,7 @@ var emitter2 = new Emitter({
 			 wordsR.push( Math.random() * 0.2 - 0.1);
 		 }
 	 function myPaula(ctx){
-		 		  ctx.setTransform(1,0,0,1,0,0)
+		 ctx.setTransform(1,0,0,1,0,0)
 
 		 let fsize = 60;
 		 ctx.font= fsize + "px Permanent Marker";
@@ -414,9 +423,9 @@ var emitter2 = new Emitter({
 			 ctx.setTransform(1,0,0,1,1,1);
 			  ctx.fillStyle = "#bb88dd";
 			  ctx.fillText("*", c - 28, r * (fsize + 4));
-											 }
+					 }
 			  ctx.fillStyle = "#DDDDDD";
-			 
+
 			 ctx.setTransform(1,0,0,1,1,1);
 			 ctx.translate(c + dim.width * 0.5, r * (fsize + 4));
 			 ctx.rotate(wordsR[i]);
