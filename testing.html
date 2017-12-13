@@ -21,7 +21,7 @@ canvas {
 
 <body>
 <canvas height="1334px" width="750px" id="c1"></canvas>
-<audio controls>
+<audio controls autoplay id="audio1">
   <source src="ncs1.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>	
@@ -29,6 +29,8 @@ Your browser does not support the audio element.
 	
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	
+<script src="spinner.js"></script>
 	
   <script type="text/javascript">
 
@@ -117,17 +119,24 @@ Particle.prototype.reset = function(){
 //	prevCt = +new Date();
 }
 
-var audio = new Audio('ncs1.mp3');
+
+var spinner1 = new Spinner();
+	  
+//var audio = new Audio('ncs1.mp3');
+var audio = document.getElementById("audio1");
+	  
 //audio.play();
 audio.onended = function() {
 	audio.play();
 }
 var i = 0;
 audio.ontimeupdate = function() {
-	
+	console.log(i++);
 }
-
-
+audio.onpause = function() {console.log("pause"); }
+audio.onplay = function() { console.log("play"); }
+console.log('setup events');
+	  
 	  if (true) {
 var emitter = new Emitter({
   x: -200,
@@ -357,6 +366,9 @@ var emitter2 = new Emitter({
 		  ctx.font="bold 80px arial";
 		  ctx.fillText("TEST ", 0, 0);
 		  ctx.setTransform(1,0,0,1,0,0)
+		  
+		  spinner1.action(13);
+		  spinner1.render(ctx);
 		  
 		  window.requestAnimationFrame(AnimLoop);
 	  }
