@@ -657,7 +657,7 @@ var TextGenerator2 = {
             if (globalState == 2) this.text = "";
             if (globalState == 3) this.text = "";
             if (globalState == 4) this.text = "";
-            if (globalState == 5) this.text = "";
+            if (globalState == 5) this.text = "Just hanging on!";
             this.prevGlobalState = globalState;
         }
     }
@@ -1041,7 +1041,7 @@ function render() {
     ctx.fillStyle = 'white';
     ctx.fontFamily = 'Open Sans'
     ctx.font = 'bold 12px open sans';
-    ctx.fillText('Live at #' + globalState, 10, 25+18);
+    ctx.fillText('Live', 10, 25+18);
     
     ctx.fillStyle = 'black';
     ctx.fontFamily = 'Open Sans'
