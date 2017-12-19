@@ -211,47 +211,22 @@ var prevY = 0;
         globalDy *= 0.7;
         touchStartGlobalY = globalY;
         
-    
-        addObject("hello!", event.touches[0].pageX, event.touches[0].pageY);
-        var c = document.getElementById("c1");
-        var ctx = c.getContext("2d");    
-        for (var i = 0; i < event.touches.length; i++) {
-            var touch = event.touches[i];
-            ctx.beginPath();
-            ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
-            ctx.fill();
-            ctx.stroke();
-        }
-		for (var i = 0; i < myControls.length; i++) {
-			var obj = myControls[i];	 
-			 if ( (touch.pageY > obj.y) && (touch.pageY < obj.y + myControls[1].height) &&
-				   (touch.pageX > obj.x) && (touch.pageX < obj.x + myControls[1].width)  ) {
-				touchControlNum = i+1;
-				touchControlStartX = obj.x;
-				touchControlStartY = obj.y;
-				prevX = touch.pageX;
-				 
-				 if ("touchstart" in obj) {
-					obj.touchstart(obj);
-				 }	
-				 
-			}
-		}
 		var touches = event.changedTouches;
         
 		for (var i = 0; i < touches.length; i++) {		
 			ongoingTouches.push(copyTouch(touches[i]));
 		}
-		
-		/*
-		if ( (touch.pageY > myControls[1].y) && (touch.pageY < myControls[1].y + myControls[1].height) ) {
-			touchControlNum = 1;
-			touchControlStartX = myControls[1].x;
-			touchControlStartY = myControls[1].y;
-			prevX = touch.pageX;
-		}
-		*/
-							  
+
+        globalState++; 
+        if (globalState > 5) globalState = 0;
+        
+        if (globalState == 0) myBackground.img.src = "https://thenypost.files.wordpress.com/2017/12/171215animal-pics-best-19.jpg?quality=90&strip=all&w=642";
+        if (globalState == 1) myBackground.img.src = "https://thenypost.files.wordpress.com/2017/12/171215animal-pics-best-15.jpg?quality=90&strip=all&w=642";
+        if (globalState == 2) myBackground.img.src = "https://thenypost.files.wordpress.com/2017/12/171215animal-pics-best-17.jpg?quality=90&strip=all&w=642";
+        if (globalState == 3) myBackground.img.src = "https://thenypost.files.wordpress.com/2017/12/171215animal-pics-best-22.jpg?quality=90&strip=all&w=642";
+        if (globalState == 4) myBackground.img.src = "https://thenypost.files.wordpress.com/2017/12/171215animal-pics-best-89.jpg?quality=90&strip=all&w=642";
+        if (globalState == 5) myBackground.img.src = "https://thenypost.files.wordpress.com/2017/12/171215animal-pics-best-03.jpg?quality=90&strip=all&w=642";
+        
     }
     
     , false);    
@@ -280,21 +255,6 @@ document.addEventListener('touchmove', function(event) {
 		return;
 	}
 	
-	/*
-  for (var i = 0; i < event.touches.length; i++) {
-     touch = event.touches[i];
-ctx.strokeStyle="#FF0000";
-      ctx.beginPath();
-     
-    ctx.arc(touch.pageX, touch.pageY, 30, 0, 2*Math.PI, true);
-    ctx.fill();
-    ctx.stroke();
-	  if (touch.pageY > sMax) sMax = touch.pageY;
-	  if ( (touch.pageY < sMin) || (sMin == 0) ) sMin = touch.pageY
-	  debugNumTouch+=1;
-	  
-  }
-  */
 	
 	debugTouchRange = (sMax - sMin);
 
@@ -585,9 +545,8 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
-//	myControls.push(SpeechBubble.create(10,510));
+	myControls.push(SpeechBubble.create(10,410));
 	myControls.push(DogChar.create(180,350));
-    
 	
 }
 	
@@ -684,6 +643,28 @@ var TextGenerator = {
 		}
 	}
 }
+var TextGenerator2 = {
+    create: function() {
+		var obj = Object.create(this);
+        obj.text = "hello world";
+        this.state = 0;
+        return obj;
+    },
+    action: function(elapsed) {
+        if (globalState != this.prevGlobalState) {
+            if (globalState == 0) this.text = "tree is a crowd";
+            if (globalState == 1) this.text = "";
+            if (globalState == 2) this.text = "";
+            if (globalState == 3) this.text = "";
+            if (globalState == 4) this.text = "";
+            if (globalState == 5) this.text = "Just hanging on!";
+            this.prevGlobalState = globalState;
+        }
+    }
+    
+}
+    
+    
 	
 var DogChar = {
 	create : function(px,py) {
@@ -757,7 +738,9 @@ var SpeechBubble = {
     	obj.height = 50;
 		obj.dy = 0;
 		obj.dx = 0;
-		obj.textgen = TextGenerator.create();
+//		obj.textgen = TextGenerator.create();
+		obj.textgen = TextGenerator2.create();
+//        obj.textgen = { text: "hello world"};
 		return obj;
 	},
 	drawBubble: function drawBubble(ctx, x, y, w, h, radius) {
@@ -832,6 +815,8 @@ var SpeechBubble = {
         }
 	} 
 }
+var globalState = 0;
+    
 var MyBackground = {
 	create : function(px,py) {
 		var obj = Object.create(this);
@@ -845,7 +830,8 @@ var MyBackground = {
 		obj.img = new Image();
 //  		obj.img.src = './IMG_2755.jpg';
 //  		obj.img.src = './img_tuna2.jpg';
-  		obj.img.src = './mikefire.png';
+//  		obj.img.src = './mikefire.png';
+  		obj.img.src = 'https://thenypost.files.wordpress.com/2017/12/171215animal-pics-best-19.jpg?quality=90&strip=all&w=642';
 		obj.img.onload = function() {
 			obj.sprite = true;
 		}
@@ -872,6 +858,8 @@ var MyBackground = {
 			this.zoomGoalX = Math.random() * -50 - 65;
 			this.zoomGoalY = Math.random() * -20 - 20;
 			this.zoomGoalScale =  0.8 + Math.random() * 0.3;
+            if (globalState == 2) this.zoomGoalScale *= 0.7;
+            if (globalState == 2) this.zoomGoalY += -100;
 			this.zoomCount = 4200;
 		}
 //		this.zoomX += (this.zoomGoalX - this.zoomX) * 0.01;
@@ -972,7 +960,7 @@ function worldUpdate() {
 //		globalY += -3 * Math.cos(gAlpha);
 			for (var i = 0; i < ongoingTouches.length; i++) {
 				var evt = ongoingTouches[i];
-				myControls.push(SpriteStar.create(evt.pageX, evt.pageY));
+//				myControls.push(SpriteStar.create(evt.pageX, evt.pageY));
 			}
 		
 	}
@@ -1062,7 +1050,7 @@ function render() {
     
     ctx.fontFamily = 'Open Sans'
     ctx.font = 'bold 16px open sans';
-    ctx.fillText('Bratwurst Fire in Wisconsin', 20, 506+20);
+    ctx.fillText('Animals on the Move', 20, 506+20);
     
     
     

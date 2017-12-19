@@ -107,6 +107,127 @@
     
     
 <script src="sukoutil.js"></script>
-<script>
 
+<script>
+    var canvas = document.getElementById("c1");
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
+    var ctx = canvas.getContext("2d");
+
+    function logit() {
+//        console.log("log " + this.x);
+    }
+    
+    function twine(x, dx, tx) {
+        dx += (tx - x)* 0.025;
+        dx = Math.min(4,Math.max(dx,-4));
+        dx *= 0.82;
+        return dx;
+    }
+    
+    var dog1 = {
+        x: 10,
+        dx : 0,
+        y: 10,
+        dy : 0,
+        tx : 10,
+        timer: 1000,
+    };
+
+    dog1.logitx = logit;
+    
+    dog1.action = function(elapsed) {
+        this.logitx();
+        
+        this.dx = twine(this.x, this.dx, this.tx);
+        this.x += this.dx;
+        
+        this.timer -= elapsed;
+        if (this.timer < 0) {
+            this.tx = Math.random() * 200;
+            this.timer = 2000;
+        }
+        
+    }
+    
+    var dog2 = Object.assign({},dog1);
+    var dog3 = Object.assign({},dog1);
+    var dog4 = Object.assign({},dog1);
+
+    dog1.action(1);
+    dog2.action(1);
+    
+    
+    console.log(dog1.x, dog1.dx);
+    console.log(dog2.x, dog2.dx);
+    
+    dog1.tx = 20;
+    
+    for (let i = 0; i < 100; i++) {
+        dog1.action(1);
+        console.log(dog1.x, dog1.dx);
+        ctx.fillRect(i, 100+ dog1.x * 10,1,1);
+    }
+
+    var prevCt = 0;
+    var timer = 1000;
+    
+    var beatTimer = 405;
+    var beatTimer2 = 0;
+    
+    function animLoop() {
+        var ct = +new Date();
+        var elapsed = ct - prevCt;
+        if (elapsed > 400)  elapsed = 400;
+        
+        prevCt = ct;
+
+        beatTimer -= elapsed;
+        beatTimer2 -= elapsed;
+        if (beatTimer2 < 0) {
+            dog1.dx -= 1.0;
+            dog2.dx -= 0.4;
+            dog3.dx -= 0.4;
+            dog4.dx -= 0.4;
+            beatTimer2 = 1000;
+        }
+        if (beatTimer < 0) {
+            dog1.dx += 2;
+            dog2.dx += 0.5;
+            dog3.dx += 0.5;
+            dog4.dx += 0.5;
+            beatTimer += 405;
+            beatTimer2 = 20;
+        }
+        
+        dog1.action(elapsed);
+        dog2.action(elapsed);
+        dog3.action(elapsed);
+        dog4.action(elapsed);
+        ctx.fillStyle = "white";
+        ctx.fillRect(0,200,600,600);
+        ctx.fillStyle = "black";
+        ctx.fillRect(50, 130+ dog1.x * 2.5,30,30);
+        ctx.fillRect(120, 130+ dog2.x * 2.5,30,30);
+        ctx.fillRect(150, 130+ dog3.x * 2.5,30,30);
+        ctx.fillRect(220, 130+ dog4.x * 2.5,30,30);
+        
+        window.requestAnimationFrame(animLoop);    
+    }
+//    window.requestAnimationFrame(animLoop);    
+    
+var xhr = new XMLHttpRequest();
+var url = "http://localhost:8080/";
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-type", "application/json");
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        console.log(json.email + ", " + json.password);
+    }
+};
+var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
+xhr.send(data);
+    
+</script>    
 </html>
