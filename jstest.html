@@ -1,0 +1,199 @@
+<html>
+
+	<style>
+		.pic  { width: 100% }
+	</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+'use strict';
+	
+var func1 = function() {
+	var val = 7;
+
+	function lookinside() {
+		val++;
+		return val;
+	}
+	return lookinside;
+};
+
+func1.val2 = 3;
+var ret = func1();
+	  
+console.log(func1.val2);
+func1.val++;
+func1.val2++;
+console.log(func1.val2);
+console.log(func1.val);
+console.log(ret());
+console.log(ret());
+console.log(ret());
+var ret2 = func1();
+console.log(ret2());
+console.log(ret());
+
+	  function whoami(){
+		  var me = 'scott';
+		  console.log("i am "+ me);
+	  }
+	  whoami();
+	  var w2 = whoami;
+	  
+	  let me = 'phil';
+	  whoami();
+	  var w3 = whoami;
+	  w2();
+	  w3();
+	
+	var arr1 = [];
+	var arr2 = [];
+	var map1 = new Map();
+	
+	var ct = +new Date();
+	
+	let prevCt = localStorage.getItem('hanpa');
+	console.log("prevCt = " + (ct - prevCt) + "," + prevCt);
+	
+	for (let i = 0; i < 100000; i++) {
+		map1.set(i, "data");
+	}
+	for (let i = 10000; i < 20000; i++) {
+		map1.delete(i);
+	}
+	
+	var ct3 = +new Date();
+	
+	console.log(ct3-ct);
+	
+	console.log(arr2.length);
+	console.log(map1.size);
+	
+	
+	var EventEmitter = {
+		test: function() {
+			console.log("emitting..");
+
+		}
+	}
+	var EventEmitter2 = {
+		test2: function() {
+			console.log("emitting2..");
+
+		}
+	}
+	
+	var scott1 = {name:'scott' };
+	Object.assign(scott1, EventEmitter);
+	Object.assign(scott1, EventEmitter2, {'stuff' :'xyz'});
+//	console.log(scott1.test());
+	scott1.test();
+	scott1.test2();
+	
+	console.log(scott1);
+
+	
+let myJSObject = { name: 'philster', country:'china'};
+/*	
+$.ajax(url, {
+    data : JSON.stringify(myJSObject),
+    contentType : 'application/json',
+    type : 'POST'});
+*/
+
+	
+$.ajax({
+  type: 'POST',
+  url: 'http://localhost:3000/json',
+  data: JSON.stringify({
+	key : Math.floor(Math.random()*100),
+    name : 'John',
+    location : 'Boston',
+  }),
+}).done(function(msg) {
+  console.log('Data Saved: ' + msg);
+}).fail(function(xmlHttpRequest, statusText, errorThrown) {
+  console.log(
+    'Your form submission failed.\n\n'
+      + 'XML Http Request: ' + JSON.stringify(xmlHttpRequest)
+      + ',\nStatus Text: ' + statusText
+      + ',\nError Thrown: ' + errorThrown);
+});	
+	
+var xmlhttp = new XMLHttpRequest();
+var url = "http://localhost:3000/hellotherex";
+
+$.post(url, JSON.stringify(myJSObject));
+
+$.getJSON('http://localhost:3000/today', function(msg) {
+	console.log('got: ' + msg);
+	let obj = msg;
+	obj.forEach(function(item) {
+		console.log(item);
+		$("body").append('<image class="pic" src=' + item +'>');
+	})
+}).fail(function(xmlHttpRequest, statusText, errorThrown) {
+  console.log('GETJSON FAILED');
+});	
+	
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+//        var myArr = JSON.parse(this.responseText);
+//		console.log(myArr);
+		console.log(this.responseText);
+//        myFunction(myArr);
+    }
+};
+	
+	/*
+xmlhttp.open("GET", 'today', true);
+xmlhttp.setRequestHeader("Content-Type", "application/json");	
+xmlhttp.send(JSON.stringify({
+    "httpRequest": {
+        "method": "POST",
+        "path": "/login",
+        "body": {
+            "type": "JSON",
+            "value": JSON.stringify({ username: "foo", password: "bar" })
+        }
+    }
+}));
+	*/
+	
+//xmlhttp.send(JSON.stringify({name:"John Rambo", time:"2pm"}));
+
+//xmlhttp.send()
+
+function myFunction(arr) {
+    var out = "";
+    var i;
+    for(i = 0; i < arr.length; i++) {
+        out += '<a href="' + arr[i].url + '">' + 
+        arr[i].display + '</a><br>';
+    }
+    document.getElementById("id01").innerHTML = out;
+}
+
+	let anum = [1,2,3,4];
+	
+	console.log("reduce = " + anum.reduce( function(sum,n) {
+		return sum + (n % 2 == 1 ? 1 : 0);
+	} ));
+	
+	anum.map( num=> num + 7);
+	
+	anum.forEach(function(n) { console.log(n); } );
+
+	console.log("anum= " + anum);
+	console.log(...anum);
+	
+	let anum2 = anum.filter(num => num % 2);
+	console.log("anum= " + anum2);
+	
+	//reduce map filter
+	
+	localStorage.setItem('hanpa', ct);
+	
+	  </script>
+	
+</html>

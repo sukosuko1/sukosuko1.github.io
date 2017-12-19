@@ -119,7 +119,7 @@ Particle.prototype.reset = function(){
 //	prevCt = +new Date();
 }
 
-
+var bAudioPlay = false;
 var spinner1 = new Spinner();
 	  
 //var audio = new Audio('ncs1.mp3');
@@ -133,8 +133,8 @@ var i = 0;
 audio.ontimeupdate = function() {
 	console.log(i++);
 }
-audio.onpause = function() {console.log("pause"); }
-audio.onplay = function() { console.log("play"); }
+audio.onpause = function() {console.log("pause"); bAudioPlay = false;  }
+audio.onplay = function() { console.log("play");  bAudioPlay = true; }
 console.log('setup events');
 	  
 	  if (true) {
@@ -367,7 +367,7 @@ var emitter2 = new Emitter({
 		  ctx.fillText("TEST ", 0, 0);
 		  ctx.setTransform(1,0,0,1,0,0)
 		  
-		  spinner1.action(13);
+		  if (bAudioPlay) spinner1.action(13);
 		  spinner1.render(ctx);
 		  
 		  window.requestAnimationFrame(AnimLoop);
@@ -395,6 +395,9 @@ var emitter2 = new Emitter({
 	  }
 	  function handleEnd() {
 		  touchTime = -0.01;
+		  
+		  let obj = { x: 20; y: 600; width: 100; height: 40};
+		  effects.burst(obj, 0);
 	  }
 	  
 	  canvas.addEventListener("touchstart", handleStart);
