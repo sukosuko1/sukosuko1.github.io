@@ -220,12 +220,12 @@ var prevY = 0;
 			ongoingTouches.push(copyTouch(touches[i]));
 		}
         
-        setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, true);
+        setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, 0);
     }, false);
                               
                               
-    function setGlobalState(px, py, bDown) {
-        if (bDown) {
+    function setGlobalState(px, py, touch) {
+        if (touch == 1) {
             if (px < 0.25) {
                 globalState2 = 0;
                 return;
@@ -242,7 +242,11 @@ var prevY = 0;
             return;
         }
         
-        if (px > 0.75 && !bDown) {
+        if (touch == 2) {
+            return;
+        }
+        
+        if (touch == 0) {
              globalState2 = 0;
             
         globalState++; 
@@ -287,7 +291,7 @@ document.addEventListener('touchmove', function(event) {
 	
 	
 	
-    setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, true);
+    setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, 1);
 	
 }, false);
     
@@ -304,14 +308,14 @@ document.addEventListener('touchend', function(event) {
     
 	handleCancel(event);
     
-    setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, false);
+    setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, 2);
     
 }, false);
 
 
 document.addEventListener('touchcancel', function(event) {
     event.preventDefault();
-    setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, false);
+    setGlobalState(touchStartX / canvas.width, touchStartY / canvas.height, 2);
 	console.log("touchcancel")
 	handleCancel(event);
 }, false);
