@@ -10,6 +10,7 @@
 <meta name="HandheldFriendly" content="true">
 	
 <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/css?family=Bungee|Bungee+Shade|Rubik+One|Gruppo|Scope+One" rel="stylesheet">    
     
     <style>
         height: 100%; 
@@ -547,8 +548,8 @@ function worldInit() {
 	*/
 //    myObjs.push(obj);
 	
-	myControls.push(SpeechBubble.create(10,410));
-	myControls.push(DogChar.create(180,350));
+//	myControls.push(SpeechBubble.create(10,410));
+//	myControls.push(DogChar.create(180,350));
 	
 }
 	
@@ -852,8 +853,8 @@ var MyBackground = {
 		
 		obj.zoomGoalX = 0;
 		obj.zoomGoalY = 0;
-		obj.zoomGoalScale = 1.0;
-		obj.zoomX = 0;
+		obj.zoomGoalScale = 1.7;
+		obj.zoomX = -420;
 		obj.zoomY = 0;
 		obj.zoomScale = 1.0;
 		obj.zoomCount = 500;
@@ -878,23 +879,23 @@ var MyBackground = {
 		this.zoomScale += (this.zoomGoalScale - this.zoomScale) * 0.15;
 		
         if (globalState2 == 0) {
-            this.zoomGoalScale = 1.5;
-            this.zoomGoalX = -100;
-            this.zoomGoalY = -100;
+            this.zoomGoalScale = 1.7;
+            this.zoomGoalX = -420;
+            this.zoomGoalY = 0;
         }
         if (globalState2 == 1) {
-            this.zoomGoalScale = 0.8;
-            this.zoomGoalX = -50;
-            this.zoomGoalY = -50;
+            this.zoomGoalScale = 1.4;
+            this.zoomGoalX = -220;
+            this.zoomGoalY = 0;
         }
         if (globalState2 == 2) {
-            this.zoomGoalScale = 1.5;
-            this.zoomGoalX = -50;
-            this.zoomGoalY = -200;
+            this.zoomGoalScale = 1.3;
+            this.zoomGoalX = -150;
+            this.zoomGoalY = -0;
         }
         if (globalState2 == 3) {
-            this.zoomGoalScale = 0.8;
-            this.zoomGoalX = -350;
+            this.zoomGoalScale = 1.3;
+            this.zoomGoalX = -500;
             this.zoomGoalY = 0;
         }
         
@@ -1010,8 +1011,9 @@ function render() {
 	if (myBackground) {
 		myBackground.render(ctx);
 	}
-    ctx.fillStyle = 'brown';
-    ctx.fillRect(0, 550, screenWidth, screenHeight - 550);
+    
+//    ctx.fillStyle = 'brown';
+ //   ctx.fillRect(0, 550, screenWidth, screenHeight - 550);
 	
 	
 	ctx.translate(screenWidth * 0.2, screenHeight * 0.2);
@@ -1057,7 +1059,8 @@ function render() {
             
 			obj.render(ctx,obj.x, obj.y); 
   }
-	
+
+    /* bbc titles
 	ctx.globalAlpha = 0.8;
     ctx.fillStyle = 'white';
     ctx.fillRect(0,480,screenWidth,60);
@@ -1079,21 +1082,23 @@ function render() {
     ctx.fontFamily = 'Open Sans'
     ctx.font = 'bold 16px open sans';
     ctx.fillText('Animals on the Move', 20, 506+20);
+    */
     
     ctx.font = "30px Comic Sans MS";
-    ctx.fillStyle = "white";
     ctx.fontVariant = "bold";
-    ctx.fillText("1", canvas.width * 0.1, canvas.height - 35);
-    ctx.fillText("2", canvas.width * 0.35, canvas.height - 35);
-    ctx.fillText("3", canvas.width * 0.6, canvas.height - 35);
-    ctx.fillText("->", canvas.width * 0.85, canvas.height - 35);
+    ctx.font = "50px Scope One";
+    ctx.fillStyle = "white";
+    ctx.fillText("1", canvas.width * 0.1, canvas.height*0.4 - 35);
+    ctx.fillText("2", canvas.width * 0.35, canvas.height*0.4 - 35);
+    ctx.fillText("3", canvas.width * 0.6, canvas.height*0.4 - 35);
+    ctx.fillText("->", canvas.width * 0.8, canvas.height*0.4 - 35);
     
     
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
+    
     ctx.fillStyle = 'red';
     ctx.font = "normal 20px PT serif";
     ctx.strokeStyle = 'black';
-	
     
 	
 	if (gMotionEventReady || true) {
