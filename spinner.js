@@ -6,7 +6,8 @@ function Spinner() {
 			  if (this.timer < 0) {
 				  this.timer += 6.282;
 			  }
-		  }
+		  };
+	
 		  this.render = function(ctx) {
 			  ctx.lineWidth = 10;
 			  ctx.strokeStyle = "#aa00aa"
@@ -25,10 +26,11 @@ function Spinner() {
 			  ctx.arc(0,0,50, this.timer, this.timer+5.0);
 			  ctx.stroke();
 			  ctx.restore();
-		  }
+		  };
+	
 }
 
-function Effects {
+function Effects() {
 	
 	this.burst = function(obj, num) {
 		

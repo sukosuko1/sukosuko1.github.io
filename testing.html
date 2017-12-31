@@ -16,6 +16,14 @@ canvas {
 		position: absolute;
 		z-index: 2;
 	}
+	#whatsapp1 {
+		position: absolute;
+		left: 60%;
+		width: 30%;
+		z-index: 3;
+		color: azure;
+		font: 30px arial;
+	}
 
 </style>
 
@@ -25,6 +33,8 @@ canvas {
   <source src="ncs1.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>	
+<a id="whatsapp1" href="whatsapp://send?text=https://en.wikipedia.org/wiki/Birthday-number_effect" data-action="share/whatsapp/share">Share via Whatsapp</a>
+	
 </body>
 	
 	
@@ -396,7 +406,7 @@ var emitter2 = new Emitter({
 	  function handleEnd() {
 		  touchTime = -0.01;
 		  
-		  let obj = { x: 20; y: 600; width: 100; height: 40};
+		  let obj = { x: 20, y: 600, width: 100, height: 40};
 		  effects.burst(obj, 0);
 	  }
 	  

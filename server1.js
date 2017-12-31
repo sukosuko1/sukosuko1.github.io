@@ -37,7 +37,12 @@ res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allo
 			else console.log('no key: ' + obj);
         });		
 		res.end("yeah done it all");
-	
+	}
+	if (req.method = 'GET'){
+		
+		res.end(JSON.stringify({'high':'there'}));
+		console.log('../json get');
+		console.log('body = ' + req.body);
 	}
 	}
 	

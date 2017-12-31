@@ -106,7 +106,7 @@ $.ajax({
   type: 'POST',
   url: 'http://localhost:3000/json',
   data: JSON.stringify({
-	key : Math.floor(Math.random()*100),
+	key : Math.floor(Math.random()*10),
     name : 'John',
     location : 'Boston',
   }),
@@ -120,12 +120,24 @@ $.ajax({
       + ',\nError Thrown: ' + errorThrown);
 });	
 	
+$.ajax('http://localhost:3000/json', {data:7})
+.done(function(msg) {
+	console.log('get7' + msg);
+}).fail(function(xmlHttpRequest, statusText, errorThrown) {
+  console.log(
+    'Your get failed.\n\n'
+      + 'XML Http Request: ' + JSON.stringify(xmlHttpRequest)
+      + ',\nStatus Text: ' + statusText
+      + ',\nError Thrown: ' + errorThrown);
+});
+	
 var xmlhttp = new XMLHttpRequest();
 var url = "http://localhost:3000/hellotherex";
 
 $.post(url, JSON.stringify(myJSObject));
 
-$.getJSON('http://localhost:3000/today', function(msg) {
+//$.getJSON('http://localhost:3000/today', function(msg) {
+$.getJSON('http://104.131.134.215:3000/today', function(msg) {
 	console.log('got: ' + msg);
 	let obj = msg;
 	obj.forEach(function(item) {
