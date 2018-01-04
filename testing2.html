@@ -255,8 +255,9 @@ var emitter2 = new Emitter({
 	  }
 	  
 	  function Polygon () {
-		  this.x = Math.random() * 500;
+		  this.x = Math.random() * 700;
 		  this.y = Math.random() * 500;
+		  this.y = 100;
 		  this.dx = Math.random() * 0.2 - 0.1;
 		  this.dy = Math.random() * 0.2 - 0.1;
 		  this.degree= Math.random() * 6.28;
@@ -284,6 +285,7 @@ var emitter2 = new Emitter({
 					  this.dscale = 0; 
 				  }
 			  }
+			  this.dy += elapsed * 0.5 - this.dy * this.dy * 0.01;
 			  this.scale += this.dscale;
 			  this.x += this.dx;
 			  this.y += this.dy;
@@ -305,6 +307,10 @@ var emitter2 = new Emitter({
 			  ctx.translate(this.width*-0.5, this.height*-0.5);
 			  for (k in this.myObjs) this.myObjs[k].render(ctx);
 			  ctx.restore();
+		  }
+		  this.touched = function() {
+			  this.dx += 20 * (Math.random() < 0.4 ? -1 : 1);
+			  gScore += 10;
 		  }
 	  }
 	  var myPoly = new function() {
@@ -331,7 +337,7 @@ var emitter2 = new Emitter({
 				  
 				  objx.myObjs.push(checkBox);
 				  this.objs.push(objx);
-				  this.timer = 2599;
+				  this.timer = 2599 * Math.random();
 			  }
 		  }
 		  this.render = function(ctx) {
@@ -341,6 +347,7 @@ var emitter2 = new Emitter({
 		  }
 	  } ();
 
+	  var gScore = 0;
 	  var q1 = new Polygon();
 	  q1.width = 250;
 	  q1.height = 100;
@@ -380,6 +387,8 @@ var emitter2 = new Emitter({
 		  ctx.fillText("refresh= " + animAvg.toPrecision(2),30, 500);
 		  
 		  ctx.setTransform(1,0,0,1,30,1200)
+		  ctx.font="bold 80px arial";
+		  ctx.fillText("+" + gScore, 520, 0);
 		  if (touchTime > 0) {
 			  var scale = 1 - 0.2 * Math.min(1, (animCt - touchTime) / 70);
 		  	  ctx.setTransform(scale,0,0,scale,30,1200)
@@ -388,10 +397,8 @@ var emitter2 = new Emitter({
 //			  var scale = 1 - 0.2 * Math.min(1, (animCt - touchTime) / 200);
 //		  	  ctx.setTransform(scale,0,0,scale,0,0)
 		  }
-		  ctx.font="bold 80px arial";
 		  ctx.fillText("SHAKE", 0, 0);
 		  
-		  ctx.fillText("TILT", 400, 0);
 		  ctx.restore();
 		  
 		  ctx.setTransform(1,0,0,1,0,0)
@@ -423,13 +430,23 @@ var emitter2 = new Emitter({
 		 evt.preventDefault();
 		 touchTime = +new Date();
 		 var ctx = canvas.getContext("2d");
-  		var touches = evt.changedTouches;		 
+  		var touches = evt.changedTouches;
+		 
+		 for (pkey in myPoly.objs) {
+			 var p = myPoly.objs[pkey];
+			 console.log(touches[0].pageX);
+			 if (Math.abs(p.x + p.width * 0.5 - touches[0].pageX) < p.width)
+				 if (Math.abs(p.y + p.height * 0.5 - touches[0].pageY) < p.height)
+			 		p.touched();
+		 }
+		 /*
 	  var q1 = new Polygon();
 	  q1.x = touches[0].pageX;
 	  q1.y = touches[0].pageY;
 	  var title2 = Object.assign({},title1); title2.text = z; z++;
 	  q1.myObjs.push(title2);
-	  myPoly.objs.push(q1);
+	  myPoly.objs.push(q1);*/
+		 
 	  };
 	 	
 	  function handleMove(evt) {
