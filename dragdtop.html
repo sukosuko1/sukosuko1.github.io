@@ -1,0 +1,48 @@
+<html>
+<style>
+	div {
+		height: 200;
+		width: 600;
+		background-color: aqua;
+	}
+</style>
+<head>
+</head>
+<body>
+	<div id="t1">div</div>
+<div>
+     <div><img id="logo" class="img-polaroid" alt="Logo" src="' . $row['logo'] . '" title="Click to change the logo" width="128">
+     <input id="logoupload" type="file" accept="image/* ">
+		 
+</div>
+	<div>
+	 <input type="file" accept="image/*;capture=camera">
+	</div>
+<div>
+	<input type="file" accept="video/*;capture=camcorder">
+	</div>	
+</body>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function(event) {
+	var tt1 = document.getElementById("t1");
+
+	alert(tt1.innerHTML);
+	
+		/*
+	function onDrop(e) {
+		console.log(e);
+		
+	}*/
+		
+		
+//	tt1.style.background-color = red;
+	
+	tt1.ondrop(function(e) {console.log('dropped')});
+		
+	ttl.addEventListener('drop', onDrop, false);
+		
+	});
+	
+</script>
+</html>
