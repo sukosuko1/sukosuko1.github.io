@@ -62,18 +62,19 @@
   var canvas = document.querySelector('canvas');
   var ctx = canvas.getContext('2d');
   var localMediaStream = null;
+// Prefer camera resolution nearest to 1280x720.
+var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
 
-    video.src = window.URL.createObjectURL(localMediaStream);
+navigator.mediaDevices.getUserMedia(constraints)
+.then(function(mediaStream) {
+  var video = document.querySelector('video');
+  video.srcObject = mediaStream;
+  video.onloadedmetadata = function(e) {
+    video.play();
+  };
+})
+.catch(function(err) { console.log(err.name + ": " + err.message); }); 
 	  
-  function snapshot() {
-    if (localMediaStream) {
-      ctx.drawImage(video, 0, 0);
-      // "image/webp" works in Chrome.
-      // Other browsers will fall back to image/png.
-      document.querySelector('img').src = canvas.toDataURL('image/webp');
-    }
-  }
-
   video.addEventListener('click', snapshot, false);
     // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
     // See crbug.com/110938.
