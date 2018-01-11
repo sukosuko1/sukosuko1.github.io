@@ -1,3 +1,6 @@
+#important hide the keys
+.env
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

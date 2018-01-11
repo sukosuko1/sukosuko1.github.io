@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/sukosuko1/sukosuko1.github.io#readme",
   "dependencies": {
+    "aws-sdk": "^2.177.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
     "express": "^4.16.2",
