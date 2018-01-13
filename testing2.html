@@ -144,7 +144,7 @@ audio.onended = function() {
 }
 var i = 0;
 audio.ontimeupdate = function() {
-	console.log(i++);
+	
 }
 audio.onpause = function() {console.log("pause"); bAudioPlay = false;  }
 audio.onplay = function() { console.log("play");  bAudioPlay = true; }
@@ -254,6 +254,54 @@ var emitter2 = new Emitter({
 		  ctx.fill();
 	  }
 	  
+	  var gObjs = [];
+	  function Star(x,y,dx,dy) {
+		  this.x = x;
+		  this.y = y;
+		  this.dx = dx;
+		  this.dy = dy;
+		  this.image = new Image();
+		  var n = Math.floor(Math.random() * 4);
+		  if (n== 0) this.image.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/53148/neon-star1.png";
+		  if (n== 1) this.image.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/53148/neon-star2.png";
+		  if (n== 2) this.image.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/53148/neon-star3.png";
+		  if (n== 3) this.image.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/53148/neon-star4.png";
+		  
+		  this.action = function(elapsed){
+			  this.y = this.y + this.dy;
+		  }
+		  this.render = function(ctx) {
+//			  ctx.filleStyle = "yellow";
+//			  ctx.fillRect(this.x, this.y, 10, 10)
+			  ctx.drawImage(this.image,this.x,this.y);
+		  }
+	  }
+	  
+	  function StarShooter(x,y) {
+		  this.x = x;
+		  this.y = y;
+		  
+		  this.stars = 10;
+		  this.timer = 800;
+		  this.action = function(elapsed){
+			  this.timer -= elapsed;
+			  if (this.timer < 0) {
+				  if (this.stars > 0) {
+				  gObjs.push(new Star(this.x, this.y, 0, -10))
+				  this.stars--;
+				  }
+				  this.timer = 800;
+			  }
+		  }
+		  this.render = function(ctx) {
+			  ctx.fillStyle = "blue";
+			  ctx.fillRect(this.x, this.y - this.stars * 10,  80, this.stars * 10);
+		  }
+	  }
+	  
+	  gObjs.push(new StarShooter(100,1200));
+	  gObjs.push(new StarShooter(300,1200));
+	  
 	  function Polygon () {
 		  this.x = Math.random() * 700;
 		  this.y = Math.random() * 500;
@@ -324,6 +372,7 @@ var emitter2 = new Emitter({
 		  this.objs[0].myObjs.push(title1);
 		  this.objs[0].myObjs.push(checkBox);
 		  
+		  
 		  this.action = function(elapsed)  {
 			  let zzz = 99;
 			  for(let k in this.objs){
@@ -376,6 +425,11 @@ var emitter2 = new Emitter({
 		  myPoly.action(elapsed);
 		  myPoly.render(ctx);
 		  
+		  gObjs.forEach((obj)=>{obj.action(elapsed)});
+//		  gObjs.forEach((obj)=>{obj.render(ctx)});
+		  for(let k in gObjs){
+			  gObjs[k].render(ctx);
+		  }
 		  if (prevAnimCt > 0) animAvg = (animCt - prevAnimCt) * 0.01 + animAvg * 0.99;
 		  prevAnimCt = animCt;
 		  
