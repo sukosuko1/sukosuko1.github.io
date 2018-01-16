@@ -432,7 +432,10 @@ var emitter2 = new Emitter({
 //back1.height
 		  ctx.transform(canvas.width/back1.width,0,0,canvas.height / back1.height,0,0);
 		  ctx.drawImage(back1, 0 ,0);
-		  ctx.setTransform(1,0,0,1,0,0)
+		  
+//		  ctx.setTransform(1,0,0,1,0,0)
+		  ctx.restore();
+		  
 		  emitter.render(ctx);
 		  emitter2.render(ctx);
 		  
@@ -448,7 +451,6 @@ var emitter2 = new Emitter({
 			  }
 		  }
 		  
-		  ctx.restore();
 		  
 		  gObjs.forEach((obj)=>{obj.action(elapsed)});
 //		  gObjs.forEach((obj)=>{obj.render(ctx)});
@@ -487,7 +489,7 @@ var emitter2 = new Emitter({
 		  }
 		  ctx.fillText("SHAKE", 0, 0);
 		  
-		  ctx.restore();
+//		  ctx.restore();
 		  
 		  ctx.setTransform(1,0,0,1,0,0)
 		  
@@ -508,6 +510,8 @@ var emitter2 = new Emitter({
 				  gObjs.push(new Star(x,y,dx,dy,1000))
 			  }
 		  }
+		  ctx.save();
+		  
 		  ctx.translate(100,80)
 		  spinner1.render(ctx);
 		  ctx.translate(180,0)
@@ -518,6 +522,7 @@ var emitter2 = new Emitter({
 		  spinner4.render(ctx);
 		  
 		  ctx.restore();
+		  ctx.save();
 		  
 		  ctx.setTransform(1,0,0,1,0,0)
 		  ctx.translate(spinner5.x,spinner5.y)
@@ -551,11 +556,12 @@ var emitter2 = new Emitter({
 		 
 		 for (let i = 0; i < 10; i++) {
 				  let x = touches[0].screenX;
-				  let y = touches[0].screenX;
+				  let y = touches[0].screenY;
 			 	  let r = Math.random() * 6.28;
 				  let dx = Math.cos(r) * 8;
 				  let dy = Math.sin(r) * 8;
 				  
+			 console.log("x=" + x + " y=" + y);
 				  gObjs.push(new Star(x,y,dx,dy,1000))
 		 }
 		 
