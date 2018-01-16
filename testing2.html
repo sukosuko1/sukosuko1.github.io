@@ -30,7 +30,7 @@ canvas {
 <body>
 <canvas height="1334px" width="750px" id="c1"></canvas>
 <audio controls autoplay id="audio1">
-  <source src="ncs2.mp3" type="audio/mpeg">
+  <source src="ncs3.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>	
 <a id="whatsapp1" href="whatsapp://send?text=https://en.wikipedia.org/wiki/Birthday-number_effect" data-action="share/whatsapp/share">Share via Whatsapp</a>
@@ -53,7 +53,7 @@ back1.src = 'img_tuna.jpg';
 var smoke = new Image();
 smoke.onerror = function() { console.log("error " + this.src);}
 smoke.onload = function() { console.log("load " + this.src);}
-smoke.src = 'http://s4.postimg.org/atxdou6u1/smoke.png';
+//smoke.src = 'http://s4.postimg.org/atxdou6u1/smoke.png';
 	
 
 function Emitter(opts) {
@@ -134,6 +134,10 @@ var spinner1 = new Spinner();
 var spinner2 = new Spinner();
 var spinner3 = new Spinner();
 var spinner4 = new Spinner();
+	  
+var spinner5 = new Spinner(1);
+spinner5.x = 350;
+spinner5.y = 800;
 	  
 //var audio = new Audio('ncs1.mp3');
 var audio = document.getElementById("audio1");
@@ -255,11 +259,13 @@ var emitter2 = new Emitter({
 	  }
 	  
 	  var gObjs = [];
-	  function Star(x,y,dx,dy) {
+	  function Star(x,y,dx,dy,lifetime=0) {
 		  this.x = x;
 		  this.y = y;
 		  this.dx = dx;
 		  this.dy = dy;
+		  this.timer = 0;
+		  this.lifetime = lifetime;
 		  this.image = new Image();
 		  var n = Math.floor(Math.random() * 4);
 		  if (n== 0) this.image.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/53148/neon-star1.png";
@@ -268,11 +274,21 @@ var emitter2 = new Emitter({
 		  if (n== 3) this.image.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/53148/neon-star4.png";
 		  
 		  this.action = function(elapsed){
+			  this.x = this.x + this.dx;
 			  this.y = this.y + this.dy;
+			  this.timer += elapsed;
 		  }
 		  this.render = function(ctx) {
 //			  ctx.filleStyle = "yellow";
 //			  ctx.fillRect(this.x, this.y, 10, 10)
+			  if (this.lifetime && this.timer > this.lifetime - 600) {
+				  ctx.globalAlpha = Math.max(0,this.lifetime - this.timer) / 600;
+			  } else {
+				   ctx.globalAlpha = 1;
+			  }
+			  ctx.filter = 'hue-rotate((200)';
+			  ctx.shadowBlur = 10;
+			  ctx.shadowColor = "#ffffff"
 			  ctx.drawImage(this.image,this.x,this.y);
 		  }
 	  }
@@ -287,7 +303,7 @@ var emitter2 = new Emitter({
 			  this.timer -= elapsed;
 			  if (this.timer < 0) {
 				  if (this.stars > 0) {
-				  gObjs.push(new Star(this.x, this.y, 0, -10))
+				  gObjs.push(new Star(this.x, this.y, 0, -10,10000))
 				  this.stars--;
 				  }
 				  this.timer = 800;
@@ -425,11 +441,19 @@ var emitter2 = new Emitter({
 		  myPoly.action(elapsed);
 		  myPoly.render(ctx);
 		  
+		  for (let n = 0; n < gObjs.length; n++) {
+			  let obj = gObjs[n];
+			  if (obj.lifetime && obj.timer > obj.lifetime) {
+				  gObjs.splice(n, 1);
+			  }
+		  }
+		  
 		  gObjs.forEach((obj)=>{obj.action(elapsed)});
 //		  gObjs.forEach((obj)=>{obj.render(ctx)});
 		  for(let k in gObjs){
 			  gObjs[k].render(ctx);
 		  }
+		  
 		  if (prevAnimCt > 0) animAvg = (animCt - prevAnimCt) * 0.01 + animAvg * 0.99;
 		  prevAnimCt = animCt;
 		  
@@ -470,6 +494,17 @@ var emitter2 = new Emitter({
 			  spinner2.action(3);
 			  spinner3.action(10);
 			  spinner4.action(5);
+			  spinner5.action(100);
+			  
+			  if (Math.random() < 0.1) {
+				  let r = Math.random() * 6.28;
+				  let x = spinner5.x + Math.cos(r) * 200;
+				  let y = spinner5.y + Math.sin(r) * 200;
+				  let dx = Math.cos(r-1.28) * 5;
+				  let dy = Math.sin(r-1.28) * 5;
+				  
+				  gObjs.push(new Star(x,y,dx,dy,1000))
+			  }
 		  }
 		  ctx.translate(100,80)
 		  spinner1.render(ctx);
@@ -479,6 +514,12 @@ var emitter2 = new Emitter({
 		  spinner3.render(ctx);
 		  ctx.translate(180,0)
 		  spinner4.render(ctx);
+		  
+		  ctx.restore();
+		  
+		  ctx.setTransform(1,0,0,1,0,0)
+		  ctx.translate(spinner5.x,spinner5.y)
+		  spinner5.render(ctx);
 		  ctx.restore();
 		  
 		  window.requestAnimationFrame(AnimLoop);
@@ -487,12 +528,17 @@ var emitter2 = new Emitter({
 	  var z = 7;
 	
 	  var touchTime = 0;
+
 	  
 	 function handleStart(evt) {
 		 evt.preventDefault();
 		 touchTime = +new Date();
 		 var ctx = canvas.getContext("2d");
-  		var touches = evt.changedTouches;
+  		
+
+	
+		 
+		 var touches = evt.changedTouches;
 		 
 		 for (pkey in myPoly.objs) {
 			 var p = myPoly.objs[pkey];

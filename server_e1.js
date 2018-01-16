@@ -31,6 +31,8 @@ app.use( function(req,res,next) {
 	next();
 });
 
+app.use(express.static('./.'));
+
 app.get('/login', function(req,res) {
 	
 	res.send(htmlLogin);
@@ -128,6 +130,7 @@ app.get('/:id', function(req,res, next) {
 app.post('/upload', function(req,res, next) {
 	console.log('upload:' + req.body);
 });
+
 
 
 /*
