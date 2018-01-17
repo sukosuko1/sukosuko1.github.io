@@ -286,10 +286,11 @@ var emitter2 = new Emitter({
 			  } else {
 				   ctx.globalAlpha = 1;
 			  }
-			  ctx.filter = 'hue-rotate((200)';
 			  ctx.shadowBlur = 10;
 			  ctx.shadowColor = "#ffffff"
 			  ctx.drawImage(this.image,this.x,this.y);
+			  ctx.shadowBlur = 0;
+			  ctx.globalAlpha = 1;
 		  }
 	  }
 	  
@@ -321,7 +322,7 @@ var emitter2 = new Emitter({
 	  function Polygon () {
 		  this.x = Math.random() * 700;
 		  this.y = Math.random() * 500;
-		  this.y = 100;
+//		  this.y = 100;
 		  this.dx = Math.random() * 0.2 - 0.1;
 		  this.dy = Math.random() * 0.2 - 0.1;
 		  this.degree= Math.random() * 6.28;
@@ -349,10 +350,10 @@ var emitter2 = new Emitter({
 					  this.dscale = 0; 
 				  }
 			  }
-			  this.dy += elapsed * 0.5 - this.dy * this.dy * 0.01;
+			  this.dy += elapsed * 0.005 - this.dy * this.dy * 0.01;
 			  this.scale += this.dscale;
-			  this.x += this.dx;
-			  this.y += this.dy;
+			  this.x += this.dx * (elapsed / 18);
+			  this.y += this.dy * (elapsed / 18);
 			  for (k in this.myObjs) this.myObjs[k].action(elapsed);
 		  }
 		  
@@ -392,17 +393,23 @@ var emitter2 = new Emitter({
 		  this.action = function(elapsed)  {
 			  let zzz = 99;
 			  for(let k in this.objs){
-				  this.objs[k].action(1);
+				  this.objs[k].action(elapsed);
 				  if (this.objs[k].timer < 0) this.objs.splice(k,1);
 			  }
 			  this.timer -= elapsed;
 			  if (this.timer < 0) {
+				  
+				  let numPoly = this.timer % 3 + 1;
+				  numPoly = 2;
+				  for (let n = 0; n < numPoly; n++) {
 				  var objx = new Polygon()
 				  objx.myObjs.push(title1);
 				  
 				  objx.myObjs.push(checkBox);
 				  this.objs.push(objx);
-				  this.timer = 2599 * Math.random();
+				  }
+				  if (this.timer < 1000) this.timer = 0;
+				  this.timer += 599;
 			  }
 		  }
 		  this.render = function(ctx) {
@@ -468,9 +475,10 @@ var emitter2 = new Emitter({
 		  ctx.font="bold 30px arial";
 		  ctx.fillText("refresh= " + animAvg.toPrecision(2),30, 500);
 		  
-		  ctx.setTransform(1,0,0,1,30,1200)
+		  ctx.setTransform(1,0,0,1,30,120)
+		  ctx.fillStyle = "pink";
 		  ctx.font="bold 80px arial";
-		  ctx.fillText("+" + gScore, 520, 0);
+		  ctx.fillText("+" + gScore, 20, 0);
 		  
 /*		  ctx.setTransform(10,0,0,10,30,1200)
 		  ctx.drawImage(sparkle,0,0);
@@ -487,7 +495,7 @@ var emitter2 = new Emitter({
 //			  var scale = 1 - 0.2 * Math.min(1, (animCt - touchTime) / 200);
 //		  	  ctx.setTransform(scale,0,0,scale,0,0)
 		  }
-		  ctx.fillText("SHAKE", 0, 0);
+//		  ctx.fillText("SHAKE", 0, 0);
 		  
 //		  ctx.restore();
 		  
@@ -532,10 +540,26 @@ var emitter2 = new Emitter({
 		  window.requestAnimationFrame(AnimLoop);
 	  }
 
+	  function launchStars(x,y) {
+		 for (let i = 0; i < 10; i++) {
+//				  let x = touches[t].screenX;
+//				  let y = touches[t].screenY;
+			 	  let r = Math.random() * 6.28;
+				  let dx = Math.cos(r) * 4 + Math.random() * 8 ;
+				  let dy = Math.sin(r) * 4 - Math.random() * 8 ;
+				  
+			 console.log("x=" + x + " y=" + y);
+				  gObjs.push(new Star(x,y,dx,dy,1000))
+		 }
+		  
+	  }
+	  
+	  
 	  var z = 7;
 	
 	  var touchTime = 0;
 
+	  
 	  
 	 function handleStart(evt) {
 		 evt.preventDefault();
@@ -546,24 +570,17 @@ var emitter2 = new Emitter({
 		 
 		 var touches = evt.changedTouches;
 		 
+		 for (let t = 0; t < touches.length; t++)
+			 
 		 for (pkey in myPoly.objs) {
 			 var p = myPoly.objs[pkey];
-			 console.log(touches[0].pageX);
-			 if (Math.abs(p.x + p.width * 0.5 - touches[0].pageX) < p.width)
-				 if (Math.abs(p.y + p.height * 0.5 - touches[0].pageY) < p.height)
-			 		p.touched();
+			 if (Math.abs(p.x + p.width * 0.5 - touches[t].pageX) < p.width)
+				 if (Math.abs(p.y + p.height * 0.5 - touches[t].pageY) < p.height) {
+			 		 p.touched();
+					 launchStars(touches[t].screenX, touches[t].screenY)
+				 }
 		 }
 		 
-		 for (let i = 0; i < 10; i++) {
-				  let x = touches[0].screenX;
-				  let y = touches[0].screenY;
-			 	  let r = Math.random() * 6.28;
-				  let dx = Math.cos(r) * 8;
-				  let dy = Math.sin(r) * 8;
-				  
-			 console.log("x=" + x + " y=" + y);
-				  gObjs.push(new Star(x,y,dx,dy,1000))
-		 }
 		 
 		 /*
 	  var q1 = new Polygon();
@@ -576,7 +593,19 @@ var emitter2 = new Emitter({
 	  };
 	 	
 	  function handleMove(evt) {
+		 var touches = evt.changedTouches;
 		  
+		 for (let i = 0; i < 1; i++) {
+				  let x = touches[0].screenX;
+				  let y = touches[0].screenY;
+			 	  let r = Math.random() * 6.28;
+				  let dx = Math.cos(r) * 4 + Math.random() * 8 ;
+				  let dy = Math.sin(r) * 4 - Math.random() * 8 ;
+
+			 		if (x%3 == 0) {
+				  gObjs.push(new Star(x,y,dx,dy,1000))
+					}
+		 }
 	  }
 	  function handleEnd() {
 		  touchTime = -0.01;
