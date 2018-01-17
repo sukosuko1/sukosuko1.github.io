@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<!--
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
--->
+
 <html>
 <head>
 
   <meta charset="utf-8">
-  <meta name="description" content="A zest of canvas capture and replaceTrack">
+  <meta name="description" content="AI Hong Kong camera">
   <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
     
   <link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
@@ -51,6 +45,7 @@ video {
 }
     
 #localVideo {
+    position: absolute;
     width: 100%;
     height: 100%;
     border-style: solid;
@@ -70,7 +65,7 @@ button {
 <body>
 
 
-  <canvas id="canvas1"></canvas>
+  <canvas id="canvas1" height="667" width="375"></canvas>
   <video id="localVideo" autoplay muted playsInline></video>
     
   <br>
@@ -84,5 +79,6 @@ button {
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="glfx.js"></script>
   <script src="aicamera.js"></script>
+  <script src="stars.js"></script>
 </body>
 </html>

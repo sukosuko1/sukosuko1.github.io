@@ -1,12 +1,15 @@
 var canvas1 = document.getElementById("canvas1");
 var ctx = canvas1.getContext("2d");
 
-//ctx.font = "30px Helvetica"
+ctx.font = "40px Helvetica"
 ctx.font = "40px Luckiest Guy"
-ctx.fillStyle = "#FFff88";
+ctx.fillStyle = "#2244ff";
+ctx.shadowBlur = 10;
+ctx.shadowColor = "white";
 //ctx.fillRect(0,200,60,20);
 
-ctx.fillText("AI Hong Kong",20,canvas1.height - 35);
+ctx.fillText("AI Hong Kong",40, canvas1.height - 125);
+console.log(window.innerHeight);
 
 var startButton = document.getElementById('startButton');
 var callButton = document.getElementById('callButton');
