@@ -60,7 +60,7 @@ function AnimLoop() {
 		  }
 		  
 	if (animCt % 3 == 0) {
-		gObjs.push(new Star(Math.random()*375, 580, -1 + Math.random() * 2, -2 - Math.random() * 3, 800));
+		gObjs.push(new Star(Math.random()*375, 650, -1 + Math.random() * 2, -2 - Math.random() * 3, 1500));
 	}
 	
 ctx.font = "52px Helvetica"
