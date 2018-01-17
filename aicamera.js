@@ -1,8 +1,19 @@
+var canvas1 = document.getElementById("canvas1");
+var ctx = canvas1.getContext("2d");
+
+ctx.fillStyle = "red";
+ctx.fillRect(0,200,60,20);
+ctx.fillText("AI Hong Kong",100,100);
+
 var startButton = document.getElementById('startButton');
 var callButton = document.getElementById('callButton');
 callButton.disabled = true;
 startButton.onclick = start;
 callButton.onclick = call;
+
+start();
+
+var localVideo = document.getElementById('localVideo');
 
 var startTime;
 var localVideo = document.getElementById('localVideo');

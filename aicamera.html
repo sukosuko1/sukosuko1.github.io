@@ -37,7 +37,12 @@ canvas {
   max-width: 100%;
   width: 100%;
 }
-
+    
+#canvas1 {
+     position: absolute;
+    z-index: 99;
+}
+    
 video {
   background: #222;
   width: 640px;
@@ -65,10 +70,10 @@ button {
 
 <body>
 
-  <h1>A zest of canvas capture and replaceTrack</h1>
-  <h2>Inspired by well-known <a href="//webrtc.github.io/samples/" title="WebRTC samples homepage">WebRTC samples</a></h2>
 
+  <canvas id="canvas1"></canvas>
   <video id="localVideo" autoplay muted playsInline></video>
+    
   <br>
   <video id="remoteVideo" autoplay playsInline></video>
 
