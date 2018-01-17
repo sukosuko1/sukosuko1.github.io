@@ -1,9 +1,11 @@
 var canvas1 = document.getElementById("canvas1");
 var ctx = canvas1.getContext("2d");
 
+ctx.font = "30px Helvetica"
 ctx.fillStyle = "red";
 ctx.fillRect(0,200,60,20);
-ctx.fillText("AI Hong Kong",100,100);
+
+ctx.fillText("AI Hong Kong",100,canvas1.height - 30);
 
 var startButton = document.getElementById('startButton');
 var callButton = document.getElementById('callButton');
