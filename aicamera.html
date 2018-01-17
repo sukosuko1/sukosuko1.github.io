@@ -12,8 +12,10 @@
   <meta charset="utf-8">
   <meta name="description" content="A zest of canvas capture and replaceTrack">
   <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    
+  <link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
 
-  <title>A zest of canvas capture and replaceTrack</title>
+  <title>Genius Cam</title>
 
 
 </head>
@@ -39,6 +41,7 @@ audio {
     max-width: 100%;
     width: 100%;
     height: 100%;
+    font-family: 'Luckiest Guy', cursive;
 }
     
 video {
@@ -46,27 +49,22 @@ video {
   margin: 0 0 20px 0;
   vertical-align: top;
 }
-#localvideo {
+    
+#localVideo {
     width: 100%;
     height: 100%;
+    border-style: solid;
+    border-color: red green blue yellow;
 }
     
+#remotevideo {
+    display: none;
+}
 button {
   margin: 0 20px 0 0;
   width: 83px;
 }
 
-@media screen and (max-width: 400px) {
-  button {
-    width: 83px;
-    margin: 0 11px 10px 0;
-  }
-
-  video {
-    width: 320px;
-    margin: 0 0 10px 0;
-  }
-}    
     </style>    
 
 <body>
@@ -76,20 +74,12 @@ button {
   <video id="localVideo" autoplay muted playsInline></video>
     
   <br>
-  <video id="remoteVideo" autoplay playsInline></video>
 
   <div>
-    <button id="startButton">Start</button>
+    <button id="startButton">Flip</button>
     <button id="callButton">Call</button>
   </div>
 
-  <p>This page illustrates use of the canvas capture and replaceTrack.
-  To add spice to this typical WebRTC video exchange, the camera video track (displayed in the first video element) is sent to a canvas.
-  Some processing is done to pixellate it in the canvas.
-  The canvas stream is captured and sent to the second video element through WebRTC.
-  The pixellation will slowly decrease up to no pixellation at all.
-  Once there is no more pixellation, the canvas capture track will be replaced by the camera video track to optimize the performaces.
-  </p>
 
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="glfx.js"></script>

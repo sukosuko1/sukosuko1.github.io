@@ -1,16 +1,17 @@
 var canvas1 = document.getElementById("canvas1");
 var ctx = canvas1.getContext("2d");
 
-ctx.font = "30px Helvetica"
-ctx.fillStyle = "red";
-ctx.fillRect(0,200,60,20);
+//ctx.font = "30px Helvetica"
+ctx.font = "40px Luckiest Guy"
+ctx.fillStyle = "#FFff88";
+//ctx.fillRect(0,200,60,20);
 
-ctx.fillText("AI Hong Kong",100,canvas1.height - 30);
+ctx.fillText("AI Hong Kong",20,canvas1.height - 35);
 
 var startButton = document.getElementById('startButton');
 var callButton = document.getElementById('callButton');
 callButton.disabled = true;
-startButton.onclick = start;
+startButton.onclick = flipCamera;
 callButton.onclick = call;
 
 start();
@@ -19,7 +20,6 @@ var localVideo = document.getElementById('localVideo');
 
 var startTime;
 var localVideo = document.getElementById('localVideo');
-var remoteVideo = document.getElementById('remoteVideo');
 var canvas = fx.canvas();
 
 localVideo.addEventListener('loadedmetadata', function() {
@@ -27,22 +27,6 @@ localVideo.addEventListener('loadedmetadata', function() {
     'px,  videoHeight: ' + this.videoHeight + 'px');
 });
 
-remoteVideo.addEventListener('loadedmetadata', function() {
-  trace('Remote video videoWidth: ' + this.videoWidth +
-    'px,  videoHeight: ' + this.videoHeight + 'px');
-});
-
-remoteVideo.onresize = function() {
-  trace('Remote video size changed to ' +
-    remoteVideo.videoWidth + 'x' + remoteVideo.videoHeight);
-  // We'll use the first onsize callback as an indication that video has started
-  // playing out.
-  if (startTime) {
-    var elapsedTime = window.performance.now() - startTime;
-    trace('Setup time: ' + elapsedTime.toFixed(3) + 'ms');
-    startTime = null;
-  }
-};
 
 var localStream;
 var pc1;
@@ -67,17 +51,27 @@ function gotStream(stream) {
   callButton.disabled = false;
 }
 
+var front = false;
+//document.getElementById('startButton').onclick = 
+function flipCamera() { front = !front; };
+var constraints = { audio: false, video: { facingMode: (front? "user" : "environment") } };
+
+
 function start() {
   trace('Requesting local stream');
   startButton.disabled = true;
-  navigator.mediaDevices.getUserMedia({
-    audio: false,
-    video: true})
+//  navigator.mediaDevices.getUserMedia({
+ //   audio: false,
+//    video: true})
+  navigator.mediaDevices.getUserMedia(constraints)
   .then(gotStream)
   .catch(function(e) {
     alert('getUserMedia() error: ' + e);
   });
 }
+
+
+
 
 function call() {
   callButton.disabled = true;
@@ -166,8 +160,6 @@ function onSetSessionDescriptionError(error) {
 }
 
 function gotRemoteTrack(e) {
-  remoteVideo.srcObject = e.streams[0];
-  trace('pc2 received remote track');
 }
 
 function onCreateAnswerSuccess(desc) {
