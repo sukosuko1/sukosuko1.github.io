@@ -1,0 +1,93 @@
+<html>
+<head>
+<title> iFrame </title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="test2.js"></script>
+    
+<script language="javascript">
+var ctx = {};
+    
+document.addEventListener('DOMContentLoaded', function () {
+    ctx = document.getElementById("c1").getContext("2d");    
+    const url = encodeURI("https://www.google.com/search?q=cute+cats&btm=isch");;
+//    const url = "https://www.google.com";
+
+//    var script = document.createElement("script");
+//   script.setAttribute("type", "text/javascript");
+//    script.setAttribute("src", "https://www.google.com/");
+
+/*    
+    var data, success, dataType;
+    $.ajax({url:url, 
+            dataType:'jsonp', 
+            jsonp:'jsonp',
+            type: 'GET',
+             crossDomain: true,
+             contentType: "application/json; charset=utf-8",
+      success:function(data, status) {
+        console.log("data: " + data);
+        console.log("status: " + status);
+      },
+      error:function() {
+          console.log('error');
+      }});
+  */
+    ctx.fillStyle = "blue";
+    ctx.fillRect(20,20,200,20);
+});
+
+var stage = {};
+    
+    
+function startjstest() {
+$.getScript("./test2.js")
+    .done(function(data, textStatus, jqxhr) {
+        console.log(data); //data returned
+        console.log(textStatus); //success
+        console.log(jqxhr.status); //200
+        console.log('Load was performed.');
+    })
+    .fail(function(jqxhr, settings, exception) {
+        console.log(exception); //data returned
+        console.log(settings); //success
+        console.log(jqxhr.status); //200
+        console.log('error.');
+    })
+}
+    
+function displayjstest() {
+    console.log(hiddenvar);
+}
+
+    
+function loop() {
+    if (!stage.action) {
+        startjstest();
+    } else {
+        stage.action(17);
+        stage.render();
+        if (stage.done) {
+//            stage = stageList.next();
+            stage = {};
+        } 
+    }
+    
+    requestAnimationFrame(loop);    
+}
+loop();
+    
+</script>
+</head>
+<body>
+<div style="Clear:both;">
+<input type="button" VALUE="LoaadIT" onClick="startjstest()">
+</div>
+<div style="Clear:both;">
+<input type="button" VALUE="Display" onClick="displayjstest()">
+</div>
+
+<a>hello world</a>
+<canvas id="c1" width="900" height="300"></canvas>    
+    
+</body>
+</html>
