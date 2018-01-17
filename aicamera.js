@@ -54,16 +54,17 @@ function gotStream(stream) {
 var front = false;
 //document.getElementById('startButton').onclick = 
 function flipCamera() { front = !front; };
-var constraints = { audio: false, video: { facingMode: (front? "user" : "environment") } };
+//var constraints = { audio: false, video: true, video: { facingMode: (front? "user" : "environment") } };
+var constraints = { audio: true, video: true };
 
 
 function start() {
   trace('Requesting local stream');
   startButton.disabled = true;
-//  navigator.mediaDevices.getUserMedia({
- //   audio: false,
-//    video: true})
-  navigator.mediaDevices.getUserMedia(constraints)
+  navigator.mediaDevices.getUserMedia({
+   audio: false,
+    video: true})
+//  navigator.mediaDevices.getUserMedia(constraints)
   .then(gotStream)
   .catch(function(e) {
     alert('getUserMedia() error: ' + e);
