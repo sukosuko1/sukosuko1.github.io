@@ -50,7 +50,7 @@ function getOtherPc(pc) {
 function gotStream(stream) {
   trace('Received local stream');
   localVideo.srcObject = stream;
-  localStream = stream;
+//  localStream = stream;
   callButton.disabled = false;
 }
 

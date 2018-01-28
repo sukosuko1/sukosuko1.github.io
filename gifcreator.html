@@ -1,34 +1,139 @@
-	<script src="gif.js"></script>
-
-
-	  var gifNum = 0;
-	  var gif = new GIF({
-  workers: 2,
-  quality: 10,
-		  width:200,
-		  height: 200
-});
-	  
-gif.on('finished', function(blob) {
-    var url = window.URL.createObjectURL(blob);
-	window.open(url);
+<html>
+<head>
 	
-	var a = document.createElement("a");
-    document.body.appendChild(a);
-	a.href = url;
-	a.download = "mygif.gif";
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+<script src="gif.js"></script>
 	
-	window.URL.revokeObjectURL(url)
-});
+</head>
+	
+<body>
+	
+<canvas id="canvas1" style="border:2px solid black;" width="400" height="400">
+</canvas>	
+	
+</body>
 
 
-		 console.log("ADD FRAME");
-// or copy the pixels from a canvas context
-gif.addFrame(ctx, {copy: true});
+<script>
+	
+	var svgdata = '<svg id="svg" viewBox="0 0 775 650"> <rect x="10" y="10" width="100" height="100">    <animate attributeType="XML" attributeName="x" from="-100" to="120"        dur="10s" repeatCount="indefinite"/>  </rect>		<text x="200" y="200" class="animated pulse infinite">AYA AYA AYAYAYA</text>	</svg>';
 
+	
+	var canvas1 = document.getElementById("canvas1");
+    var ctx = canvas1.getContext("2d");    
+	
+	ctx.fillStyle = "#AAEEFF";
+	ctx.fillRect(20,20,40,200);
 
+	var imageback = new Image();
+	imageback.src = 'http://cdn2-www.dogtime.com/assets/uploads/2011/03/cute-dog-names.jpg';
 
-	 if (gifNum++ > 5) {
+	
+var data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
+           '<foreignObject width="100%" height="100%">' +
+           '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">' +
+             '<em>I</em> like ' + 
+             '<span style="color:white; text-shadow:0 0 2px blue;">' +
+             'cheese</span>' +
+           '</div>' +
+           '</foreignObject>' +
+           '</svg>';
+		var blob2 = new Blob([data], {type: 'image/svg+xml'});
+    	var url2 = window.URL.createObjectURL(blob2);
+//		window.open(url2);
+	
+		var a = document.createElement("image");
+		document.body.appendChild(a);
+		a.src = url2;
+		a.download = "mygif.gif";	
+	
+	document.addEventListener("click", addFrame);
+	
+	var gif = new GIF({
+		workers: 2,
+  		quality: 10,
+		width:200,
+		height:200,
+		background: 0xaaeeff
+	});
+
+	let gifNum=0;
+	
+	function addFrame() {
+		console.log("ADD FRAME");
+		// copy the pixels from a canvas context
+		ctx.fillStyle = "#AAEEFF";
+		ctx.fillRect(0,0,200,200);
+		
+//		ctx.drawImage(imageback,0,0);
+		
+		ctx.fillStyle = "#FFEEAA";
+		ctx.font = "40px helvetica";
+		
+		let d1 = 500;
+		if (gifNum == 0) text1 = "ain't";
+		if (gifNum == 1) text1 = "it";
+		if (gifNum == 2) text1 = "fun";
+		if (gifNum == 3) text1 = "living";
+		if (gifNum == 4) text1 = "in";
+		if (gifNum == 5) text1 = "the";
+		if (gifNum == 6) { text1 = "real world"; d1 = 3000; }
+		ctx.fillText(text1, 100,100);
+		gif.addFrame(ctx, {copy: true, delay:d1});
+
+		if (gifNum++ >= 6) {
 			 
-		 gif.render();
-		 }
+		 	gif.render();
+		 }	
+	}
+	
+gif.on('finishedx', function(blob) {
+//  window.open(URL.createObjectURL(blob));
+  window.open(window.URL.createObjectURL(blob));
+});
+	
+	gif.on('finished', function(blob) {
+    	var url = window.URL.createObjectURL(blob);
+		
+		{
+		let a = document.createElement("div");
+		a.innerHTML = "start";
+		document.body.appendChild(a);
+		}
+
+		{
+		let a = document.createElement("a");
+		a.href = url;
+		a.download = "mygif.gif";
+		document.body.appendChild(a);
+		}
+		
+		{
+		let a = document.createElement("img");
+//		a.src = 'http://cdn2-www.dogtime.com/assets/uploads/2011/03/cute-dog-names.jpg';
+		a.src = url;
+		a.download = "mygif.gif";
+		document.body.appendChild(a);
+		}
+		
+
+		
+		{
+		let a = document.createElement("div");
+		a.innerHTML = "end";
+		document.body.appendChild(a);
+		}
+		
+		console.log("gif created!");
+		
+//		window.URL.revokeObjectURL(url)
+	});
+	
+</script>
+
+
+</html>
+
+
+

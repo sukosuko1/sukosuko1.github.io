@@ -121,7 +121,8 @@ app.get('/:id', function(req,res, next) {
 			
 		res.send(html);
 	} else {
-		res.send('The page joinin.io/' + req.params.id + '   created for user:' + req.session.user);
+//		res.send('The page joinin.io/' + req.params.id + '   created for user:' + req.session.user);
+		next();
 	}
 //	res.send('The page joinin.io/' + req.params.id);
 });
