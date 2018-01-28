@@ -265,15 +265,15 @@ repeatCount="indefinite"
 		var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		
 		for (let i = 0; i < 250; i++) {
-			d3.select("svg").append('text').attr("x", 60 * (i % 10))
-				.attr("y", 60 * Math.floor(i/10))
+			d3.select("svg").append('text').attr("x", 90 * (i % 10))
+				.attr("y", 90 * Math.floor(i/10))
 //				.text("P")
 				.attr("id","text"+i)
 				.text(alphabet.charAt(Math.floor(Math.random() * alphabet.length)))
 				.attr("text-anchor", "middle")
 				.attr("font-family", "Luckiest Guy")
 //				.attr("font-family", "Helvetica, Arial, sans-serif;")
-				.attr("font-size", "60px")
+				.attr("font-size", "80px")
 //				.attr("font-style", "bold")
 //				.attr("fill", "blue")			
 //				.style("filter", "url(#drop-shadow)")
