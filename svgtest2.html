@@ -253,18 +253,19 @@ repeatCount="indefinite"
 		
 		
 		
-		var alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		
-		for (let i = 0; i < 200; i++) {
+		for (let i = 0; i < 250; i++) {
 			d3.select("svg").append('text').attr("x", 50 * (i % 10))
 				.attr("y", 50 * Math.floor(i/10))
 //				.text("P")
 				.text(alphabet.charAt(Math.floor(Math.random() * alphabet.length)))
 				.attr("text-anchor", "middle")
-				.attr("font-family", "Luckiest Guy")
+//				.attr("font-family", "Luckiest Guy")
+				.attr("font-family", "Helvetica")
 				.attr("font-size", "20px")
-				.attr("font-style", "bold")
-				.attr("fill", "blue")			
+//				.attr("font-style", "bold")
+//				.attr("fill", "blue")			
 //				.style("filter", "url(#drop-shadow)")
 			
 			d3.select("svg").append('circle').attr("cx", 50 * (i % 10))
