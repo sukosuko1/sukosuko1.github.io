@@ -19,21 +19,31 @@
 		height: 100%;
 		
 	}
-	#owl2  {
+	#owl299  {
 		top: 50;
 		visibility: hidden;
 	}
-#owl1:hover {
-  cursor: crosshair;
-  }	
 	
-svg#wingl {
-	top: 50;
-	left: 50;
-    animation-duration: 3s;
-    animation-name: bounce;
-    animation-iteration-count: infinite;	
-}	
+
+
+	text {
+		-webkit-user-select: none;  /* Chrome all / Safari all */
+  		-moz-user-select: none;     /* Firefox all */
+  		-ms-user-select: none;      /* IE 10+ */
+  		user-select: none;          /* Likely future */      
+		text-decoration: "green wavy underline";
+		color: aqua;
+//		visibility: hidden;
+	}
+	#text9 {
+		-webkit-user-select: none;  /* Chrome all / Safari all */
+  		-moz-user-select: none;     /* Firefox all */
+  		-ms-user-select: none;      /* IE 10+ */
+  		user-select: none;          /* Likely future */      
+		text-decoration: "green wavy underline";
+		color: red;
+		visibility: hidden;
+	}
 	
 @keyframes bounce {
     0% {
@@ -155,7 +165,9 @@ repeatCount="indefinite"
 			let p = document.getElementById("sk2");
 			
 		}
-		document.addEventListener("click", clickEvent);
+		
+		
+//		document.addEventListener("click", clickEvent);
 		
 //		document.addEventListener("mouseover", function(evt) {
 //			console.log(evt.clientX);
@@ -215,6 +227,8 @@ repeatCount="indefinite"
 		
 		
 		timer=0;
+		
+		/*
 		function animLoop(){
 			var p = document.getElementById("body");
 			
@@ -230,6 +244,7 @@ repeatCount="indefinite"
 		}
 		
 		animLoop();
+		*/
 		
 	
 		d3.select("#svg7").append("circle");
@@ -264,9 +279,10 @@ repeatCount="indefinite"
 		
 		var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		
-		for (let i = 0; i < 250; i++) {
-			d3.select("svg").append('text').attr("x", 90 * (i % 10))
-				.attr("y", 90 * Math.floor(i/10))
+		for (let i = 0; i < 20; i++) {
+			d3.select("svg").append('text').attr("x", 640)
+//				.attr("y", 90 * Math.floor(i/10))
+				.attr("y", 90 * i)
 //				.text("P")
 				.attr("id","text"+i)
 				.text(alphabet.charAt(Math.floor(Math.random() * alphabet.length)))
@@ -277,6 +293,7 @@ repeatCount="indefinite"
 //				.attr("font-style", "bold")
 //				.attr("fill", "blue")			
 //				.style("filter", "url(#drop-shadow)")
+//				.attr("pointer-events", "none")
 			
 			d3.select("svg").append('circle').attr("cx", 50 * (i % 10))
 //				.attr("cy", 50 * Math.floor(i/10))
@@ -311,15 +328,36 @@ repeatCount="indefinite"
 			var s1 = d3.select(srcElement);
 			
 			s1.transition()             // apply a transition
-        		.ease(d3.easeBounce)           // control the speed of the transition
+//        		.ease(d3.easeBounce)           // control the speed of the transition
+        		.ease(d3.easeCircle)           // control the speed of the transition
         		.duration(2000)           // apply it over 2000 milliseconds
 				.attr('x', 20)          // move the circle to 920 on the x axis
+			
+//			d3.selectAll("text:not(#)" + srcElement + ")").transition()
+//			d3.selectAll("text").transition()
+//				.ease(d3.easeLinear)
+//				.duration(4000)
+//				.attr('y', self.attr('y') - 90);
 		};	
 		
-		d3.selectAll('text').on("touchend", touchend, true);
+		d3.selectAll('text').on("touchstart", touchstartd3, true);
+		d3.selectAll('text').on("touchend", touchendd3, true);
 
-		function touchend() {
-  			console.log(d3.event);
+		function touchstartd3(evt) {
+			d3.event.preventDefault();
+			d3.event.stopPropagation();
+  			console.log("touchstartd3" + d3.event);
+			var s1 = d3.select(d3.event.srcElement);
+			s1.transition().ease(d3.easeElastic).duration(500).attr("font-size", "120px");
+//			s1.attr("text-decoration", "green wavy underline");
+//			s1.attr("text-shadow", "10px 10px 10px yellow");
+		}
+		function touchendd3() {
+			d3.event.preventDefault();
+			d3.event.stopPropagation();
+  			console.log("touchendd3" + d3.event);
+			var s1 = d3.select(d3.event.srcElement);
+			s1.transition().ease(d3.easeElastic).duration(500).attr("font-size", "80px");
 			bounceit(d3.event.srcElement);
 		}
 				

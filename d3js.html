@@ -1,0 +1,100 @@
+<html>
+<head>
+
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+	
+	<style>
+		#svg {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	
+	
+	</body>
+<script>
+	
+	var datat = [0,20,50,200,120,70,150,75,100];
+	
+	var data = [];
+	
+		d3.csv("accounts.csv", myParser, function(array1) {
+		array1.forEach(function(d) {
+			data.push(d);
+//			console.log(d);
+		})
+	});
+
+	let gId = 1;
+	function myParser(d){
+//		console.log(d);
+		d.name = d.name;
+		d.balance = parseFloat(d[" balance"]);
+		d.id = gId++;
+		return d;
+	}
+	
+	var scaleX = d3.scaleLinear()	
+		.domain([0,10])
+		.range([0,500]);
+	
+	var scaleY = d3.scaleLinear()	
+		.domain([0,500])
+		.range([500,0]);
+	
+	var svg = d3.select("body").append("svg")
+		.attr("width", 600)
+		.attr("height",600)
+	
+	function render(data) {
+		var rects = svg.selectAll("rect")
+			.data(data)
+		rects.enter().append("rect");
+		
+		rects
+			.attr("y",500)
+			.attr("x", (d) => {console.log(d.id); return scaleX(d.id)})
+//			.attr("x", 20)
+//			.attr("y", 100)
+			.attr("width",20)
+			.attr("height", 20)
+			.transition()
+			.duration(500)
+			.ease(d3.easeBounce) 
+			.attr("y", (d) => {console.log(scaleY(d.balance)); return scaleY(d.balance)})
+			.on("end", shaker(rects))
+		
+		rects.exit().remove();
+		
+	function shaker(obj) {
+		console.log("shake" + obj);
+		rects
+			.transition()
+			.delay(500)
+			.duration(200)
+			.attr("y", 200)
+			.attr("color","yellow")
+	}
+	
+		
+	}
+	
+	document.addEventListener("click", function(evt){
+//		data.push(Math.random()*200);
+//		data.splice(2,1);
+		console.log(data);
+		render(data);
+	})
+	render(data);
+	
+	console
+	</script>	
+</html>
+
+
+		
+
+	
+	
