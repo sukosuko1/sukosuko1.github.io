@@ -1,19 +1,32 @@
 <html>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
+	
 <head>
 
 //   <script src="https://d3js.org/d3.v4.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
-	
 	<style>
 		#svg {
 			width: 100%;
 			height: 100%;
 		}
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}		
 	</style>
 </head>
 <body>
 	
-	
+	<p id="popup"></p>
 	</body>
 <script>
 	
@@ -21,76 +34,229 @@
 	
 	var data = [];
 	
-		d3.csv("accounts.csv", myParser, function(array1) {
+	d3.csv("hk100results2018.csv", myParser, function(array1) {
+		if (!array1) {
+			console.log("can't read file");
+			return;
+		}
 		array1.forEach(function(d) {
-			data.push(d);
+			if (d.time && d.timeGroup && (d.timeGroup < 37)) {
+				data.push(d);
+//				console.log(d);
+			} else {
+			   let zz= 99;
+//				console.log(d);
+			}
 //			console.log(d);
-		})
+		});
+		render(data);
+		
 	});
+		
+		/*.then(function(data) {
+		console.log("data")
+	});*/
+	
+	
 
 	let gId = 1;
+	var myTimeParser = d3.utcParse("%H:%M:%S");
+	const constStartTime = new Date("1900-1-1 8:00:00")
 	function myParser(d){
 //		console.log(d);
-		d.name = d.name;
-		d.balance = parseFloat(d[" balance"]);
-		d.id = gId++;
-		return d;
+		var d2 = {};
+		const keys = Object.keys(d);
+		d2.name = d[keys[5]] + " " + d[keys[4]];
+//		d.balance = parseFloat(d[" balance"]);
+		d2.time = myTimeParser(d[keys[7]]);
+		d2.timeHour = d2.time - constStartTime;
+	//	console.log(d2.timeHour.getHours())
+		if (d2.time) d2.timeGroup = (d2.time.getDay()-1) * 24 + d2.time.getHours() - 8 + d2.time.getMinutes() / 60;
+		d2.id = gId++; 
+		return d2;
 	}
-	
-	var scaleX = d3.scaleLinear()	
-		.domain([0,10])
-		.range([0,500]);
-	
+	/*
 	var scaleY = d3.scaleLinear()	
 		.domain([0,500])
-		.range([500,0]);
+		.range([2208919493500,2208933493500]);
+	*/
+	
 	
 	var svg = d3.select("body").append("svg")
 		.attr("width", 600)
-		.attr("height",600)
+		.attr("height",14900)
+		
+	 d3.select("window").on("scroll", function(){
+		console.log("scroll" + window.pageYOffset);
+	});
 	
 	function render(data) {
-		var rects = svg.selectAll("rect")
-			.data(data)
-		rects.enter().append("rect");
 		
-		rects
-			.attr("y",500)
-			.attr("x", (d) => {console.log(d.id); return scaleX(d.id)})
-//			.attr("x", 20)
-//			.attr("y", 100)
-			.attr("width",20)
-			.attr("height", 20)
+		console.log(d3.extent(data, d => d.id));
+		
+	var scaleX = d3.scaleLinear()	
+		.domain(d3.extent(data, d => d.id))
+//		.domain([0,50])
+		.range([0,500]);
+		
+	var seleectedColor;
+		
+	var scaleY = d3.scaleLinear()
+		.range([0,900])
+		.domain(d3.extent(data, d => d.timeGroup))
+		.domain([0,48]);
+	
+//		var scaleColor=d3.scale.category10();
+		var scaleColor = d3.scaleOrdinal(d3.schemeCategory10);
+		
+		// Define the div for the tooltip
+		var tooltip1 = d3.select("body").append("div")	
+    		.attr("class", "tooltip")				
+    		.style("opacity", 0);		
+		
+		var rects = svg.selectAll("circle")
+			.data(data)
+		rects.enter().append("circle")
+			.attr("cx", (d) => {return scaleX(d.id)})
+			.attr("cy",500)
+			.attr("r",7)
+			.attr("fill","none")
+			.attr("stroke", d=> scaleColor(Math.floor(d.timeGroup)))
+			.on("mouseover", function(d) {
+//					console.log("mo " + this.style.__data__);
+			
+					seleectedColor = this.style.fill;//
+//					d3.select(this)
+//            		.style('fill', '#3c763d')
+//					.attr("r", 20)
+			
+           tooltip1.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            tooltip1.html(d.name + "<br/>"  + d.timeGroup)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+		
+		console.log(d.name);
+				})
+			.on("mouseout", function(d) {
+        		d3.select(this)
+            	.style('fill', seleectedColor)
+				.attr("r", 7)
+			
+				tooltip1.transition()
+					.duration(800)		
+					.style("opacity", 0);					
+			})
 			.transition()
 			.duration(500)
 			.ease(d3.easeBounce) 
-			.attr("y", (d) => {console.log(scaleY(d.balance)); return scaleY(d.balance)})
-			.on("end", shaker(rects))
+			.attr("cy", d => scaleY(d.timeGroup))
+		
+//				console.log(d.id + " " + d.timeGroup + " " + scaleY(d.timeGroup)); 
+//				return scaleY(d.timeGruop)})
+//			.on("end", shaker(rects))
 		
 		rects.exit().remove();
+
+		 var nodeContainer = svg.append("g")
+//		 	 .attr("transform", "translate(250,400)")
+		 	 .attr("transform", "translate(20,20)")
+		 
+		 var node = nodeContainer.selectAll(".node")
+              .data(data)
+              .enter().append("g")
+              .attr("class", "node")
+//              .attr("y",  d => (5 + 15 * (d.id)))
+              .attr("transform", function(d) { return "translate(0," + (5 + 15 * (d.id)) + ")"; })
+//              .attr("transform", function(d) { return "rotate(" + (d.id/1000 * 360) + ")translate(" + (150 + 100 * (d.id % 2)) + ",0)"; })
+		 	   .on("mouseover", function() {
+					d3.select(this).select("text")
+				   		.transition()
+				   		.duration(200)
+              			.attr("font-size", 25)
+					})
+		 	   .on("mouseout", function() {
+					d3.select(this).select("text")
+				   		.transition()
+				   		.duration(200)
+              			.attr("font-size", 12)
+					})
+		 		.on("visibilitychange", function(e) {
+					console.log(e);
+				})
+              
+		 node.append("text")
+              .attr("font-size", 12)
+              .attr("text-anchor", "start")
+              .text(function(d) { return  d.id + ": " + d.name + " " 
+			 		+ Math.floor(d.timeHour / 1000/ 60/60) + "h"
+			        + Math.floor(d.timeHour % (1000 * 60 * 60) /60/1000) + "m"; });
 		
-	function shaker(obj) {
-		console.log("shake" + obj);
-		rects
-			.transition()
-			.delay(500)
-			.duration(200)
-			.attr("y", 200)
-			.attr("color","yellow")
+		
+		var hAxis = d3.axisBottom()
+    		.scale(scaleX)
+    		.ticks(100)
+		
 	}
 	
+	let prevScrollY = 0;
+	let currScrollY = 0;
+	let bScrollSent = false;
+	function scrollHandler() {
+		d3.selectAll(".xnode")
+			.filter(function(d) {  
+					return (d.id > prevScrollY / 15)&&(d.id < currScrollY / 15) ;
+		    })
+			.transition()
+			.duration(1000)
+			.attr("color", "red")
+		    .style("opacity", .2);		
+
+		d3.selectAll(".node")
+			.filter(function(d) {  
+					return (d.id > currScrollY / 15)&&(d.id < currScrollY / 15 + 50) ;
+		    })
+			.transition()
+			.duration(1000)
+		    .attr("transform", d => "translate(100," + d.id * 15 +  ")")
+			.attr("color", "red")
+		    .style("opacity", 1);		
 		
+		prevScrollY = currScrollY;
+		bScrollSent = false;
 	}
+	
+	/*
+	d3.select("window").on("scroll", function(e){
+		currScrollY = window.scrollY;
+		if (!bScrollSent) {
+			requestAnimationFrame(scrollHandler)
+			bScrollSent = true;
+		}
+	});
+	*/
+	
+	
+	window.addEventListener("scroll", function(evt){
+		currScrollY = window.scrollY;
+		if (!bScrollSent) {
+			requestAnimationFrame(scrollHandler)
+			bScrollSent = true;
+		}
+	});
+	
+	
 	
 	document.addEventListener("click", function(evt){
 //		data.push(Math.random()*200);
 //		data.splice(2,1);
-		console.log(data);
+//		console.log(data);
+//		scaleY.domain(d3.extent( (d)=>{return d.time}))
+		
 		render(data);
 	})
-	render(data);
 	
-	console
 	</script>	
 </html>
 
