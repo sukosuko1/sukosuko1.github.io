@@ -72,19 +72,26 @@
             }
  
             
+			
             topicList.on('value', function(dataptr) {
+				var datacopy = [];
+				
                 dataptr.forEach(function(item) {
                     console.log(item.key);
                     console.log(item.val());
+					let key = item.key;
+					let num = Object.keys(item.val()).length;
+					let obj = { "topic" : key , "likes" : num};
+					datacopy.push(obj);
                 } )  
 				
 //                dataset.push(val);
-                var p = d3.select("body").selectAll("li")
-                .data(dataptr)
-                .text(function(d,i){return i + ": " + d;})
+                var p = d3.select("body").selectAll("p")
+                .data(datacopy)
+                .text(function(d,i){return i + ": " + d.topic+ " " + d.likes;})
 				.enter()
                 .append("p")
-               .text(function(d,i){return i + ": " + d;})
+               .text(function(d,i){return i + ": " + d.topic + " " + d.likes;})
 				
             });
             
