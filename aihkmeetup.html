@@ -38,7 +38,12 @@
         <ul></ul>
  
         <script>
- 
+			var userkey = localStorage.getItem("tempsessionkey");
+			if (!userkey) {
+				userkey = Math.floor(Math.random() * 1000000);
+				localStorage.setItem("tempsessionkey", userkey);
+			}
+			
             var dataset = [];
  
                 var database = firebase.database();
@@ -47,11 +52,14 @@
             function handleClick(event){
                 let input1 = document.getElementById("myVal").value;
                 console.log(document.getElementById("myVal").value)
-                draw(document.getElementById("myVal").value)
+//                draw(document.getElementById("myVal").value)
+				
+//            	database.ref('topics/' + input1).set( {userkey : true});
+            	database.ref('topics/' + input1 + "/" + userkey).set( {userkey : true});
                 
-                var newItem = topicList.push();
+//                var newItem = topicList.push();
 //                newItem.set( {input1 : 1} ) ;
-                newItem.set( {"test" : 1} ) ;
+//                newItem.set( {"test" : 1} ) ;
                 return false;
             }
  
@@ -64,11 +72,20 @@
             }
  
             
-            topicList.on('value', function(d) {
-                d.forEach(function(item) {
+            topicList.on('value', function(dataptr) {
+                dataptr.forEach(function(item) {
                     console.log(item.key);
                     console.log(item.val());
                 } )  
+				
+//                dataset.push(val);
+                var p = d3.select("body").selectAll("li")
+                .data(dataptr)
+                .text(function(d,i){return i + ": " + d;})
+				.enter()
+                .append("p")
+               .text(function(d,i){return i + ": " + d;})
+				
             });
             
         </script>
