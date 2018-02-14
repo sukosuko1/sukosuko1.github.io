@@ -1,0 +1,45 @@
+<html>
+<head>
+
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+	
+	<style>
+		#svg {
+			width: 100%;
+			height: 100%;
+		}
+        button {
+            width: 10%;
+            height: 5%;
+            
+        }
+	</style>
+</head>
+<body>
+    <button onclick="test()">Graph</button>
+    
+	
+</body>
+    
+    <script>
+	
+	var mydata = [0,20,50,200,120,70,150,75,100];
+	
+    var p = d3.select("body")
+    .selectAll("p")
+    .data(mydata)
+    .text(function(d) {return d;});
+    
+    p.enter().append("p")
+    .text(function(d) {return d;});
+
+    p.exit().remove();
+    
+    function test() {
+        mydata[2] = Math.random() *200;
+    }
+    
+    </script>
+    
+</html>
+
