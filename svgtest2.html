@@ -93,6 +93,7 @@
         dur="10s" repeatCount="indefinite"/>
 		</rect>
 		
+		
 		<path class="sk1" d="M10,100 l200,0 l0,-20 l-200,10 l0,-10 z" fill="red"/>
 		<path id="sk2" class="sk1" d="M10,200 s100,10,200,0 l0,-20 s-100,-50,-200,10 l0,-10 z"/>
 		
@@ -110,7 +111,23 @@
 
 <path d="M 0 0 H 1096 V 780 H 0 V 0 Z" class="st0 animated pulse infinite" style="opacity: 0.25; fill: rgb(41, 171, 226);" transform="matrix(1, 0, 0, 1, 0, 0)"/>
 		
-			<g id="owl1">
+		
+   <filter id="demo4">
+        <!--Blur effect-->
+        <feGaussianBlur stdDeviation="3" result="blur4" />
+        <!--Lighting effect-->
+        <feSpecularLighting result="spec4" in="blur4" specularExponent="35" lighting-color="#cccccc">
+            <!--Light source effect-->
+            <fePointLight x="75" y="100" z="200">
+              <!--Lighting Animation-->
+              <animate attributeName="x" values="75;320;75" dur="10s" repeatCount="indefinite" />
+            </fePointLight>
+        </feSpecularLighting>
+        <!--Composition of inputs-->
+        <feComposite in="SourceGraphic" in2="spec4" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+      </filter>		
+		
+			<g id="owl1" filter="url(#demo4)">
 			<g>
 				<path id="footl" class="st1" d="M527.5,665.5l-2.8-2.7l3.2-31.4c0.8-7.5-0.3-13.7-2.5-13.8l-0.1,0c-2.1-0.2-4.5,5.8-5.2,13.2l-3.3,32.4&#10;&#9;&#9;&#9;&#9;&#9;l-2.3,1.3c-7.4,4.3-12.4,8.9-11.2,10.4l0.1,0.1c1.1,1.3,6.4-0.3,12.6-3.5c-0.3,6.2,0.8,10.9,2.7,11l0.1,0&#10;&#9;&#9;&#9;&#9;&#9;c1.9,0.1,4-4.6,4.9-10.9c5.2,4.5,10.2,7.3,11.6,6.2l0.1-0.1C537,676.7,533.5,671.2,527.5,665.5z" style="fill: rgb(255, 147, 30);"/>
 				<path id="footr" class="st1" d="M587.6,664.3l-2.3-1.4l-2.7-32.2c-0.6-7.5-2.9-13.2-5-13.1l-0.1,0c-2.1,0.1-3.4,6-2.7,13.5l2.6,31.1&#10;&#9;&#9;&#9;&#9;&#9;l-2.9,2.6c-6.1,5.5-9.7,11-8.1,12.2l0.1,0.1c1.4,1.1,6.4-1.6,11.7-6c0.8,6.4,2.8,11.1,4.8,11l0.1,0c1.9-0.1,3-4.8,2.9-10.9&#10;&#9;&#9;&#9;&#9;&#9;c6.2,3.3,11.5,5,12.6,3.7l0.1-0.1C599.9,673.4,595,668.7,587.6,664.3z" style="fill: rgb(255, 147, 30);"/>
@@ -330,7 +347,7 @@ repeatCount="indefinite"
 			s1.transition()             // apply a transition
 //        		.ease(d3.easeBounce)           // control the speed of the transition
         		.ease(d3.easeCircle)           // control the speed of the transition
-        		.duration(2000)           // apply it over 2000 milliseconds
+        		.duration(500)           // apply it over 2000 milliseconds
 				.attr('x', 20)          // move the circle to 920 on the x axis
 			
 //			d3.selectAll("text:not(#)" + srcElement + ")").transition()
@@ -341,23 +358,35 @@ repeatCount="indefinite"
 		};	
 		
 		d3.selectAll('text').on("touchstart", touchstartd3, true);
+		d3.selectAll('text').on("mousedown", touchstartd3, true);
+		
+		d3.selectAll('text').on("mousemove", touchmoved3, true);
+		
 		d3.selectAll('text').on("touchend", touchendd3, true);
+		d3.selectAll('text').on("mouseup", touchendd3, true);
 
 		function touchstartd3(evt) {
 			d3.event.preventDefault();
 			d3.event.stopPropagation();
   			console.log("touchstartd3" + d3.event);
 			var s1 = d3.select(d3.event.srcElement);
-			s1.transition().ease(d3.easeElastic).duration(500).attr("font-size", "120px");
+			s1.transition().ease(d3.easeElastic).duration(300).attr("font-size", "120px");
 //			s1.attr("text-decoration", "green wavy underline");
 //			s1.attr("text-shadow", "10px 10px 10px yellow");
+		}
+		function touchmoved3(evt) {
+			d3.event.preventDefault();
+			d3.event.stopPropagation();
+  			console.log("touchmove" + d3.event);
+			var s1 = d3.select(d3.event.srcElement);
+			s1.transition().ease(d3.easeElastic).duration(300).attr("x", d3.event.clientX);
 		}
 		function touchendd3() {
 			d3.event.preventDefault();
 			d3.event.stopPropagation();
   			console.log("touchendd3" + d3.event);
 			var s1 = d3.select(d3.event.srcElement);
-			s1.transition().ease(d3.easeElastic).duration(500).attr("font-size", "80px");
+			s1.transition().ease(d3.easeElastic).duration(200).attr("font-size", "80px");
 			bounceit(d3.event.srcElement);
 		}
 				
