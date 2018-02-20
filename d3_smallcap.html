@@ -1,0 +1,397 @@
+<html>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
+	
+<head>
+
+//   <script src="https://d3js.org/d3.v4.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+	<style>
+		body { 
+			margin:0;position:fixed;
+			top:0;right:0;bottom:0;left:0; 
+			width: 100%;
+			height: 100%;
+		}
+		
+		#svg {
+			width: 100%;
+			height: 100%;
+		}
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 22px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}		
+
+.axis line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+	</style>
+</head>
+<body>
+	
+	<p id="popup"></p>
+	</body>
+<script>
+	  
+	
+	var data = [];
+	var dataBd1 = [];
+	var dataSignal = [];
+	var dataBuySell = [];
+	
+	let path = "";
+	path = "0017_20180209.csv";
+
+	function initChart(path) {
+		data = [];
+		dataBd1 = [];
+
+	d3.text(path,  function(text) {
+				
+		let mkt = {};
+		mkt.bid = 0; mkt.ask = 0;
+		
+		if (!text) {
+			console.log("can't read file");
+			return;
+		}
+		let count = 0;
+		let tempdata = d3.csvParseRows(text, function(d) {
+			if (count++ > 19300) return;
+			let bhandled = false;
+			if (d[1] == "BO14") {
+				let obj = {};
+				obj.ct = +d[0];
+				obj.bid = +d[16] / 1000;
+				obj.ask = +d[20] / 1000;
+				mkt.bid = obj.bid; mkt.ask = obj.ask;
+				data.push(obj);
+				bhandled = true;
+			}
+			if (d[1] == "BD1") {
+				let obj = {};
+				obj.ct = +d[0];
+				obj.lastPrice = +d[4] / 1000;
+				obj.lastSize = +d[3];
+				obj.lastDir = 0;
+				if (obj.lastPrice >= mkt.ask)				obj.lastDir = 1;
+				if (obj.lastPrice <= mkt.bid)				obj.lastDir = -1;
+				dataBd1.push(obj);
+				bhandled = true;
+			}
+			if (d[1] == "BUYSIGNAL" || d[1] == "SELLSIGNAL") {
+				let obj = {};
+				obj.ct = +d[0];
+				obj.price = mkt.bid;
+				obj.text = d;
+				dataSignal.push(obj);
+				bhandled = true;
+			}
+			if (d[1] == "Buy" || d[1] == "Sell") {
+				let obj = {};
+				obj.ct = +d[0];
+				obj.price = +d[7];
+				obj.buySellDir = 1;
+				if (d[1] == "Sell") obj.buySellDir = -1;
+				obj.text = d;
+				dataBuySell.push(obj);
+				bhandled = true;
+			}
+			if (d[1] == "FHOLDB" || d[1] == "FHOLDS" || d[1] == "FCANCEL") {
+				let obj = {};
+				obj.ct = +d[0];
+				obj.price = +d[4];
+				obj.text = d;
+				dataSignal.push(obj);
+				bhandled = true;
+			}
+			if (!bhandled) {
+				let zz=99;
+				zz=9;
+			}
+			
+		});
+
+
+
+/*		dataBd1 = d3.csvParseRows(text, function(d) {
+			if (count++ > 1300) return;
+			
+			if (d[1] == "BD1") {
+				let obj = {};
+				obj.ct = +d[0];
+				obj.lastPrice = +d[16] / 100;
+				obj.lastSize = +d[20] / 100;
+				obj.lastDir = lastDir;
+				return obj;
+			}
+		});*/
+		
+		
+		render(data,dataBd1, dataSignal, dataBuySell);
+		let zz=99;
+	});
+	}
+
+	initChart(path);
+		
+	
+	let gId = 1;
+	var myTimeParser = d3.utcParse("%H:%M:%S");
+	const constStartTime = new Date("1900-1-1 8:00:00")
+
+	
+	var svg = d3.select("body").append("svg")
+		.attr("width", 3600)
+		.attr("height",900)
+	
+	d3.select("body").on("keydown", function() {
+		console.log(d3.event.keyCode);
+		initChart(path);
+
+	});
+		
+	/*
+	svg.call(d3.zoom().on("zoom", function () {
+    	svg.attr("transform", d3.event.transform)
+		}))
+		.append("g")
+	*/
+	
+	var scaleX = d3.scaleLinear()	
+		.range([0,500]);
+	var scaleY = d3.scaleLinear()
+		.range([0,500])
+
+	var scaleSize = d3.scaleLinear()	
+		.range([0,1]);
+	
+	// define the line
+	var bidLineGenerator = d3.line()
+    	.x(function(d) { return scaleX(d.ct); })
+    	.y(function(d) { return scaleY(d.bid); });	
+	
+	var askLineGenerator = d3.line()
+    	.x(function(d) { return scaleX(d.ct); })
+    	.y(function(d) { return scaleY(d.ask); });	
+	
+/*	
+var zoom = d3.zoom()
+    .scaleExtent([1, 40])
+    .translateExtent([[-100, -100], [+svg.attr("width") + 90, +svg.attr("height") + 100]])
+    .on("zoom", zoomed);	
+
+	svg.call(zoom);
+
+
+function zoomed() {
+//  view.attr("transform", d3.event.transform);
+  gX.call(xAxis.scale(d3.event.transform.rescaleX(scaleX)));
+  gY.call(yAxis.scale(d3.event.transform.rescaleY(scaleY)));
+}
+
+	*/
+	
+	
+	
+//	 d3.select("window").on("scroll", function(){
+//		console.log("scroll" + window.pageYOffset);
+//	});
+	
+	function render(data, dataBd1, dataSignal, dataBuySell) {
+		
+		
+	
+		scaleX.domain(d3.extent(data, d => d.ct))
+//		.domain([0,50])
+		
+	var seleectedColor;
+
+		scaleY.domain(d3.extent(data, d => d.bid).reverse())
+		scaleSize.domain(d3.extent(dataBd1, d => d.lastSize))
+		
+		svg.append("path")
+			.data([data])
+      		.attr("class", "line")
+      		.attr("d", bidLineGenerator)
+			.attr("fill","none")
+			.attr("stroke","green")
+		
+		svg.append("path")
+			.data([data])
+      		.attr("class", "line")
+      		.attr("d", askLineGenerator)
+			.attr("fill","none")
+			.attr("stroke","blue")
+		
+		
+	var xAxis = d3.axisBottom()
+	    	.scale(scaleX)
+			.ticks(20)
+			.tickSize(450)
+//			.tickFormat(d3.format(".0s"))
+
+//	var xAxis = d3.select("")
+
+ 	var gX = svg.append("g")
+  		.attr("transform", "translate(0,30)")
+    	.attr("class", "axis")
+		.call(xAxis).selectAll("text").attr("dx", "-.8em").attr("transform","rotate(45)");
+		
+	var yAxis = d3.axisLeft()
+    	.scale(scaleY)
+		.ticks(10)
+//    	.tickFormat(formatPercent);	
+	
+ 	var gY = svg.append("g")
+  		.attr("transform", "translate(60,0)")
+       .call(yAxis);
+	
+//		var scaleColor=d3.scale.category10();
+		var scaleColor = d3.scaleOrdinal(d3.schemeCategory10);
+		
+		// Define the div for the tooltip
+		var tooltip1 = d3.select("body").append("div")	
+    		.attr("class", "tooltip")				
+    		.style("opacity", 0);		
+		
+		var circleGroup = svg.append("g")
+			.attr("class","circleGroup")
+//			.call(d3.brush().on("brush", brushed));
+		
+		
+		var rects = circleGroup.selectAll("circle")
+			.data(dataBd1)
+		rects.enter().append("circle")
+			.attr("cx", (d) => {return scaleX(d.ct)})
+//			.attr("cy",(d) => {return scaleY(d.lastPrice)} )
+			.attr("cy",0)
+			.attr("r",d => 2 + 30 * Math.sqrt(scaleSize(d.lastSize)))
+			.attr("fill", d => d.lastDir > 0 ? "blue" : d.lastDir < 0 ? "red" : "gray")
+			.attr("opacity", 0.02)
+			.on("mouseover", function(d) {
+				// . seleectedColor = this.style.fill;
+			
+				tooltip1.transition()		
+                	.duration(200)		
+                	.style("opacity", .9);		
+            	tooltip1.html(d.ct + "<br/>"  + d.lastPrice+ "<br/>"  + d.lastSize)	
+                	.style("left", (d3.event.pageX) + "px")		
+                	.style("top", (d3.event.pageY - 28) + "px");	
+				})
+			.on("mouseout", function(d) {
+        		d3.select(this)
+            	.style('fill', seleectedColor)
+				.attr("r", 7)
+			
+				tooltip1.transition()
+					.duration(800)		
+					.style("opacity", 0);					
+			})
+			.transition()
+			.duration(2000)
+			.attr("cy",(d) => {return scaleY(d.lastPrice)} )
+
+
+		rects.exit().remove();
+
+		var buySellGroup = svg.append("g")
+			.attr("class","buySellGroup")
+
+		var buySellRect = buySellGroup.selectAll("rect")
+			.data(dataBuySell)
+		buySellRect.enter().append("rect")
+			.attr("x", (d) => {return scaleX(d.ct)})
+			.attr("y",(d) => {
+				let tempy = scaleY(d.price)
+				return scaleY(d.price)
+				} )
+			.attr("width", function(d) {return d.price * 80} )
+			.attr("height",d =>  20)
+			.attr("fill", d => d.buySellDir > 0 ? "green" : d.lastDir < 0 ? "brown" : "gray")
+			.attr("opacity", 1.0)
+			.on("mouseover", function(d) {
+				// . seleectedColor = this.style.fill;
+			
+				tooltip1.transition()		
+                	.duration(200)		
+                	.style("opacity", .9);		
+            	tooltip1.html(d.ct + "<br/>"  + d.price+ "<br/>"  + d.text)	
+                	.style("left", (d3.event.pageX) + "px")		
+                	.style("top", (d3.event.pageY - 28) + "px");	
+				})
+			.on("mouseout", function(d) {
+        		d3.select(this)
+            	.style('fill', seleectedColor)
+				.attr("r", 7)
+			
+				tooltip1.transition()
+					.duration(800)		
+					.style("opacity", 0);					
+			})
+
+		rects.exit().remove();
+
+
+		
+		
+		function brushed() {
+			if (d3.event.type == "brush") {
+				var rects = circleGroup.selectAll("circle");
+
+				console.log(d3.event.selection[0][0] + " " + d3.event.selection[1][0]);
+				
+				rects.filter(function(d) { 					var thisCx = this.getAttribute("cx");					return (thisCx > d3.event.selection[0][0]) && (thisCx < d3.event.selection[1][0])								})
+				.transition()
+				.on("start", function repeat() {
+					d3.active(this).transition()
+						.duration(800)
+						.attr("r", 20)
+						.transition()
+						.duration(800)
+						.attr("r", 7)
+					    .transition()
+						.delay(Math.random() * 30000)
+						.on("start", repeat )
+					}  
+				   );
+				
+			}
+			if (d3.event.type == "end") {
+				
+				console.log("end" + d3.event.selection);
+			}
+		}
+	}
+	
+	
+	
+	
+	document.addEventListener("click", function(evt){
+//		data.push(Math.random()*200);
+//		data.splice(2,1);
+//		console.log(data);
+//		scaleY.domain(d3.extent( (d)=>{return d.time}))
+		
+//		render(data);
+	})
+	
+	</script>	
+</html>
+
+
+		
+
+	
+	
