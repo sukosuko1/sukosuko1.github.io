@@ -36,7 +36,11 @@
         </form>
 
         <ul></ul>
+		<div class="chart-example" id="chart"><svg></svg></div>
+		
  
+		<script src="bubble_chart.js"></script>
+
         <script>
 			var userkey = localStorage.getItem("tempsessionkey");
 			if (!userkey) {
@@ -49,6 +53,8 @@
                 var database = firebase.database();
             var topicList = database.ref('topics');
  
+			var chart = bubbleChart().width(600).height(400);
+			
             function handleClick(event){
                 let input1 = document.getElementById("myVal").value;
                 console.log(document.getElementById("myVal").value)
@@ -70,7 +76,6 @@
                 .data(dataset)
                 .text(function(d,i){return i + ": " + d;})
             }
- 
             
 			
             topicList.on('value', function(dataptr) {
@@ -93,7 +98,16 @@
                 .append("p")
                .text(function(d,i){return i + ": " + d.topic + " " + d.likes;})
 				
+				d3.select('#chart').data(datacopy).call(chart);			
+				
             });
+			
+			function addLike(topic) {
+//            	database.ref('topics/' + topic + "/" + userkey).set( {userkey : true});
+				let userkeyrandom = Math.floor(Math.random() * 1000);
+            	database.ref('topics/' + topic + "/" + userkeyrandom).set( {userkey : true});
+            }
+				
             
         </script>
 
