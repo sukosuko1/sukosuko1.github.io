@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Input text with D3</title> <!-- adapted from http://javadude.wordpress.com/2012/05/17/d3-js-with-dynamic-data/ -->
+    
+<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAcD_Et-FTPsM-6RKGCXIFXh4mnoJJiRUU",
+    authDomain: "aihkmeetup.firebaseapp.com",
+    databaseURL: "https://aihkmeetup.firebaseio.com",
+    projectId: "aihkmeetup",
+    storageBucket: "",
+    messagingSenderId: "1073849367392"
+  };
+  firebase.initializeApp(config);
+</script>
+    
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <style>
+        body {font-family: monospace; line-height: 160%; font-size: 18px; }
+        ul {list-style: none; margin: 0; padding: 0;}
+        li {display: inline-block; min-width: 80px; padding: 10px; background-color: #eee; margin: 0;}
+        input {border: 1px dotted #ccc; background: white; font-family: monospace; padding: 10px 20px; font-size: 18px; margin: 20px 10px 20px 0; color: red;}
+        input:focus { background-color:yellow; outline: none;}
+    </style>
+</head>
+    <body>
+
+        <form name="myform" onSubmit="return handleClick()">
+            <input name="Submit"  type="submit" value="Add to list" >
+            <input type="text" id="myVal" placeholder="Add some text&hellip;">
+        </form>
+
+        <ul></ul>
+		<div class="chart-example" id="chart"><svg></svg></div>
+		<svg width="100%" height="100%">
+		<g class="g1"></g>
+		</svg>
+
+ 
+		<script src="bubblechartanim.js"></script>
+
+        <script>
+			var userkey = localStorage.getItem("tempsessionkey");
+			if (!userkey) {
+				userkey = Math.floor(Math.random() * 1000000);
+				localStorage.setItem("tempsessionkey", userkey);
+			}
+			
+            var dataset = [];
+ 
+            var database = firebase.database();
+            var topicList = database.ref('topics');
+ 
+ 			let vWidth = 800, vHeight = 800;
+
+			var g1 = d3.select('svg').attr('width', vWidth).attr('height', vHeight).select('.g1');
+			
+			console.log(g1);
+
+            function handleClick(event){
+                let input1 = document.getElementById("myVal").value;
+                console.log(document.getElementById("myVal").value)
+//                draw(document.getElementById("myVal").value)
+				
+//            	database.ref('topics/' + input1).set( {userkey : true});
+            	database.ref('topics/' + input1 + "/" + userkey).set( {userkey : true});
+                
+//                var newItem = topicList.push();
+//                newItem.set( {input1 : 1} ) ;
+//                newItem.set( {"test" : 1} ) ;
+                return false;
+            }
+ 
+            function draw(val){
+                d3.select("body").select("ul").append("li");
+                dataset.push(val);
+                var p = d3.select("body").selectAll("li")
+                .data(dataset)
+                .text(function(d,i){return i + ": " + d;})
+            }
+            
+			
+            topicList.on('value', function(dataptr) {
+				var datacopy = [];
+				
+                dataptr.forEach(function(item) {
+                    console.log(item.key);
+                    console.log(item.val());
+					let key = item.key;
+					let num = Object.keys(item.val()).length;
+					let obj = { "topic" : key , "likes" : num};
+					datacopy.push(obj);
+                } )  
+				
+//                dataset.push(val);
+
+/*
+                var p = d3.select("body").selectAll("p")
+                .data(datacopy)
+                .text(function(d,i){return i + ": " + d.topic+ " " + d.likes;})
+				.enter()
+                .append("p")
+               .text(function(d,i){return i + ": " + d.topic + " " + d.likes;})
+				*/
+				
+				
+//				vData = d3.stratify()(vCsvData);
+				vData = {'header' : 'sample', "children" : datacopy};
+				drawChart(vData);
+            });
+			
+			function addLike(topic) {
+//            	database.ref('topics/' + topic + "/" + userkey).set( {userkey : true});
+				let userkeyrandom = Math.floor(Math.random() * 1000);
+            	database.ref('topics/' + topic + "/" + userkeyrandom).set( {userkey : true});
+            }
+			
+		
+		function drawChart(vData) {
+        // Declare d3 layout
+        g1.append('text').text("hello world");
+
+        d3.select("svg").append('text').text("hello world");
+        d3.select("svg").append('text').text("hello world");
+
+        var vLayout = d3.pack().size([vWidth, vHeight]);
+
+        // Layout + Data
+        var vRoot = d3.hierarchy(vData).sum(function (d) { 
+        	return d.likes; 
+        	});
+        var vNodes = vRoot.descendants();
+        vLayout(vRoot);
+        var vSlices = g1.selectAll('.zcircle').data(vNodes)
+
+        vSlices.enter()
+        	.append('circle')
+        	.attr("class", "zcircle")
+        	.attr("x", function(d,i) {console.log("enter" + d.data); return 0;});
+
+        var vSlices2 = g1.selectAll('.ztext').data(vNodes)
+
+        vSlices2.enter()
+        	.append('text')
+        	.attr("class", "ztext");
+
+        // Draw on screen
+        vSlices.attr('cx', function (d) { return d.x; })
+            .attr('cy', function (d) { return d.y; })
+            .attr('r', function (d) { return d.r; });
+        vSlices2.attr('x', function (d) { return d.x; })
+            .attr('y', function (d) { return d.y; })
+    	}            
+			
+        </script>
+
+
+    </body>
+</html>
