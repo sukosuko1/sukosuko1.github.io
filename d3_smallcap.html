@@ -44,18 +44,28 @@ div.tooltip {
 	</body>
 <script>
 	  
+	let userN = 0;
 	
 	var data = [];
 	var dataBd1 = [];
+	var dataBd1Chart = [];
 	var dataSignal = [];
 	var dataBuySell = [];
-	
+	var staticData = {};
+	var dataBd1Chunk = [];
+
 	let path = "";
-	path = "0017_20180209.csv";
+	path = "0119_20180209.csv";
+//	path = "/Volumes/TINA/0027_20180209.csv";
+
 
 	function initChart(path) {
 		data = [];
 		dataBd1 = [];
+		dataBd1Chart = [];
+		staticData = {};
+		dataBd1Chunk = [];
+		let prevObj = {};
 
 	d3.text(path,  function(text) {
 				
@@ -89,6 +99,15 @@ div.tooltip {
 				if (obj.lastPrice <= mkt.bid)				obj.lastDir = -1;
 				dataBd1.push(obj);
 				bhandled = true;
+				
+				if (obj.ct > prevObj.ct + 0.2) {
+					let objc = {}
+					objc.ct = obj.ct;
+					objc.lag = obj.ct - prevObj.ct;
+					objc.lastPrice = obj.lastPrice
+					dataBd1Chunk.push(objc);
+				}
+				prevObj = Object.assign( {}, obj);
 			}
 			if (d[1] == "BUYSIGNAL" || d[1] == "SELLSIGNAL") {
 				let obj = {};
@@ -97,6 +116,9 @@ div.tooltip {
 				obj.text = d;
 				dataSignal.push(obj);
 				bhandled = true;
+
+				staticData.yestHigh = +d[24];
+
 			}
 			if (d[1] == "Buy" || d[1] == "Sell") {
 				let obj = {};
@@ -140,6 +162,7 @@ div.tooltip {
 		
 		
 		render(data,dataBd1, dataSignal, dataBuySell);
+		render2(dataBd1Chunk);
 		let zz=99;
 	});
 	}
@@ -186,40 +209,99 @@ div.tooltip {
     	.x(function(d) { return scaleX(d.ct); })
     	.y(function(d) { return scaleY(d.ask); });	
 	
-/*	
-var zoom = d3.zoom()
-    .scaleExtent([1, 40])
-    .translateExtent([[-100, -100], [+svg.attr("width") + 90, +svg.attr("height") + 100]])
-    .on("zoom", zoomed);	
-
-	svg.call(zoom);
-
-
-function zoomed() {
-//  view.attr("transform", d3.event.transform);
-  gX.call(xAxis.scale(d3.event.transform.rescaleX(scaleX)));
-  gY.call(yAxis.scale(d3.event.transform.rescaleY(scaleY)));
-}
-
-	*/
 	
-	
-	
-//	 d3.select("window").on("scroll", function(){
-//		console.log("scroll" + window.pageYOffset);
-//	});
-	
+	//setup
+	var circleGroup = svg.append("g")
+		.attr("class","circleGroup")
+
+	var xAxis = d3.axisBottom()
+		.scale(scaleX)
+		.ticks(20)
+		.tickSize(450)
+
+ 	var gX = svg.append("g")
+  		.attr("transform", "translate(80,30)")
+    	.attr("class", "axis")
+		.call(xAxis)
+
+		gX		.selectAll("text").attr("dx", "-.8em")
+		.attr("transform","rotate(90) translate(80,30) ");
+		
+
+	var scaleColor = d3.scaleOrdinal(d3.schemeCategory10);
+
+	function render2(dataBd1Chunk) {
+
+		console.log(dataBd1Chunk);
+
+function convertArrayOfObjectsToCSV(args) {  
+        var result, ctr, keys, columnDelimiter, lineDelimiter, data;
+
+        data = args.data || null;
+        if (data == null || !data.length) {
+            return null;
+        }
+
+        columnDelimiter = args.columnDelimiter || ',';
+        lineDelimiter = args.lineDelimiter || '\n';
+
+        keys = Object.keys(data[0]);
+
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        data.forEach(function(item) {
+            ctr = 0;
+            keys.forEach(function(key) {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item[key];
+                ctr++;
+            });
+            result += lineDelimiter;
+        });
+
+        return result;
+    }
+    
+var saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (data, fileName) {
+//        var json = JSON.stringify(data),
+        var json = convertArrayOfObjectsToCSV( {data: dataBd1Chunk} ),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+}());
+
+		var data = { x: 42, s: "hello, world", d: new Date() },
+    		fileName = "my-download.csv";
+
+		saveData(data, fileName);
+		
+	}
 	function render(data, dataBd1, dataSignal, dataBuySell) {
-		
-		
 	
-		scaleX.domain(d3.extent(data, d => d.ct))
-//		.domain([0,50])
-		
-	var seleectedColor;
+		console.log(d3.extent(dataBd1, d => d.ct))
+		scaleX.domain(d3.extent(dataBd1, d => d.ct))
+		xAxis.scale(scaleX)
+		gX.call(xAxis);
+				
+		var seleectedColor;
 
 		scaleY.domain(d3.extent(data, d => d.bid).reverse())
+		scaleY.domain([4.0,3.5])
 		scaleSize.domain(d3.extent(dataBd1, d => d.lastSize))
+
+		//update bid/ask
+		svg.selectAll("path").remove();
 		
 		svg.append("path")
 			.data([data])
@@ -230,56 +312,43 @@ function zoomed() {
 		
 		svg.append("path")
 			.data([data])
-      		.attr("class", "line")
+      		.attr("class", "line2")
       		.attr("d", askLineGenerator)
 			.attr("fill","none")
 			.attr("stroke","blue")
 		
-		
-	var xAxis = d3.axisBottom()
-	    	.scale(scaleX)
-			.ticks(20)
-			.tickSize(450)
-//			.tickFormat(d3.format(".0s"))
-
-//	var xAxis = d3.select("")
-
- 	var gX = svg.append("g")
-  		.attr("transform", "translate(0,30)")
-    	.attr("class", "axis")
-		.call(xAxis).selectAll("text").attr("dx", "-.8em").attr("transform","rotate(45)");
+		svg.append("line")
+			.attr("class","lineyesthigh")
+			.attr("stroke","gray")
+			.attr("x1", 0)
+			.attr("x2", 500)
+			.attr("y1", scaleY(staticData.yestHigh))
+			.attr("y2", scaleY(staticData.yestHigh))
 		
 	var yAxis = d3.axisLeft()
     	.scale(scaleY)
 		.ticks(10)
-//    	.tickFormat(formatPercent);	
 	
  	var gY = svg.append("g")
   		.attr("transform", "translate(60,0)")
        .call(yAxis);
 	
-//		var scaleColor=d3.scale.category10();
-		var scaleColor = d3.scaleOrdinal(d3.schemeCategory10);
 		
 		// Define the div for the tooltip
 		var tooltip1 = d3.select("body").append("div")	
     		.attr("class", "tooltip")				
     		.style("opacity", 0);		
 		
-		var circleGroup = svg.append("g")
-			.attr("class","circleGroup")
-//			.call(d3.brush().on("brush", brushed));
 		
-		
-		var rects = circleGroup.selectAll("circle")
+		var svgBd1 = circleGroup.selectAll("circle")
 			.data(dataBd1)
-		rects.enter().append("circle")
-			.attr("cx", (d) => {return scaleX(d.ct)})
-//			.attr("cy",(d) => {return scaleY(d.lastPrice)} )
-			.attr("cy",0)
+		
+		svgBd1.enter().append("circle")
+//			.attr("cx",(d) => {return scaleX(d.ct)} )
+			.attr("cy",(d) => {console.log("enter"); return scaleY(d.lastPrice)} )
 			.attr("r",d => 2 + 30 * Math.sqrt(scaleSize(d.lastSize)))
 			.attr("fill", d => d.lastDir > 0 ? "blue" : d.lastDir < 0 ? "red" : "gray")
-			.attr("opacity", 0.02)
+			.attr("opacity", 1)
 			.on("mouseover", function(d) {
 				// . seleectedColor = this.style.fill;
 			
@@ -298,13 +367,19 @@ function zoomed() {
 				tooltip1.transition()
 					.duration(800)		
 					.style("opacity", 0);					
-			})
+			});
+		
+		console.log(svgBd1);
+		
+		svgBd1.attr("cy",(d) => {				return scaleY(d.lastPrice)				} )
+			.attr("r",d => 2 + 30 * Math.sqrt(scaleSize(d.lastSize)))
+			.attr("fill", d => d.lastDir > 0 ? "blue" : d.lastDir < 0 ? "red" : "gray")
 			.transition()
-			.duration(2000)
-			.attr("cy",(d) => {return scaleY(d.lastPrice)} )
+			.duration(200)
+			.attr("cx", function(d)  {				return scaleX(d.ct)			})
 
 
-		rects.exit().remove();
+		svgBd1.exit().remove();
 
 		var buySellGroup = svg.append("g")
 			.attr("class","buySellGroup")
@@ -318,8 +393,9 @@ function zoomed() {
 				return scaleY(d.price)
 				} )
 			.attr("width", function(d) {return d.price * 80} )
+			.attr("width", 20 )
 			.attr("height",d =>  20)
-			.attr("fill", d => d.buySellDir > 0 ? "green" : d.lastDir < 0 ? "brown" : "gray")
+			.attr("fill", d => d.buySellDir > 0 ? "green" : d.lastDir < 0 ? "red" : "gray")
 			.attr("opacity", 1.0)
 			.on("mouseover", function(d) {
 				// . seleectedColor = this.style.fill;
@@ -341,7 +417,6 @@ function zoomed() {
 					.style("opacity", 0);					
 			})
 
-		rects.exit().remove();
 
 
 		
@@ -376,7 +451,22 @@ function zoomed() {
 	}
 	
 	
-	
+	d3.select("body")
+	.on("keydown", function() {
+		let key = d3.event.keyCode;
+		if (key == 37) userN = Math.max(0, userN- 1);
+		if (key == 39) userN++;
+		
+		if (key == 38) {
+		render(data,[], dataSignal, dataBuySell);
+			
+		} else {
+			
+		render(data,dataBd1.slice(userN,userN+15), dataSignal, dataBuySell);
+		}
+		
+		console.log(d3.event.keyCode);
+	});
 	
 	document.addEventListener("click", function(evt){
 //		data.push(Math.random()*200);

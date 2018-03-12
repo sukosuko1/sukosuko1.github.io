@@ -13,26 +13,8 @@ function bubbleChartAnim() {
             svg = div.selectAll('svg');
         svg.attr('width', width).attr('height', height);
 
-        var tooltip = selection
-            .append("div")
-            .style("position", "absolute")
-            .style("visibility", "hidden")
-            .style("color", "white")
-            .style("padding", "8px")
-            .style("background-color", "#626D71")
-            .style("border-radius", "6px")
-            .style("text-align", "center")
-            .style("font-family", "monospace")
-            .style("width", "400px")
-            .text("");
 
-
-        var simulation = d3.forceSimulation(data)
-            .force("charge", d3.forceManyBody().strength([-30]))
-            .force("x", d3.forceX())
-            .force("y", d3.forceY())
-            .on("tick", ticked);
-		
+        var pack = d3.pack(data)
 
 		let tnum=0;
         function ticked(e) {

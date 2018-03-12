@@ -30,6 +30,7 @@ function bubbleChart() {
             .force("x", d3.forceX())
             .force("y", d3.forceY())
             .on("tick", ticked);
+		
 
 		let tnum=0;
         function ticked(e) {
