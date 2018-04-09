@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description" content="AI Hong Kong camera">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    
+  <link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
+
+  <title>Genius Cam</title>
+
+</head>
+<style>
+    
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+audio {
+  max-width: 100%;
+}
+
+ 
+#mysvg1 {
+    width: 100%;
+}
+
+g {
+    filter : url(#displacementFilter);
+}
+
+
+    </style>    
+
+<body>
+
+<svg height="1px"">
+<defs>
+<filter id="glow2">
+<feGaussianBlur stdDeviation="2 2" result="glow2"/>
+</filter>
+
+  <filter id="displacementFilter">
+    <feTurbulence type="turbulence" baseFrequency="0.04"
+        numOctaves="2" result="turbulence"/>
+    <feDisplacementMap in2="turbulence" in="SourceGraphic"
+        scale="20" xChannelSelector="R" yChannelSelector="G">
+         <animate id="turbulence-anim"  attributeName="scale" attributeType="XML" begin="indefinite" dur="2" end="indefinite" from="0" to="60" fill="freeze" />
+    </feDisplacementMap>
+  </filter>
+
+</defs>
+</svg>
+
+
+ <script src="d3/d3.js"></script>	
+	
+<script type="text/javascript">
+
+	
+	d3.select('body').on('keypress', function() {
+    	console.log(d3.event.keyCode);
+    	testevent();
+    	});
+	
+var width = 500, height = 500;
+var svg = d3.select("body").append("svg")
+	.attr("id","mysvg1")
+   .attr("width", width)
+   .attr("height", height)
+   .attr("viewbox","0 0 100 100")
+
+	svg.append("g")
+		.attr("id","e165")
+	    .attr("transform","translate(20,20)")
+	
+	let myFont = "luckiest guy";
+
+	let debugcounter = 1;
+	function testevent() {
+		let d1 = {}; d1.x = Math.random() * 100; d1.y = Math.random()*100; d1.message = "look up! " + debugcounter++;
+
+		let speech1 = d3.selectAll("#e165")
+			.append("g")
+			.datum(d1)
+//			.attr("transform","translate(100,100) scale(0.5)")
+			.attr("transform","translate(100,100) scale(0.5)")
+			.attr("class","speechbubble")
+
+		speech1.append("path")
+			.attr("d","M0 0 L 165 0 Q 180 0 180 15 L 180 70 L 0 70 Z")
+			.attr("fill", "pink")
+			.attr("stroke","black")
+			.attr("stroke-width","5px")
+
+		speech1.append("text")
+//			.text("look up" + Math.floor(Math.random()*20))
+//			.text("look up! " + debugcounter++)
+			.text(d=>d.message)
+			.attr("x","20")
+			.attr("y","20")
+			.attr("alignment-baseline","hanging")
+			.attr("font-family", myFont)
+            .attr("font-size", "30px")
+            .attr("transform","scale(1.0)")
+
+         speech1.transition("lifetime")
+            .duration(1000)
+			.ease(d3.easeElastic)
+//            .attr("transform","translate(0,50) scale(1.0)")
+            .attr("transform", d => "translate(" + d.x + "," + d.y + ") scale(1.0)")
+            .transition("testfilter")
+            .each(function(d) { document.getElementById('turbulence-anim').beginElement(); 
+                })
+            .transition("lifetime2")
+            .delay(6000)
+            .duration(1000)
+            .attr("transform","translate(50,50) scale(0.2)")
+            .transition("lifetime3")
+            .remove()
+	}
+
+
+
+	let eStatus = svg.append("text")
+			.text("count")
+			.attr("x",10)
+			.attr("y",5)
+			.attr("dominant-baseline","hanging")
+			.attr("font-family", myFont)
+            .attr("font-size", "30px")
+			.attr("transform", "translate(0,20)")
+
+		
+	let tCenter = eStatus.transition("center")
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
+			})
+
+
+//var filter = svg.append("defs")
+//  .append("filter")
+//    .attr("id", "blur")
+//  .append("feGaussianBlur")
+//    .attr("stdDeviation", 5);
+
+	let prevTextStatus = "";
+	function animLoop() {
+
+		let textStatus = d3.selectAll(".speechbubble").size()
+		if (textStatus != prevTextStatus) {
+			prevTextStatus = textStatus;
+
+			eStatus.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
+			})
+			.transition()
+			.duration(200)
+			.attr("transform","rotate(170) scale(0.2)")
+			.transition()
+			.duration(10)
+			.attr("transform","rotate(181) scale(0.2)")
+			.transition()
+			.text(d3.selectAll(".speechbubble").size())
+			.transition()
+			.duration(200)
+//			.attr("transform-origin","10px 10px")
+			.attr("transform","rotate(360)")
+			.attr("opacity", 1.0)
+			.transition()
+			.attr("stroke","yellow")
+			.attr("stroke-width","1px")
+			.transition()
+			.attr("stroke-width","0px")
+		}
+
+	}
+	d3.timer(animLoop);
+ 
+
+	var lineGen1 = d3.line()
+    	.x(function(d) { return 8 * d.x; })
+    	.y(function(d) { return 8 * d.y; })
+    	.curve(d3.curveBasisClosed);
+	
+	var dataPoints = [{x:5, y:5},{x:30, y:7},{x:28, y:18},{x:6, y:17},{x:5, y:15}];
+	
+	var am1 = svg.append("g")
+			.data(dataPoints)
+			.attr("transform","translate(0,300)")
+
+	am1.append("path")
+			.data(dataPoints)
+			.style("fill","pink")
+			.style("stroke","black")
+			.style("stroke-width","10px")
+			.attr("d", lineGen1(dataPoints) );
+     
+ //Container for the gradients
+	var defs = svg.append("defs");
+
+	//Code taken from http://stackoverflow.com/questions/9630008/how-can-i-create-a-glow-around-a-rectangle-with-svg
+	//Filter for the outside glow
+	var filter = defs.append("filter")
+		.attr("id","glow");
+
+	filter.append("feGaussianBlur")
+		.attr("class", "blur")
+		.attr("stdDeviation","4.5")
+		.attr("result","coloredBlur");
+
+	var feMerge = filter.append("feMerge");
+	feMerge.append("feMergeNode")
+		.attr("in","coloredBlur");
+	feMerge.append("feMergeNode")
+		.attr("in","SourceGraphic");
+	
+</script>
+
+	
+	
+</body>
+</html>
