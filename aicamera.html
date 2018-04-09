@@ -29,8 +29,7 @@ audio {
 }
 
     
-#canvas1 {
-    position: absolute;
+#canvas1, #canvas2{
     z-index: 99;
     max-width: 100%;
     width: 100%;
@@ -45,13 +44,25 @@ video {
 }
     
 #localVideo {
-    position: absolute;
+	position:absolute;
     width: 100%;
-    height: 100%;
     border-style: solid;
     border-color: red green blue yellow;
+    filter: url(#glow2);
 }
-    
+
+#svgOverlay {
+    width: 100%;
+	position:absolute;
+    border-style: solid;
+    border-color: red;
+}
+#mysvg1 {
+    width: 100%;
+    filter: url(#glow2);
+}    
+
+
 #remotevideo {
     display: none;
 }
@@ -59,15 +70,43 @@ button {
   margin: 0 20px 0 0;
   width: 83px;
 }
+			.btn {
+				font-family: 'Lato';
+				font-size: 16px;
+			}
 
     </style>    
 
+
 <body>
+<svg display="none">
+    <defs>
+    <filter id="glow2">
+		<feGaussianBlur stdDeviation="2 2" />
+	</filter>
 
+  <filter id="displacementFilter">
+    <feTurbulence type="turbulence" baseFrequency="0.05"
+        numOctaves="2" result="turbulence"/>
+    <feDisplacementMap in2="turbulence" in="SourceGraphic"
+        scale="50" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+	</defs>
+</svg>
 
-  <canvas id="canvas1" height="667" width="375"></canvas>
-  <video id="localVideo" autoplay muted playsInline></video>
-    
+ <input class="btn" type="button" value="wait, loading video" disabled="disabled" onclick="startFaceTracking()" id="startbutton"></input>
+
+  <canvas id="canvas1" height="300" width="400"></canvas>
+  <canvas id="canvas2" height="300" width="400"></canvas>
+  <div id="container1">
+    <video id="localVideo" autoplay muted playsInline top="0" width="400" height="300"  position="absolute" z-index="1" type="video/ogg"></video>
+ 	<svg id="svgOverlay" top="600" width="400" height="300" position="absolute" z-index="9">
+		<use xlink:href="#e165" x="0" y="0"/>
+ 	</svg>
+  </div>
+
+	
+	
   <br>
 
   <div>
@@ -78,7 +117,536 @@ button {
 
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="glfx.js"></script>
+  <script src="clmtrackr.js"></script>
   <script src="aicamera.js"></script>
-  <script src="stars.js"></script>
+  <script src="d3/d3.js"></script>	
+	
+<script type="text/javascript">
+
+//  <script src="stars.js"></xscript>
+  var videoInput = document.getElementById('localVideo');
+
+  function enablestart() {
+  	console.log("canplay is ready");
+					var startbutton = document.getElementById('startbutton');
+					startbutton.value = "start";
+					startbutton.disabled = null;
+					 startFaceTracking();
+  }
+  videoInput.addEventListener('canplay', enablestart, false);
+
+
+  var ctracker = new clm.tracker();
+  ctracker.init();
+
+  function startFaceTracking() {
+  	console.log("START");
+
+  
+  videoInput.play();
+
+  ctracker.start(videoInput);
+	
+  var canvasInput = document.getElementById('canvas1');
+  var ctx1 = canvasInput.getContext('2d');
+
+  var bMouseover = true;
+  	var mousex = 0;
+  	var mousey = 0;
+  canvasInput.addEventListener('mousemove', function(e) {
+  	var rect = this.getBoundingClientRect();
+  	mousex = (e.clientX - rect.x) / rect.width * this.width;
+  	mousey = (e.clientY - rect.y) / rect.height * this.height;
+//  	console.log(e.pageY + " " + e.screenY + " " + e.clientY + " " + canvasInput.scrollWidth + " " + mousey);
+  });
+
+  var canvasInput2 = document.getElementById('canvas2');
+  var ctx2 = canvasInput2.getContext('2d');
+  var mouse2x, mouse2y;
+  canvasInput2.addEventListener('mousemove', function(e) {
+  	var rect = this.getBoundingClientRect();
+  	mouse2x = (e.clientX - rect.x) / rect.width * this.width;
+  	mouse2y = (e.clientY - rect.y) / rect.height * this.height;
+
+//  	console.log(mouse2y + " " + e.pageY + " " + e.screenY + " " + e.clientY + " " + canvasInput.scrollHeight);
+  });
+
+  let facePointer1 = null;
+
+  function drawLoop() {
+     let positions = ctracker.getCurrentPosition();
+
+	if (positions) {
+     var teethX = positions[61][0];
+     var teethX2 = positions[58][0];
+     var teethY = positions[60][1];
+     var teethY2 = positions[57][1];
+
+     var eyeX = positions[30][0];
+     var eyeX2 = positions[28][0];
+     var eyeY = positions[29][1];
+     var eyeY2 = positions[31][1];
+     var eyeWidth = eyeX2-eyeX;
+	}
+
+//	console.log(positions[0]);
+	    
+    ctx1.clearRect(0, 0, canvasInput.width, canvasInput.height);
+    ctx2.clearRect(0, 0, canvasInput.width, canvasInput.height);
+
+//gifx.js method
+//    var texture = canvas.texture(videoInput);
+ //   canvasInput.draw(texture).sepia(1.0).update();
+
+// cc.drawImage(videoInput, 0, 0, canvas.width, canvas.height);
+ ctx1.drawImage(videoInput, 0, 0, 400, 300);
+  let frame = ctx1.getImageData(0, 0, 400, 300);
+
+  if (bMouseover) {
+  	let i = Math.floor(mousey * 400) + Math.floor(mousex); 
+  	ctx1.fillStyle = "black";
+  	ctx.font="20px lato";
+
+  	ctx1.fillText(mousex + " " + mousey + " " + i, 20,20);
+  	ctx1.fillText(frame.data[i * 4 + 0] + "/"+ frame.data[i * 4 + 1] + "/"+ frame.data[i * 4 + 2],
+  	   100,270);
+  	ctx1.fillStyle = "rgb(" + frame.data[i * 4 + 0] +
+  	  "," +frame.data[i * 4 + 1] + "," 
+  	   + frame.data[i * 4 + 2] + ")";
+    ctx1.fillRect(50,270,30,30) 
+
+	ctx1.fillStyle = "red";
+    ctx1.fillRect(mousex, mousey, 5,5); 	   
+  }
+
+    let l = frame.data.length / 4;
+
+	let toneEyeTotal = 0;
+	let toneEyeNum = 0;
+	let toneTeethTotal = 0;
+	let toneTeethNum = 0;
+	let toneTeeth = 0;
+	let toneEye = 0;
+
+    for (let i = 0; i < l; i++) {
+	let x = i % 400;
+	let y = Math.floor((i) / 400);
+    
+      let bTaken = false;
+      let r = frame.data[i * 4 + 0];
+      let g = frame.data[i * 4 + 1];
+      let b = frame.data[i * 4 + 2];
+      if (x >= teethX -20 && x <= teethX2 + 20&& y >= teethY && y <= teethY2) {
+      	  if ( Math.abs(r-g) < 30 &&  Math.abs(r-b-20) < 40 ) { 
+		  bTaken = true;      	
+		  toneTeethTotal += r + g + b;
+		  toneTeethNum++;
+      	  }
+      } 
+      if (x >= eyeX && x <= eyeX + eyeWidth * 0.35 && y >= eyeY && y <= eyeY2) {
+      	  if ( Math.abs(r-g) < 30 &&  Math.abs(r-b-20) < 40  ) { 
+		 bTaken = true;      	
+		  toneEyeTotal += r + g + b;
+		  toneEyeNum++;
+      	  }
+      }
+      if (x >= eyeX2 - eyeWidth * 0.35 && x <= eyeX2 && y >= eyeY && y <= eyeY2) {
+      	  if ( Math.abs(r-g) < 30 &&  Math.abs(r-b-20) < 40 ) { 
+		bTaken = true;      	
+		  toneEyeTotal += r + g + b;
+		  toneEyeNum++;
+      	  }
+      }
+
+      if (!bTaken) {
+        frame.data[i * 4 + 0] = 0;
+        frame.data[i * 4 + 1] = 0;
+        frame.data[i * 4 + 2] = 0;
+      }
+
+	  if ( (i > l * .4) && (i < l * 0.6)) {
+	   }
+    }
+    ctx2.putImageData(frame, 0, 0);
+	ctx2.rect(teethX, teethY, teethX2-teethX, teethY2-teethY);
+	ctx2.stroke();
+    ctx2.fillRect(mouse2x, mouse2y, 5,5); 	   
+	 ctx1.drawImage(videoInput, mousex, mousey, 30,30,100, 270, 30, 30);
+
+    ctracker.draw(canvasInput);
+    ctracker.draw(canvasInput2);
+
+	if (positions) {
+		ctx2.font="8px lato";
+		for (let i = 0; i < positions.length; i++) {
+			ctx2.fillText(i, positions[i][0], positions[i][1])
+		}
+
+		var char1 = d3.select("#e2")
+		char1.attr("transform", "translate(" + positions[20][0] + "," + positions[20][1] + ")" );
+				
+		var char1 = d3.selectAll("#e14,#e15,#e16,#e17,#e18")
+		char1.transition()
+			.attr("transform","scale(1,0.2)")
+			.transition()
+			.attr("transform","scale(1,1)");
+
+		let eyeRatio = ((positions[23][0]-positions[25][0]) / (positions[24][1]-positions[26][1]));
+		let eyeRatioX = 1- ((positions[27][0] - positions[23][0])  / (positions[25][0]-positions[23][0]));
+		let eyeRatioY = 1- ((positions[27][1]-positions[24][1]) / (positions[26][1]-positions[24][1]));
+		//console.log(eyeRatioX + " " + eyeRatioY);
+		ctx2.fillStyle = "red";
+		ctx2.fillRect( (eyeRatioX-0.45) * 2000 , (eyeRatioY-0.42)* 1400 , 30, 30);
+		
+		if (eyeRatio > .32) {
+			triggerBlink(eyeRatio);			
+		}
+	}
+
+    if (toneEyeNum && toneTeethNum) {
+    	toneEye = toneEyeTotal / toneEyeNum / 3 /256;
+		ctx2.fillText(" " + Math.floor(toneEye*100), 100,260)
+
+    	toneTeeth = toneTeethTotal / toneTeethNum / 3 /256;
+		ctx2.fillText(" " + Math.floor(toneTeeth*100), 180,260)
+
+		ctx2.fillText(" " + Math.floor((toneTeeth/toneEye)*100), 220,260)
+    }
+
+//	console.log(toneEye);
+	if (positions) {
+
+	if (!facePointer1) {
+		facePointer1 = d3.select("#svgOverlay")
+//		.append("circle")
+		.append("path")
+		.attr("class","facepointer")
+//		.attr("d","M12.849 24l-3.96-7.853-4.889 4.142v-20.289l16 12.875-6.192 1.038 3.901 7.696-4.86 2.391zm-3.299-10.979l4.194 8.3 1.264-.617-4.213-8.313 4.632-.749-9.427-7.559v11.984l3.55-3.046z")
+		.attr("d", "M4 0l16 12.279-6.78 1.138 4.256 8.676-3.902 1.907-4.281-8.758-5.293 4.581z")
+		.attr("fill","white")
+		.attr("stroke","black")
+
+	}
+
+	if (facePointer1) {
+
+//	facePointer1
+//		.attr("cx",positions[54][0])
+//		.attr("cy",positions[54][1])
+//		.attr("r",30)
+		facePointer1.attr("transform", "translate(" + positions[54][0] + "," +positions[54][1]+ ") rotate(45) scale(1.5) " );
+	}
+
+	}
+
+
+    requestAnimationFrame(drawLoop);
+  }
+
+	d3.select("#svgOverlay")
+		.append("circle")
+		.attr("cx",50)
+		.attr("cy",20)
+		.attr("r",30)
+		.attr("fill","blue")
+
+
+   var debugcounter = 1;
+
+	var lastBlinkCt = 0;
+	function triggerBlink(eyeRatio) {
+		let ct = +new Date();
+		if (ct < lastBlinkCt + 4000) return;
+		lastBlinkCt = ct;
+
+		let step = Math.floor(Math.random() * 6);
+
+		let svg = d3.selectAll("svg");
+
+		if (step == 1) {
+			d3.selectAll("#e1")
+				.transition()
+				.duration(1400)
+				.attr("fill","#000000")
+				.transition()
+				.attr("fill","#7abdb0")
+		}		
+		if (step == 2) {
+			let x = 400;
+			d3.selectAll("svg")
+				.append("path")
+				.attr("id","snow1")
+				.attr("path", d3.symbol().size(250).type(d3.symbols[1]))
+				.attr("fill","#DDDDDD")
+				.attr("transform", "translate("+ x + ",0)")
+				.transition()
+				.duration(2000)
+				.attr("transform", "translate("+ x + ",800)")
+				.attr("opacity", 0)
+				.remove()
+
+		}		
+	
+		if (step == 0) {
+		d3.selectAll("#mysvg1 g ")
+			.transition()
+			.ease(d3.easePoly)
+			.duration(1400)
+			.attr("transform-origin", "700px 700px")		
+						.attr("transform", "rotate(180)")
+			.transition()
+			.ease(d3.easeBounce)
+			.attr("transform", function(d,i) {
+				let rect = this.getBBox();
+				return("rotate(180) translate(0,-" + (rect.y) + ")");
+			})
+			.transition()
+			.delay((d,i)=> 1000 + i * 200)
+			.attr("transform", "")		
+
+		
+			return;	
+		}
+
+		if (step == 1) {
+		d3.selectAll("#mysvg1 g ")
+			.transition()
+			.ease(d3.easeLinear)
+			.duration(500)
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
+			})
+			.duration(150)
+			.delay((d,i)=> i * 20)
+			.attr("transform", "translate(0,-70)")
+			.transition()
+			.ease(d3.easeBounce)
+			.duration(500)
+			.attr("transform", "translate(0,0)")
+			.transition()
+			.ease(d3.easeLinear)
+			.delay((d,i)=> 500 + i * 200)
+			.duration(150)
+			.attr("transform", "translate(0,-70)")
+			.transition()
+			.ease(d3.easeBounce)
+			.duration(500)
+			.attr("transform", "translate(0,0)")
+
+		
+			return;	
+		}
+		if (step == 2) {
+		d3.selectAll("#mysvg1 g ")
+			.transition()
+			.delay(function(d,i) { return(i % 3 * 469) })
+			.ease(d3.easeElastic)
+			.duration(469*3)
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height*0.9) + "px");
+			})
+			.attr("transform", "scale(1.05,0.95) translate(-30,0)")
+			.transition()
+			.attr("transform", "scale(1.0,1.0)")
+			.transition()
+			.attr("transform", "scale(1.05,0.95) translate(30,0)")
+			.transition()
+			.attr("transform", "scale(1.0,1.0)")
+			.transition()
+			.attr("transform", "scale(1.05,0.95) translate(-30,0)")
+			.transition()
+			.attr("transform", "scale(1.0,1.0)")
+			.transition()
+			.attr("transform", "scale(1.05,0.95) translate(30,0)")
+
+		let speech1 = d3.selectAll("#e165")
+			.append("g")
+			.attr("transform","translate(400,400) scale(0.5)")
+			.attr("class","speechbubble")
+
+		speech1.append("path")
+			.attr("d","M0 0 L 180 0 L 180 70 L 0 70 Z")
+			.attr("fill", "white")
+
+		speech1.append("text")
+//			.text("look up" + Math.floor(Math.random()*20))
+			.text("look up" + debugcounter++)
+			.attr("alignment-baseline","hanging")
+			.attr("font-family", "sans-serif")
+            .attr("font-size", "30px")
+            .attr("transform","scale(1.0)")
+
+         speech1.transition("lifetime")
+			.ease(d3.easeElastic)
+            .attr("transform","translate(450,1000) scale(1.0)")
+            .attr("stroke","green")
+            .transition("lifetime2")
+            .delay(6000)
+            .duration(1000)
+            .attr("transform","translate(450,1000) scale(0.2)")
+            .transition("lifetime3")
+            .remove()
+
+//			.attr("transform-origin", function(d,i) {
+//				let rect = this.getBBox();
+//				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height*0.9) + "px");
+//			})
+			
+		d3.selectAll("#e35,#e36,#e38,#e39,#e137,#e138,#e140,#e141,#e200,#e201,#e203,#e204")
+			.transition()
+			.delay((d,i) => i%2 * 500)
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
+			})
+			.attr("transform", "translate(5,0)")
+			.transition()
+			.attr("transform", "")
+			.transition()
+			.attr("transform", "translate(-3,0)")
+			.transition()
+			.attr("transform", "")
+		
+			return;	
+		}
+
+		/*
+		d3.selectAll("#e35,#e36,#e38,#e39,#e137,#e138,#e140,#e141,#e200,#e201,#e203,#e204")
+			.transition()
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
+			})
+			.attr("transform", "scale(1.0," + Math.max( (3.2 - eyeRatio) * 3,0) + ")");
+*/
+
+		console.log("blink " + eyeRatio);
+		
+		d3.selectAll("#e35,#e36,#e38,#e39,#e137,#e138,#e140,#e141,#e200,#e201,#e203,#e204")
+			.transition()
+			.delay(Math.random() * 500)
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
+			})
+			.attr("transform", "scale(1.05,0.1)")
+			.transition()
+			.attr("transform", "scale(1.0,1.0)")
+			.filter("#e36,#e39,#e138,#e141")
+			.transition()
+			.attr("transform", "translate(5,0)")
+			.transition()
+			.attr("transform", "translate(-3,-1)")
+
+//		d3.selectAll("#e148,#e165,#e210 ")
+		d3.selectAll("#mysvg1 g,#o165 ")
+			.transition()
+			.delay(function(d,i) { return(i * 500) })
+			.ease(d3.easeElastic)
+			.duration(1400)
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height*0.9) + "px");
+			})
+			.attr("transform", "scale(1.2,0.8)")
+			.transition()
+			.attr("transform", "scale(0.8,1.2)")
+			.transition()
+			.attr("transform", "scale(1.2,0.8)")
+			.transition()
+			.attr("transform", "scale(0.8,1.2)")
+			.transition()
+			.attr("transform", "scale(0.8,1.2)")
+
+		d3.selectAll("#e148")
+			.transition()
+			.delay(function(d,i) { console.log(i); return(i * 500) })
+			.ease(d3.easeElastic)
+			.duration(1400)
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width*0.35) + "px " + (rect.y + rect.height*0.9) + "px");
+			})
+			.duration(300)
+			.attr("transform", "rotate(-8)")
+			.transition()
+			.duration(1400)
+			.attr("transform", "scale(0.8,1.2) rotate(-10)")
+			.transition()
+			.attr("transform", "scale(1.05,0.9) rotate(-10)")
+			.transition()
+			.attr("transform", "scale(0.8,1.2) rotate(-10)")
+			.transition()
+			.attr("transform", "scale(1.05,0.9) rotate(-10)")
+			.transition()
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width*0.7) + "px " + (rect.y + rect.height*0.9) + "px");
+			})
+			.attr("transform", "scale(0.8,1.2) rotate(10)")
+			.transition()
+			.attr("transform", "scale(1.2,0.8) rotate(0)")
+
+	}  
+
+  d3.xml("cutecritters.svg").mimeType("image/svg+xml").get(function(error, xml) {
+//  d3.xml("cutegerbils.svg").mimeType("image/svg+xml").get(function(error, xml) {
+  if (error) throw error;
+  xml.documentElement.setAttribute("id", "mysvg1");
+  document.body.appendChild(xml.documentElement);
+  //document.body.insertBefore(xml.documentElement);
+
+	d3.selectAll("#mysvg1 *")
+		.attr("id", (d,i)=>"e"+i)
+
+	var gRescale= d3.select("#svgOverlay").append("g")
+	gRescale.attr("transform","scale(0.2)");
+
+	var nodeNew = gRescale.node().appendChild(d3.select("#e165").node().cloneNode(true))
+	d3.select(nodeNew).attr("id", "o165")
+	
+	d3.interval(myAnimations,2800);
+
+
+
+	function myAnimations() {
+		d3.selectAll("#e191,#e192")
+ 			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width*0.1) + "px " + (rect.y + rect.height*0.95) + "px");
+			})
+//			.transition()
+//			.duration(1000)
+//			.attr("transform", "scale(1.05,0.1)")
+//			.transition()
+//			.attr("transform", "scale(1.0,1.0)")
+			.transition()
+			.duration(400)
+			.ease(d3.easeExp)
+			.attr("transform","rotate(15)")
+			.transition()
+			.duration(100)
+			.attr("transform","rotate(0)")
+			.transition()
+			.duration(400)
+			.attr("transform","rotate(15)")
+			.transition()
+			.duration(100)
+			.attr("transform","rotate(0)")
+
+	}
+	
+});
+
+  drawLoop();	
+
+  }
+	
+</script>
+
+	
+	
 </body>
 </html>

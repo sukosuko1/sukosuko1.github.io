@@ -219,7 +219,8 @@ var hexagonSize = 30;
 function videoToCanvas()
 {
     var texture = canvas.texture(localVideo);
-    canvas.draw(texture).hexagonalPixelate(320, 239.5, hexagonSize).update();
+//    canvas.draw(texture).hexagonalPixelate(320, 239.5, hexagonSize).update();
+    canvas.draw(texture).sepia(1.0).update();
     if (drawCanvas)
         window.requestAnimationFrame(videoToCanvas);
 }
