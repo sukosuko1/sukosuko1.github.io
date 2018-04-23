@@ -1,0 +1,164 @@
+<html>
+<head>
+	<style>
+	
+html, body { margin:0; padding:0; overflow:hidden }
+#mysvg1 { position:absolute; top:0; bottom:0; left:0; right:0 }	
+#mysvg2 { position:absolute; top:1200; bottom:0; left:0; right:0 }	
+
+#container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+	</style>
+ <script src="d3/d3.js"></script>	
+	
+</head>
+<body>
+<div id="container">
+</div>
+
+<svg id="mysvg2" height="240" width="440" border="2">
+  <defs>
+   <filter id="blurMe">
+  <feGaussianBlur in="SourceGraphic" stdDeviation="50"/>
+ </filter>
+
+    <filter id="f2" y="-50" height="200">
+      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="30" />
+      <feBlend in="blurOut" in2="SourceGraphic" mode="normal" />
+    </filter>
+  </defs>
+
+  <rect x="20" y="70" width="90" height="90" stroke="blue" stroke-width="3"
+  fill="blue" filter="url(#f2)" />
+
+  <rect x="120" y="70" width="90" height="90" stroke="blue" stroke-width="3"
+  fill="blue" filter="url(#blurMe)" />
+
+</svg>
+</body>
+	
+	
+<script>
+	
+  	
+let svg1 = d3.select("#container").append("svg")
+	.attr("id","mysvg1")
+   .attr("width", "100%")
+   .attr("height", "100%")
+	.attr("background-color","purple")
+
+	let h = 100 * svg1.node().clientHeight / svg1.node().clientWidth;
+
+	svg1.attr("viewBox","0 0 100 " + h);
+
+
+
+let filter = svg1.append("filter")
+    .attr("id", "filterGlow")
+	.append("feGaussianBlur")
+    .attr("in", "SourceGraphic")
+    .attr("result", "out1")
+    .attr("stdDeviation", 5)
+	.append("feBlend")
+    .attr("in", "out1")
+    .attr("in2", "SourceGraphic")
+    .attr("mode", "normal")
+
+
+
+svg1.append("rect")
+	.attr("id","mysvg1fill")
+	.attr("width","100%")
+	.attr("height","100%")
+	.attr("fill", "black")
+	
+let d = [1,2,3,4,5,6,7,8,9,10];
+	
+let rect1 = svg1.selectAll(".star")
+	.data(d)
+	.enter()
+	.append("circle")
+	.attr("class","star")
+	.attr("id",(d,i) => "e" + i)
+	.attr("cx",d=>Math.random()*95)
+	.attr("cy",d=>Math.random()*95)
+	.attr("r",d=>Math.random()*20)
+	.style("fill", d3.hsl(50,0.9,0.7))
+	.style("filter","url(#filterGlow)")
+
+	
+function sparkle()
+{
+	svg1.selectAll(".star")
+		.transition()
+		.delay(d=>Math.random() * 5000)
+		.duration(600)
+		.style("fill", d3.hsl(50,0.9,0.7))
+		.transition()
+		.duration(600)
+		.style("fill", d3.hsl(50,0.8,0.7))
+		.transition()
+		.duration(600)
+		.style("fill", d3.hsl(50,0.9,0.7))
+		.transition()
+		.duration(600)
+		.style("fill", d3.hsl(50,0.8,0.7))
+		.transition()
+		.duration(600)
+		.style("fill", d3.hsl(50,0.9,0.7))
+		.transition()
+		.duration(1000)
+		.style("fill", d3.hsl(50,0.5,0.1))
+		.on("end",function(d,i) {if (i==0) sparkle(); } )
+	
+}
+	sparkle();
+	
+	let snum = 0;
+	let elapsedPrev = 0;
+	d3.timer(function(elapsed) {
+	
+	if (elapsed < elapsedPrev + 500) return;
+		elapsedPrev = elapsed;
+		
+	let spark = svg1.append("rect")
+	.attr("class","spark")
+	.attr("id",(d,i) => "s" + snum++)
+	.attr("x",d=> 45 + Math.random()*10)
+	.attr("y",100)
+	.attr("width",d=>Math.random()*5)
+	.attr("height",d=>Math.random()*5)
+	.style("fill", d3.hsl(50,0.9,0.1))
+	
+	spark.transition("move")
+		.duration(5000)
+		.attr("y", 70 + Math.random() * 20)
+		
+	spark.transition("flicker")
+		.duration(600)
+		.style("fill", d3.hsl(50,0.9,0.9))
+		.transition()
+		.style("fill", d3.hsl(50,0.8,0.8))
+		.transition()
+		.style("fill", d3.hsl(50,0.9,0.9))
+		.transition()
+		.style("fill", d3.hsl(50,0.7,0.8))
+		.transition()
+		.style("fill", d3.hsl(50,0.9,0.9))
+		.transition()
+		.duration(1000)
+		.style("fill", d3.hsl(50,0.5,0.1))
+		.transition()
+		.remove();
+		
+	})
+	
+</script>
+</html>
