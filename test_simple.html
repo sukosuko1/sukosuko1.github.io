@@ -54,9 +54,9 @@ let svg1 = d3.select("#container").append("svg")
    .attr("height", "100%")
 	.attr("background-color","purple")
 
-	let h = 100 * svg1.node().clientHeight / svg1.node().clientWidth;
+	let windowh = 100 * svg1.node().clientHeight / svg1.node().clientWidth;
 
-	svg1.attr("viewBox","0 0 100 " + h);
+	svg1.attr("viewBox","0 0 100 " + windowh);
 
 
 
@@ -78,7 +78,13 @@ svg1.append("rect")
 	.attr("width","100%")
 	.attr("height","100%")
 	.attr("fill", "black")
-	
+
+svg1.append("image")
+	.attr("xlink:href","pics/snake_greatergreen.jpg")
+
+
+// /Users/scottchristensen/sukosuko1.github.io/pics/snake_bamboo.jpg
+
 let d = [1,2,3,4,5,6,7,8,9,10];
 	
 let rect1 = svg1.selectAll(".star")
@@ -88,10 +94,10 @@ let rect1 = svg1.selectAll(".star")
 	.attr("class","star")
 	.attr("id",(d,i) => "e" + i)
 	.attr("cx",d=>Math.random()*95)
-	.attr("cy",d=>Math.random()*95)
+	.attr("cy",d=>Math.random()*windowh * 0.95)
 	.attr("r",d=>Math.random()*20)
 	.style("fill", d3.hsl(50,0.9,0.7))
-	.style("filter","url(#filterGlow)")
+//	.style("filter","url(#filterGlow)")
 
 	
 function sparkle()
@@ -100,6 +106,7 @@ function sparkle()
 		.transition()
 		.delay(d=>Math.random() * 5000)
 		.duration(600)
+		.attr("r",d=>Math.random()*20)
 		.style("fill", d3.hsl(50,0.9,0.7))
 		.transition()
 		.duration(600)
@@ -116,6 +123,7 @@ function sparkle()
 		.transition()
 		.duration(1000)
 		.style("fill", d3.hsl(50,0.5,0.1))
+		.attr("r",1)
 		.on("end",function(d,i) {if (i==0) sparkle(); } )
 	
 }
