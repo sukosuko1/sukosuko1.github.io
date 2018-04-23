@@ -32,16 +32,20 @@ audio {
     width: 100%;
 }
 
-g {
+#ggg {
     filter : url(#displacementFilter);
 }
 
+body {
+	background-repeat: no-repeat;
+    background-size: auto;
+}
 
     </style>    
 
-<body>
+<body background="highjunkpeak.jpeg">
 
-<svg height="1px"">
+<svg>
 <defs>
 <filter id="glow2">
 <feGaussianBlur stdDeviation="2 2" result="glow2"/>
@@ -49,18 +53,69 @@ g {
 
   <filter id="displacementFilter">
     <feTurbulence type="turbulence" baseFrequency="0.04"
-        numOctaves="2" result="turbulence"/>
+        numOctaves="2" result="turbulence"/> 
     <feDisplacementMap in2="turbulence" in="SourceGraphic"
         scale="20" xChannelSelector="R" yChannelSelector="G">
          <animate id="turbulence-anim"  attributeName="scale" attributeType="XML" begin="indefinite" dur="2" end="indefinite" from="0" to="60" fill="freeze" />
     </feDisplacementMap>
   </filter>
+	
+  <filter id = "distantLightFilter">
+        <feGaussianBlur in = "SourceAlpha" stdDeviation = "8" result = "blur1"/>
+        <feSpecularLighting result = "specOut" in = "blur1" specularConstant = "1.2" specularExponent = "12" lighting-color = "#bbbbbb">
+            <feDistantLight azimuth = "45" elevation = "45"/>
+        </feSpecularLighting>
+        <feComposite in = "SourceGraphic" in2 = "specOut" operator = "arithmetic" k1 = "0" k2 = "1" k3 = "1" k4 = "0"/>
+    </filter>
+	
 
+ <linearGradient id="gradient2" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="5%" stop-color="#FFAA88"/>
+      <stop offset="95%" stop-color="#FF8888"/>
+    </linearGradient>
+
+	 <radialGradient id="gradient3"
+            cx="0.5" cy="0.5" r="0.5" fx="0.25" fy="0.25">
+        <stop offset="0%" stop-color="FFAA88"/>
+        <stop offset="100%" stop-color="FF8888"/>
+      </radialGradient>
+
+ <radialGradient id="gradient1"
+            cx="0.5" cy="0.5" r="0.5" fx="0.25" fy="0.25">
+        <stop offset="0%" stop-color="rgb(255,180,120)"/>
+        <stop offset="100%" stop-color="rgb(125,90,60)"/>
+      </radialGradient>
+
+
+  <pattern id="img1" patternUnits="userSpaceOnUse" width="100" height="100">
+    <image xlink:href="highjunkpeak.jpeg" x="30" y="30" width="100" height="50" />
+  </pattern>
+
+  <pattern id="img2" patternUnits="userSpaceOnUse" width="100" height="100">
+    <image xlink:href="highjunkpeak.jpeg" x="0" y="0" width="100" height="100" />
+  </pattern>
+	
+ <filter id="dropShadow">
+    <!-- Blur the source alpha to make a nice shadow. -->
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+    <!-- Move the shadow over a bit. -->
+    <feOffset in="blur" dx="3" dy="3" result="offsetBlur"/>
+    <!-- Put everything together. Blur then graphic. -->
+    <feMerge>
+      <feMergeNode in="offsetBlur"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+	
 </defs>
+<image xlink:href="/pic/snake_bamboo.jpg" x="0" y="800" height="500px" width="500px" filter="dropShadown"/>
+	
 </svg>
 
 
  <script src="d3/d3.js"></script>	
+ <script src="svgmenu.js"></script>	
+ <script src="svgfilters.js"></script>	
 	
 <script type="text/javascript">
 
@@ -96,7 +151,8 @@ var svg = d3.select("body").append("svg")
 
 		speech1.append("path")
 			.attr("d","M0 0 L 165 0 Q 180 0 180 15 L 180 70 L 0 70 Z")
-			.attr("fill", "pink")
+//			.attr("fill", "pink")
+			.attr("fill", "url(#gradient1)")
 			.attr("stroke","black")
 			.attr("stroke-width","5px")
 
@@ -193,17 +249,155 @@ var svg = d3.select("body").append("svg")
     	.curve(d3.curveBasisClosed);
 	
 	var dataPoints = [{x:5, y:5},{x:30, y:7},{x:28, y:18},{x:6, y:17},{x:5, y:15}];
-	
-	var am1 = svg.append("g")
-			.data(dataPoints)
-			.attr("transform","translate(0,300)")
+	var dataPoints2 = [{x:5, y:5},{x:7, y:8},{x:12, y:10},{x:8, y:12},{x:10, y:12}];
 
-	am1.append("path")
-			.data(dataPoints)
-			.style("fill","pink")
+	svg.append("rect")
+		.attr("x",0)	
+		.attr("y",100)	
+		.attr("width",200)	
+		.attr("height",200)	
+		.attr("fill","url(#gradient1)")
 			.style("stroke","black")
 			.style("stroke-width","10px")
+
+	let scottfontd = "M0 0 L-40 -400 L 40 -400 L 0 0 -50 400 50 400 0 0 Z";
+
+	
+	var am0 = svg.append("g")
+			.attr("id","goverlay")
+			.attr("transform","translate(200,100) scale(0)")
+
+			am0.transition().duration(1000)
+			.ease(d3.easeBack)
+			.attr("transform","translate(200,100) scale(1)")
+
+	var am1 = am0.append("g")
+			.attr("id","goverlay")
+			.attr("transform","translate(0,20)")
+			.style("filter","url(#glow2)")
+
+
+	var am2 = am1.append("path")
+			.attr("fill","#ffffff40")
+			.style("stroke","none")
+			.style("stroke-width","10px")
 			.attr("d", lineGen1(dataPoints) );
+	am1.append("path")
+			.attr("transform","rotate(45)")
+			.attr("fill","#ff888820")
+			.style("stroke","none")
+			.style("stroke-width","10px")
+			.attr("d", scottfontd);
+	am1.append("path")
+			.attr("transform","rotate(110)")
+			.attr("fill","#88ffff20")
+			.style("stroke","none")
+			.style("stroke-width","10px")
+			.attr("d", scottfontd);
+	am1.append("path")
+			.attr("transform","rotate(130)")
+			.attr("fill","#ffff8820")
+			.style("stroke","none")
+			.style("stroke-width","10px")
+			.attr("d", scottfontd);
+
+	am0.append("text").text("AMAZING!").style("text-anchor","middle")
+	.style("alignment-baseline","middle")
+				.attr("font-family", myFont)
+	.style("font-size","50px").attr("fill","white").attr("stroke","orange")
+
+		function spinin2() {
+			am1.transition().duration(3000)
+				.ease(d3.easeLinear)
+				.attr("transform","rotate(120) ")
+				.transition().duration(3000)
+				.attr("transform"," rotate(240)")
+				.transition().duration(3000)
+				.attr("transform"," rotate(360)")
+				.on("end",spinin2)
+		}
+		function spinin3() {
+
+			let flake1 = am0
+//				.selectAll("circle").data(Array(10)).enter()
+				.append("circle")
+				.attr("r",7).attr("cx", 0).attr("cy",0)
+				.style("fill","#ffffff")
+				.attr("opacity",0.2)
+
+			flake1
+				.transition("flakeopacity1")
+				.duration(1500)
+				.attr("opacity",0.5)
+				.transition()
+				.delay(1400)
+				.attr("opacity",0.0)
+		
+			flake1
+				.transition("flakemotion1")
+				.duration(4000)
+				.ease(d3.easeLinear)
+				.attr("r",10)
+				.attr("cx", (Math.random() * 400))
+				.attr("cy", Math.random() >0.5 ? -400 : 400)
+				.remove()
+
+			flake1.transition("timer")
+				.delay(100)
+				.on("end",spinin3)
+
+		}
+		spinin2();			
+		spinin3();			
+	
+	let toggleN = 1;
+	am1.on("click", function() {
+		toggleN++; if (toggleN > 2) toggleN = 0;
+
+		if (toggleN == 2) {
+			am2.transition()
+				.attr("d",scottfontd)
+				.attr("stroke","red")
+				.attr("opacity",1.0)
+				.on("end",spinin)
+			return;
+		}
+		function spinin() {
+			am1.transition().duration(3000)
+				.ease(d3.easeLinear)
+				.attr("transform","rotate(120) ")
+				.transition().duration(3000)
+				.attr("transform"," rotate(240)")
+				.transition().duration(3000)
+				.attr("transform"," rotate(360)")
+				.on("end",spinin)
+			am1.append("circle")
+				.attr("r",10).attr("cx",0).attr("cy",0)
+				.style("fill","#ffffff")
+				.transition()
+				.duration(2000)
+				.attr("cx", (Math.random()-0.5) * 400)
+				.attr("cy", (Math.random()-0.5) * 400)
+				.attr("opacity",0.1)
+				.transition()
+				.remove()
+		}
+
+		let dp = dataPoints;
+		if (toggleN == 1) dp = dataPoints2;
+
+		am2.transition().attr("transform","").attr("d",lineGen1(dp)) }
+	);
+
+	let menu0 = am0.append("g")
+			.attr("id","goverlay")
+			.attr("transform","translate(0,20)")
+
+
+	let menu1 = menu0.append("path")
+			.attr("fill","#ffffff40")
+			.style("stroke","none")
+
      
  //Container for the gradients
 	var defs = svg.append("defs");
@@ -224,6 +418,80 @@ var svg = d3.select("body").append("svg")
 	feMerge.append("feMergeNode")
 		.attr("in","SourceGraphic");
 	
+		{			
+			
+let svg2 = d3.select("body").append("svg")
+	.attr("id","mysvg3")
+   .attr("width", "100%")
+   .attr("height", height)
+   .attr("viewbox","0 0 100 100")
+
+	cmAddFilters(svg2);
+			
+//	.attr("filter", "url(#distantLightFilter)")
+
+//	var pic1 = svg2.append("image")
+//			.attr("xlink:href","pics/snake_greatergreen.jpg")
+//		.attr("width", "100%")
+	
+	let qnum = 0;
+
+			
+	let q1 = {"title":"Which snake is this?", 
+	          "image":"pics/snake_greatergreen.jpg",
+			  items: [
+			  {"text":"red necked keelback","answer":0},
+			  {"text":"chinese cobra","answer":1},
+			  {"text":"bamboo snake","answer":0},
+			  ]}
+	
+	let pic1 = cmAddImage(svg2, q1);
+			
+	pic1.style("filter","url(#filterBlur)");
+//		document.getElementById('filterBlur-anim').beginElement()
+			
+			
+	let menu1 = cmAddMenu(svg2, q1, cmMenuEvent);
+	menu1.attr("transform","translate(10,100)")
+
+	let scorepos = 0; scorenum = 0;
+	function cmMenuEvent(result) {
+		if (result) scorepos++; 
+		scorenum++;
+		
+		console.log('cmMenuEvent' + qnum + " "+ result);
+//		menu1.remove();
+//		pic1.remove();
+		
+		cmRemoveImage(pic1);
+		cmRemoveMenu(menu1);
+		
+		qnum++;
+		
+		let q1 = {"title":"Which snake is this?", 
+	          "image":"pics/snake_chinesecobra.jpg",
+			  items: [
+			  {"text":"one","answer":0},
+			  {"text":"two","answer":0},
+			  {"text":"twohalf","answer":0},
+			  {"text":"three","answer":1},
+			  ]}
+		if (qnum == 2) q1.image = "pics/snake_bamboo.jpg";
+		if (qnum == 3) q1.image = "pics/snake_manybandedkrait.jpg";
+		if (qnum == 4) {
+			console.log("score" + scorepos + " " + scorenum)
+			return;
+		} 
+		
+		pic1 = cmAddImage(svg2, q1);
+
+		menu1 = cmAddMenu(svg2, q1, cmMenuEvent);
+	}
+
+//	addMenu(svg2, [{"text":"one"},{"text":"two"},{"text":"three"}]);
+	
+}
+
 </script>
 
 	

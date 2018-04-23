@@ -29,7 +29,7 @@ audio {
 }
 
     
-#canvas1, #canvas2{
+#canvas1, #canvas2, #canvas3 {
     z-index: 99;
     max-width: 100%;
     width: 100%;
@@ -41,6 +41,8 @@ video {
   background: #222;
   margin: 0 0 20px 0;
   vertical-align: top;
+  transform: scaleX(-1);
+  filter: sepia(100%);
 }
     
 #localVideo {
@@ -57,11 +59,29 @@ video {
     border-style: solid;
     border-color: red;
 }
+
 #mysvg1 {
     width: 100%;
     filter: url(#glow2);
 }    
+  
+#e165 {
+    filter: url(#glow2);
+}    
 
+#rectz, #rectz2 {
+	x: 20;
+	y: 20;
+	width: "90";
+	height: "50";
+	fill: "blue";
+}    
+
+#xxrectz3 {
+    filter: "url(#glow2)";
+}    
+    
+  
 
 #remotevideo {
     display: none;
@@ -81,7 +101,15 @@ button {
 <body>
 <svg display="none">
     <defs>
-    <filter id="glow2">
+
+
+    <filter id="glow4">
+      <feOffset result="offOutx" in="SourceAlpha" dx="10" dy="10" />
+      <feGaussianBlur result="blurOutx" in="offOutx" stdDeviation="4" />
+      <feBlend in="SourceGraphic" in2="blurOutx" mode="normal" />
+    </filter>    
+
+    <filter id="glow3">
 		<feGaussianBlur stdDeviation="2 2" />
 	</filter>
 
@@ -94,10 +122,38 @@ button {
 	</defs>
 </svg>
 
+ <svg width="100%" height="300px" viewbox="0 0 100 100" border="5px">
+
+    <filter id="glow5">
+		<feGaussianBlur stdDeviation="2 2" />
+	</filter> 	
+
+	<rect id="rectz" y="30" width="40" height="20" fill="red" />
+ 	<rect id="rectz2" y="70"  width="40" height="20" fill="blue" filter="url(#glow3)"/>
+ 	<rect id="rectz3" width="40" height="20" fill="brown" filter="url(#glow5)"/>
+ </svg>
+
+ <svg height="140" width="140">
+  <defs>
+    <filter id="f3" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
+      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+  </defs>
+  <rect width="20" height="90" stroke="green" stroke-width="3"
+  fill="yellow" filter="url(#f3)" />
+  <rect width="20" height="90" stroke="green" stroke-width="3"
+  fill="yellow" filter="url(#f3)" />
+  <rect x="100" width="20" height="90" stroke="green" stroke-width="3"
+  fill="yellow" filter="url(#f3)" />
+</svg> 
+
  <input class="btn" type="button" value="wait, loading video" disabled="disabled" onclick="startFaceTracking()" id="startbutton"></input>
 
   <canvas id="canvas1" height="300" width="400"></canvas>
   <canvas id="canvas2" height="300" width="400"></canvas>
+  <canvas id="canvas3" height="300" width="400"></canvas>
   <div id="container1">
     <video id="localVideo" autoplay muted playsInline top="0" width="400" height="300"  position="absolute" z-index="1" type="video/ogg"></video>
  	<svg id="svgOverlay" top="600" width="400" height="300" position="absolute" z-index="9">
@@ -105,7 +161,11 @@ button {
  	</svg>
   </div>
 
-	
+<div style="display:none;">
+  <img id="backpic1" src="rashidajones.jpg"
+       width="400" height="300">
+</div>
+
 	
   <br>
 
@@ -120,6 +180,7 @@ button {
   <script src="clmtrackr.js"></script>
   <script src="aicamera.js"></script>
   <script src="d3/d3.js"></script>	
+  <script src="svgfilters.js"></script>	
 	
 <script type="text/javascript">
 
@@ -162,14 +223,9 @@ button {
 
   var canvasInput2 = document.getElementById('canvas2');
   var ctx2 = canvasInput2.getContext('2d');
+  var canvasInput3 = document.getElementById('canvas3');
+  var ctx3 = canvasInput2.getContext('2d');
   var mouse2x, mouse2y;
-  canvasInput2.addEventListener('mousemove', function(e) {
-  	var rect = this.getBoundingClientRect();
-  	mouse2x = (e.clientX - rect.x) / rect.width * this.width;
-  	mouse2y = (e.clientY - rect.y) / rect.height * this.height;
-
-//  	console.log(mouse2y + " " + e.pageY + " " + e.screenY + " " + e.clientY + " " + canvasInput.scrollHeight);
-  });
 
   let facePointer1 = null;
 
@@ -187,20 +243,24 @@ button {
      var eyeY = positions[29][1];
      var eyeY2 = positions[31][1];
      var eyeWidth = eyeX2-eyeX;
+
+     var faceX = positions[20][0];
+     var faceX2 = positions[16][0];
+     var faceY = positions[20][1];
+     var faceY2 = positions[53][1];
 	}
 
-//	console.log(positions[0]);
 	    
     ctx1.clearRect(0, 0, canvasInput.width, canvasInput.height);
     ctx2.clearRect(0, 0, canvasInput.width, canvasInput.height);
 
-//gifx.js method
-//    var texture = canvas.texture(videoInput);
- //   canvasInput.draw(texture).sepia(1.0).update();
-
-// cc.drawImage(videoInput, 0, 0, canvas.width, canvas.height);
  ctx1.drawImage(videoInput, 0, 0, 400, 300);
   let frame = ctx1.getImageData(0, 0, 400, 300);
+  
+  var imageb = document.getElementById('backpic1');
+  ctx3.drawImage(imageb,0,0);
+  let frame2 = ctx3.getImageData(0, 0, 400, 300);
+
 
   if (bMouseover) {
   	let i = Math.floor(mousey * 400) + Math.floor(mousex); 
@@ -228,82 +288,95 @@ button {
 	let toneTeeth = 0;
 	let toneEye = 0;
 
+	let sumR = 0, sumG = 0, sumB = 0, sumN = 0;
     for (let i = 0; i < l; i++) {
-	let x = i % 400;
-	let y = Math.floor((i) / 400);
+	  let x = i % 400;
+	  let y = Math.floor((i) / 400);
+    
+      if (x >= faceX -20 && x <= faceX2 + 20&& y >=faceY && y <= faceY2) {
+      let r = frame.data[i * 4 + 0];
+      let g = frame.data[i * 4 + 1];
+      let b = frame.data[i * 4 + 2];
+      sumR += r; sumG += g; sumB += b; sumN += 1;
+      }
+    }
+    let faceR = sumR/sumN;
+    let faceG = sumG/sumN;
+    let faceB = sumB/sumN;
+
+    for (let i = 0; i < l; i++) {
+	  let x = i % 400;
+	  let y = Math.floor((i) / 400);
     
       let bTaken = false;
       let r = frame.data[i * 4 + 0];
       let g = frame.data[i * 4 + 1];
       let b = frame.data[i * 4 + 2];
+
+      if ( (2 * b - r - g > 10 + (2 * faceB - faceR - faceG)) ) {
+	      if ( (r + g + b > -400 + faceR + faceG + faceB) ) {
+		  bTaken = true;      	
+ 	     }
+      }
+      if (x >= faceX  && x <= faceX2 & y >=faceY -30 && y <= faceY2) {
+		  bTaken = false;      	
+      }      
       if (x >= teethX -20 && x <= teethX2 + 20&& y >= teethY && y <= teethY2) {
       	  if ( Math.abs(r-g) < 30 &&  Math.abs(r-b-20) < 40 ) { 
-		  bTaken = true;      	
+//		  bTaken = true;      	
 		  toneTeethTotal += r + g + b;
 		  toneTeethNum++;
       	  }
       } 
-      if (x >= eyeX && x <= eyeX + eyeWidth * 0.35 && y >= eyeY && y <= eyeY2) {
-      	  if ( Math.abs(r-g) < 30 &&  Math.abs(r-b-20) < 40  ) { 
-		 bTaken = true;      	
+      if (x >= eyeX && x <= eyeX + eyeWidth * 0.9935 && y >= eyeY && y <= eyeY2) {
+     	  if ( Math.abs(r-g) < 30 &&  Math.abs(r-b-20) < 40  ) { 
+//		 bTaken = true;      	
 		  toneEyeTotal += r + g + b;
 		  toneEyeNum++;
       	  }
       }
       if (x >= eyeX2 - eyeWidth * 0.35 && x <= eyeX2 && y >= eyeY && y <= eyeY2) {
       	  if ( Math.abs(r-g) < 30 &&  Math.abs(r-b-20) < 40 ) { 
-		bTaken = true;      	
+//		bTaken = true;      	
 		  toneEyeTotal += r + g + b;
 		  toneEyeNum++;
       	  }
       }
 
-      if (!bTaken) {
+      if (bTaken) {
         frame.data[i * 4 + 0] = 0;
-        frame.data[i * 4 + 1] = 0;
+        frame.data[i * 4 + 1] = 255;
         frame.data[i * 4 + 2] = 0;
+        frame.data[i * 4 + 3] = 0;
       }
 
 	  if ( (i > l * .4) && (i < l * 0.6)) {
 	   }
     }
+
+
+    
+
     ctx2.putImageData(frame, 0, 0);
-	ctx2.rect(teethX, teethY, teethX2-teethX, teethY2-teethY);
-	ctx2.stroke();
-    ctx2.fillRect(mouse2x, mouse2y, 5,5); 	   
+//	ctx2.rect(teethX, teethY, teethX2-teethX, teethY2-teethY);
+//	ctx2.stroke();
+//    ctx2.fillRect(mouse2x, mouse2y, 5,5); 	   
 	 ctx1.drawImage(videoInput, mousex, mousey, 30,30,100, 270, 30, 30);
 
     ctracker.draw(canvasInput);
-    ctracker.draw(canvasInput2);
+//    ctracker.draw(canvasInput2);
 
+	ctx2.fillStyle = "white";
 	if (positions) {
 		ctx2.font="8px lato";
 		for (let i = 0; i < positions.length; i++) {
-			ctx2.fillText(i, positions[i][0], positions[i][1])
+//			ctx2.fillText(i, positions[i][0], positions[i][1])
 		}
 
-		var char1 = d3.select("#e2")
-		char1.attr("transform", "translate(" + positions[20][0] + "," + positions[20][1] + ")" );
-				
-		var char1 = d3.selectAll("#e14,#e15,#e16,#e17,#e18")
-		char1.transition()
-			.attr("transform","scale(1,0.2)")
-			.transition()
-			.attr("transform","scale(1,1)");
-
-		let eyeRatio = ((positions[23][0]-positions[25][0]) / (positions[24][1]-positions[26][1]));
-		let eyeRatioX = 1- ((positions[27][0] - positions[23][0])  / (positions[25][0]-positions[23][0]));
-		let eyeRatioY = 1- ((positions[27][1]-positions[24][1]) / (positions[26][1]-positions[24][1]));
-		//console.log(eyeRatioX + " " + eyeRatioY);
-		ctx2.fillStyle = "red";
-		ctx2.fillRect( (eyeRatioX-0.45) * 2000 , (eyeRatioY-0.42)* 1400 , 30, 30);
-		
-		if (eyeRatio > .32) {
-			triggerBlink(eyeRatio);			
-		}
 	}
 
     if (toneEyeNum && toneTeethNum) {
+		ctx2.font="30px lato";
     	toneEye = toneEyeTotal / toneEyeNum / 3 /256;
 		ctx2.fillText(" " + Math.floor(toneEye*100), 100,260)
 
@@ -311,6 +384,11 @@ button {
 		ctx2.fillText(" " + Math.floor(toneTeeth*100), 180,260)
 
 		ctx2.fillText(" " + Math.floor((toneTeeth/toneEye)*100), 220,260)
+
+		ctx2.fillText(" " + Math.floor(sumR/sumN), 100,30)
+		ctx2.fillText(" " + Math.floor(sumG/sumN), 150,30)
+		ctx2.fillText(" " + Math.floor(sumB/sumN), 200,30)
+//		ctx2.fillText(" " + Math.floor(sumN), 250,30)
     }
 
 //	console.log(toneEye);
@@ -339,6 +417,7 @@ button {
 
 	}
 
+	triggerBlink();
 
     requestAnimationFrame(drawLoop);
   }
@@ -354,6 +433,7 @@ button {
    var debugcounter = 1;
 
 	var lastBlinkCt = 0;
+
 	function triggerBlink(eyeRatio) {
 		let ct = +new Date();
 		if (ct < lastBlinkCt + 4000) return;
@@ -461,38 +541,6 @@ button {
 			.transition()
 			.attr("transform", "scale(1.05,0.95) translate(30,0)")
 
-		let speech1 = d3.selectAll("#e165")
-			.append("g")
-			.attr("transform","translate(400,400) scale(0.5)")
-			.attr("class","speechbubble")
-
-		speech1.append("path")
-			.attr("d","M0 0 L 180 0 L 180 70 L 0 70 Z")
-			.attr("fill", "white")
-
-		speech1.append("text")
-//			.text("look up" + Math.floor(Math.random()*20))
-			.text("look up" + debugcounter++)
-			.attr("alignment-baseline","hanging")
-			.attr("font-family", "sans-serif")
-            .attr("font-size", "30px")
-            .attr("transform","scale(1.0)")
-
-         speech1.transition("lifetime")
-			.ease(d3.easeElastic)
-            .attr("transform","translate(450,1000) scale(1.0)")
-            .attr("stroke","green")
-            .transition("lifetime2")
-            .delay(6000)
-            .duration(1000)
-            .attr("transform","translate(450,1000) scale(0.2)")
-            .transition("lifetime3")
-            .remove()
-
-//			.attr("transform-origin", function(d,i) {
-//				let rect = this.getBBox();
-//				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height*0.9) + "px");
-//			})
 			
 		d3.selectAll("#e35,#e36,#e38,#e39,#e137,#e138,#e140,#e141,#e200,#e201,#e203,#e204")
 			.transition()
@@ -589,23 +637,57 @@ button {
 			.transition()
 			.attr("transform", "scale(1.2,0.8) rotate(0)")
 
-	}  
+	}
+
+  d3.xml("snail.svg").mimeType("image/svg+xml").get(function(error, xml) {
+	 if (error) throw error;
+ 	xml.documentElement.setAttribute("id", "mysvg2");
+  	document.body.appendChild(xml.documentElement);
+	d3.selectAll("#mysvg2 *")
+		.attr("id", (d,i)=>"f"+i)
+  });
+  
+  
 
   d3.xml("cutecritters.svg").mimeType("image/svg+xml").get(function(error, xml) {
-//  d3.xml("cutegerbils.svg").mimeType("image/svg+xml").get(function(error, xml) {
   if (error) throw error;
   xml.documentElement.setAttribute("id", "mysvg1");
   document.body.appendChild(xml.documentElement);
   //document.body.insertBefore(xml.documentElement);
+	
+	let svg1 = d3.select("#mysvg1")
 
 	d3.selectAll("#mysvg1 *")
 		.attr("id", (d,i)=>"e"+i)
+//		.style("filter","url(#glow2)")
 
+	cmAddFilters(svg1);
+		
+//	d3.selectAll("#e148,#e63,#e106")
+//	d3.selectAll("#mysvg1 > g")
+	  
+	  /*
+	d3.selectAll("#mysvg1:nth-child(odd)")
+		.style("filter","url(#filterdropshadow6)")
+	d3.selectAll("#mysvg1:nth-child(even)")
+		.style("filter","url(#filterdropshadow3)")
+	  */
+	  
+	  
+	d3.selectAll("#mysvg1 > g")
+		.style("filter","url(#filterdropshadow3)")
+
+	d3.select("#e148").append("rect").attr("id","testrect1").attr("y","800").attr("width","1200").attr("height","40").attr("fill","#8080FF")
+	  
+	d3.select("#testrect1").lower();
+	d3.select("#e0").lower();
+	  
+	  
 	var gRescale= d3.select("#svgOverlay").append("g")
-	gRescale.attr("transform","scale(0.2)");
+	gRescale.attr("transform","translate(140,20) scale(0.2)");
 
-	var nodeNew = gRescale.node().appendChild(d3.select("#e165").node().cloneNode(true))
-	d3.select(nodeNew).attr("id", "o165")
+	var nodeNew = gRescale.node().appendChild(d3.select("#e186").node().cloneNode(true))
+	d3.select(nodeNew).attr("id", "o186")
 	
 	d3.interval(myAnimations,2800);
 
