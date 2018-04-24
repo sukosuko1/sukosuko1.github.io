@@ -36,7 +36,8 @@ audio {
     height: 100%;
     font-family: 'Luckiest Guy', cursive;
 }
-    
+
+
 video {
   background: #222;
   margin: 0 0 20px 0;
@@ -573,12 +574,9 @@ button {
 		console.log("blink " + eyeRatio);
 		
 		d3.selectAll("#e35,#e36,#e38,#e39,#e137,#e138,#e140,#e141,#e200,#e201,#e203,#e204")
-			.transition()
+			.transition("blink")
 			.delay(Math.random() * 500)
-			.attr("transform-origin", function(d,i) {
-				let rect = this.getBBox();
-				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
-			})
+			.attr("transform-origin", "middle")
 			.attr("transform", "scale(1.05,0.1)")
 			.transition()
 			.attr("transform", "scale(1.0,1.0)")
