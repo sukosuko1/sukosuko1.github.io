@@ -30,8 +30,9 @@ html, body { margin:0; padding:0; overflow:hidden }
 <svg id="mysvg2" height="240" width="440" border="2">
   <defs>
    <filter id="blurMe">
-  <feGaussianBlur in="SourceGraphic" stdDeviation="50"/>
+  <feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
  </filter>
+      
 
     <filter id="f2" y="-50" height="200">
       <feGaussianBlur result="blurOut" in="offOut" stdDeviation="30" />
@@ -94,7 +95,7 @@ svg1.append("image")
 	.attr("y","0")
 	.attr("width","100%")
 	.attr("height","100%")
-	.attr("transform","translate(0," + (windowh * 0.1) + ") ")
+	.attr("transform","translate(0," + 0 + ") ")
 
 svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
@@ -107,7 +108,7 @@ svg1.append("image")
 //	.attr("width","200%")
 //	.attr("height", "200%")
 //	.attr("preserveAspectRatio","none")
-	.style("filter","url(#filterGlow)")
+	.style("filter","url(#blurMe)")
 
 
 // /Users/scottchristensen/sukosuko1.github.io/pics/snake_bamboo.jpg
