@@ -22,7 +22,7 @@ html, body { margin:0; padding:0; overflow:hidden }
 	
 </head>
 <body>
-<img src="pics/snake_greatergreen.jpg" y="250%"></object>
+<object id="obj1" data="/pics/snake_greatergreen.jpg" type="image/svg+xml"></object>
 
 <div id="container">
 </div>
@@ -63,7 +63,7 @@ let svg1 = d3.select("#container").append("svg")
 	.attr("background-color","purple")
 
 	let windowh = 100 * svg1.node().clientHeight / svg1.node().clientWidth;
-
+	windowh+= 50;
 	svg1.attr("viewBox","0 0 100 " + windowh);
 
 	cmAddFilters(svg1);
@@ -171,6 +171,8 @@ function sparkle()
 	if (elapsed < elapsedPrev + 500) return;
 		elapsedPrev = elapsed;
 
+	/* test long object scrolling....
+	
 	let spark9 = svg1.append("rect")
 	.attr("class","bar")
 	.attr("id",(d,i) => "b" + snum++)
@@ -180,7 +182,8 @@ function sparkle()
 	.attr("height",3000)
 	.style("fill", "orange")
 	.style("filter","url(#filterdropshadow3)")
-		
+		*/
+
 	let spark = svg1.append("rect")
 	.attr("class","spark")
 	.attr("id",(d,i) => "s" + snum++)
