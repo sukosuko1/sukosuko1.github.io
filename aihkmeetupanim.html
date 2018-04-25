@@ -17,7 +17,7 @@
   };
   firebase.initializeApp(config);
 </script>
-    
+
    <script src="https://d3js.org/d3.v4.min.js"></script>
 
     <style>
@@ -31,14 +31,14 @@
     <body>
 
         <form name="myform" onSubmit="return handleClick()">
-            <input name="Submit"  type="submit" value="Add to list" >
+            <input name="Submit"  type="submit" value="http://joinin.io     Add a topic:" >
             <input type="text" id="myVal" placeholder="Add some text&hellip;">
         </form>
 
         <ul></ul>
-		<div class="chart-example" id="chart"><svg></svg></div>
+		<div class="chart-example" id="chart"></div>
 		<svg width="100%" height="100%">
-		<g class="g1"></g>
+		<g id="g1"></g>
 		</svg>
 
  
@@ -58,7 +58,8 @@
  
  			let vWidth = 800, vHeight = 800;
 
-			var g1 = d3.select('svg').attr('width', vWidth).attr('height', vHeight).select('.g1');
+			var g1 = d3.select('svg').attr('width', vWidth).attr('height', vHeight).select('#g1');
+	        d3.select('svg').append('text').text("hello world");
 			
 			console.log(g1);
 
@@ -115,18 +116,15 @@
             });
 			
 			function addLike(topic) {
-//            	database.ref('topics/' + topic + "/" + userkey).set( {userkey : true});
-				let userkeyrandom = Math.floor(Math.random() * 1000);
-            	database.ref('topics/' + topic + "/" + userkeyrandom).set( {userkey : true});
+            	database.ref('topics/' + topic + "/" + userkey).set( {userkey : true});
+//				let userkeyrandom = Math.floor(Math.random() * 1000);
+//           	database.ref('topics/' + topic + "/" + userkeyrandom).set( {userkey : true});
             }
 			
+
 		
 		function drawChart(vData) {
         // Declare d3 layout
-        g1.append('text').text("hello world");
-
-        d3.select("svg").append('text').text("hello world");
-        d3.select("svg").append('text').text("hello world");
 
         var vLayout = d3.pack().size([vWidth, vHeight]);
 
@@ -134,27 +132,66 @@
         var vRoot = d3.hierarchy(vData).sum(function (d) { 
         	return d.likes; 
         	});
-        var vNodes = vRoot.descendants();
+
+        var vNodes = vRoot.descendants().filter(function(d) { return !d.children; });;
         vLayout(vRoot);
         var vSlices = g1.selectAll('.zcircle').data(vNodes)
 
         vSlices.enter()
         	.append('circle')
         	.attr("class", "zcircle")
-        	.attr("x", function(d,i) {console.log("enter" + d.data); return 0;});
-
+        	.attr("x", function(d,i) {console.log("enter" + d.data); return 0;})
+            .attr('y',800)
+            
         var vSlices2 = g1.selectAll('.ztext').data(vNodes)
 
         vSlices2.enter()
         	.append('text')
+            .text('helloworld')
+        	.attr('x', 30)
+        	.attr('y', 30)
         	.attr("class", "ztext");
 
         // Draw on screen
-        vSlices.attr('cx', function (d) { return d.x; })
-            .attr('cy', function (d) { return d.y; })
+         var vSlices = g1.selectAll('.zcircle')
+		var c20 = d3.scaleOrdinal(d3.schemeCategory10);
+
+		console.log(c20(2));
+		console.log(c20(3));
+
+        vSlices
+//       		.attr("fill","red")
+        	.attr("fill", function(d,i) { return c20(i);} )
+//        	.attr("fill",c20(5))
+//        	.fill(scaleColor(d=>d.topic))
+            .on("click", function(d) {addLike(d.data.topic);})
+            .on("touchstart", function(d) {addLike(d.data.topic);})
+        	.transition()
+			.ease(d3.easeExp) 
+        	.duration(200)
+        	.delay(function(d,i) { return i * 10})
+        	.attr('cx', function (d) { return d.x; })
+            .attr('cy', function (d) {             		return d.y;             		})
             .attr('r', function (d) { return d.r; });
-        vSlices2.attr('x', function (d) { return d.x; })
+
+            
+        var vSlices2 = g1.selectAll('.ztext')
+        vSlices2
+             .attr("text-anchor","middle")
+            .attr("alignment-baseline","middle")
+            .attr("fill", "blue")
+            .attr("font-size", function(d) {
+                return (Math.min(25, Math.floor(30 * d.r / this.getComputedTextLength())));
+            })
+            .on("click", function(d) {addLike(d.data.topic);})
+            .on("touchstart", function(d) {addLike(d.data.topic);})
+            .transition()
+       	    .duration(200)
+        	.delay(function(d,i) { return i * 10})
+        	.attr('x', function (d) { return d.x; })
             .attr('y', function (d) { return d.y; })
+            .text(function (d) { return d.data.topic + " +" + d.data.likes;  })
+        
     	}            
 			
         </script>
