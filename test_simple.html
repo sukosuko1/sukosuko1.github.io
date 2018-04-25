@@ -74,6 +74,52 @@ let svg1 = d3.select("#container").append("svg")
 
 	cmAddFilters(svg1);
 
+let currentTouch = null;
+let currentTouchSvg = null;
+
+svg1.on('touchstart', function() {
+	 currentTouch = d3.touches(this)[0];
+
+	currentTouchSvg = svg1.append("circle")
+	.attr("id","touchcircle")
+	.attr("cx",currentTouch[0])
+	.attr("cy",currentTouch[1])
+	.attr("r",15)
+	.style("stroke", d3.hsl(150,0.9,0.7))
+	.style("fill","none")
+
+	function transitionGrow() {
+	currentTouchSvg.transition("grow")
+		.duration(800)
+		.ease(d3.easeExp)
+		.attr("r",25)
+		.on("end",transitionGrow)
+	}
+	transitionGrow();
+
+});
+
+svg1.on('touchmove', function() {
+	currentTouch = d3.touches(this)[0];
+
+	currentTouchSvg.transition("move")
+		.ease(d3.easeLinear)
+		.attr("cx",currentTouch[0])
+		.attr("cy",currentTouch[1])
+
+});
+
+svg1.on('touchend', function() {
+	currentTouchSvg.transition("grow")
+		.duration(800)
+		.attr("r",35)
+		.attr("opacity",0.2)
+
+	console.log("end");
+	
+});
+
+
 let filter = svg1.append("filter")
     .attr("id", "filterGlow")
 	.append("feGaussianBlur")
