@@ -14,7 +14,9 @@ html, body { margin:0; padding:0; overflow:hidden }
     width: 100%;
     height: 100%;
 }
-
+        image {
+             filter : "url(#blurMe)";
+        }
 
 	</style>
  <script src="d3/d3.js"></script>	
@@ -23,7 +25,7 @@ html, body { margin:0; padding:0; overflow:hidden }
 </head>
 <body>
 <object id="obj1" data="/pics/snake_greatergreen.jpg" type="image/svg+xml"></object>
-
+    
 <div id="container">
 </div>
 
@@ -47,6 +49,9 @@ html, body { margin:0; padding:0; overflow:hidden }
   fill="blue" filter="url(#blurMe)" />
 
 </svg>
+<image id="img1" src="/pics/snake_greatergreen.jpg" filter="url(#blurMe)"></image>
+<image id="img1" src="/pics/snake_greatergreen.jpg" filter="url(#blurMe)"></image>
+    
 </body>
 	
 	
