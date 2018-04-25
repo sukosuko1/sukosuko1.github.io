@@ -90,10 +90,15 @@ svg1.append("rect")
 svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
 	.attr("xlink:href","pics/snake_greatergreen.jpg")
-	.attr("x",0)
-	.attr("y","0%")
-	.attr("width","180%")
-	.attr("height", "180%")
+//	.attr("transform","scale(2.0)")
+	.attr("x","0")
+	.attr("y","0")
+//	.attr("transform","translate(0,220)")
+	.attr("transform","translate(0," + (windowh * 0.5) + ") ")
+//	.attr("width","200%")
+//	.attr("height", "200%")
+//	.attr("preserveAspectRatio","none")
+	.style("filter","url(#filterGlow)")
 
 // /Users/scottchristensen/sukosuko1.github.io/pics/snake_bamboo.jpg
 
@@ -173,7 +178,7 @@ function sparkle()
 		elapsedPrev = elapsed;
 
 	/* test long object scrolling....
-	
+
 	let spark9 = svg1.append("rect")
 	.attr("class","bar")
 	.attr("id",(d,i) => "b" + snum++)
