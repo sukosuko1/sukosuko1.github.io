@@ -98,7 +98,7 @@ svg1.on('touchstart', function() {
 	}
 	transitionGrow();
 
-	d3.event.stopPropagation()
+	d3.event.preventDefault()
 
 });
 
@@ -110,7 +110,7 @@ svg1.on('touchmove', function() {
 		.attr("cx",currentTouch[0])
 		.attr("cy",currentTouch[1])
 
-	d3.event.stopPropagation();
+	d3.event.preventDefault();
 
 });
 
@@ -129,15 +129,15 @@ function touchend() {
 }
 
 svg1.on('gesturestart', function() {
-	d3.event.stopPropagation();
+	d3.event.preventDefault();
 	console.log("prevent gestrue")
 });
 svg1.on('gesturemove', function() {
-	d3.event.stopPropagation();
+	d3.event.preventDefault();
 	console.log("prevent gestrue2")
 });
 svg1.on('click', function() {
-	d3.event.stopPropagation();
+	d3.event.preventDefault();
 	console.log("prevent click")
 });
 
@@ -165,9 +165,9 @@ svg1.append("image")
 	.attr("xlink:href","pics/snake_greatergreen.jpg")
 	.attr("x","0")
 	.attr("y","0")
-	.attr("width","100%")
-	.attr("height","100%")
-	.attr("transform","translate(0," + 0 + ") ")
+	.attr("width","100")
+	.attr("height","100")
+	.attr("transform","translate(0,0)")
 
 svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
@@ -175,11 +175,9 @@ svg1.append("image")
 //	.attr("transform","scale(2.0)")
 	.attr("x","0")
 	.attr("y","0")
-//	.attr("transform","translate(0,220)")
-	.attr("transform","translate(0," + (windowh * 0.6) + ") ")
-//	.attr("width","200%")
-//	.attr("height", "200%")
-//	.attr("preserveAspectRatio","none")
+	.attr("width","100")
+	.attr("height","100")
+	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
 	.style("filter","url(#blurMe)")
 
 
