@@ -95,6 +95,31 @@ svg1.on('touchstart', function() {
 		.ease(d3.easeExp)
 		.attr("r",25)
 		.on("end",transitionGrow)
+
+	for (i=0; i < 5; i++) {
+	 svg1.append("circle")
+	.attr("id","bubble")
+	.attr("cx",currentTouch[0]+Math.random()*10-5)
+	.attr("cy",currentTouch[1])
+	.attr("r",4)
+	.style("stroke", d3.hsl(150,0.9,0.7))
+	.style("fill","none")
+	.style("opacity",0.01)
+	.transition()
+	.delay(d=>Math.random() * 1000)
+	.style("opacity",1)
+	.transition()
+	.duration(3000)
+	.attr("r",5 + Math.random() * 3)
+	.attr("cy",currentTouch[1]-30-Math.random()*10)
+	.style("opacity",0.2)
+	.transition()
+	.duration(200)
+		.style("opacity",0.2)
+	.transition()
+	.remove()
+	}
+		
 	}
 	transitionGrow();
 
