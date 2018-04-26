@@ -341,11 +341,31 @@ function sparkle()
 			  {"text":"bamboo snake","answer":0},
 			  ]}
 	
+	let myFont = "luckiest guy";
 			
 	let menu1 = cmAddMenu(svg1, q1, cmMenuEvent);
 	menu1.attr("transform","scale(0.3)")
 	function cmMenuEvent(r) {
 		console.log(r);
+		svg1.append("text").text("AMAZING!").style("text-anchor","middle")
+			.style("alignment-baseline","middle")
+			.attr("font-family", myFont)
+			.style("font-size","20px").attr("fill","white").attr("stroke","orange")
+			.attr("x",50)
+			.attr("y",50)
+			.attr("transform-origin","center")
+			.attr("transform","scale(0,0)")
+			.transition()
+			.attr("transform","scale(0,0.9)")
+			.transition()
+			.attr("transform","scale(1,1)")
+			.transition()
+			.delay(1000)
+			.transition()
+			.style("opacity",0)
+			.transition()
+			.remove();
+
 	}
 
 </script>
