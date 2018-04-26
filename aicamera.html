@@ -468,6 +468,23 @@ button {
 
 		}		
 	
+		if (step < 6) {
+		d3.selectAll("#mysvg1 g ")
+			.transition()
+			.ease(d3.easePoly)
+			.duration(1400)
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height*0.5) + "px");
+			})
+			.attr("transform", "matrix(0.707 0.707 -0.707 0.707 0 0)")
+			.transition()
+			.ease(d3.easeBounce)
+			.attr("transform", "")
+
+			return;
+		}
+		
 		if (step == 0) {
 		d3.selectAll("#mysvg1 g ")
 			.transition()
@@ -489,6 +506,7 @@ button {
 			return;	
 		}
 
+		
 		if (step == 1) {
 		d3.selectAll("#mysvg1 g ")
 			.transition()
