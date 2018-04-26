@@ -21,6 +21,7 @@ html, body { margin:0; padding:0; overflow:hidden }
 	</style>
  <script src="d3/d3.js"></script>	
   <script src="svgfilters.js"></script>	
+ <script src="svgmenu.js"></script>	
 	
 </head>
 <body>
@@ -329,6 +330,23 @@ function sparkle()
 		.remove();
 		
 	})
+
+
+		
+	let q1 = {"title":"Which snake is this?", 
+	          "image":"pics/snake_greatergreen.jpg",
+			  items: [
+			  {"text":"red necked keelback","answer":0},
+			  {"text":"chinese cobra","answer":1},
+			  {"text":"bamboo snake","answer":0},
+			  ]}
 	
+			
+	let menu1 = cmAddMenu(svg1, q1, cmMenuEvent);
+	menu1.attr("transform","scale(0.3)")
+	function cmMenuEvent(r) {
+		console.log(r);
+	}
+
 </script>
 </html>
