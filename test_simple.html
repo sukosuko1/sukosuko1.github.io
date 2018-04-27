@@ -25,7 +25,6 @@ html, body { margin:0; padding:0; overflow:hidden }
 	
 </head>
 <body>
-<object id="obj1" data="/pics/snake_greatergreen.jpg" type="image/svg+xml"></object>
     
 <div id="container">
 </div>
@@ -50,8 +49,6 @@ html, body { margin:0; padding:0; overflow:hidden }
   fill="blue" filter="url(#blurMe)" />
 
 </svg>
-<image id="img1" src="/pics/snake_greatergreen.jpg" filter="url(#blurMe)"></image>
-<image id="img1" src="/pics/snake_greatergreen.jpg" filter="url(#blurMe)"></image>
     
 </body>
 	
@@ -63,15 +60,33 @@ var width = self.frameElement ? 960 : innerWidth,
 console.log("widthheight" + width + " " + height);
 	
   	
-let svg1 = d3.select("#container").append("svg")
+let svg1 = d3.select("body").append("svg")
 	.attr("id","mysvg1")
    .attr("width", "100%")
    .attr("height", "100%")
 	.attr("background-color","purple")
 
 	let windowh = 100 * svg1.node().clientHeight / svg1.node().clientWidth;
-	windowh+= 50;
 	svg1.attr("viewBox","0 0 100 " + windowh);
+
+
+svg1.append("rect")
+	.attr("id","mysvg1filljunk")
+	.attr("x","-10")
+	.attr("y","0")
+	.attr("width","50")
+	.attr("height","40")
+	.attr("fill", "red")
+	
+svg1.append("rect")
+	.attr("id","mysvg1filljunk2")
+	.attr("x","98")
+	.attr("y","0")
+	.attr("width","2")
+	.attr("height","40")
+	.attr("fill", "red")
+	
+	
 
 	cmAddFilters(svg1);
 
@@ -187,6 +202,20 @@ svg1.append("rect")
 	.attr("width","100%")
 	.attr("height","100%")
 	.attr("fill", "black")
+
+svg1.append("rect")
+	.attr("id","mysvg1filljunk")
+	.attr("width","50")
+	.attr("height","180")
+	.attr("fill", "purple")
+
+svg1.append("rect")
+	.attr("id","mysvg1filljunk")
+	.attr("x","-10")
+	.attr("width","50")
+	.attr("height","180")
+	.attr("fill", "blue")
+	
 
 svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
@@ -344,7 +373,7 @@ function sparkle()
 	let myFont = "luckiest guy";
 			
 	let menu1 = cmAddMenu(svg1, q1, cmMenuEvent);
-	menu1.attr("transform","scale(0.3)")
+	menu1.attr("transform","translate(10,100) scale(0.3) ")
 	function cmMenuEvent(r) {
 		console.log(r);
 		svg1.append("text").text("AMAZING!").style("text-anchor","middle")

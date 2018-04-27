@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta name="description" content="AI Hong Kong camera">
-  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     
   <link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
 
@@ -28,6 +28,9 @@ audio {
   max-width: 100%;
 }
 
+body {
+margin:0; padding:0; 
+}
     
 #canvas1, #canvas2, #canvas3 {
     z-index: 99;
@@ -62,8 +65,8 @@ video {
 }
 
 #mysvg1 {
+	margin:0; padding:0; 
     width: 100%;
-    filter: url(#glow2);
 }    
   
 #e165 {
@@ -484,7 +487,7 @@ button {
 
 			return;
 		}
-		
+
 		if (step == 0) {
 		d3.selectAll("#mysvg1 g ")
 			.transition()
@@ -699,6 +702,7 @@ button {
 	d3.select("#e0").lower();
 	  
 	  
+	//transform cute critter to a different svg
 	var gRescale= d3.select("#svgOverlay").append("g")
 	gRescale.attr("transform","translate(140,20) scale(0.2)");
 

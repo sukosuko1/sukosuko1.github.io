@@ -1,6 +1,6 @@
 let cmfontfamily = "Verdana"
 let cmfontsize = 20;
-let cmwidth = 150;
+let cmwidth = 180;
 let cmheight = 50;
 
 let callback = function() {console.log("not set") };
@@ -29,14 +29,14 @@ function cmAddMenu(parent, data1, pcallback) {
 		.attr("rx", 10)
 		.attr("ry", 10)
 		.attr("width",cmwidth)
-		.attr("height",50)
+		.attr("height",45)
 		.attr("stroke","pink")
 		.attr("fill", d3.hsl(100,0.8, 0.8))
 	
 	e2.append("text")
-//		.attr("x", cmwidth*0.4)
+		.attr("x", cmwidth * 0.04)
 		.attr("y", (d,i) => offsetyTitle + cmheight * 0.7 + i*50)
-		.attr("text-anchor","middle")
+		.attr("text-anchor","left")
 		.attr("font-size", cmfontsize)
 		.attr("font-family", cmfontfamily)
 		.attr("textLength", cmwidth * 0.92)
