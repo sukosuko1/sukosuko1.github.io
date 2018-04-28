@@ -471,11 +471,12 @@ button {
 
 		}		
 	
-		if (step < 6) {
+		if (step > 4) {
 		d3.selectAll("#mysvg1 g ")
 			.transition()
 			.ease(d3.easePoly)
 			.duration(1400)
+			.attr("transform-box","fill-box")
 			.attr("transform-origin", function(d,i) {
 				let rect = this.getBBox();
 				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height*0.5) + "px");
