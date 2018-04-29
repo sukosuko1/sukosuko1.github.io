@@ -86,7 +86,7 @@ svg1.append("rect")
 	.attr("height","40")
 	.attr("fill", "red")
 	
-	
+
 
 	cmAddFilters(svg1);
 
@@ -310,6 +310,7 @@ function sparkle()
 	
 	let snum = 0;
 	let elapsedPrev = 0;
+
 	d3.timer(function(elapsed) {
 	
 	if (elapsed < elapsedPrev + 500) return;
@@ -357,8 +358,53 @@ function sparkle()
 		.style("fill", d3.hsl(50,0.5,0.1))
 		.transition()
 		.remove();
-		
+
+
+		if (Math.random() < 0.9) {
+
+	let y = 10 + Math.random()*160;
+
+	let sidemenu = svg1.append("g")
+	.style("fill", d3.hsl(70,0.9,0.3))
+
+	sidemenu.transition()
+	.duration(400)
+	.attr("transform","translate(-30,0)")
+
+	let sidemenu2 = sidemenu.append("rect")
+	.attr("class","sidemenu")
+	.attr("x",110)
+	.attr("y",y)
+	.attr("width",50)
+	.attr("height",10)
+	.attr("rx",4)
+	.style("filter","url(#filterdropshadow3)")
+
+	let sidemenu3 = sidemenu.append("text")
+	.text("hello")
+	.style("font-size","5px")
+	.attr("x",110+5)
+	.attr("y",y+6)
+	.style("fill",d3.hsl(70,0.5,0.8))
+
+		sidemenu.on("touchstart", function() {
+			d3.select(this).transition()
+			.style("fill", d3.hsl(70,0.9,0.5))
+		})
+		sidemenu.on("touchend", function() {
+			d3.select(this).transition()
+			.attr("transform","translate(0,0)")
+			.transition()
+			.remove()
+		})
+
+		}
+
 	})
+
+	
+	
+
 
 
 		
@@ -369,11 +415,14 @@ function sparkle()
 			  {"text":"chinese cobra","answer":1},
 			  {"text":"bamboo snake","answer":0},
 			  ]}
-	
+
 	let myFont = "luckiest guy";
 			
 	let menu1 = cmAddMenu(svg1, q1, cmMenuEvent);
+	menu1.selectAll("g").style("filter","url(#filterdropshadow3)")
+
 	menu1.attr("transform","translate(10,100) scale(0.3) ")
+
 	function cmMenuEvent(r) {
 		console.log(r);
 		svg1.append("text").text("AMAZING!").style("text-anchor","middle")
