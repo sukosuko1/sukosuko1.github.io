@@ -236,7 +236,7 @@ svg1.append("rect")
 	.attr("height","180")
 	.attr("fill", "blue")
 	
-
+/*
 svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
 	.attr("xlink:href","pics/snake_greatergreen.jpg")
@@ -245,15 +245,16 @@ svg1.append("image")
 	.attr("width","100")
 	.attr("height","100")
 	.attr("transform","translate(0,0)")
+*/
 
 svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
 	.attr("xlink:href","pics/snake_greatergreen.jpg")
 //	.attr("transform","scale(2.0)")
 	.attr("x","0")
-	.attr("y","0")
-	.attr("width","100")
-	.attr("height","100")
+	.attr("y","-140")
+	.attr("width","300")
+	.attr("height","300")
 	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
 	.style("filter","url(#blurMe)")
 
@@ -297,6 +298,7 @@ function starTouchEnd(){
 
 	
 }
+
 
 
 function sparkle()
