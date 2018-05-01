@@ -18,14 +18,6 @@ html, body { margin:0; padding:0; overflow:hidden }
              filter : "url(#blurMe)";
         }
 
-	svg  {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        pointer-events: none;
-      }
 	svg text {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -130,7 +122,8 @@ svg1.append("rect")
 let currentTouch = null;
 let currentTouchSvg = null;
 
-svg1.on('xtouchstart', function() {
+svg1.on('touchstart', function() {
+	/*
 	 currentTouch = d3.touches(this)[0];
 
 	currentTouchSvg = svg1.append("circle")
@@ -177,12 +170,14 @@ svg1.on('xtouchstart', function() {
 		
 	}
 	transitionGrow();
-
+*/
+	
 	d3.event.preventDefault()
 
 });
 
-svg1.on('xtouchmove', function() {
+svg1.on('touchmove', function() {
+	/*
 	currentTouch = d3.touches(this)[0];
 
 	currentTouchSvg.transition("move")
@@ -191,13 +186,14 @@ svg1.on('xtouchmove', function() {
 		.attr("cy",currentTouch[1])
 
 	d3.event.preventDefault();
-
+*/
 });
 
-svg1.on('xtouchend', touchend)
-svg1.on('xtouchcancel', touchend)
+svg1.on('touchend', touchend)
+svg1.on('touchcancel', touchend)
 
 function touchend() {
+	/*
 	currentTouchSvg.transition("grow")
 		.duration(800)
 		.attr("r",35)
@@ -205,6 +201,9 @@ function touchend() {
 		.remove();
 
 	console.log("end");
+	*/
+	
+	d3.event.preventDefault();
 
 }
 
