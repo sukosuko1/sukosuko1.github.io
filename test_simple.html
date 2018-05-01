@@ -18,6 +18,15 @@ html, body { margin:0; padding:0; overflow:hidden }
              filter : "url(#blurMe)";
         }
 
+	svg text {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: none;
+      }
+		
 	</style>
  <script src="d3/d3.js"></script>	
   <script src="svgfilters.js"></script>	
