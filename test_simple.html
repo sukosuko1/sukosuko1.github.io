@@ -22,7 +22,12 @@ html, body { margin:0; padding:0; overflow:hidden }
  <script src="d3/d3.js"></script>	
   <script src="svgfilters.js"></script>	
  <script src="svgmenu.js"></script>	
-	
+<link href="http://cdn.materialdesignicons.com/2.3.54/css/materialdesignicons.min.css" rel="stylesheet">
+
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+      	
 </head>
 <body>
     
@@ -47,6 +52,21 @@ html, body { margin:0; padding:0; overflow:hidden }
 
   <rect x="120" y="70" width="90" height="90" stroke="blue" stroke-width="3"
   fill="blue" filter="url(#blurMe)" />
+  <div>1</div>
+  <div>2</div>
+  <i class="material-icons md-dark">face</i>
+  <span class="mdi mdi-chevron-down">x</span>
+  <i class="material-icons md-dark">face</i>
+  <i class="material-icons md-dark">face</i>
+<i class="mdi mdi-bell"></i> 
+<i class="material-icons md-fingerprint"></i> 
+<i class="material-icons chevron-down"></i> 
+<i class="mdi mdi-bell"></i> 
+<i class="material-icons md-fingerprint"></i> 
+  <span class="mdi mdi-chevron-down">x</span>
+  <span class="mdi mdi-chevron-down">x</span>
+  <span class="mdi mdi-chevron-down">x</span>
+<i class="material-icons chevron-down"></i> 
 
 </svg>
     
@@ -93,7 +113,7 @@ svg1.append("rect")
 let currentTouch = null;
 let currentTouchSvg = null;
 
-svg1.on('touchstart', function() {
+svg1.on('xtouchstart', function() {
 	 currentTouch = d3.touches(this)[0];
 
 	currentTouchSvg = svg1.append("circle")
@@ -145,7 +165,7 @@ svg1.on('touchstart', function() {
 
 });
 
-svg1.on('touchmove', function() {
+svg1.on('xtouchmove', function() {
 	currentTouch = d3.touches(this)[0];
 
 	currentTouchSvg.transition("move")
@@ -157,8 +177,8 @@ svg1.on('touchmove', function() {
 
 });
 
-svg1.on('touchend', touchend)
-svg1.on('touchcancel', touchend)
+svg1.on('xtouchend', touchend)
+svg1.on('xtouchcancel', touchend)
 
 function touchend() {
 	currentTouchSvg.transition("grow")
@@ -366,34 +386,38 @@ function sparkle()
 
 	let sidemenu = svg1.append("g")
 	.style("fill", d3.hsl(70,0.9,0.3))
-
+	.datum( {"side":(Math.random()>0.5?1:0)} )
+	.attr("transform",d=>d.side ? "translate(110,0)" : "translate(-30,0)")
+		
 	sidemenu.transition()
 	.duration(400)
-	.attr("transform","translate(-30,0)")
+	.attr("transform",d=>d.side ? "translate(80,0)" : "translate(-15,0)")
 
 	let sidemenu2 = sidemenu.append("rect")
 	.attr("class","sidemenu")
-	.attr("x",110)
+	.attr("x",0)
 	.attr("y",y)
-	.attr("width",50)
+	.attr("width",35)
 	.attr("height",10)
 	.attr("rx",4)
 	.style("filter","url(#filterdropshadow3)")
 
 	let sidemenu3 = sidemenu.append("text")
 	.text("hello")
+	.style("text-anchor" , d=>d.side ? "start": "end")
 	.style("font-size","5px")
-	.attr("x",110+5)
+	.attr("x",d=>d.side ? 5 : 30)
 	.attr("y",y+6)
 	.style("fill",d3.hsl(70,0.5,0.8))
 
 		sidemenu.on("touchstart", function() {
 			d3.select(this).transition()
-			.style("fill", d3.hsl(70,0.9,0.5))
+			.style("fill", d3.hsl(70,0.9,0.4))
+			.attr("transform",d=>d.side ? "translate(70,0)" : "translate(-5,0)")
 		})
 		sidemenu.on("touchend", function() {
 			d3.select(this).transition()
-			.attr("transform","translate(0,0)")
+		.attr("transform",d=>d.side ? "translate(110,0)" : "translate(-30,0)")
 			.transition()
 			.remove()
 		})
