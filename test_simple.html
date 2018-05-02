@@ -134,14 +134,21 @@ let currentTouchSvg = null;
 					.attr("class","covercircle")
 					.attr("cx", c * 15.5)
 					.attr("cy", r * 15.5)
-					.attr("r", 0)
+					.attr("r",0)
 					.attr("opacity", 0.8)
 					.attr("fill","white")
+			.attr("transform-origin", function(d,i) {
+				let rect = this.getBBox();
+				return("" + (rect.x + rect.width/2) + "px " + (rect.y + rect.height/2) + "px");
+			})
 					.transition()
 					.delay(1000)
+					.transition()
+					.attr("r", 1.5)
 					.ease(d3.easeLinear)
 					.duration(1400)
-					.attr("r", 20)
+//					.attr("r", 20)
+					.attr("transform", "scale(15.0)")
 					.transition()
 					.delay(800)
 					.attr("r", 0)
