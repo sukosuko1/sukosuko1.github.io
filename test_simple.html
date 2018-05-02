@@ -150,7 +150,8 @@ let currentTouchSvg = null;
 					.attr("transform", "scale(15.0)")
 					.transition()
 					.delay(800 - c * 40 - r * 40)
-					.attr("r", 0)
+					.attr("transform", "scale(0.01)")
+					.attr("opacity", 0.3)
 					.transition()
 					.remove();
 			}
