@@ -138,7 +138,7 @@ let currentTouchSvg = null;
 					.attr("class","covercircle")
 					.attr("r",0)
 					.attr("opacity", 0.8)
-					.attr("fill","pink")
+					.attr("fill","white")
 //				.attr("transform-origin", function(d,i) {
 					.transition()
 					.delay(400 + c * 80 + r * 80)
@@ -312,6 +312,7 @@ svg1.append("image")
 
 // /Users/scottchristensen/sukosuko1.github.io/pics/snake_bamboo.jpg
 
+/*
 let d = [1,2,3,4,5,6,7,8,9,10];
 	
 let rect1 = svg1.selectAll(".star")
@@ -330,6 +331,7 @@ let rect1 = svg1.selectAll(".star")
 	rect1.on("touchcmove", starTouchMove);
 	rect1.on("touchend", starTouchEnd);
 	rect1.on("touchcancel", starTouchEnd);
+*/
 
 function starTouchStart(){
 	d3.select(this).transition()
@@ -379,14 +381,14 @@ function sparkle()
 		.on("end",function(d,i) {if (i==0) sparkle(); } )
 	
 }
-	sparkle();
+//	sparkle();
 	
 	let snum = 0;
 	let elapsedPrev = 0;
 
 	d3.timer(function(elapsed) {
 	
-	if (elapsed < elapsedPrev + 500) return;
+	if (elapsed < elapsedPrev + 5500) return;
 		elapsedPrev = elapsed;
 
 	/* test long object scrolling....
