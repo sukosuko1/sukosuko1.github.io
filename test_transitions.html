@@ -30,6 +30,7 @@ audio {
  
 #mysvg1 {
     width: 100%;
+    position: absolute;
 }
 
 #ggg {
@@ -45,7 +46,7 @@ body {
 
 <body background="highjunkpeak.jpeg">
 
-<svg>
+<svg id="svgdefs" display="hidden">
 <defs>
 <filter id="glow2">
 <feGaussianBlur stdDeviation="2 2" result="glow2"/>
@@ -108,7 +109,6 @@ body {
   </filter>
 	
 </defs>
-<image xlink:href="/pic/snake_bamboo.jpg" x="0" y="800" height="500px" width="500px" filter="dropShadown"/>
 	
 </svg>
 
@@ -122,6 +122,10 @@ body {
 	
 	d3.select('body').on('keypress', function() {
     	console.log(d3.event.keyCode);
+    	testevent();
+    	});
+
+	d3.select('body').on('touchstart', function() {
     	testevent();
     	});
 	
@@ -422,6 +426,7 @@ var svg = d3.select("body").append("svg")
 			
 let svg2 = d3.select("body").append("svg")
 	.attr("id","mysvg3")
+	.attr("y","1600px")
    .attr("width", "100%")
    .attr("height", height)
    .attr("viewbox","0 0 100 100")
