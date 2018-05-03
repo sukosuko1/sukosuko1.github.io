@@ -32,6 +32,8 @@ function cmAddMenu(parent, data1, pcallback) {
 		.attr("height",45)
 		.attr("stroke","pink")
 		.attr("fill", d3.hsl(100,0.8, 0.8))
+ 		.attr("fill","url(#gradientButton)")
+		.attr("box-shadow","0 10px 10px -5px rgba(0, 0, 0, 0.2)")
 	
 	e2.append("text")
 		.attr("x", cmwidth * 0.04)

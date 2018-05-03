@@ -93,6 +93,19 @@ feMerge.append("feMergeNode")
     .attr("in", "SourceGraphic");
 }
 		
+
+//	radial-gradient(circle at bottom center, #FFC837 15px, #FF8008)
+var radialGradient = defs.append("defs")
+  .append("radialGradient")
+   .attr("id", "gradientButton");
+
+radialGradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "#FFC837");
+
+radialGradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "#FF8008");	
 	
 	
 }
