@@ -44,7 +44,7 @@ html, body { margin:0; padding:0; overflow:hidden }
 			transform: scale(0.01);
 			opacity:0.3
 		}
-		30%, 70% {
+		50%, 70% {
 			transform: scale(1.5);
 			opacity:0.9
 		}
@@ -54,6 +54,18 @@ html, body { margin:0; padding:0; overflow:hidden }
 		}
 		
 	}
+		
+.coolpath {
+  stroke-dasharray: 100;
+  animation: keydash 5s linear infinite; 
+}
+
+@keyframes keydash {
+  to {
+    stroke-dashoffset: 100;
+  }
+}	
+		
 		
 	</style>
  <script src="d3/d3.js"></script>	
@@ -108,25 +120,6 @@ let svg1 = d3.select("body").append("svg")
 	svg1.attr("viewBox","0 0 100 " + windowh);
 
 
-svg1.append("rect")
-	.attr("id","mysvg1filljunk")
-	.attr("x","-10")
-	.attr("y","0")
-	.attr("width","150")
-	.attr("height","40")
-	.attr("fill", "red")
-	.style("animation", "keyGrowInAndOut 3s infinite")
-
-	
-svg1.append("rect")
-	.attr("id","mysvg1filljunk2")
-	.attr("x","98")
-	.attr("y","0")
-	.attr("width","2")
-	.attr("height","40")
-	.attr("fill", "blue")
-	.style("animation", "keyGrowInAndOut 3s infinite")
-	
 
 
 	cmAddFilters(svg1);
@@ -174,7 +167,7 @@ let currentTouchSvg = null;
 				
 				coverg.append("circle")
 					.attr("class","covercircle")
-					.style("animation","keyGrowInAndOut 3s")
+					.style("animation","keyGrowInAndOut linear 3s")
 //					.attr("animation-duration","3s")
 //					.attr("animation-duration","3s")
 					.attr("r",10)

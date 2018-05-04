@@ -12,6 +12,7 @@ function cmAddMenu(parent, data1, pcallback) {
 	
 	let offsetyTitle = cmheight;
 	
+		  
 	e0.append("text")
 		.attr("text-anchor","left")
 		.attr("font-size", "20px")
@@ -30,7 +31,8 @@ function cmAddMenu(parent, data1, pcallback) {
 		.attr("ry", 10)
 		.attr("width",cmwidth)
 		.attr("height",45)
-		.attr("stroke","pink")
+		.attr("stroke","white")
+		.classed("coolpath",true)
 		.attr("fill", d3.hsl(100,0.8, 0.8))
  		.attr("fill","url(#gradientButton)")
 		.attr("box-shadow","0 10px 10px -5px rgba(0, 0, 0, 0.2)")
