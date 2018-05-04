@@ -3,6 +3,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=contain">
 	<style>
 	
+	@keyframes keyGrowInAndOut4 {
+		0% {			fill :green; }
+		100% {			fill : blue;}
+	}
+		
+	@keyframes keyGrowInAndOut3 {
+		0% {			transform: translate(0,20);		}
+		100% {			transform: translate(0,40);		}
+		}
+		
 html, body { margin:0; padding:0; overflow:hidden }
 #mysvg1 { position:absolute; top:0; bottom:0; left:0; right:0 }	
 #mysvg2 { position:absolute; top:1200; bottom:0; left:0; right:0 }	
@@ -27,14 +37,28 @@ html, body { margin:0; padding:0; overflow:hidden }
         pointer-events: none;
       }
 		
+
+		
+	@keyframes keyGrowInAndOut {
+		0% {
+			transform: scale(0.01);
+			opacity:0.3
+		}
+		20%, 80% {
+			transform: scale(1.5);
+			opacity:0.9
+		}
+		100% {
+			transform: scale(0.01);
+			opacity:0.01
+		}
+		
+	}
+		
 	</style>
  <script src="d3/d3.js"></script>	
   <script src="svgfilters.js"></script>	
  <script src="svgmenu.js"></script>	
-<link href="http://cdn.materialdesignicons.com/2.3.54/css/materialdesignicons.min.css" rel="stylesheet">
-
- <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
       	
 </head>
@@ -61,21 +85,6 @@ html, body { margin:0; padding:0; overflow:hidden }
 
   <rect x="120" y="70" width="90" height="90" stroke="blue" stroke-width="3"
   fill="blue" filter="url(#blurMe)" />
-  <div>1</div>
-  <div>2</div>
-  <i class="material-icons md-dark">face</i>
-  <span class="mdi mdi-chevron-down">x</span>
-  <i class="material-icons md-dark">face</i>
-  <i class="material-icons md-dark">face</i>
-<i class="mdi mdi-bell"></i> 
-<i class="material-icons md-fingerprint"></i> 
-<i class="material-icons chevron-down"></i> 
-<i class="mdi mdi-bell"></i> 
-<i class="material-icons md-fingerprint"></i> 
-  <span class="mdi mdi-chevron-down">x</span>
-  <span class="mdi mdi-chevron-down">x</span>
-  <span class="mdi mdi-chevron-down">x</span>
-<i class="material-icons chevron-down"></i> 
 
 </svg>
     
@@ -103,9 +112,11 @@ svg1.append("rect")
 	.attr("id","mysvg1filljunk")
 	.attr("x","-10")
 	.attr("y","0")
-	.attr("width","50")
+	.attr("width","150")
 	.attr("height","40")
 	.attr("fill", "red")
+	.style("animation", "keyGrowInAndOut 3s infinite")
+
 	
 svg1.append("rect")
 	.attr("id","mysvg1filljunk2")
@@ -113,7 +124,8 @@ svg1.append("rect")
 	.attr("y","0")
 	.attr("width","2")
 	.attr("height","40")
-	.attr("fill", "red")
+	.attr("fill", "blue")
+	.style("animation", "keyGrowInAndOut 3s infinite")
 	
 
 
@@ -130,6 +142,7 @@ let currentTouchSvg = null;
 		console.log("keypress");
 		for (let c = 0; c < 7; c++)
 			for (let r = 0; r < 14; r++) {
+				/*
 				svg1.append("g")
 					.attr("transform","translate(" + (c * 15.5) + "," + (r * 15.5) + ")")
 //					.attr("cx", c * 15.5)
@@ -154,6 +167,36 @@ let currentTouchSvg = null;
 					.attr("opacity", 0.3)
 					.transition()
 					.remove();
+				*/
+				
+				let coverg = svg1.append("g")
+					.attr("transform","translate(" + (c * 15.5) + "," + (r * 15.5) + ")")
+				
+				coverg.append("circle")
+					.attr("class","covercircle")
+					.style("animation","keyGrowInAndOut 3s")
+//					.attr("animation-duration","3s")
+//					.attr("animation-duration","3s")
+					.attr("r",10)
+					.attr("opacity", 0.01)
+					.attr("fill","white")
+					.transition()
+					.delay(3000)
+					.remove();
+				coverg.transition()
+					.delay(4000)
+					.remove();
+				
+				svg1.select(".imagemain")
+					.transition()
+					.delay(1000)
+					.attr("href", function(d) { 
+						let src = "pics/snake_manybandedkrait.jpg";
+						if (Math.random() < 0.5) src = "pics/snake_greatergreen.jpg";
+						return src;
+					});
+
+				
 			}
     };
 
@@ -303,6 +346,7 @@ svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
 	.attr("xlink:href","pics/snake_greatergreen.jpg")
 //	.attr("transform","scale(2.0)")
+	.attr("class","imagemain")
 	.attr("x","0")
 	.attr("y","-140")
 	.attr("width","300")
@@ -527,6 +571,19 @@ function sparkle()
 			.remove();
 
 	}
-
+	
+	
+	/* test svg effects
+svg1.append("rect")
+	.attr("id","mysvg1filljunk2")
+	.attr("x","-10")
+	.attr("y","0")
+	.attr("width","50")
+	.attr("height","40")
+	.attr("fill", "red")
+	.style("animation", "keyGrowInAndOut 3s infinite")
+*/
+	
+	
 </script>
 </html>
