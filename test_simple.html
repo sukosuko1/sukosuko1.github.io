@@ -44,7 +44,7 @@ html, body { margin:0; padding:0; overflow:hidden }
 			transform: scale(0.01);
 			opacity:0.3
 		}
-		20%, 80% {
+		30%, 70% {
 			transform: scale(1.5);
 			opacity:0.9
 		}
@@ -549,7 +549,7 @@ function sparkle()
 
 	function cmMenuEvent(r) {
 		console.log(r);
-		screenWipe1();	
+//		screenWipe1();	
 	
 		svg1.append("text").text("AMAZING!").style("text-anchor","middle")
 			.style("alignment-baseline","middle")
@@ -567,6 +567,7 @@ function sparkle()
 			.delay(1000)
 			.transition()
 			.style("opacity",0)
+			.each(function(d) { screenWipe1() })
 			.transition()
 			.remove();
 
