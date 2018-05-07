@@ -564,7 +564,23 @@ function sparkle()
 
 	}
 	
+
+	let textFps = svg1.append("text")
+	.text("hello")
+	.style("font-size","10px")
+	.attr("x","20")
+	.attr("y","20")
+	.style("fill","white")    
 	
+
+    let avg = 100; let pelapsed = 0;
+    d3.timer(function(elapsed) {
+        if (pelapsed > 0) avg = (elapsed-pelapsed) * 0.05 + avg * 0.95;
+        
+        pelapsed = elapsed;
+        textFps.text("" + (1000/avg).toFixed(1) )
+    });
+    
 	/* test svg effects
 svg1.append("rect")
 	.attr("id","mysvg1filljunk2")
