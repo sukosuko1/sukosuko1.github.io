@@ -1,0 +1,21 @@
+.buttonstyle {
+  transform-origin: 80px 25px;
+  animation: keybutton2 1s infinite alternate;  
+  transition-property: opacity;	
+}
+.buttonstyle:hover {
+	opacity: 0.7;
+	fill: red;
+}
+
+@keyframes keybutton2 {
+  0%   { transform : scale(1.04,0.96); }
+  100%   { transform : scale(0.96,1.04); }
+}
+
+@keyframes keybutton3 {
+  0%   { stroke-width: 2px }
+  50%  { stroke-width: 5px }  
+  100% { stroke-width: 2px  } 
+}
+

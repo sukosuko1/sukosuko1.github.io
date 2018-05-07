@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=contain">
+	<style>
+	
+	@keyframes keyGrowInAndOut {
+		0% {	fill : green; }
+		100% {	fill : blue;}
+	}
+	
+@keyframes keyFlames {
+  0%   {transform: scale(1, 1)}
+  50%  {transform: scale(1, 1.1)}
+  100% {transform: scale(1, 1)}
+}
+		
+		#c1 {
+			animation: keyGrowInAndOut 1s ease infinite;
+		}
+	
+		#c3 {
+			animation: keyFlames 1s ease infinite;
+		}
+		
+	</style>
+	
+	</head>
+<body>
+<svg width="675" height="900">
+	<circle id="c1" cx="100" cy="50" r="20" animation="keyGrowInAndOut 1s infinite"></circle>
+	
+	<g id="cont1">
+	<circle id="c2" cx="0" cy="0" r="30" ></circle>
+	</g>
+	
+	<circle id="c3" cx="10" cy="250" r="30" ></circle>
+	
+</svg>	
+</body>		
+	
+</html>
