@@ -5,10 +5,17 @@ let cmheight = 50;
 
 let callback = function() {console.log("not set") };
 
+
 function cmAddMenu(parent, data1, pcallback) {
 	callback = pcallback;
 	
+	d3.select("head").append("link")
+		.attr("rel","stylesheet")
+		.attr("type","text/css")
+		.attr("href","svgmenu.css")
+	
 	let e0 = parent.append("g")
+
 	
 	let offsetyTitle = cmheight;
 	
@@ -21,25 +28,35 @@ function cmAddMenu(parent, data1, pcallback) {
 		.text(data1.title)
 	
 	let e1 = e0.selectAll("g")
-		.data(data1.items).enter();
+		.data(data1.items)
+		.enter()
 
 	let e2 = e1.append("g")
+	    .classed("buttonposition",true)
+		.attr("transform", (d,i) => "translate(0," + (offsetyTitle + i*25 + 200) +")" + " scale(0.1)")
+	
+	e2.transition()
+		.attr("transform", (d,i) => "translate(0," + (offsetyTitle + i*55) +")")
+	    
+	let e3 = e2.append("g")
+	    .classed("buttonstyle",true)
 
-	e2.append("rect")
-		.attr("y", (d,i) => offsetyTitle + i*50)
+	e3.append("rect")
 		.attr("rx", 10)
 		.attr("ry", 10)
 		.attr("width",cmwidth)
 		.attr("height",45)
 		.attr("stroke","white")
-		.classed("coolpath",true)
+//		.classed("coolpath",true)
 		.attr("fill", d3.hsl(100,0.8, 0.8))
  		.attr("fill","url(#gradientButton)")
 		.attr("box-shadow","0 10px 10px -5px rgba(0, 0, 0, 0.2)")
-	
-	e2.append("text")
+		.classed("buttonsparkle",true)
+  	
+  	
+	e3.append("text")
 		.attr("x", cmwidth * 0.04)
-		.attr("y", (d,i) => offsetyTitle + cmheight * 0.7 + i*50)
+		.attr("y", (d,i) => cmheight * 0.65)
 		.attr("text-anchor","left")
 		.attr("font-size", cmfontsize)
 		.attr("font-family", cmfontfamily)
@@ -75,7 +92,6 @@ function cmAddMenu(parent, data1, pcallback) {
 	  };
 	}	
 	
-	e2.on("mouseover", shakeit)
 	e2.on("click", clickit)
 	e2.on("touchstart", clickit)
 	
@@ -91,24 +107,12 @@ function cmRemoveMenu(e0) {
 }
 
 let cmtouched = false;
-function shakeit() {
-	let e9 = d3.select(this);
-	
-	d3.select(this).attr("transform-origin","50 25")
-		.transition()
-		.delay((d,i) => 500 + i * 400)
-		.attr("transform", "scale(1.05,1)")
-		.transition()
-		.attr("transform", "scale(1,1)")
-		.transition()
-		.on("end", function() { if(!cmtouched) shakeit.apply(this)
-		})
-}
+
 
 function clickit() {
 	cmtouched = true;
 	let result = 0;
-	d3.select(this).select("rect").transition()
+	d3.select(this).select(".buttonstyle").transition()
 		.attr("fill", function(d,i) {
 			if (!d.hasOwnProperty("state")) d['state'] = 0;
 			d.state++;
@@ -117,12 +121,11 @@ function clickit() {
 			}	
 			return (d.state == 0 ? d3.hsl(100,0.8, 0.8) : "green")
 		})
-//		.attr("width",d=>d.state == 0 ? cmwidth : cmwidth * 1.2)
-		.attr("transform",d=>d.state == 0 ? "" : "scale(1.2,1)")
 		.transition()
-		.attr("fill", function(d) { result = d.answer; return d.answer == true ? "green" : "red"} )
+		.attr("fill", function(d) { 
+					result = d.answer; 
+					return d.answer == true ? "green" : "red"} )
 				
-	d3.select(this).select("text").attr("textLength", d=>d.state == 0 ? cmwidth : cmwidth * 1.2)
 
 	/*
 	d3.select(".cmmenuimage")

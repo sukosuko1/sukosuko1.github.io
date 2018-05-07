@@ -541,7 +541,7 @@ function sparkle()
 	menu1.attr("transform","translate(10,100) scale(0.3) ")
 
 	function cmMenuEvent(r) {
-		console.log(r);
+		console.log("menuevent" + r);
 //		screenWipe1();	
 	
 		svg1.append("text").text("AMAZING!").style("text-anchor","middle")
@@ -553,16 +553,14 @@ function sparkle()
 			.attr("transform-origin","center")
 			.attr("transform","scale(0,0)")
 			.transition()
-			.attr("transform","scale(0,0.9)")
-			.transition()
-			.attr("transform","scale(1,1)")
-			.transition()
 			.delay(1000)
 			.transition()
-			.style("opacity",0)
-			.each(function(d) { screenWipe1() })
+			.style("opacity",0.3)
 			.transition()
-			.remove();
+			.on("end",function() { screenWipe1() }
+			   )
+			.remove()
+		
 
 	}
 	
