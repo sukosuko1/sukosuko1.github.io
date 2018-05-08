@@ -299,16 +299,6 @@ let filter = svg1.append("filter")
 
 
 	
-/*
-svg1.append("image")
-	.attr("href","pics/snake_greatergreen.jpg")
-	.attr("xlink:href","pics/snake_greatergreen.jpg")
-	.attr("x","0")
-	.attr("y","0")
-	.attr("width","100")
-	.attr("height","100")
-	.attr("transform","translate(0,0)")
-*/
 
 svg1.append("image")
 	.attr("href","pics/snake_greatergreen.jpg")
@@ -320,32 +310,8 @@ svg1.append("image")
 	.attr("width","300")
 	.attr("height","300")
 	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
-	.style("filter","url(#blurMe)")
-	.attr("display","none")
+//	.style("filter","url(#blurMe)")
 
-
-// /Users/scottchristensen/sukosuko1.github.io/pics/snake_bamboo.jpg
-
-/*
-let d = [1,2,3,4,5,6,7,8,9,10];
-	
-let rect1 = svg1.selectAll(".star")
-	.data(d)
-	.enter()
-	.append("circle")
-	.attr("class","star")
-	.attr("id",(d,i) => "e" + i)
-	.attr("cx",d=>Math.random()*95)
-	.attr("cy",d=>Math.random()*windowh * 0.95)
-	.attr("r",d=>Math.random()*20)
-	.style("fill", d3.hsl(50,0.9,0.7))
-//	.style("filter","url(#filterGlow)")
-
-	rect1.on("touchstart", starTouchStart);
-	rect1.on("touchcmove", starTouchMove);
-	rect1.on("touchend", starTouchEnd);
-	rect1.on("touchcancel", starTouchEnd);
-*/
 
 function starTouchStart(){
 	d3.select(this).transition()
