@@ -79,7 +79,7 @@ html, body { margin:0; padding:0; overflow:hidden }
 <div id="container">
 </div>
 
-<svg id="mysvg2" height="240" width="440" border="2">
+<svg id="mysvg2" height="240" width="440" border="2" display="none">
   <defs>
    <filter id="blurMe">
   <feGaussianBlur in="SourceGraphic" stdDeviation="1"/>
@@ -91,12 +91,6 @@ html, body { margin:0; padding:0; overflow:hidden }
       <feBlend in="blurOut" in2="SourceGraphic" mode="normal" />
     </filter>
   </defs>
-
-  <rect x="20" y="70" width="90" height="90" stroke="blue" stroke-width="3"
-  fill="blue" filter="url(#f2)" />
-
-  <rect x="120" y="70" width="90" height="90" stroke="blue" stroke-width="3"
-  fill="blue" filter="url(#blurMe)" />
 
 </svg>
     
@@ -529,7 +523,7 @@ function sparkle()
         if (pelapsed > 0) avg = (elapsed-pelapsed) * 0.05 + avg * 0.95;
         
         pelapsed = elapsed;
-        textFps.text("" + (1000/avg).toFixed(1) )
+        textFps.text("b " + (1000/avg).toFixed(1) )
     });
     
 	/* test svg effects
