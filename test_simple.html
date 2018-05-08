@@ -194,6 +194,7 @@ let currentTouchSvg = null;
 		svg1.select(".imagemain")
 					.transition()
 					.delay(1000)
+					.attr("xlink:href", "pics/snake_ratsnake.jpg") 
 					.attr("href", function(d) { 
 						snakenum++; if (snakenum > 3) snakenum=0;
 						let src="";
@@ -500,7 +501,7 @@ function sparkle()
         if (pelapsed > 0) avg = (elapsed-pelapsed) * 0.05 + avg * 0.95;
         
         pelapsed = elapsed;
-        textFps.text("c " + (1000/avg).toFixed(1) )
+        textFps.text("d " + (1000/avg).toFixed(1) )
     });
     
 	/* test svg effects
