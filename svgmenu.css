@@ -1,20 +1,15 @@
 .buttonstyle {
   transform-origin: 80px 25px;
   animation: keybutton2 1s infinite alternate;  
-  filter: drop-shadow(16px 16px 10px black);	
   transition-property: opacity;	
 }
 
 svg {
-  filter: drop-shadow(16px 16px 10px black);	
 }
 image {
   filter: sepia();	
 }
 
-rect {
-  filter: drop-shadow(16px 16px 10px black);	
-}
 
 .buttonstyle:hover {
 	opacity: 0.7;
