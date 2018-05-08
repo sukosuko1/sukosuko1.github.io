@@ -710,6 +710,24 @@ button {
 	var nodeNew = gRescale.node().appendChild(d3.select("#e186").node().cloneNode(true))
 	d3.select(nodeNew).attr("id", "o186")
 	
+
+	let textFps = svg1.append("text")
+	.text("hello")
+	.style("font-size","80px")
+	.attr("x","20")
+	.attr("y","20")
+	.style("fill","red")    
+	
+
+    let avg = 100; let pelapsed = 0;
+    d3.timer(function(elapsed) {
+        if (pelapsed > 0) avg = (elapsed-pelapsed) * 0.05 + avg * 0.95;
+        
+        pelapsed = elapsed;
+        textFps.text("fps " + (1000/avg).toFixed(1) )
+    });
+    
+	
 	d3.interval(myAnimations,2800);
 
 

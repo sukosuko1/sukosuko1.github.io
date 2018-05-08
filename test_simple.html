@@ -24,9 +24,6 @@ html, body { margin:0; padding:0; overflow:hidden }
     width: 100%;
     height: 100%;
 }
-        image {
-             filter : "url(#blurMe)";
-        }
 
 	svg text {
         -webkit-touch-callout: none;
@@ -37,7 +34,23 @@ html, body { margin:0; padding:0; overflow:hidden }
         pointer-events: none;
       }
 		
-
+	.imagemain {
+		transform-origin: center;
+		animation: keyImageMain 6s infinite;
+	}
+		
+	@keyframes keyImageMain {
+		0% {
+			transform: scale(1.0);
+		}
+		85% {
+			transform: scale(1.5);
+		}
+		100% {
+			transform: scale(1.0);
+		}
+			
+	}
 		
 	@keyframes keyGrowInAndOut {
 		0% {
@@ -174,17 +187,22 @@ let currentTouchSvg = null;
 					.delay(4000)
 					.remove();
 				
-				svg1.select(".imagemain")
-					.transition()
-					.delay(1000)
-					.attr("href", function(d) { 
-						let src = "pics/snake_manybandedkrait.jpg";
-						if (Math.random() < 0.5) src = "pics/snake_greatergreen.jpg";
-						return src;
-					});
 
 				
 			}
+		
+		svg1.select(".imagemain")
+					.transition()
+					.delay(1000)
+					.attr("href", function(d) { 
+						snakenum++; if (snakenum > 3) snakenum=0;
+						let src="";
+						if (snakenum == 0) src = "pics/snake_mockviper.jpg";
+						if (snakenum == 1) src = "pics/snake_manybandedkrait.jpg";
+						if (snakenum == 2) src = "pics/snake_redneckedkeelback.jpg";
+						if (snakenum == 3) src = "pics/snake_ratsnake.jpg";
+						return src;
+					});
     };
 
 
@@ -299,17 +317,18 @@ let filter = svg1.append("filter")
 
 
 	
-
+let snakenum = 0;
+	
 svg1.append("image")
-	.attr("href","pics/snake_greatergreen.jpg")
-	.attr("xlink:href","pics/snake_greatergreen.jpg")
+	.attr("href","pics/snake_mockviper.jpg")
+//	.attr("xlink:href","pics/snake_greatergreen.jpg")
 //	.attr("transform","scale(2.0)")
 	.attr("class","imagemain")
 	.attr("x","0")
-	.attr("y","-140")
+	.attr("y","-50")
 	.attr("width","300")
 	.attr("height","300")
-	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
+//	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
 //	.style("filter","url(#blurMe)")
 
 
