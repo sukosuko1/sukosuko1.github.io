@@ -385,69 +385,9 @@ function sparkle()
 	let snum = 0;
 	let elapsedPrev = 0;
 
-	d3.timer(function(elapsed) {
 	
-	if (elapsed < elapsedPrev + 5500) return;
-		elapsedPrev = elapsed;
 
-	/* test long object scrolling....
-
-	let spark9 = svg1.append("rect")
-	.attr("class","bar")
-	.attr("id",(d,i) => "b" + snum++)
-	.attr("x",30)
-	.attr("y",100)
-	.attr("width",20)
-	.attr("height",3000)
-	.style("fill", "orange")
-	.style("filter","url(#filterdropshadow3)")
-		*/
-
-		if (Math.random() < 0.9) {
-
-	let y = 10 + Math.random()*160;
-
-	let sidemenu = svg1.append("g")
-	.style("fill", d3.hsl(70,0.9,0.3))
-	.datum( {"side":(Math.random()>0.5?1:0)} )
-	.attr("transform",d=>d.side ? "translate(110,0)" : "translate(-30,0)")
 		
-	sidemenu.transition()
-	.duration(400)
-	.attr("transform",d=>d.side ? "translate(80,0)" : "translate(-15,0)")
-
-	let sidemenu2 = sidemenu.append("rect")
-	.attr("class","sidemenu")
-	.attr("x",0)
-	.attr("y",y)
-	.attr("width",35)
-	.attr("height",10)
-	.attr("rx",4)
-//	.style("filter","url(#filterdropshadow3)")
-
-	let sidemenu3 = sidemenu.append("text")
-	.text("hello")
-	.style("text-anchor" , d=>d.side ? "start": "end")
-	.style("font-size","5px")
-	.attr("x",d=>d.side ? 5 : 30)
-	.attr("y",y+6)
-	.style("fill",d3.hsl(70,0.5,0.8))
-
-		sidemenu.on("touchstart", function() {
-			d3.select(this).transition()
-			.style("fill", d3.hsl(70,0.9,0.4))
-			.attr("transform",d=>d.side ? "translate(70,0)" : "translate(-5,0)")
-		})
-		sidemenu.on("touchend", function() {
-			d3.select(this).transition()
-		.attr("transform",d=>d.side ? "translate(110,0)" : "translate(-30,0)")
-			.transition()
-			.remove()
-		})
-
-		}
-
-	})
 
 	
 	
@@ -493,6 +433,58 @@ function sparkle()
 		
 
 	}
+	
+	sideMenu();
+	function sideMenu() {
+		
+		for (let n = 0; n < 3; n++) {
+	let y = 100 + n * 15;
+
+	let sidemenu = svg1.append("g")
+	.style("fill", d3.hsl(70,0.9,0.3))
+//	.datum( {"side":(Math.random()>0.5?1:0)} )
+	.datum( {"side":1} )
+	.attr("transform",d=>d.side ? "translate(110,0)" : "translate(-30,0)")
+		
+	sidemenu.transition()
+	.delay(n*700)
+	.transition()
+	.duration(400)
+	.attr("transform",d=>d.side ? "translate(80,0)" : "translate(-15,0)")
+
+	let sidemenu2 = sidemenu.append("rect")
+	.attr("class","sidemenu")
+	.attr("x",0)
+	.attr("y",y)
+	.attr("width",35)
+	.attr("height",10)
+	.attr("rx",4)
+//	.style("filter","url(#filterdropshadow3)")
+
+	let sidemenu3 = sidemenu.append("text")
+	.text("hello")
+	.style("text-anchor" , d=>d.side ? "start": "end")
+	.style("font-size","5px")
+	.attr("x",d=>d.side ? 5 : 30)
+	.attr("y",y+6)
+	.style("fill",d3.hsl(70,0.5,0.8))
+
+		sidemenu.on("touchstart", function() {
+			d3.select(this).transition()
+			.style("fill", d3.hsl(70,0.9,0.4))
+			.attr("transform",d=>d.side ? "translate(70,0)" : "translate(-5,0)")
+		})
+		sidemenu.on("touchend", function() {
+			d3.select(this).transition()
+		.attr("transform",d=>d.side ? "translate(110,0)" : "translate(-30,0)")
+			.transition()
+			.remove()
+		})
+			
+	}
+		
+	}
+	
 	
 
 	let textFps = svg1.append("text")
