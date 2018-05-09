@@ -321,13 +321,14 @@ let snakenum = 0;
 	
 svg1.append("image")
 	.attr("href","./pics/snake_mockviper.jpg")
+	.attr("xlink:href","./pics/snake_mockviper.jpg")
 //	.attr("xlink:href","pics/snake_greatergreen.jpg")
 //	.attr("transform","scale(2.0)")
 	.attr("class","imagemain")
 	.attr("x","0")
-	.attr("y","-50")
-	.attr("width","300")
-	.attr("height","300")
+	.attr("y","0")
+//	.attr("width","auto")
+	.attr("height","100%")
 //	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
 //	.style("filter","url(#blurMe)")
 
@@ -500,7 +501,7 @@ function sparkle()
         if (pelapsed > 0) avg = (elapsed-pelapsed) * 0.05 + avg * 0.95;
         
         pelapsed = elapsed;
-        textFps.text("e " + (1000/avg).toFixed(1) )
+        textFps.text("f " + (1000/avg).toFixed(1) )
     });
     
 	/* test svg effects
