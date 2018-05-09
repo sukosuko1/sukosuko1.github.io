@@ -332,7 +332,12 @@ svg1.append("image")
 //	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
 //	.style("filter","url(#blurMe)")
 
+svg1.append("image")
+	.attr("href","./pics/snake_mockviper.jpg")
+	.attr("xlink:href","./pics/snake_mockviper.jpg")
+	.attr("y","50")
 
+	
 function starTouchStart(){
 	d3.select(this).transition()
 		.attr("transform-origin","middle")
@@ -487,7 +492,20 @@ function sparkle()
 	}
 	
 	
-
+	let menuTop = svg1.append("g")
+	
+	menuTop.append("rect")
+		.attr("height","5")
+		.attr("width","100")
+		.attr("fill", "grey")
+	
+	menuTop.append("text")
+		.text("level: 7")
+		.attr("font-size","3")
+		.attr("x","80")
+		.attr("y","5")
+		.attr("fill", "yellow")
+	
 	let textFps = svg1.append("text")
 	.text("hello")
 	.style("font-size","10px")
