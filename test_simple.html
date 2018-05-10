@@ -208,7 +208,16 @@ let currentTouchSvg = null;
 						if (snakenum == 2) src = "pics/snake_redneckedkeelback.jpg";
 						if (snakenum == 3) src = "pics/snake_ratsnake.jpg";
 						return src;
-					});
+					})
+					.attr("xlink:href", function(d) { 
+						snakenum++; if (snakenum > 3) snakenum=0;
+						let src="";
+						if (snakenum == 0) src = "./pics/snake_mockviper.jpg";
+						if (snakenum == 1) src = "./pics/snake_manybandedkrait.jpg";
+						if (snakenum == 2) src = "pics/snake_redneckedkeelback.jpg";
+						if (snakenum == 3) src = "pics/snake_ratsnake.jpg";
+						return src;
+					})
     };
 
 
@@ -326,7 +335,7 @@ let snakenum = 0;
 	
 svg1.append("image")
 	.attr("href","./pics/snake_mockviper.jpg")
-//	.attr("xlink:href","./pics/snake_mockviper.jpg")
+	.attr("xlink:href","./pics/snake_mockviper.jpg")
 //	.attr("xlink:href","pics/snake_greatergreen.jpg")
 //	.attr("transform","scale(2.0)")
 	.attr("class","imagemain")
@@ -527,12 +536,14 @@ function sparkle()
 
 	let menuBottom = svg1.append("g")
 
+	/*
 	menuBottom.append("rect")
 		.attr("y",windowh - 9)
 		.attr("height","9")
 		.attr("width","100")
 		.attr("fill", "grey")
-
+*/
+	
 	
 	let textFps = svg1.append("text")
 	.text("hello")
