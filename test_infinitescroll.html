@@ -1,8 +1,13 @@
 <html>
 <head>
+<style>
+</style>
+	
+ <script src="d3/d3.js"></script>	
+
 </head>
 <body id="body1">
-	
+
 </body>
 	
 <script>
@@ -19,19 +24,56 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
                        html.clientHeight, html.scrollHeight, html.offsetHeight );
 		
 		if (document.body.scrollTop > height - window.innerHeight - 40) {
+			
+			/*
 		var node = document.createElement("p");  
 		var textnode = document.createTextNode("Water" + scrollPtr++);         // Create a text node
 		node.appendChild(textnode)
 		document.getElementById("body1").appendChild(node);  
+		*/
+			
+		if (Math.random() < 0.1) {
+			d3.select("body").append("svg")
+				.attr("height",40)
+				.attr("width",100)
+				.attr("fill","green")
+				.attr("border","1")
+				.append("rect")
+				.attr("height",40)
+				.attr("width",100)
+				.attr("fill","green")
+			.style("transform","scale(0.05)")
+			.transition()
+			.delay(300)
+			.ease(d3.easeElastic)
+			.duration(700)
+			.style("transform","scale(1.0)")
+			
+			
+		} else {
+		d3.select("body").append("div").html("ice " + scrollPtr++)
+			.attr("fill","blue")
+			.style("opacity","0.1")
+			.transition()
+			.duration(700)
+			.style("opacity","1.0")
+		}
+			
+			
 		}
 //	window.scroll(0, 1000);
 	}
 	
 	for (let n = 0; n < 100; n++) {
+		/*
 		var node = document.createElement("p");  
 		var textnode = document.createTextNode("Water" + n);         // Create a text node
 		node.appendChild(textnode)
 		document.getElementById("body1").appendChild(node);  
+		*/
+		
+		
+		d3.select("body").append("div").html("ice " + n)
 	}
 	window.scroll(0, 50);
 	
