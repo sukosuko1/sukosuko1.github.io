@@ -11,7 +11,9 @@ let filter = defs.append("filter")
     .attr("id", "filterBlur")
 	.append("feGaussianBlur")
     .attr("in", "SourceGraphic")
-    .attr("stdDeviation", 0)
+    .attr("stdDeviation", 1)
+
+/*
 	.append("animate")
     .attr("id", "filterBlur-anim")
     .attr("attributeName", "stdDeviation")
@@ -22,9 +24,25 @@ let filter = defs.append("filter")
     .attr("from", "10")
     .attr("to", "0")
     .attr("fill", "fill")
-    
+    */
+
 }
+
+	  
+   
 	
+{
+let filter = defs.append("filter")
+    .attr("id", "filterGooShadow")
+	.html('"<feGaussianBlur in="SourceAlpha" stdDeviation="1" result="blur" /><feColorMatrix in="blur" mode="matrix" values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0" result="goo" /> 	  <feBlend in="SourceGraphic" in2="goo" mode="normal" />"')
+
+/*
+	.append("feGaussianBlur")
+    .attr("in", "SourceGraphic")
+    .attr("stdDeviation", 5)
+    .attr("stdDeviation", 5)*/
+
+}
 	
 	
 let filter = defs.append("filter")

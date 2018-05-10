@@ -86,7 +86,9 @@ html, body { margin:0; padding:0; overflow:hidden }
  <script src="svgmenu.js"></script>	
   <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
   <link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
-      	
+
+	
+	
 </head>
 <body>
     
@@ -104,6 +106,9 @@ html, body { margin:0; padding:0; overflow:hidden }
       <feGaussianBlur result="blurOut" in="offOut" stdDeviation="30" />
       <feBlend in="blurOut" in2="SourceGraphic" mode="normal" />
     </filter>
+	  
+
+	  
   </defs>
 
 </svg>
@@ -316,7 +321,6 @@ let filter = svg1.append("filter")
     .attr("in2", "SourceGraphic")
     .attr("mode", "normal")
 
-
 	
 let snakenum = 0;
 	
@@ -328,19 +332,22 @@ svg1.append("image")
 	.attr("class","imagemain")
 	.attr("x","0")
 	.attr("y","0")
-//	.attr("width","100%")
-	.attr("height","100%")
+	.attr("width","100")
+	.attr("height",windowh)
+	.attr("preserveAspectRatio", "xMidYMid slice")
 //	.attr("transform","translate(0," + (windowh * 0.4) + ") ")
 //	.style("filter","url(#blurMe)")
 
+/*
 svg1.append("image")
 	.attr("href","./pics/snake_mockviper.jpg")
 	.attr("xlink:href","./pics/snake_mockviper.jpg")
-	.attr("x","0")
+	.attr("x","20")
 	.attr("y","0")
 	.attr("width","100")
 	.attr("height",windowh)
-	.attr("preserveAspectRatio", "xMidYMin")
+	.attr("preserveAspectRatio", "xMidYMid slice")
+*/
 
 	
 function starTouchStart(){
@@ -500,6 +507,7 @@ function sparkle()
 	let menuTop = svg1.append("g")
 	
 	menuTop.append("rect")
+		.attr("y","0")
 		.attr("height","9")
 		.attr("width","100")
 		.attr("fill", "grey")
@@ -514,6 +522,8 @@ function sparkle()
 		.attr("stroke-width","0.5px")
 		.attr("stroke", "orange")
 		.attr("fill", "white")
+		.style("filter", "url(#filterGooShadow)")
+//		.style("filter", "url(#filtergoo)")
 
 	let menuBottom = svg1.append("g")
 
