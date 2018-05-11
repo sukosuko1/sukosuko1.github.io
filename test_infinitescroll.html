@@ -1,16 +1,28 @@
 <html>
 <head>
 <style>
+    #body1 {
+        position: absolute;
+        top: 0;
+        bottom : 0;
+        left : 0;
+        right: 0;
+        background-color: aquamarine;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
     .imgcontainer {
         overflow: hidden;
         height: 600px;
+        width: 100%;
+		padding : 20px;
     }
 	img {
 		padding : 10px;
 		margin: 10px;
         overflow: hidden;
         filter: sepia();
-        animation: keyImage 5s infinite;
+        animation: keyImage 15s infinite;
 	}
     
     @keyframes keyImage {
@@ -128,11 +140,7 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 		
 //		d3.select("body").append("div").html("ice " + n)
 	}
-	window.scroll({
-  top: 2500, 
-  left: 0, 
-  behavior: 'smooth' 
-});
+    
     /*
 document.querySelector('.hello').scrollIntoView({ 
   behavior: 'smooth' 
@@ -145,7 +153,7 @@ document.querySelector('.hello').scrollIntoView({
             if (scrollAutoTime > +new Date() - 2500) {
                 scrollTime = 0;
             } else {
-            
+                scrollAutoTime = +new Date();
                 var body = document.body,
                     html = document.documentElement;
 
@@ -156,12 +164,13 @@ document.querySelector('.hello').scrollIntoView({
             scrollTime = 0;
             console.log("adjust")
             console.log(" prevAutoScroll = " + (+new Date() - scrollAutoTime))
-            window.scroll({
+                
+            document.getElementById("body1").scroll({
                     top: Math.random() * height, 
                     left: 0, 
                     behavior: 'smooth' 
-                });
-                scrollAutoTime = +new Date();
+            });
+                
             }
         }
         window.requestAnimationFrame(tick);
