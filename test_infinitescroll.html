@@ -60,6 +60,15 @@
     .displayon {
         color: blue;
     }
+    .imageoutside {
+    	transition: opacity  2s;
+    	opacity: 0.6;
+    }
+    .imageinside {
+    	transition: opacity  2s;
+    	opacity: 1.0;
+    }
+
     @keyframes keyLeft {
         0% { transform: translate(-400px,0px);}
         100% { transform: translate(0px,0px); }
@@ -126,6 +135,7 @@ input[type="radio"].toggle:checked + label {
         .attr("transform","translate(-300px,0px)")
         .attr("id", (d,i) => "div" + i)
         .classed("imgcontainer", true)
+        .on("click", eventClick)
         .append("img")
 		.attr("src", d => d)
 		.attr("width", "100%")
@@ -135,7 +145,17 @@ input[type="radio"].toggle:checked + label {
 		.classed("gcontainer", true)
 		.html(d=>d)
 
+	function eventClick() {
+		let eimg = d3.select(this).select("img")
 
+		eimg.attr("transform","translate(50,0) scale(1.2)")
+			.transition()
+			.style("opacity",0.1)
+			.transition()
+			.style("opacity",0.2)
+
+		console.log("click");
+	}
 
 	document.addEventListener("scroll", scrollEvent);
 	
@@ -160,6 +180,18 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 				let pos = this.getBoundingClientRect();
 				if (pos.y > 0 && pos.y <  window.innerHeight) {
 					d3.select(this).classed("displayleft", true);
+				}
+			})
+
+		d3.selectAll(".imgcontainer")
+			.each(function(d,i) {
+				let pos = this.getBoundingClientRect();
+				if (pos.y > 0 && pos.bottom <  window.innerHeight) {
+					d3.select(this).classed("imageoutside", false);
+					d3.select(this).classed("imageinside", true);
+				} else {
+					d3.select(this).classed("imageoutside", true);
+					d3.select(this).classed("imageinside", false);
 				}
 			})
 
