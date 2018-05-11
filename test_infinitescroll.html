@@ -2,7 +2,6 @@
 <head>
 <style>
     #body1 {
-        position: absolute;
         top: 0;
         bottom : 0;
         left : 0;
@@ -33,8 +32,17 @@
     .bottomtab {
 		position: fixed;
 		bottom: 0px; 
-		rx: 20px;
-		ry: 20px;
+		border-radius: 40px;
+		width: 80px;
+		height: 80px;
+		background: blue;
+		z-index: 999;
+    }
+    .topsvg {
+		position: fixed;
+		border-radius: 10px;
+		top: 0; 
+		right: 80px;
 		width: 80px;
 		height: 80px;
 		background: blue;
@@ -62,6 +70,18 @@
         80% { transform: scale(1.5) translate(10px,-5px);}
         100% { transform: scale(1.0) translate(20px,0px); }
     }
+    input {
+    	height: 200px;
+    	width: 200px;
+    }
+
+input[type="radio"].toggle {
+  display: none;
+}
+
+input[type="radio"].toggle:checked + label {
+  /* Do something special with the selected state */
+}
     
 </style>
 	
@@ -70,9 +90,13 @@
 </head>
 <body id="body1">
 
+
+
 <div class="bottomtab" left="40px"></div>
 <div class="bottomtab" left="200px"></div>
 <div class="bottomtab" left="340px"></div>
+
+<svg class="topsvg"></svg>
 
 </body>
 	
@@ -129,7 +153,7 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
                        html.clientHeight, html.scrollHeight, html.offsetHeight );
 		
 		console.log(document.body.scrollTop / ( height - window.innerHeight)); 
-		
+
 
 		d3.selectAll(".gcontainer")
 			.each(function(d,i) {
