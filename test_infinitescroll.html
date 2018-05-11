@@ -24,6 +24,38 @@
         filter: sepia();
         animation: keyImage 15s infinite;
 	}
+    div {
+        color: black;
+        font-size: 20px;
+        font-family: fantasy;
+    }
+
+    .bottomtab {
+		position: fixed;
+		bottom: 0px; 
+		rx: 20px;
+		ry: 20px;
+		width: 80px;
+		height: 80px;
+		background: blue;
+		z-index: 999;
+    }
+
+    .gcontainer {
+    	transform: translate(-3000px,0px);
+    }
+    .displayleft {
+    	transform: translate(0px,0px);
+        animation: keyLeft 0.5s;
+    }
+
+    .displayon {
+        color: blue;
+    }
+    @keyframes keyLeft {
+        0% { transform: translate(-400px,0px);}
+        100% { transform: translate(0px,0px); }
+    }
     
     @keyframes keyImage {
         0% { transform: scale(1.0) translate(20px,0px);}
@@ -37,6 +69,10 @@
 
 </head>
 <body id="body1">
+
+<div class="bottomtab" left="40px"></div>
+<div class="bottomtab" left="200px"></div>
+<div class="bottomtab" left="340px"></div>
 
 </body>
 	
@@ -59,9 +95,12 @@
 		.data(piclist)
 		.enter()
 		.append("g")
+        .attr("id", (d,i) => "group" + i)
 
 	newnodes.append("div")
 		.attr("width", "100%")
+        .attr("transform","translate(-300px,0px)")
+        .attr("id", (d,i) => "div" + i)
         .classed("imgcontainer", true)
         .append("img")
 		.attr("src", d => d)
@@ -69,6 +108,7 @@
 
 	newnodes.append("p")
 		.append("div")
+		.classed("gcontainer", true)
 		.html(d=>d)
 
 
@@ -88,6 +128,26 @@ var body = document.body,
 var height = Math.max( body.scrollHeight, body.offsetHeight, 
                        html.clientHeight, html.scrollHeight, html.offsetHeight );
 		
+		console.log(document.body.scrollTop / ( height - window.innerHeight)); 
+		
+
+		d3.selectAll(".gcontainer")
+			.each(function(d,i) {
+				let pos = this.getBoundingClientRect();
+				if (pos.y > 0 && pos.y <  window.innerHeight) {
+					d3.select(this).classed("displayleft", true);
+				}
+			})
+
+			/*
+			.classed("displayon", function(d,i) {
+				let pos = this.getBoundingClientRect();
+				if (pos.y > 0 && pos.y < 0.4 * window.innerHeight) return false;
+				return true;
+			}) */
+
+
+
 		if (document.body.scrollTop > height - window.innerHeight - 40) {
 			
 			/*
@@ -114,7 +174,6 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 			.duration(700)
 			.style("transform","scale(1.0)")
 			
-			
 		} else {
 		d3.select("body").append("div").html("ice " + scrollPtr++)
 			.attr("fill","blue")
@@ -126,7 +185,6 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 			
 			
 		}
-//	window.scroll(0, 1000);
 	}
 	
 	for (let n = 0; n < 100; n++) {
@@ -164,12 +222,6 @@ document.querySelector('.hello').scrollIntoView({
             scrollTime = 0;
             console.log("adjust")
             console.log(" prevAutoScroll = " + (+new Date() - scrollAutoTime))
-                
-            document.getElementById("body1").scroll({
-                    top: Math.random() * height, 
-                    left: 0, 
-                    behavior: 'smooth' 
-            });
                 
             }
         }
