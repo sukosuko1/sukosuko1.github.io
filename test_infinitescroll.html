@@ -1,10 +1,24 @@
 <html>
 <head>
 <style>
+    .imgcontainer {
+        overflow: hidden;
+        height: 600px;
+    }
 	img {
 		padding : 10px;
 		margin: 10px;
+        overflow: hidden;
+        filter: sepia();
+        animation: keyImage 5s infinite;
 	}
+    
+    @keyframes keyImage {
+        0% { transform: scale(1.0) translate(20px,0px);}
+        80% { transform: scale(1.5) translate(10px,-5px);}
+        100% { transform: scale(1.0) translate(20px,0px); }
+    }
+    
 </style>
 	
  <script src="d3/d3.js"></script>	
@@ -34,7 +48,10 @@
 		.enter()
 		.append("g")
 
-	newnodes.append("img")
+	newnodes.append("div")
+		.attr("width", "100%")
+        .classed("imgcontainer", true)
+        .append("img")
 		.attr("src", d => d)
 		.attr("width", "100%")
 
@@ -48,8 +65,11 @@
 	
 	
 	let scrollPtr = 200;
+    let scrollTime = 0;
 	function scrollEvent(e) {
-		console.log(document.body.scrollTop);
+        scrollTime = +new Date();
+        
+//		console.log(document.body.scrollTop);
 var body = document.body,
     html = document.documentElement;
 
@@ -108,8 +128,46 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 		
 //		d3.select("body").append("div").html("ice " + n)
 	}
-	window.scroll(0, 50);
-	
+	window.scroll({
+  top: 2500, 
+  left: 0, 
+  behavior: 'smooth' 
+});
+    /*
+document.querySelector('.hello').scrollIntoView({ 
+  behavior: 'smooth' 
+});	*/
+    
+    let scrollAutoTime = 0;
+    function tick() {
+        
+        if ( (scrollTime > 0) && (scrollTime < +new Date() - 800) ) {
+            if (scrollAutoTime > +new Date() - 2500) {
+                scrollTime = 0;
+            } else {
+            
+                var body = document.body,
+                    html = document.documentElement;
+
+                var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+		
+            
+            scrollTime = 0;
+            console.log("adjust")
+            console.log(" prevAutoScroll = " + (+new Date() - scrollAutoTime))
+            window.scroll({
+                    top: Math.random() * height, 
+                    left: 0, 
+                    behavior: 'smooth' 
+                });
+                scrollAutoTime = +new Date();
+            }
+        }
+        window.requestAnimationFrame(tick);
+    }
+    tick();
+    
 </script>
 </html>
 
