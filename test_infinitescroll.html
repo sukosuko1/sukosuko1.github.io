@@ -1,6 +1,10 @@
 <html>
 <head>
 <style>
+	img {
+		padding : 10px;
+		margin: 10px;
+	}
 </style>
 	
  <script src="d3/d3.js"></script>	
@@ -11,6 +15,35 @@
 </body>
 	
 <script>
+
+    let piclist = [
+		"pics/snake_mockviper.jpg",
+		"pics/snake_manybandedkrait.jpg",
+		"pics/snake_redneckedkeelback.jpg",
+		"pics/snake_ratsnake.jpg",
+		"pics/snake_bamboo.jpg",
+		"pics/snake_chinesecobra.jpg",
+		"pics/snake_greatergreen.jpg",
+		"pics/snake_indochineseratsnake.jpg",
+		"pics/snake_spottedslug.jpg",
+		"pics/snake_burmesepython.jpg",
+    ];
+
+	let newnodes = d3.select("#body1")
+		.data(piclist)
+		.enter()
+		.append("g")
+
+	newnodes.append("img")
+		.attr("src", d => d)
+		.attr("width", "100%")
+
+	newnodes.append("p")
+		.append("div")
+		.html(d=>d)
+
+
+
 	document.addEventListener("scroll", scrollEvent);
 	
 	
@@ -73,7 +106,7 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 		*/
 		
 		
-		d3.select("body").append("div").html("ice " + n)
+//		d3.select("body").append("div").html("ice " + n)
 	}
 	window.scroll(0, 50);
 	
