@@ -12,6 +12,7 @@
     }
     .imgcontainer {
         overflow: hidden;
+		position: relative;
         height: 600px;
         width: 100%;
 		padding : 20px;
@@ -68,6 +69,19 @@
     	transition: opacity  2s;
     	opacity: 1.0;
     }
+	.textactive {
+		position: absolute;
+		color: green;
+		top: 0;
+		left: 0;
+	}
+	.svgoverlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
 
     @keyframes keyLeft {
         0% { transform: translate(-400px,0px);}
@@ -135,10 +149,12 @@ input[type="radio"].toggle:checked + label {
         .attr("transform","translate(-300px,0px)")
         .attr("id", (d,i) => "div" + i)
         .classed("imgcontainer", true)
+        .attr("position","relative")
         .on("click", eventClick)
         .append("img")
 		.attr("src", d => d)
 		.attr("width", "100%")
+        .attr("position","absolute")
 
 	newnodes.append("p")
 		.append("div")
@@ -148,11 +164,43 @@ input[type="radio"].toggle:checked + label {
 	function eventClick() {
 		let eimg = d3.select(this).select("img")
 
+		d3.select(this).append("text")
+			.attr("class", "textactive")
+			.attr("position","absolute")
+			.attr("top",0)
+			.attr("left",0)
+			.attr("z-index",20)
+			.text("hello world absolute positions")
+		
+		let svgoverlay = d3.select(this).append("svg")
+			.attr("class", "svgoverlay")
+			.attr("viewBox","0 0 100 100")
+			.attr("border","3px solid #73AD21")
+			.attr("z-index",30)
+		
+		
+		for (let i = 0; i < 20; i++) {
+			let ecircle = svgoverlay.append("circle")
+			.datum(Math.random())
+			.attr("cx", d=> (d > 0.5 ? 130: - 30))
+			.attr("cy", d=> Math.random()* 100)
+			.attr("r","5")
+			.attr("fill","yellow")
+			.transition()
+			.ease(d3.easeElastic)
+			.duration(2000)
+			.attr("cx", d=> d>0.5 ? 50 + Math.random()* 50 : Math.random()* 50)
+			.attr("cy", d=> Math.random()* 100)
+			
+		}
+
+/*
 		eimg.attr("transform","translate(50,0) scale(1.2)")
 			.transition()
 			.style("opacity",0.1)
 			.transition()
 			.style("opacity",0.2)
+*/
 
 		console.log("click");
 	}
