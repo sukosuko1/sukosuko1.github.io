@@ -364,6 +364,7 @@ document.querySelector('.hello').scrollIntoView({
   d3.xml("cutecritters.svg").mimeType("image/svg+xml").get(function(error, xml) {
   if (error) throw error;
   xml.documentElement.setAttribute("id", "mysvg1");
+  xml.documentElement.setAttribute("display", "none");
   document.body.appendChild(xml.documentElement);
 	  
 	d3.selectAll("#mysvg1 *")
