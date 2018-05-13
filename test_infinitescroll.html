@@ -201,7 +201,33 @@ input[type="radio"].toggle:checked + label {
 			.transition()
 			.style("opacity",0.2)
 */
-
+//#e148,#e165,#e210
+		
+		let rnum = Math.floor(Math.random() * 4); let strgroup = "";
+		if (rnum == 0) strgroup = "#e148";
+		if (rnum == 1) strgroup = "#e165";
+		if (rnum == 2) strgroup = "#e186";
+		if (rnum == 3) strgroup = "#e210";
+		
+		var nodeNew = d3.select(strgroup).node().cloneNode(true);
+		
+		let edropin = svgoverlay.append("g");
+		
+		edropin.node().appendChild(nodeNew);
+		
+		let pos = nodeNew.getBoundingClientRect();
+//				if (pos.y > 0 && pos.y <  window.innerHeight) {
+		
+		edropin.attr("transform", "translate(50,-30) scale(0.1) ")
+			.transition()
+			.duration(3000)
+			.ease(d3.easeElastic)
+			.attr("transform", "translate(0,-30) scale(0.1) ");
+		
+		edropin.attr("id", "o186").attr("z-index",40);
+		
+					
+					
 		console.log("click");
 	}
 
@@ -333,6 +359,18 @@ document.querySelector('.hello').scrollIntoView({
     }
     tick();
     
+	
+
+  d3.xml("cutecritters.svg").mimeType("image/svg+xml").get(function(error, xml) {
+  if (error) throw error;
+  xml.documentElement.setAttribute("id", "mysvg1");
+  document.body.appendChild(xml.documentElement);
+	  
+	d3.selectAll("#mysvg1 *")
+		.attr("id", (d,i)=>"e"+i)
+
+  });
+	
 </script>
 </html>
 
