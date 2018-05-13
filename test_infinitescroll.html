@@ -1,12 +1,22 @@
 <html>
 <head>
 <style>
+
+.dark-primary-color    { background: #C2185B; }
+.default-primary-color { background: #E91E63; }
+.light-primary-color   { background: #F8BBD0; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #CDDC39; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+	
     #body1 {
         top: 0;
         bottom : 0;
         left : 0;
         right: 0;
-        background-color: aquamarine;
+        background-color: #000000;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
     }
@@ -25,20 +35,32 @@
         animation: keyImage 15s infinite;
 	}
     div {
-        color: black;
-        font-size: 60px;
-        font-family: fantasy;
+        color: #CDDC39;
+        font-size: 80px;
+		font-weight: bold;
+        font-family: 'Roboto', sans-serif;
     }
 
     .bottomtab {
 		position: fixed;
+		left: 80px;
 		bottom: 0px; 
 		border-radius: 40px;
-		width: 80px;
-		height: 80px;
-		background: blue;
+		width: 140px;
+		height: 140px;
+		background: #CDDC39;
 		z-index: 999;
     }
+	.bottomtab:nth-child(1) {
+		left: 20%;
+	}
+	.bottomtab:nth-child(2) {
+		left: 45%;
+	}
+	.bottomtab:nth-child(3) {
+		left: 70%;
+	}
+	
     .topsvg {
 		position: fixed;
 		border-radius: 10px;
@@ -109,7 +131,8 @@ input[type="radio"].toggle:checked + label {
 </style>
 	
  <script src="d3/d3.js"></script>	
-
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	
 </head>
 <body id="body1">
 
@@ -117,7 +140,8 @@ input[type="radio"].toggle:checked + label {
 
 <div class="bottomtab" left="40px"></div>
 <div class="bottomtab" left="200px"></div>
-<div class="bottomtab" left="340px"></div>
+	
+<div class="bottomtab" right="30px">hello</div>
 
 <svg class="topsvg"></svg>
 
@@ -126,16 +150,22 @@ input[type="radio"].toggle:checked + label {
 <script>
 
     let piclist = [
-		"pics/snake_mockviper.jpg",
-		"pics/snake_manybandedkrait.jpg",
-		"pics/snake_redneckedkeelback.jpg",
-		"pics/snake_ratsnake.jpg",
-		"pics/snake_bamboo.jpg",
-		"pics/snake_chinesecobra.jpg",
-		"pics/snake_greatergreen.jpg",
-		"pics/snake_indochineseratsnake.jpg",
-		"pics/snake_spottedslug.jpg",
-		"pics/snake_burmesepython.jpg",
+		{"src": "pics/snake_mockviper.jpg"},
+		{"src": "pics/snake_redneckedkeelback.jpg"},
+		{"src": "pics/snake_manybandedkrait.jpg"},
+		{"src": "pics/snake_ratsnake.jpg"},
+		{"src": "pics/snake_bamboo.jpg"},
+		{"src": "pics/snake_chinesecobra.jpg"},
+		{"src": "pics/snake_greatergreen.jpg"},
+		{"src": "pics/snake_indochineseratsnake.jpg"},
+		{"src": "pics/snake_spottedslug.jpg"},
+		{"src": "pics/snake_burmesepython.jpg"},
+		{"src": "pics/snake_bamboo.jpg"},
+		{"src": "pics/snake_chinesecobra.jpg"},
+		{"src": "pics/snake_greatergreen.jpg"},
+		{"src": "pics/snake_indochineseratsnake.jpg"},
+		{"src": "pics/snake_spottedslug.jpg"},
+		{"src": "pics/snake_burmesepython.jpg"},
     ];
 
 	let newnodes = d3.select("#body1")
@@ -149,21 +179,42 @@ input[type="radio"].toggle:checked + label {
         .attr("transform","translate(-300px,0px)")
         .attr("id", (d,i) => "div" + i)
         .classed("imgcontainer", true)
+		.each(function(d) {d.clicked = false})
         .attr("position","relative")
         .on("click", eventClick)
         .append("img")
-		.attr("src", d => d)
+		.attr("src", d => d.src)
 		.attr("width", "100%")
         .attr("position","absolute")
 
 	newnodes.append("p")
 		.append("div")
 		.classed("gcontainer", true)
-		.html(d=>d)
+		.html(d=>d.src)
 
-	function eventClick() {
+	function eventClick(d) {
 		let eimg = d3.select(this).select("img")
 
+		if (d.clicked == true) {
+			d3.select(this).select("svg").selectAll("circle")
+				.transition()
+				.attr("cx",-50)
+			
+			d3.select(this).select("svg").select("g")
+				.transition()
+				.delay(800)
+				.attr("transform","translate(150,0)")
+				
+			d3.select(this).select("svg")
+				.transition()
+				.duration(5000)
+				.remove();
+			
+			d.clicked = false;
+			return;
+		}
+		d.clicked = true;
+		
 		d3.select(this).append("text")
 			.attr("class", "textactive")
 			.attr("position","absolute")
