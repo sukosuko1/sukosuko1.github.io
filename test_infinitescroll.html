@@ -17,6 +17,7 @@
         left : 0;
         right: 0;
         background-color: #BDBDBD;
+        background: "pics/wallpaper.png"
 		max-width: 100%;
     	overflow-x: hidden;		
         overflow-y: scroll;
@@ -26,12 +27,16 @@
         overflow: hidden;
 		position: relative;
         height: 600px;
-        width: 100%;
+        left: 10%;
+        width: 80%;
         margin-top: 8%;
 		padding : 20px;
 		filter: drop-shadow(-10px -10px white);
+		border-radius: 5%;
+		box-shadow: 5px 4px #666666;
     }
 	img {
+		position:absolute;
 		padding : 10px;
 		margin: 10px;
         overflow: hidden;
@@ -43,11 +48,6 @@
         font-size: 80px;
 		font-weight: bold;
         font-family: 'Roboto', sans-serif;
-		  text-shadow:
-   -5px -5px 0 #FFFFFF,  
-    5px -5px 0 #FFFFFF,
-    -5px 5px 0 #FFFFFF,
-     5px 5px 0 #FFFFFF;
          overflow: hidden;
 
     }
@@ -55,6 +55,15 @@
 	.qlabel1{
 		border: 10px black;
 		background-color: beige;
+		box-shadow: 5px 4px #666666;
+		margin-left: 5%;
+		margin-right: 7%;
+		margin-top: 3%;
+		padding-left: 20px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		font-size: 4em;
+		border-radius: 40px;
 	}
 	.qlabel2 {
 		border: 10px black;
@@ -245,7 +254,6 @@ input[type="radio"].toggle:checked + label {
         .attr("id", (d,i) => "div" + i)
         .classed("imgcontainer", true)
 		.each(function(d) {d.clicked = false})
-        .attr("position","relative")
         .on("click", eventClick)
 
      eimagecontainer.append("img")
@@ -275,7 +283,8 @@ input[type="radio"].toggle:checked + label {
 
 	newnodes.append("div")
 		.classed("qlabel1", true)
-		.html(d=>d.src)
+//		.html(d=>d.src)
+		.html("Which?")
 	
 	newnodes.append("div")
 		.classed("qlabel2", true)
