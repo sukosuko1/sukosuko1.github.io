@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h1 {
+    color: blue;
+    stroke: 3px yellow;
+    text-shadow: 5px 0 0 white, 
+    -5px 0 0 white, 
+    0 -5px 0 white, 
+    0 -5px 0 white, 
+    0 0 15px #228833;
+}
+svg {
+	background-color: pink;
+}
+text {
+	font-weight: bold;
+    fill: url(#MyGradient);
+    filter: url(#filter);
+    transform: rotate(-12deg) translate(10px,60px);
+    transform-origin: center;
+    animation: key1 1s infinite;
+}
+body {
+	background-color: salmon;
+}
+
+@keyframes key1 {
+0% {  transform: rotate(-12deg) },
+100%  {transform: rotate(5deg) }
+}
+
+</style>
+</head>
+<body>
+<svg>
+    <linearGradient id="MyGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="15%"  stop-color="#FFAAFF"/>
+            <stop offset="95%" stop-color="blue"/>
+        </linearGradient>
+        
+      <filter id="filter">
+          <feMorphology operator="dilate" radius="4" in="SourceAlpha" result="f1"/>
+<feFlood flood-color="#FFFFFF" result="WHITECOLOR" />
+<feComposite operator="in" in="WHITECOLOR" in2="f1" result="f2" />
+
+<feOffset in="f2" dx="1" dy="1" result="g1"/>
+<feMorphology operator="dilate" radius="2" in="g1" result="g2"/>
+
+<feFlood flood-color="#228844" result="DARKGREENCOLOR" />
+<feComposite operator="in" in="DARKGREENCOLOR" in2="g2" result="g3" />
+
+<feMerge>
+   <feMergeNode in="g3" />
+   <feMergeNode in="f2" />
+   <feMergeNode in="SourceGraphic" />
+</feMerge>
+
+	</filter>
+        
+
+<text x="0" y="35" font-family="Verdana" font-size="40">hello world!</text>
+</svg>
+<h1>Text-shadow effect!</h1>
+
+<p><b>Note:</b> Internet Explorer 9 and earlier versions, do not support the text-shadow property.</p>
+
+</body>
+</html>

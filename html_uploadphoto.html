@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+    
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+<meta name="apple-mobile-web-app-title" content="Mumble App">
+<meta name="HandheldFriendly" content="true">
+	
+	
+    <style>
+        body {
+            width:750;
+            height:1334;
+        }
+        .moveable {
+            position: absolute;
+            background-color: aquamarine;
+            background-image: linear-gradient(45deg,#AAF,#88C);
+            padding: 10px 10px;
+            box-shadow: 8px 8px 5px #CCC;
+            z-index 9;
+        }
+        .textpop {
+            position: absolute;
+            top:100px;
+        }
+        
+        #tag2 {
+             position: absolute;
+        }
+        image {
+             position: absolute;
+            padding: 0px;
+        }
+        #minion1 {
+             position: absolute;
+            transform: scale(0.7);
+            padding: 0px;
+        }
+        #minion2 {
+             position: absolute;
+            top:150;
+            left:100;
+        }
+        #player {
+            position: absolute;
+            z-index -1;
+        }
+        #c1 {
+            position: absolute;
+			display:block;
+			margin:auto;
+            top: 0;
+            width: 750;
+            height: 1334;
+            background-color: darkgoldenrod;
+            z-index: -1;
+        }
+        #top1 {
+            position: absolute;
+            top:1550;
+            left:550;
+        }
+        .ontop1 {
+            position: absolute;
+            top:1550;
+            left:550;
+        }
+    </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body id="body">
+    <input type="file" onchange="previewFile()"><br>
+    <img src="" height="200" alt="Image preview...">    
+    
+    <canvas id="c1" height="667" width="375"></canvas>
+    <p id="mapholder">map</p>
+    <img id="top1" src="starsgiphy.gif" class="ontop1">
+    
+<form id="upload" action="upload.php" method="POST" enctype="multipart/form-data">
+
+<fieldset>
+<legend>HTML File Upload</legend>
+
+<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+
+<div>
+	<label for="fileselect">Files to upload:</label>
+	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+	<div id="filedrag">or drop files here</div>
+</div>
+
+<div id="submitbutton">
+	<button type="submit">Upload Files</button>
+</div>
+
+</fieldset>
+
+</form>
+    
+</body>
+    
+    
+<script src="sukoutil.js"></script>
+
+<script>
+    var canvas = document.getElementById("c1");
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
+    var ctx = canvas.getContext("2d");
+
+    function logit() {
+//        console.log("log " + this.x);
+    }
+    
+    function twine(x, dx, tx) {
+        dx += (tx - x)* 0.025;
+        dx = Math.min(4,Math.max(dx,-4));
+        dx *= 0.82;
+        return dx;
+    }
+    
+    var dog1 = {
+        x: 10,
+        dx : 0,
+        y: 10,
+        dy : 0,
+        tx : 10,
+        timer: 1000,
+    };
+
+    dog1.logitx = logit;
+    
+    dog1.action = function(elapsed) {
+        this.logitx();
+        
+        this.dx = twine(this.x, this.dx, this.tx);
+        this.x += this.dx;
+        
+        this.timer -= elapsed;
+        if (this.timer < 0) {
+            this.tx = Math.random() * 200;
+            this.timer = 2000;
+        }
+        
+    }
+    
+    var dog2 = Object.assign({},dog1);
+    var dog3 = Object.assign({},dog1);
+    var dog4 = Object.assign({},dog1);
+
+    dog1.action(1);
+    dog2.action(1);
+    
+    
+    console.log(dog1.x, dog1.dx);
+    console.log(dog2.x, dog2.dx);
+    
+    dog1.tx = 20;
+    
+    for (let i = 0; i < 100; i++) {
+        dog1.action(1);
+        console.log(dog1.x, dog1.dx);
+        ctx.fillRect(i, 100+ dog1.x * 10,1,1);
+    }
+
+    var prevCt = 0;
+    var timer = 1000;
+    
+    var beatTimer = 405;
+    var beatTimer2 = 0;
+    
+    function animLoop() {
+        var ct = +new Date();
+        var elapsed = ct - prevCt;
+        if (elapsed > 400)  elapsed = 400;
+        
+        prevCt = ct;
+
+        beatTimer -= elapsed;
+        beatTimer2 -= elapsed;
+        if (beatTimer2 < 0) {
+            dog1.dx -= 1.0;
+            dog2.dx -= 0.4;
+            dog3.dx -= 0.4;
+            dog4.dx -= 0.4;
+            beatTimer2 = 1000;
+        }
+        if (beatTimer < 0) {
+            dog1.dx += 2;
+            dog2.dx += 0.5;
+            dog3.dx += 0.5;
+            dog4.dx += 0.5;
+            beatTimer += 405;
+            beatTimer2 = 20;
+        }
+        
+        dog1.action(elapsed);
+        dog2.action(elapsed);
+        dog3.action(elapsed);
+        dog4.action(elapsed);
+        ctx.fillStyle = "white";
+        ctx.fillRect(0,200,600,600);
+        ctx.fillStyle = "black";
+        ctx.fillRect(50, 130+ dog1.x * 2.5,30,30);
+        ctx.fillRect(120, 130+ dog2.x * 2.5,30,30);
+        ctx.fillRect(150, 130+ dog3.x * 2.5,30,30);
+        ctx.fillRect(220, 130+ dog4.x * 2.5,30,30);
+        
+        window.requestAnimationFrame(animLoop);    
+    }
+//    window.requestAnimationFrame(animLoop);    
+    
+var xhr = new XMLHttpRequest();
+var url = "http://localhost:8080/";
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-type", "application/json");
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        console.log(json.email + ", " + json.password);
+    }
+};
+var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
+xhr.send(data);
+    
+</script>    
+</html>
