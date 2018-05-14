@@ -16,7 +16,7 @@
         bottom : 0;
         left : 0;
         right: 0;
-        background-color: #000000;
+        background-color: #BDBDBD;
 		max-width: 100%;
     	overflow-x: hidden;		
         overflow-y: scroll;
@@ -28,20 +28,64 @@
         height: 600px;
         width: 100%;
 		padding : 20px;
+		filter: drop-shadow(-10px -10px white);
     }
 	img {
 		padding : 10px;
 		margin: 10px;
         overflow: hidden;
         filter: sepia(0.5);
-        animation: keyImage 15s infinite;
+        animation: xkeyImage 15s infinite;
 	}
     div {
-        color: #CDDC39;
+        color: #1a1a1a;
         font-size: 80px;
 		font-weight: bold;
         font-family: 'Roboto', sans-serif;
+		  text-shadow:
+   -5px -5px 0 #FFFFFF,  
+    5px -5px 0 #FFFFFF,
+    -5px 5px 0 #FFFFFF,
+     5px 5px 0 #FFFFFF;
     }
+	
+	.qlabel1{
+		border: 10px black;
+		background-color: beige;
+	}
+	.qlabel2 {
+		border: 10px black;
+		background-color: beige;
+		box-shadow: 5px 0 #FF0000;
+		margin-left: 10%;
+		margin-right: 5%;
+		margin-top: 3%;
+		padding-top: 80px;
+		padding-bottom: 30px;
+		font-size: 4em;
+		border-radius: 40px;
+	}
+	.qlabeltrue {
+		background-color: green;
+	}
+	.qlabelfalse {
+		background-color: red;
+	}
+	.qlabelinactive {
+		background-color: grey;
+	}
+
+	.imgcontainernum {
+		position: absolute;
+		top: 45px;
+		left: 45px;
+		z-index: 51;
+        font-size: 60px;
+		font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+		color: #88eeaaaa;
+	}
+
 	.svgicon {
 		position: absolute;
 		bottom: 15px;
@@ -93,12 +137,14 @@
         color: blue;
     }
     .imageoutside {
-    	transition: opacity  2s;
+    	transition: opacity  2s, transform 0.5s;;
     	opacity: 0.6;
+        transform: scale(1.0) translate(0px,0px);
     }
     .imageinside {
-    	transition: opacity  2s;
+    	transition: opacity  2s, transform 10s;
     	opacity: 1.0;
+        transform: scale(1.5) translate(10px,-5px);
     }
 	.textactive {
 		position: absolute;
@@ -157,26 +203,30 @@ input[type="radio"].toggle:checked + label {
 </body>
 	
 <script>
+	/*
+    let piclist = [
+		{src: "pics/snake_mockviper.jpg", response1:"Rat Snake", response2:"Greater Green Snake" }
+		];*/
+	
 
     let piclist = [
-		{"src": "pics/snake_mockviper.jpg"},
-		{"src": "pics/snake_redneckedkeelback.jpg"},
-		{"src": "pics/snake_manybandedkrait.jpg"},
-		{"src": "pics/snake_ratsnake.jpg"},
-		{"src": "pics/snake_bamboo.jpg"},
-		{"src": "pics/snake_chinesecobra.jpg"},
-		{"src": "pics/snake_greatergreen.jpg"},
-		{"src": "pics/snake_indochineseratsnake.jpg"},
-		{"src": "pics/snake_spottedslug.jpg"},
-		{"src": "pics/snake_burmesepython.jpg"},
-		{"src": "pics/snake_bamboo.jpg"},
-		{"src": "pics/snake_chinesecobra.jpg"},
-		{"src": "pics/snake_greatergreen.jpg"},
-		{"src": "pics/snake_indochineseratsnake.jpg"},
-		{"src": "pics/snake_spottedslug.jpg"},
-		{"src": "pics/snake_burmesepython.jpg"},
+		{"src": "pics/snake_mockviper.jpg", "response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_redneckedkeelback.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_manybandedkrait.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_ratsnake.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_bamboo.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_chinesecobra.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_greatergreen.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_indochineseratsnake.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_spottedslug.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_burmesepython.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_bamboo.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_chinesecobra.jpg","response1":"Rat Snake","response2":"Greater Green Snake"},
+		{"src": "pics/snake_greatergreen.jpg","response1":"Rat Snake","response2":"Greater Green Snake"}
     ];
 
+		
+	
 	let newnodes = d3.select("#body1")
 		.data(piclist)
 		.enter()
@@ -197,22 +247,50 @@ input[type="radio"].toggle:checked + label {
 		.attr("width", "100%")
         .attr("position","absolute")
 
-	eimagecontainer.append("svg")
+	esvgicon = eimagecontainer.append("svg")
 		.attr("width","40px")
 		.attr("height","40px")
 		.classed("svgicon", true)
-		.append("path")
+	
+	eimagecontainer.append("div")
+		.classed("imgcontainernum", true)
+		.text((d,i)=> "Level " + i)
+
+	for (let i = 0; i < 3; i++) {
+	esvgicon.append("path")
 		.attr("d","M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM20 34L10 24l2.83-2.83L20 28.34l15.17-15.17L38 16 20 34z")
 //		.attr("d","M33 6c-3.48 0-6.82 1.62-9 4.17C21.82 7.62 18.48 6 15 6 8.83 6 4 10.83 4 17c0 7.55 6.8 13.72 17.1 23.07L24 42.7l2.9-2.63C37.2 30.72 44 24.55 44 17c0-6.17-4.83-11-11-11zm-8.79 31.11l-.21.19-.21-.19C14.28 28.48 8 22.78 8 17c0-3.99 3.01-7 7-7 3.08 0 6.08 1.99 7.13 4.72h3.73C26.92 11.99 29.92 10 33 10c3.99 0 7 3.01 7 7 0 5.78-6.28 11.48-15.79 20.11Z")
 		.style("fill","white")
 		.style("stroke","black")
 		.attr("z-index",50)
+		.attr("transform", "translate(0," + (i * -20)+ ")" )
+	}
+	
 
-
-	newnodes.append("p")
-		.append("div")
-		.classed("gcontainer", true)
+	newnodes.append("div")
+		.classed("qlabel1", true)
 		.html(d=>d.src)
+	
+	newnodes.append("div")
+		.classed("qlabel2", true)
+		.html(d=>d.response1)
+		.on("click", qlabelEvent)
+	
+	newnodes.append("div")
+		.classed("qlabel2", true)
+		.html(d=>d.response2)
+		.on("click", qlabelEvent)
+	
+	newnodes.append("div")
+		.classed("qlabel2", true)
+		.html(d=>d.response2)
+		.on("click", qlabelEvent)
+
+	function qlabelEvent() {
+		let e = d3.select(this);
+
+		e.classed("qlabeltrue", true)
+	}
 
 	function eventClick(d) {
 		let eimg = d3.select(this).select("img")
@@ -334,11 +412,11 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 			.each(function(d,i) {
 				let pos = this.getBoundingClientRect();
 				if (pos.y > 0 && pos.bottom <  window.innerHeight) {
-					d3.select(this).classed("imageoutside", false);
-					d3.select(this).classed("imageinside", true);
+					d3.select(this).select("img").classed("imageoutside", false);
+					d3.select(this).select("img").classed("imageinside", true);
 				} else {
-					d3.select(this).classed("imageoutside", true);
-					d3.select(this).classed("imageinside", false);
+					d3.select(this).select("img").classed("imageoutside", true);
+					d3.select(this).select("img").classed("imageinside", false);
 				}
 			})
 
