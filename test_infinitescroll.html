@@ -16,8 +16,7 @@
         bottom : 0;
         left : 0;
         right: 0;
-        background-color: #BDBDBD;
-        background: "pics/wallpaper.png"
+        background-image: url("/pics/wallpaper.png");
 		max-width: 100%;
     	overflow-x: hidden;		
         overflow-y: scroll;
@@ -66,6 +65,7 @@
 		border-radius: 40px;
 	}
 	.qlabel2 {
+		position: relative;
 		border: 10px black;
 		background-color: beige;
 		box-shadow: 5px 4px #666666;
@@ -99,6 +99,15 @@
 		font-weight: bold;
         font-family: 'Roboto', sans-serif;
 		color: #88eeaaaa;
+	}
+	.qlabelicon {
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		bottom: 40px;
+		right: 40px;
+		transform: translate(-50%, -50%) scale(2.0);
+		z-index: 50;
 	}
 
 	.svgicon {
@@ -291,18 +300,37 @@ input[type="radio"].toggle:checked + label {
 		.html(d=>d.response1)
 		.datum({})
 		.on("click", qlabelEvent)
+		.append("svg").attr("class","qlabelicon")
+		.append("path")
+		.attr("d","M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM20 34L10 24l2.83-2.83L20 28.34l15.17-15.17L38 16 20 34z")
+		.attr("fill","#EEEEEE")
+		.attr("stroke","black")
+		.attr("z-index",50)
 	
 	newnodes.append("div")
 		.classed("qlabel2", true)
 		.html(d=>d.response2)
 		.datum({})
 		.on("click", qlabelEvent)
+		.append("svg").attr("class","qlabelicon")
+		.append("path")
+		.attr("d","M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM20 34L10 24l2.83-2.83L20 28.34l15.17-15.17L38 16 20 34z")
+		.attr("fill","#EEEEEE")
+		.attr("stroke","black")
+		.attr("z-index",50)
 	
 	newnodes.append("div")
 		.classed("qlabel2", true)
 		.html(d=>d.response2)
 		.datum({})
 		.on("click", qlabelEvent)
+		.append("svg").attr("class","qlabelicon")
+		.append("path")
+		.attr("d","M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM20 34L10 24l2.83-2.83L20 28.34l15.17-15.17L38 16 20 34z")
+		.attr("fill","#EEEEEE")
+		.attr("stroke","black")
+		.attr("z-index",50)
+
 
 	function qlabelEvent() {
 		let e = d3.select(this);
