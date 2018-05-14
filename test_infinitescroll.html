@@ -274,22 +274,57 @@ input[type="radio"].toggle:checked + label {
 	newnodes.append("div")
 		.classed("qlabel2", true)
 		.html(d=>d.response1)
+		.datum({})
 		.on("click", qlabelEvent)
 	
 	newnodes.append("div")
 		.classed("qlabel2", true)
 		.html(d=>d.response2)
+		.datum({})
 		.on("click", qlabelEvent)
 	
 	newnodes.append("div")
 		.classed("qlabel2", true)
 		.html(d=>d.response2)
+		.datum({})
 		.on("click", qlabelEvent)
 
 	function qlabelEvent() {
 		let e = d3.select(this);
 
-		e.classed("qlabeltrue", true)
+		e.each(function(d,i) {
+			if (!d.hasOwnProperty("state")) {
+				d.state = 0;
+			}
+			if (d.state != 0) {
+				e.transition()
+					.style("opacity", 0.5)
+					.transition()
+					.style("opacity", 1.0)
+
+			} else {
+				d.state = 1;
+				console.log("setting " + i)
+			}
+
+		})
+
+		d3.select(this.parentNode).selectAll(".qlabel2")
+			.each(function(d) {
+				if (!d.hasOwnProperty("state")) {
+					d.state = 0;
+				}
+				 if (d.state == 0) {
+					d.state = 3;
+				}
+			})
+
+		d3.selectAll(".qlabel2")
+			.classed("qlabelinactive", d => (d.state==3))
+			.classed("qlabeltrue", d => (d.state==1))
+			.classed("qlabelfalse", d => (d.state==2))
+		 	
+
 	}
 
 	function eventClick(d) {
