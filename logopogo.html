@@ -1,0 +1,239 @@
+<html>
+<head>
+	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Amethysta|BioRhyme|Indie+Flower|Montserrat|Oswald|Roboto+Slab|Luckiest+Guy" rel="stylesheet">
+
+
+	<style>
+		.bodycontainer {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;  
+			grid-template-rows: auto;
+			grid-gap: 15px;
+		}
+		@media (max-width: 1000px) {
+			.bodycontainer {
+				display: grid;
+				grid-template-columns: 1fr 1fr;  
+			}
+		}
+		@media (max-width: 600px) {
+			.bodycontainer {
+				display: grid;
+				grid-template-columns: 1fr;  
+			}
+		}
+		body {
+			background: #FFDE03;
+		}
+		.menubar {
+			position: fixed;
+			top:0;
+			height: 40px;
+			font-size: 30px;
+			width: 100%;
+			background-color: white;
+			box-shadow: 5px 5px grey;
+		}
+		.logocont {
+			background: #dddddd;
+			border-radius: 20px;
+			padding: 5px;
+			margin: 15px;
+			box-shadow: 5px 5px #00000044;
+			text-align: center;
+			
+			transform-origin: center;
+			animation: keyenter 1s backwards;
+		}
+		.logo {
+			font-family: "times new roman";
+			font-size: 50px;
+			font-weight: bold;
+			text-align: center;
+			color: #0336ff;
+			filter: url(#filter1);
+			margin: 35px;
+		}
+		sub, sup {
+			margin : -3px;
+		}
+		.sparkle {
+			position: absolute;
+			color: floralwhite;
+			opacity: 0;
+			animation: keydance 5s infinite;
+		}
+		
+		@keyframes keydance {
+			0% {  }
+			10% { opacity: 1.0; }
+			20% {transform:  translate(0,-5px)}
+			30% {transform:  translate(0,-10px)}
+			40% {opacity: 0.0; transform: rotate(180deg) translate(0,-15px)}
+		}
+		
+		@keyframes keyenter {
+			0% {transform: scale(0)}
+			100% {transform: scale(1)}
+		}
+		
+		text {
+			top: 20px;
+			left: 50px;
+		}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    zwidth: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0.3;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 0.7;
+}		
+		
+		#spin1 {
+			margin-left: 50px;
+		}
+	</style>
+	
+</head>
+	
+	<svg display="none">
+		<defs>
+        <linearGradient id="gradient1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="15%"  stop-color="#FFAAFF"/>
+            <stop offset="95%" stop-color="blue"/>
+        </linearGradient>
+        
+      <filter id="filter1">
+          <feMorphology operator="dilate" radius="4" in="SourceAlpha" result="f1"/>
+<feFlood flood-color="#FFFFFF" result="WHITECOLOR" />
+<feComposite operator="in" in="WHITECOLOR" in2="f1" result="f2" />
+
+<feOffset in="f2" dx="1" dy="1" result="g1"/>
+<feMorphology operator="dilate" radius="2" in="g1" result="g2"/>
+
+<feFlood flood-color="#228844" result="DARKGREENCOLOR" />
+<feComposite operator="in" in="DARKGREENCOLOR" in2="g2" result="g3" />
+
+
+<feMerge>
+   <feMergeNode in="g3" />
+   <feMergeNode in="f2" />
+   <feMergeNode in="SourceGraphic" />
+</feMerge>
+
+	</filter>	
+		</defs>
+			
+	</svg>
+	
+
+<body>
+	<div id="grid1" class="bodycontainer">
+	</div>
+	<i id="spin1" class="fas fa-sync fa-spin fa-3x"></i>
+	<i id="spin2" class="fas fa-star fa-spin fa-3x"></i>
+</body>
+	
+<script>
+
+	let fontList = ["Amethysta","BioRhyme","Indie Flower","Montserrat","Oswald","Roboto Slab","Luckiest Guy","Helvetica"];
+	let namelist = ["Sew What","Burger Friend","Monster","pocker","simplify","super","spillify"];
+	var myTimer = setInterval(tick, 5000);
+	
+	let i = 0;
+	let temptext = "hanpa";
+	let tempsplit = 2;
+	let tempcolor = "#2244FF";
+	let tempfont = "Helvetica";
+	
+	function tick() {
+		for (let a = 0; a < 3; a++) {
+		let c = i%3;
+		
+		if (c==0) {
+			temptext = namelist[Math.floor(Math.random() * namelist.length)];
+			tempcolor = "#"+((1<<24)*Math.random()|0).toString(16);
+			tempsplit = Math.floor(Math.random() * temptext.length);
+			
+			tempfont = fontList[Math.floor(Math.random() * fontList.length)];
+		}
+		
+//		let econt = document.querySelector("#col" + c);
+		let econt = document.querySelector("#grid1");
+			
+		let eparent = document.createElement("div");
+		eparent.classList.add('logocont');
+//		eparent.style.gridColumnStart = c;
+		econt.appendChild(eparent);
+		
+		let e = document.createElement("div");
+		e.textContent = temptext;
+			
+		if (c==0) {
+			      var iconArray = new Array("glass", "music", "search", "envelope-open", "heart", "star", "star-o", "user", "film","puzzle-piece", "microphone");
+    				var randIcon = iconArray[Math.floor(Math.random()*(iconArray.length))];
+			e.innerHTML = '<sup><i class="fas fa-' + randIcon + '" ' + '></i></sup>'+ temptext;
+//			e.innerHTML = '<i class="fas fa-' + randIcon + '" ' + '></i>'+ temptext;
+		}
+		if (c==1) e.innerHTML = temptext.substring(0,tempsplit) + "<sup>" +  temptext.substring(tempsplit,tempsplit+1) + "</sup>" +  temptext.substring(tempsplit+1);
+		if (c==2) e.innerHTML = temptext.substring(0,tempsplit) + "<sub>" +  temptext.substring(tempsplit,tempsplit+1) + "</sub>" +  temptext.substring(tempsplit+1);
+		e.classList.add('logo');
+		e.classList.add('tooltip');
+	//	e.style.color = tempcolor;
+		e.style.fontFamily =  tempfont;
+//		e.style.gridRowStart =  Math.floor(i/3);
+		e.style.transform =  "rotate(" + (15 - 30 *Math.random()) + "deg)";
+			
+		eparent.appendChild(e);
+			
+		esparkle = document.createElement("i")
+		esparkle.classList.add('sparkle');
+		esparkle.classList.add('fas');
+		esparkle.classList.add('fa-star');
+		esparkle.classList.add('fa-xs');
+		esparkle.classList.add('fa-spin');
+		e.appendChild(esparkle);
+			
+		etooltip = document.createElement("span")
+		etooltip.classList.add('tooltiptext');
+		etooltip.textContent = tempfont;
+		e.appendChild(etooltip);
+			
+		i++;
+		console.log(i);
+		}
+		
+	}
+	tick();
+</script>
+</html>
+
+

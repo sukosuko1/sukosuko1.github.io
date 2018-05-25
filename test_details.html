@@ -1,0 +1,247 @@
+<html>
+<head>
+<style>
+	body {
+		font: 30px fantasy;
+		ztext-shadow: 3px 3px 0px white;
+		background-image: url("/pics/wallpaper.png");
+	}
+	details {
+		margin-top: 10px;
+	}
+	.imgcontainer {
+		width: 30%;
+		height: 40%;
+		position: relative;
+		overflow: hidden;
+		border: 8px solid white;
+		box-shadow: 5px 5px #88888888;
+		border-radius: 20px;
+	}
+	.imgview {
+		overflow: hidden;
+		position: absolute;
+		height: 1000px;
+		animation: keyexpand 1s;
+	}
+	.imgview1 {
+		top: -150px;
+	}
+	.imgview2 {
+		top: -400px;
+		animation: keyexpandcrazy 15s infinite reverse;
+	}
+	
+	.imgcontainer2 {
+		opacity: 0;
+		margin-left: 800px;
+		animation-delay: 5s;
+		animation: keyshiftin 10s;
+	}
+	
+	.imgcontainer:nth-child(1)  .imgview: {
+		top: -200px;
+	}
+	.imgcontainer:nth-child(2) .imgview: {
+		top: -400px;
+	}
+	
+	img {
+		height: 1000px;
+	}
+	
+	svg {
+		position: absolute;
+		right: 0%;
+		bottom: 0%;
+		width: 40px;
+		height: 40px;
+	}
+	.sidedetail {
+		position: relative;
+		background-color: white;
+		border: 5px solid white;
+		transform: rotate(-8deg);
+		color: brown;
+		width: 150px;
+		font-size: 0.5em;
+		float: left;
+		text-shadow: none;
+	}
+	.sidedetail2 {
+		position: relative;
+		left: 0px;
+		top: 0px;
+		background-color: aquamarine;
+		color: white;
+		text-decoration-color: blue;
+		outline-color: blueviolet;
+		border: 5px solid white;
+		border-radius: 6px;
+		color: brown;
+		width: 120px;
+		font-size: 0.5em;
+		text-shadow: none;
+		box-shadow: 5px 5px #88888888;
+		transform: translate(110px, -140px) rotate(7deg);
+	}
+	.timer0 {
+		opacity: 0;
+		animation: keytimer0 5s ;
+	}
+	.timer1 {
+		opacity: 0.2;
+		transform: rotate(-5deg);
+		animation: keytimer0 5s;
+		animation-delay: 5s;
+	}
+	.timer2 {
+		opacity: 0.2;
+		transform:  rotate(2deg);
+		animation: keytimer0 5s;
+		animation-delay: 10s;
+	}
+	
+	@keyframes keytimer0 {
+		0% { opacity: 0; transform:scale(0) translate(110px, -140px) rotate(7deg); }
+		5% { opacity: 1;  transform:scale(1.0) translate(110px, -140px) rotate(7deg);}
+		95% { opacity: 1; transform:scale(1.0) translate(110px, -140px) rotate(7deg);}
+		100% { opacity: 0; transform:scale(1.0) translate(110px, -140px) rotate(7deg);}
+	}
+	@keyframes keytimer2 {
+		0% { opacity: 0 }
+		5% { opacity: 1 }
+		95% { opacity: 1 }
+		100% { opacity: 0 }
+	}
+	
+	@keyframes keyexpand {
+		from{ opacity: 0.1;}
+		to { opacity: 1.0; }
+	}
+	
+	@keyframes keyexpandcrazy {
+		0% { transform: rotate(0deg) scale(2.0) }
+		5% { transform: rotate(-5deg) scale(1.1) }
+		10% { transform: rotate(0deg) scale(2.0) translate(-10px, 5px) }
+		30% { transform: rotate(0deg) scale(2.0) translate(-10px, 5px) }
+		35% { transform: rotate(0deg) scale(2.0) translate(-10px, 5px) }
+		40% { transform: rotate(-5deg) scale(1.1) }
+		45% { transform: rotate(0deg) scale(2.0) translate(-80px, -45px) }
+		45% { transform: rotate(0deg) scale(2.0) translate(-80px, -45px) }
+		
+		80% { transform: rotate(15deg) scale(1.0) translate(-10px, 5px) }
+		100% { transform: rotate(-5deg) scale(1.15) }
+	}
+	@keyframes keyshiftin {
+		from{ opacity: 0.0); margin-left: 800px }
+		10% { opacity: 1.0); margin-left: 800px }
+		30% { opacity: 1.0;  margin-left: 10px}
+		to { opacity: 1.0;  margin-left: 10px}
+	}
+	
+	.blogpost {
+		font-size: 14px;
+    	line-height: 24px;
+    	font-weight: 400;
+		font-family: "Whitney SSm A", "Whitney SSm B", "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+    		
+		background-color: white;
+		color: black;
+
+    	margin-top: 10px;
+		padding-top: 1px;
+		padding-left: 15px;
+		padding-right: 15px;
+    	border-radius: 5px;
+	}
+	.blogpost > a {
+		color: red;
+	}
+	
+	.blogposttitle {
+		font-size: 20px;
+    	line-height: 24px;
+    	font-weight: 400;
+		font-family: "Whitney SSm A", "Whitney SSm B", "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+    	
+    	padding: 5px;
+    	border-radius: 5px;
+
+		background-color: #FFFFAA;
+		color: black;
+	}
+	.blogposttitle > a:nth-child(2) {
+		font-size: 20px;
+    	line-height: 24px;
+    	font-weight: 400;
+		font-family: "Whitney SSm A", "Whitney SSm B", "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+    		
+		color: #AAAAFF;
+	}
+
+</style>	
+</head>
+<body>
+<h2>Schedule</h2>
+<details>
+<summary>Morning</summary>	
+	
+<div class="imgcontainer">
+	<img class="imgview imgview1" src="IMG_hospital.JPG" top="-20%">
+	<svg onclick="event1">
+		<path d="M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM20 34L10 24l2.83-2.83L20 28.34l15.17-15.17L38 16 20 34z"/>
+	</svg>
+
+</div>
+	
+</details>
+<details>
+<summary>Afternoon</summary>	
+	
+<div class="imgcontainer">
+	<img class="imgview imgview2" src="IMG_hospital.JPG" top="-400px" border="10px solid black">
+	<svg onclick="event1">
+		<path d="M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM20 34L10 24l2.83-2.83L20 28.34l15.17-15.17L38 16 20 34z"/>
+	</svg>
+</div>
+<div  class="sidedetail">Animation begins each time the details tag is opened </div>
+<div  class="sidedetail2 timer0">Still working on layout</div>
+<div  class="sidedetail2 timer1">Red tail</div>
+<div  class="sidedetail2 timer2">Triangular head</div>
+	
+
+<div class="imgcontainer imgcontainer2">
+	<img class="imgview imgview1" src="IMG_hospital.JPG" top="-400px" border="10px solid black">
+	
+</div>
+	
+</details>
+
+<div class="blogposttitle">
+<a>By</a>
+<a>Scott Chrsitensen</a>
+<a>2018 May 18</a>
+</div>
+
+<div class="blogpost">
+<body>
+<h3>Random Forest Model and feature signifance search.</h3>
+
+
+
+Once upon a time a quantiative team was searching for a bug in the forest of random statistics which are a result of loading megatons of historical stock market data with endless streaminging into a real time database. 
+
+<a href="http://wikipedia.org/volcano">Volcano</a>
+
+</body>
+</div>
+
+</body>
+	
+<script>
+	function event1() {
+		alert("Thanks for clicking!");
+	}
+</script>
+</html>
