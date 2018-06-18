@@ -27,6 +27,7 @@ body {
   overflow: hidden;
   visibility: hidden;
   position: relative;
+  margin: 20px;
 }
 .swipe-wrap {
   overflow: hidden;
