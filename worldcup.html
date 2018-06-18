@@ -1,0 +1,46 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="worldcup.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/swipe/2.0.0/swipe.min.js"></script>
+	<script>
+		function startgamez(){
+			console.log("startgamez");
+		}
+	</script>
+</head>
+	
+<body>
+	<div class="cmclickable" onlick="console.log("lick"); startgamez();" title="reset it all">RESETz</div>
+	<div  class="cmclickable cmreset" onlick="startgame();">RESET</div>
+	<div class="cmcont cmclickable">
+		<p>Kick</p>
+		<p class="cmvalue"></p>
+	</div>
+	
+	<div class="cmcont cmclickable cmpractice">
+		<p>Practice</p>
+		<p class="cmvalue"></p>
+	</div>
+
+	<div class="cmcont cmclickable cmscore">
+		<p>Shoot</p>
+		<p class="cmvalue"></p>
+	</div>
+	
+	<div class="cmcont cmclickable cmpenalty"></div>
+	
+<div id='slider' class='swipe'>
+  <div class='swipe-wrap'>
+    <div class="swipeitem cmpenalty">one</div>
+    <div class="swipeitem2">two</div>
+    <div class="swipeitem">three</div>
+  </div>
+</div>	
+
+	<script src="clicker.js"></script>
+	<script>
+		window.mySwipe = Swipe(document.getElementById('slider'));
+	</script>
+</body>
+	
+</html>

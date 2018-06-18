@@ -1,6 +1,6 @@
 <html>
 <head>
-<style>
+<style id="myStyle">
 	body {
 		font: 30px fantasy;
 		ztext-shadow: 3px 3px 0px white;
@@ -158,7 +158,7 @@
 	.blogpost > a {
 		color: red;
 	}
-	
+
 	.blogposttitle {
 		font-size: 20px;
     	line-height: 24px;
@@ -180,6 +180,15 @@
 		color: #AAAAFF;
 	}
 
+	@keyframes keytext {
+		50% {color:red}
+	}
+
+	#titletest1:after {
+		color:blue;
+		content:"after";
+		animation: keytitles 10s infinite;
+	}
 </style>	
 </head>
 <body>
@@ -234,8 +243,15 @@ Once upon a time a quantiative team was searching for a bug in the forest of ran
 
 <a href="http://wikipedia.org/volcano">Volcano</a>
 
-</body>
 </div>
+
+<dl>
+<dd>title</dd>
+<dl>details</dl>
+</dl>
+
+<div id="titletest1">test</div>
+<div class="titlebar2"></div>
 
 </body>
 	
@@ -243,5 +259,74 @@ Once upon a time a quantiative team was searching for a bug in the forest of ran
 	function event1() {
 		alert("Thanks for clicking!");
 	}
+
+	
+	var myStyle = document.getElementById('myStyle');
+	
+
+//	myStyle.appendChild();
+
+
+
+// var styleEl = document.createElement('style'),
+ //     styleSheet;
+
+  // Append style element to head
+ // document.head.appendChild(styleEl);
+
+  // Grab style sheet
+  styleSheet = myStyle.sheet;
+
+   let str =  "@keyframes " + "keytest" + "{" + "transform:scale(2.0)" + "}";
+   styleSheet.insertRule(str, styleSheet.length);
+
+   str =  "@keyframes " + "keytest" + "{" + "transform:scale(1.5)" + "}";
+   styleSheet.insertRule(str, styleSheet.length);
+
+   str =  "@keyframes " + "keytest2" + "{" + "transform:scale(3.0)" + "}";
+   styleSheet.insertRule(str, styleSheet.length);
+
+
+   styleSheet.insertRule("h2 {color:red}", 0);
+
+   let z = document.styleSheet;
+   let z2 = document.styleSheets[0];
+
+	document.querySelector("h2")
+   zzz=99;
+
+
+let keyFrameString = "@keyframes keytitles {"
+let ipct = 10;
+
+elist = document.querySelectorAll("dl");
+elist.forEach(function(edl) {
+  let eddlist = edl.querySelectorAll("dt,dd");
+  eddlist.forEach(function(e) {
+    console.log(e.tagName + " is " + e.textContent);
+  
+    keyFrameString = keyFrameString.concat(ipct + '% { content:"' + e.textContent + '"}'); 
+   ipct += 5;
+                               console.log(keyFrameString);
+   })
+})
+//console(elist.length)
+
+keyFrameString = keyFrameString.concat("}")
+
+console.log(keyFrameString);
+
+//let estyle = document.querySelector("style");
+let estyle = document.styleSheets[0];
+//alert(estyle)
+//console.log(estyle)
+
+estyle.insertRule(".titlebar {color:purple}",2);
+
+document.querySelector(".titlebar2").textContent =keyFrameString;
+
+estyle.insertRule(keyFrameString,1);
+
+
 </script>
 </html>

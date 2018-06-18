@@ -1,0 +1,47 @@
+body {
+	font-size: 40px;
+	border-radius: 10px;
+}
+
+.cmclickable {
+	display:flex;
+	justify-content: space-between;
+	color:red;
+}
+.cmclickable:hover {
+	opacity: 0.8;
+	color:green;
+}
+
+.cmcont {
+	background: aqua;
+	margin: 10px;
+	padding: 10px;
+	border-radius: 20px;
+}
+.cmcont:hover{
+	background: #ccc;
+}
+
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+}
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.swipe-wrap > div {
+  float:left;
+  width:100%;
+  position: relative;
+}
+.swipeitem {
+	background:pink;
+	height: 150px;
+}
+.swipeitem2 {
+	background:aqua;
+	height: 150px;
+}
