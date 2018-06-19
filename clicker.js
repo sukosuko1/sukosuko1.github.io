@@ -1,3 +1,9 @@
+let gameobj = []
+gameobj.push( {action:"run",cost:{},farm:{default:0.1},img:{} } );
+gameobj.push( {action:"charge",cost:{kick:20,run:10},farm:{train:0.001} } );
+gameobj.push( {event:"surprise",farm:{default:0.01} } );
+let gameview = [];
+
 let elist = document.querySelectorAll(".cmcont");
 
 var controllers = [];
@@ -17,6 +23,7 @@ if(!localStorage.getItem('cmdata')) {
 }
 
 var cmdata = JSON.parse(localStorage.getItem('cmdata'));
+var cmcontroler = {};
 
 cmdata.num++;
 
@@ -25,12 +32,33 @@ console.log("cmdata: " + cmdata.num);
 function startgame() {
 	console.log("startgamestart");
 	localStorage.clear();
-    cmdata = {num:7,gametime:0};
+    cmdata = { kick:7,
+			   run:0,
+			   charge:0,
+			   goal:0,
+			   gametime:0,
+			   other:{}
+			 };
+	/*
+	cmcontroller = {
+		kick:function() { },
+		run:function() { },
+		charge:function() { if (cmdata.kicks>=20 && cmdata.run >= 10) {cmdata.charge++; cmdata.kicks-=20; cmdata.run-=10; return true} else { return false}  },
+		goal:function() { if (cmdata.charge >=5) {cmdata.charge -= 5; if (Math.random() < 0.25) cmdata.goal++; } else {return false} },
+		other:function() {}
+	};
+	cmstate = {
+		kick: {action:{kick:1},state:1,}
+		charge: {kicks:-20, run:-10,charge:1}
+	}
+	*/
+	
     localStorage.setItem('cmdata', JSON.stringify(cmdata));
 
-	controllers = [];
-	controllers.push(controller_score);
-	controllers.push(controller_penalty);
+	gameview = [];
+	gameobj.forEach(d=>gameview.push(CreateView(d)));
+	
+	gameview.forEach(d=>d.render(document.body));
 	
 	console.log("startgameend");
 }
@@ -50,14 +78,29 @@ function savegame() {
 	localStorage.setItem('cmdata', JSON.stringify(cmdata));
 }
 
-var controller_score = {
-	state: 0,
-	update : function() {
+
+
+var controller_score = {};
+controller_score.state= 0;
+controller_score.update = function() {
 		if (cmdata.num > 10 && this.state == 0) this.state = 1;
 		if (cmdata.num > 20 && this.state <= 1) this.state = 2;
-	},
-	viewe : document.querySelector(".cmscore"),
-	render: function() {
+}
+controller_score.action = function() {
+	this.value++;
+}
+controller_score.viewe = document.querySelector(".cmscore");
+controller_score.render = function() {
+	let e1 = document.createElement("div");
+	e1.textContent = "Penalty"
+	e.appendChild(e1);
+	
+	let e2 = document.createElement("div");
+	e2.textContent = "";
+	e2.classList.add("cmvalue")
+	e.appendChild(e2);
+}
+controller_score.render = function() {
 		console.log("st2=" + this.state + " d=" + JSON.stringify(cmdata));
 		if (this.state == 0) {
 			this.viewe.setAttribute("style" , "opacity:0.05");
@@ -70,7 +113,7 @@ var controller_score = {
 		}
 		return "";
 	}
-}
+
 
 function cmtimer() {
     console.log(cmdata.gametime++ + " controllers.length=" + controllers.length)	
@@ -78,6 +121,8 @@ function cmtimer() {
 	
 	controllers.forEach(e=>e.update())
 	controllers.forEach(e=>e.render())
+	
+	gameview.forEach(d=>d.update());
 }
 
 setInterval(cmtimer, 1000);
