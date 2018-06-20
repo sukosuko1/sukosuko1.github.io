@@ -1,8 +1,19 @@
 let gameobj = []
-gameobj.push( {action:"run",cost:{},farm:{default:0.1},img:{} } );
-gameobj.push( {action:"charge",cost:{kick:20,run:10},farm:{train:0.001} } );
-gameobj.push( {event:"surprise",farm:{default:0.01} } );
+gameobj.push( {name:"kick",action:gamebuy,value:0,cost:{},farm:{default:0.1},img:{} } );
+gameobj.push( {name:"run",action:gamebuy,value:0,cost:{},farm:{default:0.1},img:{} } );
+gameobj.push( {name:"charge",action:gamebuy,value:0,cost:{kick:20,run:10},farm:{train:0.001} } );
+gameobj.push( {name:"surprise",value:0,farm:{default:0.01} } );
+gameobj.push( {name:"hello",value:0,action:gamemessage} );
 let gameview = [];
+
+function gamebuy() {
+	this.value += 1;
+	console.log(this.value);
+//	this.update();
+}
+function gamemessage() {
+	this.value = "player" + Math.floor(Math.random()*10);
+}
 
 let elist = document.querySelectorAll(".cmcont");
 
@@ -56,7 +67,7 @@ function startgame() {
     localStorage.setItem('cmdata', JSON.stringify(cmdata));
 
 	gameview = [];
-	gameobj.forEach(d=>gameview.push(CreateView(d)));
+	gameobj.forEach(d=>gameview.push(ClickerView(d)));
 	
 	gameview.forEach(d=>d.render(document.body));
 	
