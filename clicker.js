@@ -1,10 +1,8 @@
-let gameobj = []
-gameobj.push( {name:"kick",action:gamebuy,value:0,cost:{},farm:{base:0.1},img:{} } );
-gameobj.push( {name:"run",action:gamebuy,value:0,cost:{},farm:{base:0.3},img:{} } );
-gameobj.push( {name:"run",action:gamebuy,value:0,cost:{},farm:{base:1},img:{} } );
-gameobj.push( {name:"charge",action:gamebuy,value:0,cost:{kick:20,run:10},farm:{train:0.001} } );
-gameobj.push( {name:"surprise",value:0,farm:{default:0.01} } );
-gameobj.push( {name:"hello",value:0,action:gamemessage} );
+let gameobj = new Map();
+gameobj.set("kick", {name:"kick",action:gamebuy,value:0,cost:10,farm:{base:0.4},img:{} } );
+gameobj.set("run", {name:"run",action:gamebuy,value:0,cost:5,farm:{base:0.0},img:{} } );
+gameobj.set("charge", {name:"charge",action:gamebuy,value:0,cost:3,farm:{base:0.0} } );
+gameobj.set("goal", {name:"goal",action:gamebuy,value:0,cost:2,farm:{base:0.0} } );
 
 let gameview = [];
 
@@ -12,7 +10,48 @@ let gameview = [];
 
 function gamebuy(d) {
 	console.log(d);
-	d.value += 1;
+	if (d.name=="kick") {
+		if (d.value >= d.cost) {
+			d.value += -d.cost
+			gameobj.get("run").value += 1;
+		} else {
+			
+		}
+	}
+	if (d.name=="run") {
+		if (d.value >= d.cost) {
+			d.value += -d.cost;
+			if (Math.random() > 0.5) {
+				gameobj.get("charge").value += 1;
+				d.message = "Nice Run!";
+				d.messageTime = +new Date() + 1000;
+			} else {
+				d.message = "Tripped and fell!!";
+				d.messageTime = +new Date() + 1000;
+			}
+		}
+	}
+	if (d.name=="charge") {
+		if (d.value >= d.cost) {
+			d.value += -d.cost;
+			
+			if (Math.random() > 0.5) {
+				gameobj.get("goal").value += 1;
+				d.message = "Goal!!";
+				d.messageTime = +new Date() + 1000;
+			} else {
+				d.message = "Missed!";
+				d.messageTime = +new Date() + 1000;
+			}
+		}
+	}
+	if (d.name=="goal") {
+		if (d.value >= d.cost) {
+			d.message = "you win the world cup!!";
+			d.messageTime = +new Date() + 1000;
+		}
+	}
+	
 	gameobjupdate();
 	gameupdate();
 }
@@ -176,29 +215,6 @@ function gameupdate() {
 setInterval(cmtimer, 150);
 
 savegame()
-
-document.querySelectorAll(".cmpenalty").forEach((e,i)=> {  
-	let e1 = document.createElement("div");
-	e1.textContent = "Penalty"
-	e.appendChild(e1);
-	
-	let e2 = document.createElement("div");
-	e2.textContent = "";
-	e2.classList.add("cmvalue")
-	e.appendChild(e2);
-});
-
-var controller_penalty = {
-	penalty: 0,
-	update : function() {
-		if (Math.random() < 0.2) this.penalty++;
-	},
-	viewe : document.querySelector(".cmpenalty").querySelector(".cmvalue"),
-	render: function() {
-		this.viewe.textContent = this.penalty;
-		return "";
-	}
-}
 
 
 

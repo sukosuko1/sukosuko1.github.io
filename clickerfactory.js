@@ -14,6 +14,7 @@ function ClickerView(d) {
 		e0.classList.add("cmcard")
 		if (d.action) e0.addEventListener("click",this.d.action);
 		econt.appendChild(e0);
+		this.e0 = e0;
 		
 		let e1 = document.createElement("div");
 		e1.textContent = this.d.name;
@@ -39,23 +40,39 @@ function ClickerView(d) {
 			fptr(dptr); 
 			} );
 		}
-		e3.textContent = "hello"
+		e3.textContent = ""
 		econt.appendChild(e3);
 		this.emessage = e3;
 	}
 	
 	obj.update = function() {
+		ct = +new Date();
 		if (!this.e2) {
 			zz=99;
 		}
 //		this.e2.textContent = "7";
 //		this.e2.textContent = "" + this.d.value + " " + Math.floor(Math.random() * 100);
 		this.e2.textContent = "" + this.d.value.toFixed(1);
-		if (this.d.value % 10 == 0) {
+		if (this.d.value >= this.d.cost) { 
+			this.e0.classList.add("cmattention");
+		} else {
+			this.e0.classList.remove("cmattention");
+		}
+
+/*		if (this.d.value % 10 == 0) {
 			this.emessage.textContent = "Yeah you made it to " + this.d.value + "!";
 		} else {
 			this.emessage.textContent = "" ;
 		}
+*/
+		
+		if (this.d.message) {
+			this.emessage.textContent = this.d.message ;
+		}
+		if (ct > this.d.messageTime) {
+			this.emessage.textContent = "";
+		}
+		
 	}
 	
 	
