@@ -1,19 +1,49 @@
 let gameobj = []
-gameobj.push( {name:"kick",action:gamebuy,value:0,cost:{},farm:{default:0.1},img:{} } );
-gameobj.push( {name:"run",action:gamebuy,value:0,cost:{},farm:{default:0.1},img:{} } );
+gameobj.push( {name:"kick",action:gamebuy,value:0,cost:{},farm:{base:0.1},img:{} } );
+gameobj.push( {name:"run",action:gamebuy,value:0,cost:{},farm:{base:0.3},img:{} } );
+gameobj.push( {name:"run",action:gamebuy,value:0,cost:{},farm:{base:1},img:{} } );
 gameobj.push( {name:"charge",action:gamebuy,value:0,cost:{kick:20,run:10},farm:{train:0.001} } );
 gameobj.push( {name:"surprise",value:0,farm:{default:0.01} } );
 gameobj.push( {name:"hello",value:0,action:gamemessage} );
+
 let gameview = [];
 
-function gamebuy() {
-	this.value += 1;
-	console.log(this.value);
-//	this.update();
+//controllers
+
+function gamebuy(d) {
+	console.log(d);
+	d.value += 1;
+	gameobjupdate();
+	gameupdate();
 }
+
 function gamemessage() {
 	this.value = "player" + Math.floor(Math.random()*10);
 }
+
+
+function gameobjtimer() {
+	gameobj.forEach(d=>
+		{ if (d.farm) {
+			if (d.farm.base) d.value += d.farm.base;
+			}			   
+		}
+	);
+}
+
+function gameobjupdate() {
+	//listenders>??
+	/*
+	gameobj.forEach(d=>
+		{
+		if (d.value)
+	})
+	*/
+	
+}
+
+
+
 
 let elist = document.querySelectorAll(".cmcont");
 
@@ -126,17 +156,24 @@ controller_score.render = function() {
 	}
 
 
+
 function cmtimer() {
-    console.log(cmdata.gametime++ + " controllers.length=" + controllers.length)	
+//    console.log(cmdata.gametime++ + " controllers.length=" + controllers.length)	
 	//broadcast changes..
 	
 	controllers.forEach(e=>e.update())
 	controllers.forEach(e=>e.render())
-	
+
+	gameobjtimer();
 	gameview.forEach(d=>d.update());
 }
 
-setInterval(cmtimer, 1000);
+function gameupdate() {
+	gameview.forEach(d=>d.update());
+}
+
+
+setInterval(cmtimer, 150);
 
 savegame()
 
@@ -165,6 +202,7 @@ var controller_penalty = {
 
 
 
+startgame();
 
 
 
