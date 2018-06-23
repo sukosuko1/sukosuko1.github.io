@@ -204,6 +204,12 @@ var controller_penalty = {
 
 startgame();
 
+var scriptcc = document.createElement('script');
+scriptcc.src = "cutecritterfactory.js";
+document.body.appendChild(scriptcc);
+
+
+
 
 
 

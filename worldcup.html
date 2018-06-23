@@ -100,10 +100,10 @@
             enablejsapi:1,
          controls:1,
 			playerVars: {
-    rel: 0,
-    showinfo: 0,
-    fs: 0
-				}
+    			rel: 0,
+    			showinfo: 0,
+    			fs: 0
+			},
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -147,7 +147,6 @@
        c1.style.zIndex="-1";
     } else if (playerStatus == 1) {
       color = "#33691E"; // playing = green
-      c1.style.zIndex="99";
 		console.log(event);
     } else if (playerStatus == 2) {
       color = "#DD2C00"; // paused = red
