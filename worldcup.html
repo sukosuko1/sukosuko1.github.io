@@ -99,6 +99,11 @@
           autoplay:1,
             enablejsapi:1,
          controls:1,
+			playerVars: {
+    rel: 0,
+    showinfo: 0,
+    fs: 0
+				}
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -127,7 +132,7 @@
 		  //document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime(); 
           
         vidanchortime = +new Date - 1000 * player.getCurrentTime();
-          
+		  
         console.log(playerStatus);
                                                                 
     var color;
