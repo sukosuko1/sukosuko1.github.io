@@ -52,7 +52,7 @@ function ClickerView(d) {
 		}
 //		this.e2.textContent = "7";
 //		this.e2.textContent = "" + this.d.value + " " + Math.floor(Math.random() * 100);
-		this.e2.textContent = "" + this.d.value.toFixed(1);
+		this.e2.textContent = "" + this.d.value.toFixed(0);
 		if (this.d.value >= this.d.cost) { 
 			this.e0.classList.add("cmattention");
 		} else {

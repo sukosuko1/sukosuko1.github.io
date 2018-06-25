@@ -104,3 +104,46 @@ svg {
 	height:50%;
 	
 }
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.cmtab  {
+	display:block;
+    background-color: pink;
+	border: 5px solid yellow;
+}
+
+.cmtab button {
+    background-color: blue;
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.cmtab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.cmtab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.cmtabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}

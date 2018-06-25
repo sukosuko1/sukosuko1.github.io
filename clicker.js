@@ -1,6 +1,6 @@
 let gameobj = new Map();
-gameobj.set("kick", {name:"kick",action:gamebuy,value:0,cost:10,farm:{base:0.4},img:{} } );
-gameobj.set("run", {name:"run",action:gamebuy,value:0,cost:5,farm:{base:0.0},img:{} } );
+gameobj.set("run", {name:"run",action:gamebuy,value:0,cost:10,farm:{base:3.4},img:{} } );
+gameobj.set("kick", {name:"kick",action:gamebuy,value:0,cost:5,farm:{base:0.0},img:{} } );
 gameobj.set("charge", {name:"charge",action:gamebuy,value:0,cost:3,farm:{base:0.0} } );
 gameobj.set("goal", {name:"goal",action:gamebuy,value:0,cost:2,farm:{base:0.0} } );
 
@@ -10,18 +10,20 @@ let gameview = [];
 
 function gamebuy(d) {
 	console.log(d);
-	if (d.name=="kick") {
+	if (d.name=="run") {
 		if (d.value >= d.cost) {
 			d.value += -d.cost
-			gameobj.get("run").value += 1;
+			let dkick = gameobj.get("kick");
+			dkick.value += 1;
+			if (dkick.view) dkick.view.update();
 		} else {
 			
 		}
 	}
-	if (d.name=="run") {
+	if (d.name=="kick") {
 		if (d.value >= d.cost) {
 			d.value += -d.cost;
-			if (Math.random() > 0.5) {
+			if (Math.random() > 0.2) {
 				gameobj.get("charge").value += 1;
 				d.message = "Nice Run!";
 				d.messageTime = +new Date() + 1000;
@@ -35,7 +37,7 @@ function gamebuy(d) {
 		if (d.value >= d.cost) {
 			d.value += -d.cost;
 			
-			if (Math.random() > 0.5) {
+			if (Math.random() > 0.2) {
 				gameobj.get("goal").value += 1;
 				d.message = "Goal!!";
 				d.messageTime = +new Date() + 1000;
@@ -136,7 +138,11 @@ function startgame() {
     localStorage.setItem('cmdata', JSON.stringify(cmdata));
 
 	gameview = [];
-	gameobj.forEach(d=>gameview.push(ClickerView(d)));
+	gameobj.forEach(function(d) {
+		let view = ClickerView(d);
+		gameview.push(view);
+		d.view = view;
+	});
 	
 	gameview.forEach(d=>d.render(document.body));
 	
