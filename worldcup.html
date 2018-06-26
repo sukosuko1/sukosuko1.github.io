@@ -23,17 +23,18 @@
     <div class="swipeitem"><img src="https://ssl.gstatic.com/onebox/media/sports/photos/soccer/wc2018/972293870_sRs5ug_112x112.png"/></div>
   </div>
 </div>	
-
-<div id="cmgame">
-<div class="cmtab">
-  <button class="cmtablinks" onclick="openCity(event, 'London')">London</button>
-  <button class="cmtablinks" onclick="openCity(event, 'Paris')">Paris</button>
-  <button class="cmtablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
-</div>
-</div>
-	
 	
 <div id="player"></div>
+
+<div id="cmgame">
+<div class="cmtabbar">
+  <button class="cmtablinks" onclick="openClickerTab(event, 'play')">Play</button>
+  <button class="cmtablinks" onclick="openClickerTab(event, 'train')">Train</button>
+  <button class="cmtablinks" onclick="openClickerTab(event, 'connect')">Connect</button>
+</div>
+</div>
+	
+	
 	
 	<script src="clickerfactory.js"></script>
 	<script src="clicker.js"></script>
@@ -70,7 +71,7 @@
           allowfullscreen: false,
           height: '50%',
           width: '100%',
-          videoId: vids[vidPtr],
+          videoId: vids[vidPtr] + "?playsinline=1",
           style: 'border: solid 4px #37474F',
           loop: 'true',
           playsinline: 1,

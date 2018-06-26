@@ -1,13 +1,39 @@
+function openClickerTab(event, name) {
+	console.log(name);
+	let etab = document.querySelector("#tab" + name)
+	let etablist = document.querySelectorAll(".cmtab").forEach(e=>{
+		if (e==etab) {
+			e.style.display = 'block';
+			console.log("found.." + name);
+			
+		} else{
+			e.style.display = 'none';
+		}
+	});
+
+}
 
 function ClickerView(d) {
 	let obj = {}
 	obj.d = d;
 	
 	obj.render = function(e) {
+		
+		let etab = e;
+		if (this.d.page) {
+		etab = document.querySelector("#tab" + this.d.page)
+		if (!etab) {
+			etab = document.createElement("div");
+			etab.id = "tab" + this.d.page;
+			etab.classList.add("cmtab");
+			e.appendChild(etab);
+		}
+		}
+		
 		let econt = document.createElement("div");
 		econt.id = "cmcont" + this.d.name;
 		econt.classList.add("cmcont")
-		e.appendChild(econt);
+		etab.appendChild(econt);
 		
 		let e0 = document.createElement("div");
 		e0.id = "cm" + this.d.name;

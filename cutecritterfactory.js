@@ -22,9 +22,9 @@ ajax.onload = function(e) {
   div.innerHTML = ajax.responseText;
   document.body.insertBefore(div, document.body.childNodes[0]);
 
-  document.querySelector("#critter1").setAttribute("left",-300);
+//  document.querySelector("#critter1").setAttribute("left",-300);
   document.querySelector("#critter1").setAttribute("border", "3px solid yellow");
   
-  document.querySelector("#tail1").setAttribute("transform","translate(-800px,-800px) scale(3.0)");
+  document.querySelector("#tail1").setAttribute("transform","translate(-800,-800) scale(1.02)");
 }
 	

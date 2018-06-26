@@ -1,8 +1,14 @@
 let gameobj = new Map();
-gameobj.set("run", {name:"run",action:gamebuy,value:0,cost:10,farm:{base:3.4},img:{} } );
-gameobj.set("kick", {name:"kick",action:gamebuy,value:0,cost:5,farm:{base:0.0},img:{} } );
-gameobj.set("charge", {name:"charge",action:gamebuy,value:0,cost:3,farm:{base:0.0} } );
-gameobj.set("goal", {name:"goal",action:gamebuy,value:0,cost:2,farm:{base:0.0} } );
+gameobj.set("run", {name:"run",action:gamebuy,value:0,cost:10,farm:{base:3.4},page:"play"} );
+gameobj.set("kick", {name:"kick",action:gamebuy,value:0,cost:5,farm:{base:0.0},page:"play" } );
+gameobj.set("charge", {name:"charge",action:gamebuy,value:0,cost:3,farm:{base:0.0},page:"play" } );
+gameobj.set("goal", {name:"goal",action:gamebuy,value:0,cost:2,farm:{base:0.0},page:"play" } );
+
+gameobj.set("Rest", {name:"Rest",action:gamebuy,value:0,cost:10,farm:{base:0.1},page:"train"} );
+gameobj.set("Lifting", {name:"Lifting",action:gamebuy,value:0,cost:5,page:"train"} );
+gameobj.set("Massage", {name:"Massage",action:gamebuy,value:0,cost:5,page:"train"} );
+
+gameobj.set("Chat", {name:"Chat",action:gamebuy,value:0,cost:0,page:"connect"} );
 
 let gameview = [];
 
