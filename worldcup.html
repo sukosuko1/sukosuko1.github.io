@@ -16,15 +16,7 @@
 	
 <body>
 	
-<div id='slider3' class='swipe'>
-  <div class='swipe-wrap'>
-    <div class="swipeitem">Hector Herrera<i right="0%" class="fas fa-ellipsis-h"></i></div>
-    <div class="swipeitem2">Midfielder</div>
-    <div class="swipeitem"><img src="https://ssl.gstatic.com/onebox/media/sports/photos/soccer/wc2018/972293870_sRs5ug_112x112.png"/></div>
-  </div>
-</div>	
 	
-<div id="player"></div>
 
 <div id="cmgame">
 <div class="cmtabbar">
@@ -35,6 +27,7 @@
 </div>
 	
 	
+<div id="player"></div>
 	
 	<script src="clickerfactory.js"></script>
 	<script src="clicker.js"></script>
@@ -71,7 +64,8 @@
           allowfullscreen: false,
           height: '50%',
           width: '100%',
-          videoId: vids[vidPtr] + "?playsinline=1",
+//          videoId: vids[vidPtr] + "?playsinline=1",
+          videoId: vids[vidPtr],
           style: 'border: solid 4px #37474F',
           loop: 'true',
           playsinline: 1,
@@ -97,7 +91,7 @@
       // 4. The API will call this function when the video player is ready.
       function onPlayerReady(event) {
 		  console.log("ready")
-		  player.seekTo(124);
+//		  player.seekTo(124);
 		  
           event.target.playVideo();
       }

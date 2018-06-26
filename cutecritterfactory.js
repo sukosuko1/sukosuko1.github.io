@@ -20,7 +20,8 @@ ajax.onload = function(e) {
   let div = document.createElement("div");
   div.id = "cutecritter1"
   div.innerHTML = ajax.responseText;
-  document.body.insertBefore(div, document.body.childNodes[0]);
+//  document.body.insertBefore(div, document.body.childNodes[0]);
+  document.body.appendChild(div, document.body.childNodes[0]);
 
 //  document.querySelector("#critter1").setAttribute("left",-300);
   document.querySelector("#critter1").setAttribute("border", "3px solid yellow");

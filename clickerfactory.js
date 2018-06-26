@@ -1,3 +1,14 @@
+/*
+<div id="cmgame">
+<div class="cmtabbar">
+  <button class="cmtablinks" onclick="openClickerTab(event, 'play')">Play</button>
+  <button class="cmtablinks" onclick="openClickerTab(event, 'train')">Train</button>
+  <button class="cmtablinks" onclick="openClickerTab(event, 'connect')">Connect</button>
+</div>
+</div>
+*/
+
+
 function openClickerTab(event, name) {
 	console.log(name);
 	let etab = document.querySelector("#tab" + name)

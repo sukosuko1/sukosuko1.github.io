@@ -150,7 +150,10 @@ function startgame() {
 		d.view = view;
 	});
 	
-	gameview.forEach(d=>d.render(document.body));
+	
+//	gameview.forEach(d=>d.render(document.body));
+	let egame = document.querySelector("#cmgame");
+	gameview.forEach(d=>d.render(egame));
 	
 	console.log("startgameend");
 }

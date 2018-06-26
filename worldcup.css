@@ -113,14 +113,20 @@ svg {
 
 /* Style the buttons inside the tab */
 .cmtabbar  {
-	display:flex;
-    background-color: pink;
-	border: 5px solid yellow;
+	position:fixed;
+	top:0%;
 	width:100%;
+    background-color: blue;
+	border: 5px solid yellow;
+	overflow: hidden;
+	z-index:999;
+}
+.cmtab {
+	margin-top: 15%;
+	
 }
 
 .cmtabbar button {
-    background-color: blue;
     background-color: inherit;
     float: left;
     border: none;
@@ -131,7 +137,7 @@ svg {
     font-size: 17px;
 	width: 30%;
 	height: 10%;
-	border: 2px solid white;
+	border: 2px solid yellow;
 }
 
 /* Change background color of buttons on hover */
