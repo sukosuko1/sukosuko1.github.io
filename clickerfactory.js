@@ -38,6 +38,7 @@ function ClickerView(d) {
 			etab.id = "tab" + this.d.page;
 			etab.classList.add("cmtab");
 			e.appendChild(etab);
+			etab.scrollTop = 120;
 		}
 		}
 		
