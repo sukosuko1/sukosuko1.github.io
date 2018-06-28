@@ -192,9 +192,11 @@ svg {
 	margin-bottom: 20%;
 	margin: 5px solid yellow;
 	width: 200%;
+	transform: translate(-23%,0);
 }
 iframe {
 	margin: 5px solid yellow;
 	width: 100%;
+	left: 200px;
 	height: 100%;
 }
