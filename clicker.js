@@ -66,7 +66,7 @@ function gamebuy(d) {
 
 		let e = document.createElement("div");
 //		etab.id = "tab" + this.d.page;
-//			etab.classList.add("cmtab");
+		e.classList.add("cmyoutube");
 		
 		let vids = [ "rlu3K2z5UKM", "nw5Mc5bpq-A", "a9zbC6q_EWE", "qn-X5A0gbMA", "VbfpW0pbvaU", "lYqSHHlilt8","u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g", "iTLjnjAdYnY" ]
 ;		let n = Math.floor(Math.random() * 10);

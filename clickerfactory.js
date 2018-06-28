@@ -105,10 +105,15 @@ function ClickerView(d) {
 */
 		
 		if (this.d.message) {
-			this.emessage.textContent = this.d.message ;
-		}
-		if (ct > this.d.messageTime) {
-			this.emessage.textContent = "";
+			if (this.d.message != this.d.prevmessage) {
+				this.emessage.textContent = this.d.message ;
+				this.eessage.classList("cmpopup").toggle();
+				this.d.prevmessage = this.d.message;
+			}
+			if (ct > this.d.messageTime) {
+				this.emessage.textContent = "";
+				this.d.message = "";
+			}
 		}
 		
 	}

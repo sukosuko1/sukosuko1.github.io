@@ -17,10 +17,13 @@ body {
     	overflow-x: hidden;		
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
+	
 	font-family: sans-serif;
 	font-weight: 500;
 	padding: 0px;
 	margin: 0px;
+
+	
 	
 -webkit-touch-callout:none;
 -webkit-user-select:none;
@@ -68,11 +71,20 @@ user-select:none;
 	margin:10px;
 	transition: background-color 0.3;
 }
+
 .cmaside {
 	font-size:1.4em;
 	background:white;
 	padding:5px;
 	align-self: center;
+}
+.cmpopup {
+	animation: keypopup 1s;
+	background:yellow;
+}
+@keyframe keypopup {
+	0% { transform: translate(-100%,0);background:pink; }
+	1000% { transform: translate(0,0);background:orange; }
 }
 
 .cmattention {
@@ -174,4 +186,7 @@ svg {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+}
+.cmyoutube {
+	margin-bottom: 20%;
 }
