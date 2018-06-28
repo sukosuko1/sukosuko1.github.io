@@ -68,8 +68,9 @@ function gamebuy(d) {
 //		etab.id = "tab" + this.d.page;
 		e.classList.add("cmyoutube");
 		
-		let vids = [ "rlu3K2z5UKM", "nw5Mc5bpq-A", "a9zbC6q_EWE", "qn-X5A0gbMA", "VbfpW0pbvaU", "lYqSHHlilt8","u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g", "iTLjnjAdYnY" ]
-;		let n = Math.floor(Math.random() * 10);
+		let vids = [ "J_ub7Etch2U", "rlu3K2z5UKM", "nw5Mc5bpq-A", "a9zbC6q_EWE", "qn-X5A0gbMA", "VbfpW0pbvaU", "lYqSHHlilt8","u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g", "iTLjnjAdYnY" ]
+		
+;		let n = Math.floor(Math.random() * 3);
 		let vid = vids[n];
 		e.innerHTML = '<iframe width="420" height="315" src="https://www.youtube.com/embed/' + vid + '?playsinline=1"></iframe>';
 		etab.appendChild(e);
