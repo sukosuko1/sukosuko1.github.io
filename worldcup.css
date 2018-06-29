@@ -234,9 +234,9 @@ svg {
 	animation: keyactive 1s infinite;
 }
 @keyframes keyactive {
-	0% { border: 5px solid white }
-	50% { border: 0px solid white }
-	10% { border: 5px solid white }
+	0% { border: 5px solid white; }
+	50% { border: 0px solid white; }
+	100% { border: 5px solid white; }
 }
 
 iframe {
