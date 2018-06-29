@@ -184,10 +184,18 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 				  e.addEventListener("touchstart", function() {
 				  	player.setPlaybackRate(1.0);
 						  player.playVideo();
+					  e.classList.add("active");
 //					  e.parentNode.removeChild(e);
 				  });
 				  e.addEventListener("touchend", function() {
 						player.pauseVideo();
+					  e.classList.remove("active");
+//					  e.toggleClass("active");
+				  });
+				  e.addEventListener("touchcancel", function() {
+						player.pauseVideo();
+					  e.classList.remove("active");
+//					  e.toggleClass("active");
 				  });
 			  }
 		  }

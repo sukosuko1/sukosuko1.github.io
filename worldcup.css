@@ -212,19 +212,33 @@ svg {
 }
 .youtubepopupx {
 	position:fixed;
-	top:70%;
-	left:0%;
+	top:65%;
+	right:6%;
 	background-color: #aaFa;
 	width: 40%;
 	height:13%;
 	border-radius: 20px;
 	z-index:98;
-	animation:keyrightin;
+	animation:keyrightin 1s;
+	transition: all 0.5s;
 }
 @keyframes keyrightin {
-	0% {transform: translate(300px,0)}
+	0% {transform: translate(-50%,0)}
 	100% {transform: translate(0,0)}
 }
+.active {
+	height: 20%;
+	top: 62%;
+	width:45%;
+	background-color: #9959;
+	animation: keyactive 1s infinite;
+}
+@keyframes keyactive {
+	0% { border: 5px solid white }
+	50% { border: 0px solid white }
+	10% { border: 5px solid white }
+}
+
 iframe {
 	margin: 0px;
 	width: 100%;
