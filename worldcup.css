@@ -220,15 +220,15 @@ svg {
 	border-radius: 20px;
 	z-index:98;
 	animation:keyrightin 1s;
-	transition: all 0.5s;
+	transition: all 0.3s;
 }
 @keyframes keyrightin {
-	0% {transform: translate(-50%,0)}
+	0% {transform: translate(30%,0)}
 	100% {transform: translate(0,0)}
 }
 .active {
 	height: 20%;
-	top: 62%;
+	top: 59%;
 	width:45%;
 	background-color: #9959;
 	animation: keyactive 1s infinite;
