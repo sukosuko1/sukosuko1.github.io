@@ -41,18 +41,23 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 	</script>
   
  <script>
+	 var tagcont = document.createElement("div");
+	 tagcont.id = "tagcont1";
+	 document.body.appendChild(tagcont);
+//      var tag = document.createElement('script');
       var tag = document.createElement('script');
 
       tag.src = "https://www.youtube.com/iframe_api";
       tag.allowfullscreen = false;
       tag.enablejsapi = 1;
 	 
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+ //     var firstScriptTag = document.getElementsByTagName('script')[0];
+//      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      
+   	 tagcont.appendChild(tag);
+	 
       var player;
-        var vids = [ "rlu3K2z5UKM", "nw5Mc5bpq-A", "a9zbC6q_EWE", "qn-X5A0gbMA", "VbfpW0pbvaU", "lYqSHHlilt8","u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g", "iTLjnjAdYnY" ];
+        var vids = ["J_ub7Etch2U", "rlu3K2z5UKM", "nw5Mc5bpq-A", "a9zbC6q_EWE", "qn-X5A0gbMA", "VbfpW0pbvaU", "lYqSHHlilt8","u0fk6syQ7iY" ,"LHCob76kigA" , "m5fw380Xk6g", "iTLjnjAdYnY" ];
 	 	vids = ["tPFz04LSa2U"];
 	 
         var vidPtr = 0;
@@ -68,7 +73,8 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
           height: '50%',
           width: '100%',
 //          videoId: vids[vidPtr] + "?playsinline=1",
-          videoId: vids[vidPtr],
+//          videoId: vids[vidPtr],
+			videoId: "J_ub7Etch2U",
           style: 'border: solid 4px #37474F',
           loop: 'true',
           playsinline: 1,
@@ -105,8 +111,15 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
       //    The function indicates that when playing a video (state=1),
       //    the player should play for six seconds and then stop.
       var done = false;
+    var trigger = {};
+    trigger.time = 5;
+	 
+    var triggerx = {};
+    triggerx.time = 10;
+		  
+	 var playerStatus = 0;
       function onPlayerStateChange(event) {
-      	var playerStatus = event.data;
+      	playerStatus = event.data;
 		  //document.getElementById("t1").innerHTML = playerStatus + " "  + player.getCurrentTime(); 
           
         vidanchortime = +new Date - 1000 * player.getCurrentTime();
@@ -115,19 +128,86 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
                                                                 
     var color;
 //    var c1 = document.getElementById('myCanvas');
-    
+
+	document.addEventListener("keydown", event=>{
+		console.log(event.key);
+		if (event.key == "a") player.playVideo();
+		if (event.key == "s") player.pauseVideo();
+		if (event.key == "d") player.setPlaybackRate(0.2);
+		if (event.key == "f") player.setPlaybackRate(0.6);
+		if (event.key == "g") player.setPlaybackRate(1.0);
+		if (event.key == "h") player.setPlaybackRate(1.5);
+		if (event.key == "j") player.setPlaybackRate(-1);
+		if (event.key == "k") player.setPlaybackRate(-0.8);
+		if (event.key == "l") {
+			 time = player.getCurrentTime();
+			player.seekTo(50);
+		}
+	}
+							 )
+		  var timer1;
+		  function checkTime() {
+			  time = player.getCurrentTime();
+		   	console.log(time);
+			  
+			  if ((time > trigger.time) && (trigger.time !=0) )  {
+				  console.log("gotit");
+				  trigger.time = 0;
+				  player.pauseVideo();
+				  
+				  let e = document.createElement("div");
+				  e.classList.add("youtubepopup")
+				  e.textContent = "PUSH";
+				  
+				  document.body.appendChild(e);
+				  e.addEventListener("touchstart", function() {
+					  if (playerStatus == 1) {
+						player.pauseVideo();	  
+					  } else {
+						  player.playVideo();
+						  
+					  }
+				  });
+			  }
+			  if ((time > triggerx.time) && (triggerx.time !=0) )  {
+				  console.log("gotit");
+				  triggerx.time = time + 25;
+				  
+				  let e = document.createElement("div");
+				  e.classList.add("youtubepopupx");
+				  	e.textContent = "even though you";
+				  if (Math.random() < 0.5)  e.textContent = "I'm never going to let you..";
+				  
+				  document.body.appendChild(e);
+				  player.setPlaybackRate(0.3);
+				  player.pauseVideo();
+				  e.addEventListener("touchstart", function() {
+				  	player.setPlaybackRate(1.0);
+						  player.playVideo();
+//					  e.parentNode.removeChild(e);
+				  });
+				  e.addEventListener("touchend", function() {
+						player.pauseVideo();
+				  });
+			  }
+		  }
+		  
     if (playerStatus == -1) {
       color = "#37474F"; // unstarted = gray
     } else if (playerStatus == 0) {
 		//fnished??
+		//stoped
+		clearInterval(timer1);
+		
       nextVideo();
       color = "#FFFF00"; // ended = yellow
        c1.style.zIndex="-1";
     } else if (playerStatus == 1) {
-      color = "#33691E"; // playing = green
-		console.log(event);
+			//playing
+		timer1 = setInterval(checkTime, 500);
     } else if (playerStatus == 2) {
       color = "#DD2C00"; // paused = red
+		clearInterval(timer1);
     } else if (playerStatus == 3) {
       color = "#AA00FF"; // buffering = purple
     } else if (playerStatus == 5) {

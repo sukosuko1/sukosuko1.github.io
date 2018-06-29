@@ -139,6 +139,7 @@ svg {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+	background-color: #FFF0;
 }
 
 /* Style the buttons inside the tab */
@@ -146,8 +147,9 @@ svg {
 	position:fixed;
 	top:0%;
 	width:100%;
-    background-color: blue;
-	border: 5px solid yellow;
+    zbackground-color: blue;
+	background-color: #FFF0;
+	zborder: 5px solid yellow;
 	overflow: hidden;
 	z-index:999;
 }
@@ -158,6 +160,9 @@ svg {
 
 .cmtabbar button {
     background-color: inherit;
+	background-color:#FFF0;
+	color:#FFF;
+	text-decoration-line: underline;
     float: left;
     border: none;
     outline: none;
@@ -167,7 +172,6 @@ svg {
     font-size: 17px;
 	width: 30%;
 	height: 10%;
-	border: 2px solid yellow;
 }
 
 /* Change background color of buttons on hover */
@@ -195,9 +199,36 @@ svg {
 	transform: translate(-3%,0);
     overflow-x: hidden;		
 }
+
+.youtubepopup {
+	position:fixed;
+	top:70%;
+	left:0%;
+	background-color: #FFFa;
+	width: 40%;
+	height:13%;
+	border-radius: 20px;
+	z-index:98;
+}
+.youtubepopupx {
+	position:fixed;
+	top:70%;
+	left:0%;
+	background-color: #aaFa;
+	width: 40%;
+	height:13%;
+	border-radius: 20px;
+	z-index:98;
+	animation:keyrightin;
+}
+@keyframes keyrightin {
+	0% {transform: translate(300px,0)}
+	100% {transform: translate(0,0)}
+}
 iframe {
 	margin: 0px;
 	width: 100%;
 	left: 200px;
 	height: 100%;
 }
+
