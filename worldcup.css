@@ -23,15 +23,13 @@ body {
 	padding: 0px;
 	margin: 0px;
 
-	
-	
--webkit-touch-callout:none;
--webkit-user-select:none;
--khtml-user-select:none;
--moz-user-select:none;
--ms-user-select:none;
-user-select:none;
--webkit-tap-highlight-color:rgba(0,0,0,0);	
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);	
 	
 	overflow-x: hidden;
 }
@@ -190,6 +188,11 @@ svg {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+}
+
+#tagcont1 {
+	width: 100%;
+    overflow-x: hidden;		
 }
 
 .cmyoutube, #player {
