@@ -213,6 +213,10 @@ svg {
 	border-radius: 20px;
 	z-index:98;
 }
+.youtubepopup::after {
+	content:"1.01";
+}
+
 .youtubepopupx {
 	position:fixed;
 	top:65%;
