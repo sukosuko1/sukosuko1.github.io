@@ -247,6 +247,15 @@ svg {
 	animation: keyactive 2s infinite;
 	transform-origin: center;
 }
+.active::before{
+	content:"<div>hi</div>";
+	color:white;
+}
+.active::after{
+	content:"hi";
+	color:white;
+	transform: translate(-3%,-10%);
+}
 @keyframes keyactive {
 	0% { transform: rotate(10deg); }
 	50% { transform: rotate(179deg);  }
