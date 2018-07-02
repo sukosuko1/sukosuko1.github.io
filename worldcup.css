@@ -31,6 +31,9 @@ body {
 	user-select:none;
 	-webkit-tap-highlight-color:rgba(0,0,0,0);	
 }
+.cmtabbar button:nth-child(1)::before {
+	content:"1b";
+}
 
 .cmclickable {
 	display:flex;
