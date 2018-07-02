@@ -6,12 +6,17 @@ document {
 	overflow-x: hidden;
 }
 
+html {
+	max-width;100%;
+	overflow-x:hidden;
+}
 body {
 	font-size: 30px;
         top: 0;
         bottom : 0;
         left : 0;
         right: 0;
+	max-width:100%;
         background-image: url("/pics/wallpaper.png");
 		max-width: 100%;
     	overflow-x: hidden;		
@@ -32,7 +37,7 @@ body {
 	-webkit-tap-highlight-color:rgba(0,0,0,0);	
 }
 .cmtabbar button:nth-child(1)::before {
-	content:"1b";
+	content:"1c";
 }
 
 .cmclickable {
