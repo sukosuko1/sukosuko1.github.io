@@ -244,12 +244,13 @@ svg {
 	top: 59%;
 	width:45%;
 	background-color: #9959;
-	animation: keyactive 1s infinite;
+	animation: keyactive 2s infinite;
+	transform-origin: center;
 }
 @keyframes keyactive {
-	0% { border: 5px solid white; }
-	50% { border: 0px solid white; }
-	100% { border: 5px solid white; }
+	0% { transform: rotate(10deg); }
+	50% { transform: rotate(179deg);  }
+	100% { transform: rotate(358deg); }
 }
 
 iframe {
