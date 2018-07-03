@@ -227,7 +227,10 @@ svg {
 	position:fixed;
 	top:65%;
 	right:6%;
+	color:white;
+	font-weight: 700;
 	background-color: #aaFa;
+	background-color: #aaF0;
 	width: 40%;
 	height:13%;
 	border-radius: 20px;
@@ -244,7 +247,7 @@ svg {
 	top: 59%;
 	width:45%;
 	background-color: #9959;
-	animation: keyactive 1s infinite;
+	animation: keyactive 1s forwards;
 	transform-origin: center;
 }
 .active::before{
@@ -261,8 +264,8 @@ svg {
 	20% { transform: scaleY(0.8); }
 	40% { transform: scaleX(0.8);  }
 	60% { transform: scaleY(0.9); }
-	80% { transform: scaleX(0.8);  }
-	100% { transform: scaleY(0.8); }
+/*	80% { transform: scaleX(0.8); } */
+	90%,100% { transform: scale(0.01); }
 }
 
 iframe {
@@ -272,3 +275,35 @@ iframe {
 	height: 100%;
 }
 
+svg{ 
+	position: fixed;
+	top: 25%;
+	left: 20%;
+}
+.jtv{ 
+	position: fixed;
+	top: 25%;
+	left: 50%;
+    fill: url(#MyGradient);
+    filter: url(#filter);
+	font-weight:bold;
+    transform: rotate(-12deg) translate(10px,60px);
+}
+
+.containerpopup {
+	border: 2px solid yellow;
+	transform-origin: 120px 20px;    
+    animation: key1 2s infinite;
+}
+
+@keyframes key1 {
+0%   {  transform:  scale(0.3); }
+30%  { transform: scale(1.0); }
+45%  { transform: scale(1.0)  }
+50%  { transform: scale(1.0) translate(10px,0px); }
+55%  { transform: scale(1.0) translate(-5px,0px); }
+60%  { transform: scale(1.0)  }
+70%  { transform: scale(1.0); }
+100% {transform: scale(1.0); }
+}
+	

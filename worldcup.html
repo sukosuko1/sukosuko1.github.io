@@ -29,7 +29,43 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 </iframe>
 
 <div id="player"></div>
+	
+<svg>
+<defs>
+    <linearGradient id="MyGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="15%"  stop-color="#FFAAFF"/>
+            <stop offset="95%" stop-color="blue"/>
+        </linearGradient>
+	
+  <filter id="filter">
+          <feMorphology operator="dilate" radius="4" in="SourceAlpha" result="f1"/>
+<feFlood flood-color="#FFFFFF" result="WHITECOLOR" />
+<feComposite operator="in" in="WHITECOLOR" in2="f1" result="f2" />
 
+<feOffset in="f2" dx="1" dy="1" result="g1"/>
+<feMorphology operator="dilate" radius="2" in="g1" result="g2"/>
+
+<feFlood flood-color="#228844" result="DARKGREENCOLOR" />
+<feComposite operator="in" in="DARKGREENCOLOR" in2="g2" result="g3" />
+
+
+<feMerge>
+   <feMergeNode in="g3" />
+   <feMergeNode in="f2" />
+   <feMergeNode in="SourceGraphic" />
+</feMerge>
+
+	</filter>
+	</defs>
+	
+	
+ <g class="containerpopup">
+<text class="jtv" x="0" y="0" font-family="Verdana" font-size="40">Amazing!</text>
+</g>
+	
+</svg>
+
+	
 	<script src="clickerfactory.js"></script>
 	<script src="clicker.js"></script>
 	<script>
@@ -41,6 +77,7 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 		}
 	</script>
   
+	
  <script>
 	 var tagcont = document.createElement("div");
 	 tagcont.id = "tagcont1";
@@ -169,9 +206,12 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 					  }
 				  });
 			  }
+			  
 			  if ((time > triggerx.time) && (triggerx.time !=0) )  {
 				  console.log("gotit");
-				  triggerx.time = time + 25;
+				  triggerx.time = time + 4;
+				  
+//				  cmAddText(document.body, "even though");
 				  
 				  let e = document.createElement("div");
 				  e.classList.add("youtubepopupx");
@@ -187,8 +227,8 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 					  e.classList.add("active");
 //					  e.parentNode.removeChild(e);
 					  setTimeout(function() {
-//						  e.parentNode.removeChild(e);
-					  }, 2000);
+						  e.parentNode.removeChild(e);
+					  }, 1100);
 				  });
 				  e.addEventListener("touchend", function() {
 					  player.pauseVideo();
