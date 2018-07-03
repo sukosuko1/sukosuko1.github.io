@@ -115,7 +115,7 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
     trigger.time = 5;
 	 
     var triggerx = {};
-    triggerx.time = 10;
+    triggerx.time = 0.2;
 		  
 	 var playerStatus = 0;
       function onPlayerStateChange(event) {
@@ -187,7 +187,7 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 					  e.classList.add("active");
 //					  e.parentNode.removeChild(e);
 					  setTimeout(function() {
-						  e.parentNode.removeChild(e);
+//						  e.parentNode.removeChild(e);
 					  }, 2000);
 				  });
 				  e.addEventListener("touchend", function() {

@@ -244,7 +244,7 @@ svg {
 	top: 59%;
 	width:45%;
 	background-color: #9959;
-	animation: keyactive 2s infinite;
+	animation: keyactive 1s infinite;
 	transform-origin: center;
 }
 .active::before{
@@ -253,13 +253,16 @@ svg {
 }
 .active::after{
 	content:"hi";
-	color:white;
+	color:red;
 	transform: translate(-3%,-10%);
 }
 @keyframes keyactive {
-	0% { transform: rotate(10deg); }
-	50% { transform: rotate(179deg);  }
-	100% { transform: rotate(358deg); }
+	0% {transform: scaleY(0.8); }
+	20% { transform: scaleY(0.8); }
+	40% { transform: scaleX(0.8);  }
+	60% { transform: scaleY(0.9); }
+	80% { transform: scaleX(0.8);  }
+	100% { transform: scaleY(0.8); }
 }
 
 iframe {
