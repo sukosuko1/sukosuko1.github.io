@@ -296,7 +296,7 @@ svg{
     animation: key1 2s infinite;
 }
 
-@keyframes key1 {
+@keyframes zkey1 {
 0%   {  transform:  scale(0.3); }
 30%  { transform: scale(1.0); }
 45%  { transform: scale(1.0)  }
@@ -306,4 +306,34 @@ svg{
 70%  { transform: scale(1.0); }
 100% {transform: scale(1.0); }
 }
-	
+
+.buttonpushme {
+	border: 2px solid red;
+	border-radius: 4px;
+	height: 3rem;
+	line-height: 3rem;
+	padding: 0 1rem;
+	background: none;
+	color: red;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 1;
+	cursor: pointer;
+	transition: color 0.2s ease, background 0.2s ease;
+	animation: keybuttonpushme 2s ease-out infinite;
+}
+
+.buttonpushme:hover, .buttonpushme:active, .buttonpushme:focus  {
+		outline: none;
+		box-shadow: 0 0 1px 2px #FFFA;
+		background: red;
+		color: white;
+		animation-play-state: paused;
+}
+
+@keyframes keybuttonpushme {
+	50% {
+		transform: translateY(0.5rem)
+	}
+}
