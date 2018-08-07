@@ -1,5 +1,7 @@
 <html>
 <head>
+ <script src="d3/d3.js"></script>	
+	
 <style id="myStyle">
 	body {
 		font: 30px fantasy;
@@ -50,7 +52,7 @@
 		height: 1000px;
 	}
 	
-	svg {
+	zzsvg {
 		position: absolute;
 		right: 0%;
 		bottom: 0%;
@@ -189,9 +191,72 @@
 		content:"after";
 		animation: keytitles 10s infinite;
 	}
+	
+	label {
+		display:flex;
+		width:200px;
+		height:100px;
+		background-color: aqua;
+		margin: 10px;
+		overflow: hidden;
+	}
+	input[type=checkbox] {
+		transition: all 2s;
+		transform: scale(3.0);
+		zopacity: 0.01;
+		background-color: yellow;
+	}
+	input[type=checkbox] ~ div {
+		transition: all 0.2s;
+		width:200px;
+		height:100px;
+		background-color: green;
+		clip-path : polygon(95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);
+		position:absolute;
+	}
+	input[type=checkbox]:checked ~ div {
+		text-align: center;
+		background-color: blue;
+		clip-path : polygon(95% 10%, 100% 50%, 95% 100%, 10% 100%, 5% 50%, 10% 10%);
+		zanimation: keyyes 1s infinite;
+	}
+	input[type=checkbox]:checked ~ div:after {
+		content:"yes!";
+	}
+	@keyframes keyyes {
+		50% {transform: rotate(180deg);}
+	}
+	.cbborder {
+		position:absolute;
+		border: 3px solid yellow;
+	}
+	
 </style>	
+<svg>
+  <defs>
+    <g id="shape">
+        <rect x="50" y="50" width="50" height="50" />
+        <circle cx="50" cy="50" r="50" fill="pink" stroke="blue" stroke-width="5" />
+    </g>
+  </defs>
+
+
+</svg>	
+	
 </head>
 <body>
+
+	howdy
+  <svg>
+  <use xlink:href="#shape" x="50" y="50" />
+  <use xlink:href="#shape" x="200" y="50" />
+  </svg>
+	
+Agree to Terms of Service: <label><input type='checkbox'><div></div></label>
+	<label><input type='checkbox'><div>yes!</div><svg class="cbborder"><path d="M0,0l50,50"><path d="M20,230 Q40,205 50,230 T90,230" fill="none" stroke="blue" stroke-width="5"/></path></svg></label>
+<label><input type='checkbox'><div>yes!</div></label>
+<label><input type='checkbox'><div>yes!</div></label>
+	
 <h2>Schedule</h2>
 <details>
 <summary>Morning</summary>	
@@ -328,5 +393,45 @@ document.querySelector(".titlebar2").textContent =keyFrameString;
 estyle.insertRule(keyFrameString,1);
 
 
+let json1 = [{name:"tos",title:"Agree to TOS"},{name:"cookies",title:"Agree to Cookies"},{name:"newsletter",title:"Subscribe to Newsletter"}];
+	
+
+function update(json1) {
+	let s1 = d3.select("body").selectAll(".d3label").data(json1)
+
+	let senter = s1.enter()
+	.each(function(d) {console.log("enter1")})
+	.append("label")
+	.classed("d3label",true)
+
+	senter.append("input")
+	.attr("type","checkbox")
+//	.attr("checked", true)
+
+	s1.merge(senter)
+//		.text(d=>d.title)
+		.each(function(d) { console.log(d.title) })
+		.select("input")
+		.each(function() {
+			console.log(this.checked)
+		} 
+	);
+}
+
+update(json1);
+	
+setInterval(function() {
+	json1[1].title = "" + Math.floor(Math.random()*100);
+	update(json1);
+},1000);
+	
+	
+	/*
+	s2.on('touchstart', function() {
+    	console.log("change");
+    });
+	
+	*/
+	
 </script>
 </html>

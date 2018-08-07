@@ -1,0 +1,444 @@
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Gaegu|Sacramento" rel="stylesheet">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+	
+<style>
+	
+body {
+  font-size: 18px;
+  font-family: Gaegu;
+}
+table {
+  border-spacing: 0.5rem;
+}
+td {
+  padding: 0.5rem;
+  user-select: none; 
+}
+tr {
+}
+.health {
+  border: 1px solid red;
+}
+
+@keyframes keytd {
+  33% { transform: rotate(120deg); }
+  66% { transform: rotate(240deg); }
+  100% { transform: rotate(360deg); }
+}
+
+td:nth-child(1) { background: hsl(150, 50%, 50%); }
+td:nth-child(2) { background: hsl(160, 60%, 50%); }
+td:nth-child(3) { background: hsl(170, 70%, 50%); }
+td:nth-child(4) { background: hsl(180, 80%, 50%); }
+td:nth-child(5) { background: hsl(190, 90%, 50%); }
+td:nth-child(6) { margin-right:50px; background: hsl(200, 99%, 50%); }
+td:nth-child(7) { background: hsl(50, 99%, 50%); }
+td:nth-child(8) { zbackground: hsl(200, 99%, 50%); }
+
+
+td:hover {
+  box-shadow: 2px 2px 2px grey;
+}
+tfoot {
+}
+
+.gameselect {
+  border: 3px solid red;
+  zheight: 2em;
+  transform: scale(1.05,1.05);
+  zanimation: keytd 1s infinite;
+}
+
+.functioncont {
+  display:flex;
+}
+
+.functioncont p {
+  background: aqua;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.spinin {
+  animation:keyspinin 1s ease-in forwards;
+}
+@keyframes keyspinin {
+  30% { transform: rotate(120deg) scale(0.8)}
+  50% { transform: rotate(240deg) scale(0.6)}
+  70% { transform: rotate(360deg) scale(0.4)}
+  85% { transform: rotate(120deg) scale(0.2)}
+  100% { transform: rotate(240deg) scale(0.0)}
+}
+
+.highlight {
+  animation: keyhighlight 1.5s;  
+}
+
+@keyframes keyhighlight {
+  0% { background: white; }
+  50% { color: yellow; }
+  100% { color: white; }
+}
+
+.highlightbattle {
+  animation: keyhighlightbattle 1.5s ;  
+}
+
+@keyframes keyhighlightbattle {
+  0% { background: pink; }
+  50% { color: yellow; }
+  100% { color: white; }
+}
+
+.functioncont p {
+  cursor: url("#cursorfood"), wait;
+}
+
+#divtest {
+  background:beige;
+  cursor: wait;
+}
+
+td {
+}
+.shiftdown {
+  transition: all 0.5s;
+  transform: translate(0, 43px);
+  border: 2px solid green;
+}
+.shiftup {
+  transition: all 0.5s;
+  transform: translate(0, -43px);
+  border: 2px solid aqua;
+}
+
+
+@keyframes keyshiftdown {
+  100% { transform: translate(0, 43px); }
+}
+
+@keyframes keyshiftup {
+  100% { transform: translate(0, -43px); }
+}	
+	
+	svg {
+		background:pink;
+	}
+</style>
+</head>
+<body>
+<svg height=600 width=600>
+  <path id="path1"></path>
+</svg>
+
+	
+<table>
+  <caption>Fourth Night Kittens w/animated bubble sort</caption>
+  <thead>
+    <th></th>
+    <th>Wood</th>
+    <th>Stone</th>
+    <th>Metal</th>
+    <th>Ammo</th>
+    <th>Shield</th>
+    <th>Health</th>
+    <th>Status</th>
+  </thead> 
+   <tr>
+     <th>Fred</th>
+    <td class="wood" data='7'>7</td>
+    <td class="stone"></td>
+    <td class="metal"></td>
+    <td class="ammo"></td>
+    <td class="shield"></td>
+    <td class="health"></td>
+    <td class="status"></td>
+  </tr>
+  <tr>
+     <th>Fluffy</th>
+    <td class="wood" data='7'>7</td>
+    <td class="stone"></td>
+    <td class="metal"></td>
+    <td class="ammo"></td>
+    <td class="shield"></td>
+    <td class="health"></td>
+    <td class="status"></td>
+  </tr>
+    <tr>
+     <th>Thunder</th>
+    <td class="wood" data='7'>7</td>
+    <td class="stone"></td>
+    <td class="metal"></td>
+    <td class="ammo"></td>
+    <td class="shield"></td>
+    <td class="health"></td>
+    <td class="status"></td>
+  </tr>
+  <tr id="row4">
+     <th>Matrix</th>
+    <td class="wood" data='7'>7</td>
+    <td class="stone"></td>
+    <td class="metal"></td>
+    <td class="ammo"></td>
+    <td class="shield"></td>
+    <td class="health"></td>
+    <td class="status"></td>
+  </tr>
+  <tr id="row5">
+    <th>Lily</th>
+    <td class="wood" data='7'>7</td>
+    <td class="stone"></td>
+    <td class="metal"></td>
+    <td class="ammo"></td>
+    <td class="shield"></td>
+    <td class="health"></td>
+    <td class="status"></td>
+  </tr>
+</table>
+
+	
+<script src="https://d3js.org/d3.v4.min.js"></script>
+	
+
+<script>
+
+	var data = [0,1,2,3,4,5,6];
+var svg = d3.select('svg');
+
+svg.selectAll('.symbol')
+   .data(data)
+   .enter()
+   .append('path')
+   .attr('transform',function(d,i) { return 'translate('+(i*20+20)+','+30+')';})
+   .attr('d', d3.symbol().type( function(d,i) { return d3.symbols[i];}) );
+
+var symbol0 = d3.symbol().type( function(d,i) { return d3.symbols[0];})()
+var symbol1 = d3.symbol().type( function(d,i) { return d3.symbols[1];})()
+
+svg.selectAll('path')
+   .attr('d', d3.symbol().type( function(d,i) { return d3.symbols[0];}) );
+
+svg.selectAll('path')
+   .attr('d',  symbol1 );
+	
+
+
+var points = [
+  [0, 80],
+  [100, 100],
+  [200, 30],
+  [300, 50],
+  [400, 440],
+  [200, 380]
+];
+
+var points2 = points.map(function(d) {
+	return [d[0]-100+ Math.random()*200 , d[1]-50+ Math.random()*100];
+});
+
+
+var pointsrand = [];
+for (let i=0; i < 12; i++) {
+	pointsrand.push([Math.random()*100, Math.random()*100])
+}
+
+
+var lineGeneratorrand = d3.line();
+
+var pathDataRand = lineGeneratorrand(pointsrand);
+
+
+
+loopx();
+  function loopx() {
+    console.log("loop" + Math.random());
+    svg.selectAll('path')
+        .attr("d", pathDataRand)
+      .transition()
+        .delay(1000)
+        .duration(1000)
+        .attr("d", symbol1)
+      .transition()
+        .duration(1000)
+        .attr("d", pathDataRand)
+       .on("end",loopx);
+  }        
+
+
+var lineGenerator = d3.line()
+ .curve(d3.curveCatmullRomClosed.alpha(0.3));
+
+var pathData = lineGenerator(points);
+
+var lineGenerator2 = d3.line()
+ .curve(d3.curveCatmullRomClosed.alpha(0.3));
+
+var pathData2 = lineGenerator2(points2);
+
+//var symbol = d3.symbol().size(200).type('symbolStar')();
+//console.log(symbol);
+	
+console.log(pathData);
+d3.select('path')
+  .attr('d', pathData);
+
+  var path = d3.select('path');
+  loop();
+ 
+  function loop() {
+    console.log("loop" + Math.random());
+    path
+        .attr("d", pathData)
+//      .transition()
+//        .duration(1)
+//        .attr("d", pathData)
+      .transition()
+        .delay(1000)
+        .duration(1000)
+        .attr("d", pathData2)
+      .transition()
+        .duration(1000)
+        .attr("d", pathData)
+       .on("end",loop);
+  }        
+</script>
+<zscript>
+	
+	
+let elist=document.querySelectorAll(".wood,.stone,.metal,.ammo,.shield");
+
+elist.forEach(e => {e.data=Math.floor(Math.random()*10+1);
+                    e.innerHTML = "" + e.data;
+                    updateRow(e);
+                   });
+
+setInterval(collectItems, 3000);
+setInterval(battle, 9500);
+
+function collectItems() {
+  
+   let etrlist = document.querySelectorAll("tr");
+   let r= Math.floor(Math.random() * 5 + 1);
+   let c= Math.floor(Math.random() * 5);
+   let e=etrlist[r].querySelectorAll("td")[c];
+
+   if (!e) {
+     console.log(r);
+   }
+  
+  e.classList.add("highlight");
+  let num = Math.floor(3 + 6 * Math.random());
+  for (t =0; t < num; t++) {
+    setTimeout(function() {
+        e.data += 1;
+        e.innerHTML = "" + e.data;
+        updateRow(e);
+    }, 300 * t);   
+  }
+    setTimeout(function() {
+        e.classList.remove("highlight");
+       
+    }, 300 * num);    
+  
+}
+
+function battle() {
+   let etrlist = document.querySelectorAll("tr");
+   let r= 1;
+   let c= Math.floor(Math.random() * 5);
+   let e=etrlist[r].querySelectorAll("td")[c];
+   let estatus=etrlist[r].querySelectorAll("td")[6];
+
+  let amt = (Math.random() > 0.5 ? 1 : -1); 
+  let num = Math.floor(1 + 6 * Math.random());
+
+   estatus.innerHTML = "fighting..";
+   let elist=etrlist[r].querySelectorAll(".wood,.stone,.metal,.ammo,.shield");
+
+   elist.forEach((e,i) => {
+    setTimeout(function() {
+        e.classList.add("highlightbattle");
+        e.data =  Math.floor(e.data * Math.random());
+        e.innerHTML = "" + e.data;
+        updateRow(e);
+    }, i * 500);    
+    setTimeout(function() {
+        e.classList.remove("highlightbattle");
+        estatus.innerHTML = "";
+    }, 3500);    
+  });
+
+  
+
+}
+
+function updateRow(e) {
+    let elist=e.parentElement.querySelectorAll("td");
+
+  let total =   elist[0].data  +  elist[1].data  +  elist[2].data  +  elist[3].data + elist[4].data ;
+ let healthpts=    (total / (total + 20));  //some arbitrary formula
+  
+   elist[5].data = (healthpts * 100).toFixed(1) + '%'
+     
+  elist[5].innerHTML = "" + elist[5].data;
+
+    ['.wood','.stone','.metal','.ammo','.shield'].forEach(item => {
+		let acc=0; 
+		document.querySelectorAll(item).forEach( (e) => acc += e.data);
+		console.log(item + "" + acc);
+    }
+    )
+	
+}
+
+
+//check buble sort...
+setInterval(sortTableOneToggle,1200);
+
+
+function sortTableOneToggle() {
+  let elist=document.querySelectorAll("tr");
+  console.log("startz" + elist.length)
+  
+  for (let i=0; i < elist.length-1; i++) {
+    let health0 = elist[i].querySelector(".health");
+    let health1 = elist[i+1].querySelector(".health");
+    
+    if (health0 && health1) {
+      
+    if (health0.data < health1.data) {
+      toggleRows(elist[i],elist[i+1]);
+      break;
+    }
+    }
+  }
+}
+
+function toggleRows(etr1, etr2) {
+  if (etr1.classList.contains("shiftdown"))  return;
+  if (etr1.classList.contains("shiftup"))  return;
+  if (etr2.classList.contains("shiftdown"))  return;
+  if (etr2.classList.contains("shiftup"))  return;
+  
+  etr1.classList.add("shiftdown");
+  etr2.classList.add("shiftup");
+  
+  setTimeout(function() {
+    etr1.parentNode.insertBefore(etr2, etr1);    
+    etr1.classList.remove("shiftdown");
+     etr2.classList.remove("shiftup");
+  }, 500);
+
+}
+
+	
+	
+</script>
+</body>
+
+</html>

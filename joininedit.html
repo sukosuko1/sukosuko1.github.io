@@ -2,36 +2,28 @@
 <head>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 	
-	<link rel="stylesheet" type="text/css" href="worldcup.css">
+	<link rel="stylesheet" type="text/css" href="joininedit.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/swipe/2.0.0/swipe.min.js"></script>
-	<script>
-		function startgamez(){
-			console.log("startgamez");
-		}
-	</script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-
-<div id="cmgame">
-<div class="cmtabbar">
-  <button class="cmtablinks" onclick="openClickerTab(event, 'play')">Play</button>
-  <button class="cmtablinks" onclick="openClickerTab(event, 'train')">Train</button>
-  <button class="cmtablinks" onclick="openClickerTab(event, 'connect')">Connect</button>
-</div>
-</div>
 
 <iframe width="420" height="315"
 src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 </iframe>
 
-<div id="player"></div>
+<div id="playercont">
+<div id="player">
+</div>
 <button class="buttonpushme">replay</button>	
-	
-<svg>
+<input type="text" id="inputtag">
+</div>
+
+<div id="youtubesearch"></div>
+
+<svg viewBox="0 0 100 100">
 <defs>
     <linearGradient id="MyGradient" x1="0" x2="0" y1="0" y2="1">
             <stop offset="15%"  stop-color="#FFAAFF"/>
@@ -67,19 +59,26 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 </svg>
 
 	
-	<script src="clickerfactory.js"></script>
-	<script src="clicker.js"></script>
-	<script>
-		window.mySwipe = Swipe(document.getElementById('slider'));
-		window.mySwipe2 = Swipe(document.getElementById('slider2'));
-		window.mySwipe2 = Swipe(document.getElementById('slider3'));
-		window.onscroll = function () {
-  			window.scrollLeft = 0;
-		}
-	</script>
   
 	
  <script>
+	 $("#youtubesearch").load("https://www.youtube.com/results?search_query=mexico+brazil");
+	 $.get("https://www.youtube.com/results?search_query=mexico+brazil",function(data){
+		console.log(data);	 
+	 });
+	 
+	 var myData="";
+$.ajax({
+
+    url: "https://www.youtube.com/results?search_query=mexico+brazil",
+    data: myData,
+    type: 'GET',
+    crossDomain: true,
+    dataType: 'jsonp',
+    success: function() { alert("Success"); },
+    error: function() { alert('Failed!'); }
+});
+	 
 	 var tagcont = document.createElement("div");
 	 tagcont.id = "tagcont1";
 	 document.body.appendChild(tagcont);
@@ -101,8 +100,8 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 	 
         var vidPtr = 0;
 
-	 //do you like strawbeery ice cream? i do
-
+	 	var videoid1 = "psuRGfAaju4";
+	 
       function onYouTubeIframeAPIReady() {
 
 		  console.log("iframeready");
@@ -111,9 +110,7 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
           allowfullscreen: false,
           height: '50%',
           width: '100%',
-//          videoId: vids[vidPtr] + "?playsinline=1",
-//          videoId: vids[vidPtr],
-		  videoId: "J_ub7Etch2U",
+		  videoId: videoid1,
           style: 'border: solid 4px #37474F',
           loop: 'true',
           playsinline: 1,
@@ -167,81 +164,91 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
     var color;
 //    var c1 = document.getElementById('myCanvas');
 
-	document.addEventListener("keydown", event=>{
-		console.log(event.key);
-		if (event.key == "a") player.playVideo();
-		if (event.key == "s") player.pauseVideo();
-		if (event.key == "d") player.setPlaybackRate(0.2);
-		if (event.key == "f") player.setPlaybackRate(0.6);
-		if (event.key == "g") player.setPlaybackRate(1.0);
-		if (event.key == "h") player.setPlaybackRate(1.5);
-		if (event.key == "j") player.setPlaybackRate(-1);
-		if (event.key == "k") player.setPlaybackRate(-0.8);
-		if (event.key == "l") {
-			 time = player.getCurrentTime();
-			player.seekTo(50);
-		}
+    document.querySelector("#player").addEventListener("mousemove",onMouseUpdate)
+		  
+	function onMouseUpdate(event) {
+  	x = event.pageX;
+  	y = event.pageY;
+  	console.log(x, y);
+  	x = event.clientX;
+  	y = event.clientY;
+  	console.log("client", x, y);
+		
 	}
-							 )
-		  var timer1;
-		  function checkTime() {
-			  time = player.getCurrentTime();
-		   	console.log(time);
-			  
-			  if ((time > trigger.time) && (trigger.time !=0) )  {
-				  console.log("gotit");
-				  trigger.time = 0;
-				  player.pauseVideo();
-				  
-				  let e = document.createElement("div");
-				  e.classList.add("youtubepopup")
-				  e.textContent = "PUSH";
-				  
-				  document.body.appendChild(e);
-				  e.addEventListener("touchstart", function() {
+		  
+	document.addEventListener("keydown", playerKeyPress);
+	document.querySelector("#playercont").addEventListener("keydown", playerKeyPress);
+		
+	function playerKeyPress(event) {
+//		console.log(event.key);
+//		if (event.key == "a") player.playVideo();
+//		if (event.key == "s") player.pauseVideo();
+//		if (event.key == "d") player.setPlaybackRate(0.2);
+		if (event.key == "d") {
+			playerToggle();
+		}
+		if (event.key == "a") {
+			player.pauseVideo();
+			playerShift(-1.0);
+		}
+		if (event.key == "s") {
+			player.pauseVideo();
+			playerShift(1.0);
+		}
+		if (event.key == "q") {
+			playerShift(-1.0);
+		}
+		if (event.key == "w") {
+			playerShift(1.0);
+		}dd
+		if (event.key == "z") {
+			addTag();
+		}
+		console.log("main : " + event.key);
+	};
+	
+    function playerToggle() {
 					  if (playerStatus == 1) {
 						player.pauseVideo();	  
 					  } else {
 						  player.playVideo();
 						  
 					  }
-				  });
-			  }
+	}
+    function playerShift(t) {
+		let ct = player.getCurrentTime();
+		player.seekTo(ct+t);
+	}
+		  
+    function addTag() {
+   e = e || window.event;
+
+    var pageX = e.pageX;
+    var pageY = e.pageY;
+		
+		let ct = player.getCurrentTime();
+		console.log("time" + ct);
+		let e = document.querySelector("#inputtag");
+		e.style.display = 'block';
+//		e.style.transform = 'translate(50%,50%)'
+		
+		e.addEventListener("keyup", function(event) {
+			console.log("gottheenter");
+			event.preventDefault();
+			if (event.keyCode === 13) {
+				e.style.display = 'none';
+			}
+		});
+						   
+	}
+		  
+		  
+		  var timer1;
+		  function checkTime() {
+			  time = player.getCurrentTime();
+//		   	console.log(time);
 			  
-			  if ((time > triggerx.time) && (triggerx.time !=0) )  {
-				  console.log("gotit");
-				  triggerx.time = time + 4;
-				  
-//				  cmAddText(document.body, "even though");
-				  
-				  let e = document.createElement("div");
-				  e.classList.add("youtubepopupx");
-				  	e.textContent = "even though you";
-				  if (Math.random() < 0.5)  e.textContent = "I'm never going to let you..";
-				  
-				  document.body.appendChild(e);
-				  player.setPlaybackRate(0.3);
-				  player.pauseVideo();
-				  e.addEventListener("touchstart", function() {
-				  	  player.setPlaybackRate(1.0);
-					  player.playVideo();
-					  e.classList.add("active");
-//					  e.parentNode.removeChild(e);
-					  setTimeout(function() {
-						  e.parentNode.removeChild(e);
-					  }, 1100);
-				  });
-				  e.addEventListener("touchend", function() {
-					  player.pauseVideo();
-					  e.classList.remove("active");
-//					  e.toggleClass("active");
-				  });
-				  e.addEventListener("touchcancel", function() {
-					  player.pauseVideo();
-					  e.classList.remove("active");
-//					  e.toggleClass("active");
-				  });
-			  }
+			  
 		  }
 		  
     if (playerStatus == -1) {
@@ -286,6 +293,26 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
 		 
      }
 	 
+	 window.addEventListener('load', function(event) {
+		 alert("load");
+		 if (localStorage.lastvideocode) {
+			 currentvideo = localStorage.lastvideocode;
+			 currentvideoct = localStorage.lastvideoct;
+			 
+			 alert(localStorage.lastvideocode);
+		 }
+	 });
+	 
+	 window.addEventListener('unload', function(event) {
+		let ct = player.getCurrentTime();
+		let videourl = player.getVideoUrl();
+		let videocode = player.getVideoEmbedCode();
+		 
+		 localStorage.setItem("lastvideocode", videocode);
+		 localStorage.setItem("lastvideoct", ct);
+		 
+		 console.log("unload!!")
+      });		 
     </script>
 </body>
 </html>
