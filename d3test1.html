@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>CodePen - d3 high frequency stock price chart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <style>
+    svg {
+    	border: 2px solid green;
+    	background:beige;
+    }
+  </style>
+  
+  
+  
+  
+  
+  
+
+</head>
+
+<body translate="no" >
+
+   <svg width="600" height="600" background="beige"></svg>
+   <svg id="svg2" border="2px solid red" width="600" height="600" background-color="#DBF">
+     <g class="axis"></g>
+     <g class="axis2"></g>
+   </svg>
+
+	<div>test</div>
+  <ul> </ul>
+  <table></table>
+	
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js'></script>
+
+  
+
+    <script>
+
+			//  /d3/d3.min.js
+			// https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js
+	  
+	let height = 500;
+	let width=600;
+	let margin = ({top: 20, right: 30, bottom: 30, left: 40})
+
+  
+
+	
+	//let stockdb = [1,2,3,4,5];
+
+let url = "https://s3-ap-northeast-1.amazonaws.com/sukosuko1/BBW_20190102_QM3502.csv";
+url = "BBW_20190102_QM3502.csv";
+			
+let urltext = "./object.json"			
+let i = 0;
+
+
+
+
+			/*
+d3.text(url).then(function createChart(datasetText){
+  console.log("got the file");
+});
+			*/
+
+let selectcode = "1066";
+let stockdata = [];
+
+let templine = [];
+
+d3.text(url).then( function(rawtext) {
+	 stockdata = d3.csvParseRows(rawtext, function(d) {
+		  if (d[2] == selectcode ) {
+		  	 if (d[1] == "BO14") {
+				return {
+					timestamp: + d[0],
+					code: +d[2],
+					bid: +d[16] / 1000,
+					ask: +d[20] / 1000,
+					darray:d
+				}
+		  	 }
+		  	 if (d[1] == "xBD1") {
+				return {
+					timestamp: + d[0],
+					code: +d[2],
+					trade: +d[16] / 1000,
+					darray:d
+				}
+		  	 }
+		  } 
+		  if (d[3] == selectcode ) {
+				return {
+					timestamp: + d[0],
+					darray:d
+				}
+		  } 
+
+	});	
+	//console.log(stockdata);
+	console.log(rawtext.length);
+	console.log(rawtext[rawtext.length -1]);
+    console.log("next")
+    console.log(templine);
+
+	plot();
+});
+			
+			
+			
+
+let stockdb2 = [];
+
+/*
+d3.csv("/Users/scottchristensen/Downloads/BBW_20190102_QM3502.csv", function(d) {
+  return {
+    city : d.city,
+    state : d.state,
+    population : +d.population,
+    land_area : +d["land area"]
+  };
+});
+     */
+
+
+
+function plot() {
+
+// d3.select('body')
+//         .append('div')
+//         .text("balh");
+
+
+let rowsx = d3.select('svg')
+        .selectAll('circle')
+        .data(stockdata)
+        .enter()
+        .append('g');
+		
+        rowsx.append('circle')
+        .attr("cx", (d,i) => ( i * 20 ) )
+        .attr("cy", 800)
+        .transition()
+        .duration(1000)
+        .attr("r",10)
+        .style("fill","aqua")
+        .attr("cy", (d,i) => (d.bid ? (10.7 - d.bid) * 1300 : 0) )
+	
+        rowsx.append('circle')
+        .attr("cx", (d,i) => ( i * 20 ) )
+        .attr("cy", 800)
+        .transition()
+        .duration(1000)
+        .attr("r",10)
+        .style("fill","blue")
+        .attr("cy", (d,i) => (d.ask ?  (10.7 - d.ask) * 1300 : 0 ) )
+
+
+let rows = d3.select('table')
+        .selectAll('tr')
+        .data(stockdata)
+        .enter()
+        .append('tr');
+	
+        rows.append('td')
+        .text((d) => (  d.timestamp ) )
+        rows.append('td')
+        .text((d) => (  d.bid ) )
+	
+	
+        rows.append('td')
+        .text((d) => (  d.ask ) )	 	;
+
+//        rows.append('td')
+//        .text((d) => (  d.darray ) )	 	;
+        rows.html( (d) => ( "<td>" + d.darray.join("</td><td>") + "</td>" ) )	 	;
+
+
+
+  let svg = d3.select("#svg2");
+
+/*
+  svg.append("g")
+      .call(yAxis);
+  
+	svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Price ($)");
+    */
+
+
+
+
+	x = d3.scaleLinear()
+    	.domain([0, d3.max(stockdata, (d,i) => i)]).nice()
+    	.range([width - margin.right, margin.left])
+
+	y = d3.scaleLinear()
+    	.domain([0, d3.max(stockdata, d => d.bid)]).nice()
+    	.range([height - margin.bottom, margin.top])
+
+	let xScale = d3.scaleLinear()
+    	.domain([0, d3.max(stockdata, (d,i) => i)]).nice()
+    	.range([width - margin.right, margin.left])
+
+	let yScale = d3.scaleLinear()
+    	.domain([d3.min(stockdata, d => d.bid), d3.max(stockdata, d => d.bid)]).nice()
+    	.range([height - margin.bottom, margin.top])
+//                           .domain([6,7])
+//                           .range([0,500]);
+
+
+  let lineFunctionBid = d3.line()
+                         .x(function(d,i) { return i * 4; })
+                         .y(function(d) { 
+                         	return yScale(d.bid);
+                         });
+
+  let lineFunctionAsk = d3.line()
+                         .x(function(d,i) { return i * 4; })
+                         .y(function(d) { 
+                         	return yScale(d.ask);
+                         });
+                         		 
+  let lineFunctionTrade = d3.line()
+  						 .defined((d) => d.ask ? true : false)
+                         .x(function(d,i) { return i * 4; })
+                         .y(function(d) { 
+                         	return yScale(d.ask);
+                         });
+
+  let lineFunction2 = d3.line()
+  	.x(function(d,i) {return i;})
+  	.y(function(d,i) {return d.bid;})
+  
+   console.log(stockdata);
+//   let path2 = lineFunction2(stockdata);
+   let path = lineFunctionBid(stockdata);
+   let path2 = lineFunctionAsk(stockdata);
+//   let path3 = lineFunctionTrade(stockdata);
+   let path3 = path2;
+
+
+  svg.append("path")
+      .data(stockdata)
+      .attr("fill", "none")
+      .attr("stroke", "red")
+      .attr("stroke-width", 1.5)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("d", path);
+  
+  svg.append("path")
+      .data(stockdata)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("d", path2);
+
+/*
+  svg.append("path")
+      .data(stockdata)
+      .attr("fill", "none")
+      .attr("stroke", "green")
+      .attr("stroke-width", 5.5)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("d", path3);
+      */
+
+	d3.select(".axis")
+    	.call(d3.axisRight(yScale));
+  
+	d3.select(".axis2")
+    	.call(d3.axisBottom(xScale));
+     	
+}     
+
+
+
+    </script>
+
+
+
+  
+  
+
+</body>
+
+</html>
+ 

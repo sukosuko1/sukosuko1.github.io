@@ -1,0 +1,187 @@
+<html>
+  <head>
+		<style>
+			body {
+				background:#FEC;
+				font-family:helvetica, open-sans, sans-serif;
+				font-size:3em;
+				font-weight:bold;
+				color:black;
+			}
+			div {
+				opacity:30%;
+				//transition:all 0.5s;
+				//transform:translate(1em,1em);
+				z-index:100;
+			}
+			.imgproduct {
+				//transition:all 0.5s;
+				z-index:0;
+				border-radius:20px;
+				width:400px;
+				min-height:300px;
+				overflow:hidden;
+			}
+			.imgcont {
+				transition:all 0.5s;
+				border:4px solid #4444;
+				border-radius:20px;
+				width:400px;
+				height:300px;
+				overflow:hidden;
+				padding-bottom: 10px;
+			}
+			.bubble {
+				position:relative;
+				width:50px;
+				height:50px;
+				background-color:aqua;
+				opacity:0.5;
+				border-radius:50%;
+			}
+			#topbar {
+				position:fixed;
+				left:-5%;
+				width:110%;
+				top:-2.5%;
+				height:5%;
+				opacity:0.2;
+				background:#000;
+				filter:blur(10px);
+				z-index:100;
+			}
+			#topbarCounter {
+				position:fixed;
+				right:4%;
+				top:1%;
+				opacity:0.8;
+				color:red;
+				font-size:0.7em;
+				z-index:100;
+			}
+			.dog1 {
+				position:relative;
+				bottom: 40%;
+				left:60%;
+				z-index:-1;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="topbar"></div>
+		<div id="topbarCounter"></div>
+		<div class="fadein">Richard Feynman</div>
+		<div class="bubble"></div>
+		<div class="imgcont"><img class="imgproduct" src="feynman4.png"/></div>
+		<div class="bubble"></div>
+		<div class="fadein">surely you're joking</div>
+		<div class="imgcont"><img class="imgproduct"s rc="feynman2.png"/></div>
+		<div class="fadein">Cargo Cultism</div>
+		<div class="imgcont"><img class="imgproduct" src="feynman3.png"/></div>
+		<div class="fadein">Space Shuttle O-Rings</div>
+		<div class="bubble"></div>
+		//super bouncy 3d title...scroll pings the bounce?
+		<div class="imgcont"><img class="imgproduct" src="feynman1.png"/></div>
+		<div class="imgcont"><img class="imgproduct" src="feynman5.png"/></div>
+		<div class="bubble"></div>
+		<div class="imgcont"><img class="imgproduct" src="feynman6.png"/></div>
+		<div class="imgcont"><img class="imgproduct" src="feynman7.png"/></div>
+		<div class="imgcont"><img class="imgproduct" src="feynman8.png"/></div>
+		<div class="popout dog1"><img max-height="30px"  src="dog1.png"/></div>
+	</body>
+</html>
+<script>
+
+let scrollItems = [];
+
+document.querySelectorAll(".bubble").forEach((e)=>{
+	let obj = {};
+	obj.node = e;
+	obj.scrollCode = 2;
+	obj.y = e.offsetTop;
+	obj.y2 = e.offsetTop + e.offsetHeight;
+	scrollItems.push(obj);
+	console.log(obj.y + " " + obj.y2);
+})
+document.querySelectorAll(".popout").forEach((e)=>{
+	let obj = {};
+	obj.node = e;
+	obj.scrollCode = 3;
+	obj.y = e.offsetTop;
+	obj.y2 = e.offsetTop + e.offsetHeight;
+	scrollItems.push(obj);
+	console.log(obj.y + " " + obj.y2);
+})
+	
+document.querySelectorAll(".fadein, .imgcont").forEach((e)=>{
+	let obj = {};
+	obj.node = e;
+	obj.y = e.offsetTop;
+	obj.y2 = e.offsetTop + e.offsetHeight;
+	scrollItems.push(obj);
+	console.log(obj.y + " " + obj.y2);
+})
+document.querySelectorAll("img").forEach((e)=>{
+	let obj = {};
+	obj.scrollCode = 1;
+	obj.node = e;
+	obj.y = e.offsetTop;
+	obj.y2 = e.offsetTop + e.offsetHeight;
+	scrollItems.push(obj);
+	console.log(obj.y + " " + obj.y2);
+})
+let scrollTime = 0;
+document.addEventListener("scroll", function() {
+   ct = +Date.now()
+   if (ct < scrollTime - 0.1) return;
+  scrollTime = ct;
+  var top  = window.pageYOffset || document.documentElement.scrollTop;
+
+	let pctScroll = (top) / (document.body.offsetHeight - window.innerHeight);
+	//console.log(pctScroll);
+	document.querySelector("#topbarCounter").innerHTML = "" + Math.floor(100 * pctScroll);
+	
+	scrollItems.forEach((item)=>{
+		if (item.scrollCode == 3) {
+			let z =  (top - item.y + 0.4 * window.innerHeight) / window.innerHeight;
+			z = Math.max(-1,Math.min(1,z));
+			let xshift = z * 300;
+			let yshift = z * 20;
+			
+			item.node.style.transform = "translate(" + xshift + "px," + yshift +"px) rotate(30deg)";
+			return;
+		}
+		if (item.scrollCode == 2) {
+			let z =  (top + window.innerHeight - item.y);
+			z = Math.max(z,0);
+			let xshift = 50 * Math.cos(top * 0.1);
+			let yshift = -2 * z + 50 * Math.sin(top * 0.1);
+			
+			item.node.style.transform = "translate(" + xshift + "px," + yshift +"px) scale(1.12,1.12)";
+			return;
+		}
+		if (item.scrollCode == 1) {
+			let yshift = 45 * (top - item.y + 0.4 * window.innerHeight) / window.innerHeight;
+			yshift = Math.max(-120,Math.min(120,yshift));
+			//console.log(yshift);
+			
+			if (item.y < top + window.innerHeight * 0.5) {
+				item.node.style.transform = "translate(0px," + yshift +"px) scale(1.12,1.12)";
+			} else {
+				item.node.style.transform = "translate(0px," + yshift +"px) scale(1.12,1.12)";
+			}
+			return;
+		}
+		if ( (item.y < top + window.innerHeight * 0.9)&&(item.y > top) || 
+				 (item.y2 > top + window.innerHeight * 0.1)&&(item.y2 < top + window.innerHeight)  ) {
+			item.node.style.opacity = 1.0;
+		} else {
+			item.node.style.opacity = 0.2;
+		}
+	})
+//  console.log(window.scrollY + " " + top + " " + window.innerHeight);
+ //   let num = Math.floor((window.scrollY+200)/myPageHeight);
+     
+    
+})
+</script>
