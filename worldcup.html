@@ -12,10 +12,62 @@
 			console.log("startgamez");
 		}
 	</script>
+	
+	<style>
+	   .standingtall {
+			position:relative;
+			font-size: 3em;
+			font-weight:bold;
+		}
+	   .standingtalltext {
+			position:absolute;
+			top:1em;
+			left:0;
+			color:green;
+		    animation:keystand1 1s forwards  ease-out;;
+		}
+		.standingtallshadow {
+			position:absolute;
+			top:1em;
+			left:0;
+			color:#2628;
+			transform:scale(1,-0.7) skewX(-30deg) translate(-0.2em,-0.7em);
+			filter:blur(6px);
+		    animation:keystand2 1s forwards ease-out;
+		}		
+		@keyframes keystand1 {
+			90% { transform: translate(0,-1em); }
+			100% { transform: translate(0,-1em); opacity(0.01); }
+		}
+		@keyframes keystand3 {
+			0% {  color:aqua;   }
+			100% { color:red;  }
+		}
+		@keyframes keystand2 {
+			100% { transform:scale(1,-0.7) skewX(-30deg) translate(0.0em,-1.2em); filter:blur(10px);  }
+		}
+		zbody {
+			transform-origin: top left;
+			animation: keywild 5s infinite;
+		}
+		@keyframes keywild {
+			100% { transform:scale(0.7,0.7); filter:blur(10px);  }
+		}
+		
+	</style>
 </head>
 
 <body>
 
+	<div>fillter</div>
+	<div>fillter</div>
+	<div>fillter</div>
+	<div>fillter</div>
+	<div class="standingtall">
+	  <div class="standingtalltext">Hanpa</div>
+	  <div class="standingtallshadow">Hanpa</div>	
+	</div>
+	 
 <div id="cmgame">
 <div class="cmtabbar">
   <button class="cmtablinks" onclick="openClickerTab(event, 'play')">Play</button>
@@ -80,6 +132,24 @@ src="https://www.youtube.com/embed/tgbNymZ7vqY?playsinline=1">
   
 	
  <script>
+	 setInterval(function() {
+		 let e1 = document.querySelector(".standingtalltext");
+		 let e2 = document.querySelector(".standingtallshadow");
+		 
+		 e1.classList.toggle("standingtalltext");
+		 e2.classList.toggle("standingtallshadow");
+		 
+		 setTimeout(function() {
+		 e1.classList.toggle("standingtalltext");
+		 e2.classList.toggle("standingtallshadow");
+			 
+		 },20);
+		 
+		 let text1 = "x" + Math.floor(Math.random()*10);
+		 e1.innerHTML = text1;
+		 console.log("tick" + text1);
+	 },5000);
+	 
 	 var tagcont = document.createElement("div");
 	 tagcont.id = "tagcont1";
 	 document.body.appendChild(tagcont);
