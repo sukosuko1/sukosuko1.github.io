@@ -1,5 +1,6 @@
 <html>
   <head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">		
 		<style>
 			body {
 				background:#FEC;
@@ -7,11 +8,37 @@
 				font-size:3em;
 				font-weight:bold;
 				color:black;
+				max-width: 100%;
+    		overflow-x: hidden;			
+				margin:0px;
+				padding:0px;
+			}
+			.textcont {
+				position:relative;
+				height:0%;
+				width:0%;
+				z-index:100;
 			}
 			div {
+				color:brown;
 				opacity:30%;
-				//transition:all 0.5s;
-				//transform:translate(1em,1em);
+				z-index:100;
+			}
+			.maintitle {
+				background:black;
+				color:beige;
+				font-style: italic;
+				padding:8%;
+				border-bottom: 5px solid #8888;
+				margin-bottom: 30px;
+			}
+			.itemtext {
+				position:relative;
+				z-index:101;
+			}
+			.slidein {
+				left:20%;
+				top:70%;
 				z-index:100;
 			}
 			.imgproduct {
@@ -29,15 +56,16 @@
 				width:400px;
 				height:300px;
 				overflow:hidden;
-				padding-bottom: 10px;
+				margin-bottom: 10px;
 			}
 			.bubble {
 				position:relative;
-				width:50px;
-				height:50px;
-				background-color:aqua;
-				opacity:0.5;
-				border-radius:50%;
+ 				width: 0;
+				height: 0;
+				border-top: 50px solid transparent;
+				border-left: 100px solid orange;
+				border-bottom: 50px solid transparent;
+				transform-origin:center center;
 			}
 			#topbar {
 				position:fixed;
@@ -61,27 +89,25 @@
 			}
 			.dog1 {
 				position:relative;
-				bottom: 40%;
-				left:60%;
-				z-index:-1;
+				bottom: 50%;
+				left:-40%;
+				z-index:5;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="topbar"></div>
 		<div id="topbarCounter"></div>
-		<div class="fadein">Richard Feynman</div>
-		<div class="bubble"></div>
+		<div class="maintitle">The Richard Feynman Store</div>
 		<div class="imgcont"><img class="imgproduct" src="feynman4.png"/></div>
+		<div class="textcont fadein slidein"><div class="itemtext">surely you're joking</div></div>
+		<div class="imgcont"><img class="imgproduct" src="feynman2.png"/></div>
 		<div class="bubble"></div>
-		<div class="fadein">surely you're joking</div>
-		<div class="imgcont"><img class="imgproduct"s rc="feynman2.png"/></div>
-		<div class="fadein">Cargo Cultism</div>
+		<div class="textcont fadein slidein"><div class="itemtext">Quantum Physics</div></div>
 		<div class="imgcont"><img class="imgproduct" src="feynman3.png"/></div>
-		<div class="fadein">Space Shuttle O-Rings</div>
 		<div class="bubble"></div>
-		//super bouncy 3d title...scroll pings the bounce?
 		<div class="imgcont"><img class="imgproduct" src="feynman1.png"/></div>
+		<div class="textcont fadein slidein"><div class="itemtext">surely you're joking</div></div>
 		<div class="imgcont"><img class="imgproduct" src="feynman5.png"/></div>
 		<div class="bubble"></div>
 		<div class="imgcont"><img class="imgproduct" src="feynman6.png"/></div>
@@ -94,6 +120,17 @@
 
 let scrollItems = [];
 
+	
+
+document.querySelectorAll(".slidein").forEach((e)=>{
+	let obj = {};
+	obj.node = e;
+	obj.y = e.offsetTop;
+	obj.y2 = e.offsetTop + e.offsetHeight;
+	obj.scrollCode = 4;
+	scrollItems.push(obj);
+})
+	
 document.querySelectorAll(".bubble").forEach((e)=>{
 	let obj = {};
 	obj.node = e;
@@ -101,7 +138,6 @@ document.querySelectorAll(".bubble").forEach((e)=>{
 	obj.y = e.offsetTop;
 	obj.y2 = e.offsetTop + e.offsetHeight;
 	scrollItems.push(obj);
-	console.log(obj.y + " " + obj.y2);
 })
 document.querySelectorAll(".popout").forEach((e)=>{
 	let obj = {};
@@ -142,10 +178,22 @@ document.addEventListener("scroll", function() {
 	document.querySelector("#topbarCounter").innerHTML = "" + Math.floor(100 * pctScroll);
 	
 	scrollItems.forEach((item)=>{
+		if (item.scrollCode == 4) {
+			let xshift = 0;
+			if (item.y2 < top + 0.2 * window.innerHeight) {
+				xshift = (top + 0.2 * window.innerHeight - item.y2) / (0.2 * window.innerHeight);
+			}
+			if (item.y > top + 0.8 * window.innerHeight) {
+				xshift = (item.y - (top + 0.8 * window.innerHeight)) / (0.2 * window.innerHeight);
+			}
+			
+			item.node.style.transform = "translate(" + (xshift*300) +"px,0px) rotate(" + (xshift * 10) + "deg)";
+		}
+		
 		if (item.scrollCode == 3) {
 			let z =  (top - item.y + 0.4 * window.innerHeight) / window.innerHeight;
 			z = Math.max(-1,Math.min(1,z));
-			let xshift = z * 300;
+			let xshift = z * 200;
 			let yshift = z * 20;
 			
 			item.node.style.transform = "translate(" + xshift + "px," + yshift +"px) rotate(30deg)";
@@ -154,10 +202,10 @@ document.addEventListener("scroll", function() {
 		if (item.scrollCode == 2) {
 			let z =  (top + window.innerHeight - item.y);
 			z = Math.max(z,0);
-			let xshift = 50 * Math.cos(top * 0.1);
+			let xshift = 100 + 100 * Math.cos(top * 0.1);
 			let yshift = -2 * z + 50 * Math.sin(top * 0.1);
 			
-			item.node.style.transform = "translate(" + xshift + "px," + yshift +"px) scale(1.12,1.12)";
+			item.node.style.transform = "translate(" + xshift + "px," + yshift +"px) scale(1.12,1.12) rotate("+ (top) + "deg)";
 			return;
 		}
 		if (item.scrollCode == 1) {
